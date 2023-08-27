@@ -1,39 +1,56 @@
 import { Link } from "@/components";
-import React, { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { CreateQuestion } from "../question";
+import { getUser } from "@/data";
 
 export const Header = () => {
+  const {
+    data: user,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: getUser,
+  });
+
+  console.log(user);
+
   const title = "Company";
 
-  const navLinks = useMemo(
-    () => [
-      {
-        name: "Profile",
-        link: "/profile",
-      },
-      {
-        name: "Admin",
-        link: "/admin",
-      },
-    ],
-    []
-  );
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
-    <header className="flex justify-between items-center px-8 py-4 bg-stone-300">
+    <header className="flex justify-between items-center px-8 py-4 bg-stone-900 text-stone-200">
       <h1>
-        <Link href="/" className="text-3xl">
+        <Link href="/" className="text-4xl font-serif">
           {title}
         </Link>
       </h1>
-      <ul className="flex gap-4">
-        {navLinks.map((nav, i) => (
-          <li key={i}>
-            <Link decoration="underline" href={nav.link}>
-              {nav.name}
+      <div className="flex gap-4 items-baseline">
+        <ul className="flex gap-4">
+          <li>
+            <Link decoration="underline" href="/profile">
+              Profile
             </Link>
           </li>
-        ))}
-      </ul>
+          {user.role === "Admin" && (
+            <li>
+              <Link decoration="underline" href="/admin">
+                Admin
+              </Link>
+            </li>
+          )}
+        </ul>
+        <CreateQuestion />
+      </div>
     </header>
   );
 };

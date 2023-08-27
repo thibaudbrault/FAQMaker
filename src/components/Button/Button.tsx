@@ -1,29 +1,49 @@
+import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { ButtonHTMLAttributes, forwardRef } from "react";
 
 const button = cva("button", {
   variants: {
-    intent: {
-      primary: [
-        "bg-blue-500",
-        "text-white",
+    variant: {
+      primaryDark: [
+        "bg-stone-900",
+        "text-stone-200",
         "border-transparent",
-        "hover:bg-blue-600",
+        "rounded-md",
+        "hover:bg-stone-950",
       ],
-      secondary: [
-        "bg-white",
-        "text-gray-800",
-        "border-gray-400",
-        "hover:bg-gray-100",
+      primaryLight: [
+        "bg-stone-200",
+        "text-stone-900",
+        "border-transparent",
+        "rounded-md",
+        "hover:bg-stone-300",
+      ],
+      secondaryDark: [
+        "bg-transparent",
+        "text-stone-200",
+        "border-transparent",
+        "rounded-md",
+      ],
+      secondaryLigh: [
+        "bg-transparent",
+        "text-stone-900",
+        "border-transparent",
+        "rounded-md",
       ],
     },
+    font: {
+      small: ["text-sm"],
+      base: ["text-base"],
+      large: ["text-lg"],
+    },
     size: {
-      small: ["text-sm", "py-1", "px-2"],
-      medium: ["text-base", "py-2", "px-4"],
+      small: ["py-1", "px-2"],
+      medium: ["py-2", "px-4"],
     },
   },
   defaultVariants: {
-    intent: "primary",
+    font: "base",
     size: "medium",
   },
 });
@@ -33,9 +53,9 @@ export interface ButtonProps
     VariantProps<typeof button> {}
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, intent, size, ...props }, ref) => (
+  ({ className, variant, font, size, ...props }, ref) => (
     <button
-      className={button({ intent, size, className })}
+      className={cn(button({ variant, font, size, className }))}
       ref={ref}
       {...props}
     />

@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import NextLink, { LinkProps } from "next/link";
 import { forwardRef, ReactNode } from "react";
@@ -32,7 +33,7 @@ export interface AnchorProps extends LinkProps, VariantProps<typeof link> {
 export const Link = forwardRef<LinkProps, AnchorProps>(
   ({ className, intent, decoration, ...props }, ref) => (
     <NextLink
-      className={link({ intent, decoration, className })}
+      className={cn(link({ intent, decoration, className }))}
       ref={ref}
       {...props}
     />
