@@ -31,6 +31,18 @@ const button = cva("button", {
         "border-transparent",
         "rounded-md",
       ],
+      disabledDark: [
+        "bg-stone-600",
+        "text-stone-200",
+        "border-transparent",
+        "rounded-md",
+      ],
+      disabledLight: [
+        "bg-stone-500",
+        "text-stone-900",
+        "border-transparent",
+        "rounded-md",
+      ],
     },
     font: {
       small: ["text-sm"],

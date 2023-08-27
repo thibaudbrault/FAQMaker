@@ -1,8 +1,8 @@
 import { Link } from "@/components";
-import { useQuery } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
-import { CreateQuestion } from "../question";
 import { getUser } from "@/data";
+import { User } from "@prisma/client";
+import { UseQueryResult, useQuery } from "@tanstack/react-query";
+import { CreateQuestion } from "../question";
 
 export const Header = () => {
   const {
@@ -10,21 +10,15 @@ export const Header = () => {
     isLoading,
     isError,
     error,
-  } = useQuery({
+  }: UseQueryResult<User, Error> = useQuery({
     queryKey: ["users"],
     queryFn: getUser,
   });
 
-  console.log(user);
-
   const title = "Company";
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error: {error}</div>;
+  if (isError && error instanceof Error) {
+    return <div>Error: {error.message}</div>;
   }
 
   return (
@@ -35,20 +29,22 @@ export const Header = () => {
         </Link>
       </h1>
       <div className="flex gap-4 items-baseline">
-        <ul className="flex gap-4">
-          <li>
-            <Link decoration="underline" href="/profile">
-              Profile
-            </Link>
-          </li>
-          {user.role === "Admin" && (
+        {!isLoading && (
+          <ul className="flex gap-4">
             <li>
-              <Link decoration="underline" href="/admin">
-                Admin
+              <Link decoration="underline" href="/profile">
+                Profile
               </Link>
             </li>
-          )}
-        </ul>
+            {user.role === "Admin" && (
+              <li>
+                <Link decoration="underline" href="/admin">
+                  Admin
+                </Link>
+              </li>
+            )}
+          </ul>
+        )}
         <CreateQuestion />
       </div>
     </header>

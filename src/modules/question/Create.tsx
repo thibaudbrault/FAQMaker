@@ -2,6 +2,7 @@ import {
   Button,
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -12,15 +13,23 @@ import { postQuestion } from "@/data/question";
 import { Question } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import { HelpCircle } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const CreateQuestion = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const [disabled, setDisabled] = useState<boolean>(true);
+  const { register, handleSubmit, reset, watch } = useForm();
 
   const { mutate, isLoading } = useMutation({
     mutationFn: (values: Question) => postQuestion(values),
     onSuccess: () => reset(),
   });
+
+  const questionText = watch("text", "");
+
+  useEffect(() => {
+    setDisabled(isLoading || questionText.length < 3);
+  }, [isLoading, questionText]);
 
   return (
     <Dialog>
@@ -35,7 +44,7 @@ export const CreateQuestion = () => {
           New Question
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="bg-stone-200/80">
         <DialogHeader>
           <DialogTitle className="font-serif">Ask a question</DialogTitle>
         </DialogHeader>
@@ -52,7 +61,7 @@ export const CreateQuestion = () => {
               Question
             </Label>
             <Input
-              {...register("text")}
+              {...register("text", { required: true, min: 3 })}
               withIcon
               icon={<HelpCircle />}
               type="text"
@@ -61,10 +70,21 @@ export const CreateQuestion = () => {
               className="w-full border border-transparent outline-none rounded-md py-1 focus:border-stone-900"
             />
           </div>
-          <Button variant="primaryDark" type="submit" disabled={isLoading}>
+          <Button
+            variant={disabled ? "disabledDark" : "primaryDark"}
+            type="submit"
+            disabled={disabled}
+          >
             Submit
           </Button>
         </form>
+        <DialogFooter className="text-xs justify-start text-center">
+          <p>
+            {disabled
+              ? "Question must have 3 or more letters"
+              : "You're good to post"}
+          </p>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
