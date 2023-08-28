@@ -1,7 +1,12 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "@/styles/globals.css";
-import { Footer, Header } from "@/modules";
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import { SessionProvider } from "next-auth/react";
 import { Crimson_Text } from "next/font/google";
+import { useState } from "react";
 
 const crimson = Crimson_Text({
   subsets: ["latin"],
@@ -9,21 +14,21 @@ const crimson = Crimson_Text({
   variable: "--font-crimson",
 });
 
-function App({ Component, pageProps }) {
-  const queryClient = new QueryClient();
+function App({ Component, pageProps: { session, ...pageProps } }) {
+  const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <main
-        className={`min-h-screen bg-stone-200 text-stone-900 ${crimson.variable}`}
-      >
-        <Header />
-        <div className="my-12">
-          <Component {...pageProps} />
-        </div>
-        <Footer />
-      </main>
-    </QueryClientProvider>
+    <SessionProvider session={session}>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <main
+            className={`min-h-screen bg-stone-200 text-stone-900 ${crimson.variable}`}
+          >
+            <Component {...pageProps} />
+          </main>
+        </Hydrate>
+      </QueryClientProvider>
+    </SessionProvider>
   );
 }
 
