@@ -9,20 +9,26 @@ import {
   Input,
   Label,
 } from "@/components";
-import { postQuestion } from "@/data/question";
+import { createNode } from "@/data";
 import { Question } from "@prisma/client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { HelpCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-export const CreateQuestion = () => {
+export const CreateQuestion = ({ user }) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const { register, handleSubmit, reset, watch } = useForm();
+  const queryClient = useQueryClient();
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: (values: Question) => postQuestion(values),
-    onSuccess: () => reset(),
+    mutationFn: (values: Question) => createNode(values, user),
+    onSuccess: () => {
+      reset();
+      queryClient.invalidateQueries({
+        queryKey: ["nodes", user.user.tenantId],
+      });
+    },
   });
 
   const questionText = watch("text", "");
@@ -81,7 +87,7 @@ export const CreateQuestion = () => {
         <DialogFooter className="text-xs justify-start text-center">
           <p>
             {disabled
-              ? "Question must have 3 or more letters"
+              ? "The question must have 3 or more letters"
               : "You're good to post"}
           </p>
         </DialogFooter>

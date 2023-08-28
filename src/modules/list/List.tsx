@@ -6,61 +6,33 @@ import {
   Badge,
   Button,
 } from "@/components";
-import React, { useMemo } from "react";
+import { getNodes } from "@/data";
+import { useQuery } from "@tanstack/react-query";
+import { CreateAnswer } from "../answer";
 
-export const List = () => {
-  const nodes = useMemo(
-    () => [
-      {
-        id: 1,
-        question: {
-          text: "Ceci est une question",
-        },
-        answer: {
-          text: "Ceci est une réponse",
-        },
-        tags: [
-          {
-            id: 1,
-            label: "Marketing",
-          },
-          {
-            id: 2,
-            label: "Nantes",
-          },
-        ],
-        user: {
-          name: "Test",
-        },
-      },
-      {
-        id: 2,
-        question: {
-          text: "Nouvelle question",
-        },
-        answer: {},
-        tags: [
-          {
-            id: 1,
-            label: "Payroll",
-          },
-          {
-            id: 2,
-            label: "Paris",
-          },
-        ],
-        user: {
-          name: "UserTest",
-        },
-      },
-    ],
-    []
-  );
+export const List = ({ tenantId }) => {
+  const {
+    data: nodes,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["nodes", tenantId],
+    queryFn: () => getNodes(tenantId),
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError && error instanceof Error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <section className="mt-6">
       <Accordion type="multiple" className="w-3/4 mx-auto flex flex-col gap-6">
-        {nodes.map((node) => (
+        {nodes.nodes.map((node) => (
           <AccordionItem
             key={node.id}
             value={node.id.toString()}
@@ -86,19 +58,15 @@ export const List = () => {
               </div>
             </AccordionTrigger>
             <AccordionContent>
-              {node.answer.text ? (
+              {node.answer ? (
                 <p>{node.answer.text}</p>
               ) : (
                 <div className="flex justify-center">
-                  <Button
-                    variant="primaryDark"
-                    font="large"
-                    size="small"
-                    className="font-semibold lowercase"
-                    style={{ fontVariant: "small-caps" }}
-                  >
-                    Answer
-                  </Button>
+                  <CreateAnswer
+                    question={node.question.text}
+                    tenantId={tenantId}
+                    nodeId={node.id}
+                  />
                 </div>
               )}
             </AccordionContent>
