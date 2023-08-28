@@ -4,7 +4,7 @@ import { User } from "@prisma/client";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { CreateQuestion } from "../question";
 
-export const Header = () => {
+export const Header = ({ email }) => {
   const {
     data: user,
     isLoading,
@@ -12,7 +12,7 @@ export const Header = () => {
     error,
   }: UseQueryResult<User, Error> = useQuery({
     queryKey: ["users"],
-    queryFn: getUser,
+    queryFn: () => getUser(email),
   });
 
   const title = "Company";
@@ -45,7 +45,7 @@ export const Header = () => {
             )}
           </ul>
         )}
-        <CreateQuestion />
+        <CreateQuestion user={user} />
       </div>
     </header>
   );
