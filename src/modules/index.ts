@@ -3,3 +3,4 @@ export * from "./list";
 export * from "./question";
 export * from "./search";
 export * from "./footer";
+export * from "./answer";
