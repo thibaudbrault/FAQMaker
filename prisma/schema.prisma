@@ -13,7 +13,7 @@ model Tenant {
   name      String
   email     String   @unique
   password  String
-  plan      String
+  plan      Plan
   company   String
   users     User[]
   nodes     Node[]
@@ -119,6 +119,11 @@ model Tag {
   nodeId String
 
   @@index([nodeId])
+}
+
+enum Plan {
+  Free
+  Paid
 }
 
 enum Role {
