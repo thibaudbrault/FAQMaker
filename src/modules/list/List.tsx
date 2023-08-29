@@ -4,13 +4,17 @@ import {
   AccordionItem,
   AccordionTrigger,
   Badge,
-  Button,
 } from "@/components";
 import { getNodes } from "@/data";
 import { useQuery } from "@tanstack/react-query";
+
 import { CreateAnswer } from "../answer";
 
-export const List = ({ tenantId }) => {
+type Props = {
+  tenantId: string;
+};
+
+export const List = ({ tenantId }: Props) => {
   const {
     data: nodes,
     isLoading,
@@ -32,7 +36,7 @@ export const List = ({ tenantId }) => {
   return (
     <section className="mt-6">
       <Accordion type="multiple" className="w-3/4 mx-auto flex flex-col gap-6">
-        {nodes.nodes.map((node) => (
+        {nodes.map((node) => (
           <AccordionItem
             key={node.id}
             value={node.id.toString()}

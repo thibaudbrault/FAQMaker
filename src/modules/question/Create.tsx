@@ -10,13 +10,17 @@ import {
   Label,
 } from "@/components";
 import { createNode } from "@/data";
-import { Question } from "@prisma/client";
+import { Question, User } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { HelpCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-export const CreateQuestion = ({ user }) => {
+type Props = {
+  user: User;
+};
+
+export const CreateQuestion = ({ user }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const { register, handleSubmit, reset, watch } = useForm();
   const queryClient = useQueryClient();
@@ -26,7 +30,7 @@ export const CreateQuestion = ({ user }) => {
     onSuccess: () => {
       reset();
       queryClient.invalidateQueries({
-        queryKey: ["nodes", user.user.tenantId],
+        queryKey: ["nodes", user.tenantId],
       });
     },
   });

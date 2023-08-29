@@ -17,7 +17,13 @@ import { AlertCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-export const CreateAnswer = ({ nodeId, question, tenantId }) => {
+type Props = {
+  nodeId: number;
+  question: string;
+  tenantId: string;
+};
+
+export const CreateAnswer = ({ nodeId, question, tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const { register, handleSubmit, reset, watch } = useForm();
   const queryClient = useQueryClient();
