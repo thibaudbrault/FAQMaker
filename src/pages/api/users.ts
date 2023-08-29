@@ -4,31 +4,28 @@ import type { NextApiRequest, NextApiResponse } from "next";
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
-      const { email } = req.query;
-      const user = await prisma.user.findUnique({
-        where: { email: email as string },
+      const { tenantId } = req.query;
+      const users = await prisma.user.findMany({
+        where: { tenantId: tenantId as string },
       });
-      if (!user) {
+      if (!users) {
         return res
           .status(404)
-          .json({ success: false, message: `No user found` });
+          .json({ success: false, message: `No users found` });
       }
-      return res.status(200).json(user);
+      return res.status(200).json(users);
     } catch (error) {
       res.status(400).end();
     }
-  } else if (req.method === "POST") {
-    const { firstName, lastName, email, tenantId } = req.body;
-    const user = await prisma.user.create({
-      data: {
-        firstName,
-        lastName,
-        email,
-        tenantId,
-      },
-    });
-    return res.status(201).json(user);
   }
+  //   } else if (req.method === "POST") {
+  //     // create todo
+  //     const text = JSON.parse(req.body).text;
+  //     const todo = await prisma.todo.create({
+  //       data: { text, completed: false },
+  //     });
+
+  //     res.json(todo);
   //   } else if (req.method === "PUT") {
   //     // update todo
   //     const id = req.query.todoId as string;
