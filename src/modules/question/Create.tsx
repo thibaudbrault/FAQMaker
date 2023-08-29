@@ -56,7 +56,7 @@ export const CreateQuestion = ({ user }: Props) => {
       </DialogTrigger>
       <DialogContent className="bg-stone-200/80">
         <DialogHeader>
-          <DialogTitle className="font-serif">Ask a question</DialogTitle>
+          <DialogTitle className="font-serif">New question</DialogTitle>
         </DialogHeader>
         <form
           onSubmit={handleSubmit(mutate)}
@@ -77,7 +77,7 @@ export const CreateQuestion = ({ user }: Props) => {
               type="text"
               id="question"
               placeholder="New question"
-              className="w-full border border-transparent outline-none rounded-md py-1 focus:border-stone-900"
+              className="w-full border border-transparent outline-none rounded-md py-1 focus:border-teal-700"
             />
           </div>
           <Button

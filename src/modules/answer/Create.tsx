@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 type Props = {
-  nodeId: number;
+  nodeId: string;
   question: string;
   tenantId: string;
 };
@@ -81,7 +81,7 @@ export const CreateAnswer = ({ nodeId, question, tenantId }: Props) => {
               type="text"
               id="answer"
               placeholder="New answer"
-              className="w-full border border-transparent outline-none rounded-md py-1 focus:border-stone-900"
+              className="w-full border border-transparent outline-none rounded-md py-1 focus:border-teal-700"
             />
           </div>
           <Button

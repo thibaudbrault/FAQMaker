@@ -6,7 +6,7 @@ import { forwardRef, HTMLAttributes } from "react";
 const badge = cva("badge", {
   variants: {
     variant: {
-      pill: ["bg-stone-900", "text-stone-200", "rounded-full"],
+      pill: ["bg-teal-700", "text-stone-200", "rounded-full"],
     },
     rounded: {
       full: ["rounded-full"],
