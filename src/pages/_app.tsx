@@ -1,3 +1,4 @@
+import { TooltipProvider } from "@/components";
 import "@/styles/globals.css";
 import {
   Hydrate,
@@ -21,11 +22,13 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <main
-            className={`min-h-screen bg-stone-200 text-stone-900 ${crimson.variable}`}
-          >
-            <Component {...pageProps} />
-          </main>
+          <TooltipProvider>
+            <div
+              className={`relative min-h-screen text-stone-900 ${crimson.variable}`}
+            >
+              <Component {...pageProps} />
+            </div>
+          </TooltipProvider>
         </Hydrate>
       </QueryClientProvider>
     </SessionProvider>

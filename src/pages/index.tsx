@@ -1,18 +1,26 @@
 import { Layout, List, Search } from "@/modules";
-import { Tenant, User } from "@prisma/client";
+import { Tenant } from "@prisma/client";
 import { prisma } from "lib/prisma";
 import { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 
-function Home(props: User & { tenant: Tenant }) {
+type Props = {
+  email: string;
+  tenant: Tenant;
+  tenantId: string;
+};
+
+function Home({ email, tenant, tenantId }: Props) {
   return (
-    <Layout email={props.email} company={props.tenant.company}>
-      <div className="my-12">
-        <Search />
-        <List tenantId={props.tenantId} />
-      </div>
-    </Layout>
+    <main className="bg-stone-200 h-screen">
+      <Layout email={email} company={tenant.company}>
+        <div className="my-12">
+          <Search />
+          <List tenantId={tenantId} />
+        </div>
+      </Layout>
+    </main>
   );
 }
 
@@ -20,11 +28,10 @@ export default Home;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getServerSession(context.req, context.res, authOptions);
-
   if (!session) {
     return {
       redirect: {
-        destination: `/`,
+        destination: `/login`,
         permanent: false,
       },
     };
