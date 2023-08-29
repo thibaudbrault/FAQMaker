@@ -1,19 +1,18 @@
-import { Footer, Header, List, Search } from "@/modules";
+import { Layout, List, Search } from "@/modules";
+import { Tenant, User } from "@prisma/client";
 import { prisma } from "lib/prisma";
 import { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 
-function Home(props) {
+function Home(props: User & { tenant: Tenant }) {
   return (
-    <>
-      <Header email={props.email} />
+    <Layout email={props.email} company={props.tenant.company}>
       <div className="my-12">
         <Search />
         <List tenantId={props.tenantId} />
       </div>
-      <Footer />
-    </>
+    </Layout>
   );
 }
 
@@ -36,6 +35,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const user = await prisma.user.findUnique({
     where: { email },
+    include: { tenant: { select: { company: true } } },
   });
 
   return {

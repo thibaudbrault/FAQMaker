@@ -2,20 +2,23 @@ import { Link } from "@/components";
 import { getUser } from "@/data";
 import { User } from "@prisma/client";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
-import { CreateQuestion } from "../question";
+import { CreateQuestion } from "../../question";
 
-export const Header = ({ email }) => {
+type Props = {
+  email?: string;
+  company?: string;
+};
+
+export const Header = ({ email, company }: Props) => {
   const {
     data: user,
     isLoading,
     isError,
     error,
   }: UseQueryResult<User, Error> = useQuery({
-    queryKey: ["users"],
+    queryKey: ["user", email],
     queryFn: () => getUser(email),
   });
-
-  const title = "Company";
 
   if (isError && error instanceof Error) {
     return <div>Error: {error.message}</div>;
@@ -25,7 +28,7 @@ export const Header = ({ email }) => {
     <header className="flex justify-between items-center px-8 py-4 bg-stone-900 text-stone-200">
       <h1>
         <Link href="/" className="text-4xl font-serif">
-          {title}
+          {company}
         </Link>
       </h1>
       <div className="flex gap-4 items-baseline">
@@ -38,8 +41,8 @@ export const Header = ({ email }) => {
             </li>
             {user.role === "Admin" && (
               <li>
-                <Link decoration="underline" href="/admin">
-                  Admin
+                <Link decoration="underline" href="/settings">
+                  Settings
                 </Link>
               </li>
             )}

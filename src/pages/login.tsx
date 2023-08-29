@@ -1,3 +1,4 @@
+import { Layout } from "@/modules";
 import { LoginValidator } from "@/utils/validators/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -36,17 +37,19 @@ function Login() {
   });
 
   return (
-    <section>
-      <form onSubmit={handleSubmit((values) => loginHandler(values))}>
-        <input {...register("email")} type="email" placeholder="Email" />
-        <input
-          {...register("password")}
-          type="password"
-          placeholder="Password"
-        />
-        <button type="submit">Submit</button>
-      </form>
-    </section>
+    <Layout>
+      <section>
+        <form onSubmit={handleSubmit((values) => loginHandler(values))}>
+          <input {...register("email")} type="email" placeholder="Email" />
+          <input
+            {...register("password")}
+            type="password"
+            placeholder="Password"
+          />
+          <button type="submit">Submit</button>
+        </form>
+      </section>
+    </Layout>
   );
 }
 
