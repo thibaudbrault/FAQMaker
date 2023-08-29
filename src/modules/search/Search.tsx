@@ -1,26 +1,49 @@
 import { Input, Label } from "@/components";
 import { SearchIcon } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FormEvent, useState } from "react";
 
 export const Search = () => {
+  const search = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState<string | null>(
+    search ? search.get("q") : ""
+  );
+  const router = useRouter();
+
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+    console.log("first");
+    if (typeof searchQuery !== "string") {
+      return;
+    }
+    const encodedSearchQuery = encodeURI(searchQuery);
+    router.push(`/search?q=${encodedSearchQuery}`);
+  };
+
   return (
     <section className="w-full flex justify-center">
-      <div className="flex flex-col w-fit gap-1">
+      <form
+        onSubmit={handleSearch}
+        className="flex flex-col w-fit gap-1 [&_svg]:focus-within:text-teal-700"
+      >
         <Label
           htmlFor="search"
-          className="lowercase"
+          className="lowercase focus-within:text-teal-700"
           style={{ fontVariant: "small-caps" }}
         >
           Search
         </Label>
         <Input
+          value={searchQuery || ""}
           withIcon
           icon={<SearchIcon />}
           type="text"
           id="search"
           placeholder="Search"
-          className="bg-stone-100 rounded-md py-1 w-80 border border-stone-200 focus:border-stone-900 outline-none"
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="bg-stone-100 rounded-md py-1 w-80 border border-stone-200 focus:border-teal-700 outline-none "
         />
-      </div>
+      </form>
     </section>
   );
 };
