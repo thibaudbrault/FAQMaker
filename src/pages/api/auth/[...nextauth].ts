@@ -21,19 +21,9 @@ export const authOptions: NextAuthOptions = {
           const { email, password } = LoginValidator.parse(credentials);
           const user = await prisma.user.findUnique({
             where: { email },
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              password: true,
-              tenantId: true,
-            },
           });
           if (!user) {
             return null;
-            // throw new Error(
-            //   `No user found with this email. Try with a different email`
-            // );
           }
           const isPasswordValid = bcrypt.compare(password, user.password);
           if (!isPasswordValid) {

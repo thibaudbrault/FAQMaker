@@ -20,7 +20,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           },
           user: {
             select: {
-              name: true,
+              firstName: true,
+              lastName: true,
             },
           },
           tags: {
@@ -41,7 +42,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
   } else if (req.method === "POST") {
     const { text, tenantId, userId } = req.body;
-    console.log(req.body);
     const node = await prisma.node.create({
       data: {
         tenant: { connect: { id: tenantId } },
