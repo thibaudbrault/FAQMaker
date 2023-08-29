@@ -13,7 +13,7 @@ type Props = {
 export const Header = ({ email, company }: Props) => {
   const { data: user, isLoading } = useUser(email);
 
-  const tooltipClass = "bg-teal-700 text-stone-200 border border-stone-200";
+  const tooltipClass = "bg-teal-800 text-stone-200 border border-stone-200";
 
   return (
     <header className="flex justify-between items-center px-8 py-4 bg-teal-700 text-stone-200">
@@ -32,7 +32,7 @@ export const Header = ({ email, company }: Props) => {
                     <Link
                       decoration="none"
                       href="/profile"
-                      className="flex items-center gap-1"
+                      className="flex items-center gap-1 hover:text-stone-300"
                     >
                       <UserIcon />
                     </Link>
@@ -49,7 +49,7 @@ export const Header = ({ email, company }: Props) => {
                       <Link
                         decoration="none"
                         href="/settings"
-                        className="flex items-center gap-1"
+                        className="hover:text-stone-300"
                       >
                         <Settings />
                       </Link>
@@ -63,7 +63,10 @@ export const Header = ({ email, company }: Props) => {
               <li>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <button onClick={() => signOut()}>
+                    <button
+                      onClick={() => signOut()}
+                      className="hover:text-stone-300"
+                    >
                       <LogOut />
                     </button>
                   </TooltipTrigger>
