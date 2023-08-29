@@ -13,7 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           .status(404)
           .json({ success: false, message: `No user found` });
       }
-      return res.status(200).json({ success: true, user });
+      return res.status(200).json(user);
     } catch (error) {
       res.status(400).end();
     }

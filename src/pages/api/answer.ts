@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       //       .status(404)
       //       .json({ success: false, message: `No nodes found` });
       //   }
-      return res.status(200).json({ success: true, answer });
+      return res.status(200).json(answer);
     } catch (error) {
       res.status(400).end();
     }
