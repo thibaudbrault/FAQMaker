@@ -10,13 +10,14 @@ generator client {
 model Tenant {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
-  name      String
+  firstName String
+  lastName  String
   email     String   @unique
-  password  String
   plan      Plan
   company   String
   users     User[]
   nodes     Node[]
+  color     Color?
 }
 
 model Node {
@@ -65,17 +66,18 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  name          String
-  email         String    @unique
-  password      String    @default("TempPassword")
-  image         String?
-  role          Role      @default(User)
-  tenant        Tenant    @relation(fields: [tenantId], references: [id])
-  tenantId      String
-  nodes         Node[]
-  accounts      Account[]
-  sessions      Session[]
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  firstName String
+  lastName  String
+  email     String    @unique
+  password  String    @default("TempPassword")
+  role      Role      @default(User)
+  tenant    Tenant    @relation(fields: [tenantId], references: [id])
+  tenantId  String
+  nodes     Node[]
+  accounts  Account[]
+  sessions  Session[]
 
   @@index([tenantId])
 }
@@ -119,6 +121,16 @@ model Tag {
   nodeId String
 
   @@index([nodeId])
+}
+
+model Color {
+  id       String @id @default(uuid())
+  text     String
+  bg       String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+  tenantId String @unique
+
+  @@index([tenantId])
 }
 
 enum Plan {
