@@ -10,8 +10,8 @@ export const getNodes = async (tenant: string) => {
 export const createNode = async (values, user) => {
   const body = {
     text: values.text,
-    tenantId: user.user.tenantId,
-    userId: user.user.id,
+    tenantId: user.tenantId,
+    userId: user.id,
   };
   await axios.post('/api/nodes', body);
 };

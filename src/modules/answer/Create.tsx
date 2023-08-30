@@ -66,7 +66,7 @@ export const CreateAnswer = ({ nodeId, question, tenantId }: Props) => {
       </DialogTrigger>
       <DialogContent className="bg-stone-200/90">
         <DialogHeader>
-          <DialogTitle className="font-serif">Answer a question</DialogTitle>
+          <DialogTitle>Answer a question</DialogTitle>
           <DialogDescription>Question: {question}</DialogDescription>
         </DialogHeader>
         <form

@@ -1,4 +1,4 @@
-import { getNodes, getUser, getUsers } from '@/data';
+import { getNodes, getTags, getUser, getUsers } from '@/data';
 import { Answer, Node, Question, Tag, User } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 
@@ -20,8 +20,14 @@ type ExtendedNode = Node & {
   tags: Tag[];
 };
 
-export const useNodes = (tenantId) =>
+export const useNodes = (tenantId: string) =>
   useQuery<ExtendedNode[], Error>({
     queryKey: ['nodes', tenantId],
     queryFn: () => getNodes(tenantId),
+  });
+
+export const useTags = (tenantId: string) =>
+  useQuery<Tag[], Error>({
+    queryKey: ['nodes', tenantId],
+    queryFn: () => getTags(tenantId),
   });

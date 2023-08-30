@@ -11,29 +11,30 @@ import {
   errorToast,
   successToast,
 } from '@/components';
-import { createNode } from '@/data';
-import { Question, User } from '@prisma/client';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { HelpCircle } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { createNode, createTag } from '@/data';
+import user from '@/pages/api/user';
+import { Question } from '@prisma/client';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
+import { HelpCircle, Tag as TagIcon } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 type Props = {
-  user: User;
+  tenantId: string;
 };
 
-export const CreateQuestion = ({ user }: Props) => {
+export const CreateTag = ({ tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const { register, handleSubmit, reset, watch } = useForm();
   const queryClient = useQueryClient();
 
   const { mutate, isLoading, isError, error } = useMutation({
-    mutationFn: (values: Question) => createNode(values, user),
+    mutationFn: (values: Question) => createTag(values, tenantId),
     onSuccess: (data) => {
       successToast(data.message);
       reset();
       queryClient.invalidateQueries({
-        queryKey: ['nodes', user.tenantId],
+        queryKey: ['tags', tenantId],
       });
     },
   });
@@ -42,28 +43,23 @@ export const CreateQuestion = ({ user }: Props) => {
     errorToast(error.message);
   }
 
-  const questionText = watch('text', '');
-
-  useEffect(() => {
-    setDisabled(isLoading || questionText.length < 3);
-  }, [isLoading, questionText]);
-
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          variant="primaryLight"
+          variant="primaryDark"
           font="large"
-          size="small"
-          className="font-semibold lowercase"
+          size="full"
+          weight="bold"
+          className="lowercase"
           style={{ fontVariant: 'small-caps' }}
         >
-          New Question
+          New tag
         </Button>
       </DialogTrigger>
       <DialogContent className="bg-stone-200/90">
         <DialogHeader>
-          <DialogTitle>New question</DialogTitle>
+          <DialogTitle>New tag</DialogTitle>
         </DialogHeader>
         <form
           onSubmit={handleSubmit(mutate)}
@@ -71,37 +67,37 @@ export const CreateQuestion = ({ user }: Props) => {
         >
           <div className="flex flex-col gap-1 w-11/12 mx-auto">
             <Label
-              htmlFor="question"
+              htmlFor="label"
               className="lowercase"
               style={{ fontVariant: 'small-caps' }}
             >
-              Question
+              Label
             </Label>
             <Input
-              {...register('text', { required: true, min: 3 })}
+              {...register('label', { required: true, min: 3 })}
               withIcon
-              icon={<HelpCircle />}
-              type="text"
-              id="question"
-              placeholder="New question"
+              icon={<TagIcon />}
+              type="label"
+              id="label"
+              placeholder="Tag label"
               className="w-full border border-transparent outline-none rounded-md py-1 focus:border-teal-700"
             />
           </div>
           <Button
             variant={disabled ? 'disabledDark' : 'primaryDark'}
             type="submit"
-            disabled={disabled}
+            disabled={isLoading}
           >
-            Submit
+            Add
           </Button>
         </form>
-        <DialogFooter className="text-xs justify-start text-center">
+        {/* <DialogFooter className="text-xs justify-start text-center">
           <p>
             {disabled
               ? 'The question must have 3 or more letters'
               : "You're good to post"}
           </p>
-        </DialogFooter>
+        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   );

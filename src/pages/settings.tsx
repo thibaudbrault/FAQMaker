@@ -49,7 +49,7 @@ function Settings({ user }: Props) {
           </TabList>
           <TabPanels>
             <General nodes={nodes} />
-            <Tags />
+            <Tags tenantId={user.tenantId} />
             <Users tenantId={user.tenantId} />
           </TabPanels>
         </TabGroup>

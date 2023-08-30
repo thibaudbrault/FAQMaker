@@ -9,9 +9,9 @@ const nodesReq = async (req: NextApiRequest, res: NextApiResponse) => {
           .status(404)
           .json({ success: false, message: `Tenant not found` });
       }
-      const { tenant } = req.query;
+      const { tenantId } = req.query;
       const nodes = await prisma.node.findMany({
-        where: { tenantId: tenant as string },
+        where: { tenantId: tenantId as string },
         include: {
           question: {
             select: {
