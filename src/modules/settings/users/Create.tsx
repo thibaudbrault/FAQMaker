@@ -8,13 +8,13 @@ import {
   DialogTrigger,
   Input,
   Label,
-} from "@/components";
-import { createNode } from "@/data";
-import user from "@/pages/api/user";
-import { Question, User } from "@prisma/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AtSign, HelpCircle, PlusCircle } from "lucide-react";
-import { useForm } from "react-hook-form";
+} from '@/components';
+import { createNode, createUser } from '@/data';
+import user from '@/pages/api/user';
+import { Question, User } from '@prisma/client';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AtSign, HelpCircle, PlusCircle } from 'lucide-react';
+import { useForm } from 'react-hook-form';
 
 type Props = {
   tenantId: string;
@@ -29,7 +29,7 @@ export const CreateUser = ({ tenantId }: Props) => {
     onSuccess: () => {
       reset();
       queryClient.invalidateQueries({
-        queryKey: ["users", tenantId],
+        queryKey: ['users', tenantId],
       });
     },
   });
@@ -61,12 +61,12 @@ export const CreateUser = ({ tenantId }: Props) => {
               <Label
                 htmlFor="firstName"
                 className="lowercase"
-                style={{ fontVariant: "small-caps" }}
+                style={{ fontVariant: 'small-caps' }}
               >
                 First Name
               </Label>
               <Input
-                {...register("firstName", { required: true })}
+                {...register('firstName', { required: true })}
                 withIcon
                 icon={<HelpCircle />}
                 type="text"
@@ -79,12 +79,12 @@ export const CreateUser = ({ tenantId }: Props) => {
               <Label
                 htmlFor="lastName"
                 className="lowercase"
-                style={{ fontVariant: "small-caps" }}
+                style={{ fontVariant: 'small-caps' }}
               >
                 Last Name
               </Label>
               <Input
-                {...register("lastName", { required: true })}
+                {...register('lastName', { required: true })}
                 withIcon
                 icon={<HelpCircle />}
                 type="text"
@@ -97,12 +97,12 @@ export const CreateUser = ({ tenantId }: Props) => {
               <Label
                 htmlFor="email"
                 className="lowercase"
-                style={{ fontVariant: "small-caps" }}
+                style={{ fontVariant: 'small-caps' }}
               >
                 Email
               </Label>
               <Input
-                {...register("email", { required: true })}
+                {...register('email', { required: true })}
                 withIcon
                 icon={<AtSign />}
                 type="text"
@@ -112,7 +112,7 @@ export const CreateUser = ({ tenantId }: Props) => {
               />
             </div>
           </fieldset>
-          <Button variant={"primaryDark"} type="submit">
+          <Button variant={'primaryDark'} type="submit">
             Add
           </Button>
         </form>

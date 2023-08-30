@@ -1,8 +1,8 @@
-import { prisma } from "lib/prisma";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from 'lib/prisma';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "GET") {
+const usersReq = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === 'GET') {
     try {
       const { tenantId } = req.query;
       const users = await prisma.user.findMany({
@@ -44,3 +44,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   //     res.json({ status: "ok" });
   //   }
 };
+
+export default usersReq;

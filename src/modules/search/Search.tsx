@@ -1,19 +1,19 @@
-import { Input, Label } from "@/components";
-import { SearchIcon } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { Input, Label } from '@/components';
+import { SearchIcon } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { FormEvent, useState } from 'react';
 
 export const Search = () => {
   const search = useSearchParams();
   const [searchQuery, setSearchQuery] = useState<string | null>(
-    search ? search.get("q") : ""
+    search ? search.get('q') : '',
   );
   const router = useRouter();
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
-    console.log("first");
-    if (typeof searchQuery !== "string") {
+    console.log('first');
+    if (typeof searchQuery !== 'string') {
       return;
     }
     const encodedSearchQuery = encodeURI(searchQuery);
@@ -29,12 +29,12 @@ export const Search = () => {
         <Label
           htmlFor="search"
           className="lowercase focus-within:text-teal-700"
-          style={{ fontVariant: "small-caps" }}
+          style={{ fontVariant: 'small-caps' }}
         >
           Search
         </Label>
         <Input
-          value={searchQuery || ""}
+          value={searchQuery || ''}
           withIcon
           icon={<SearchIcon />}
           type="text"

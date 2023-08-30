@@ -1,8 +1,8 @@
-import { Button } from "@/components";
-import { useUsers } from "@/hooks";
-import { Card, Flex, Icon, TabPanel, Text, Title } from "@tremor/react";
-import { ShieldAlert, User } from "lucide-react";
-import { CreateUser } from "./Create";
+import { Button } from '@/components';
+import { useUsers } from '@/hooks';
+import { Card, Flex, Icon, TabPanel, Text, Title } from '@tremor/react';
+import { ShieldAlert, User } from 'lucide-react';
+import { CreateUser } from './Create';
 
 type Props = {
   tenantId: string;
@@ -23,12 +23,12 @@ export const Users = ({ tenantId }: Props) => {
     <TabPanel>
       <Flex flexDirection="col" className="gap-4">
         {users.map((user) => (
-          <Card>
+          <Card key={user.id}>
             <Flex justifyContent="between">
               <Flex justifyContent="start">
                 <Icon
                   size="xl"
-                  icon={user.role === "User" ? User : ShieldAlert}
+                  icon={user.role === 'User' ? User : ShieldAlert}
                   color="stone"
                 />
                 <Flex flexDirection="col" alignItems="start">

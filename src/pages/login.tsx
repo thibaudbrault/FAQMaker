@@ -1,14 +1,14 @@
-import { Button, Input, Label } from "@/components";
-import { LoginValidator } from "@/utils/validators/login";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { Eye, EyeOff } from "lucide-react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { Button, Input, Label } from '@/components';
+import { LoginValidator } from '@/utils/validators/login';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { Eye, EyeOff } from 'lucide-react';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 type LoginCredentials = z.infer<typeof LoginValidator>;
 
@@ -45,7 +45,7 @@ function Login() {
         <div className="bg-green-50 px-8 py-20 rounded-md flex flex-col items-center w-full">
           <h2
             className="font-serif text-5xl lowercase mb-8 font-bold"
-            style={{ fontVariant: "small-caps" }}
+            style={{ fontVariant: 'small-caps' }}
           >
             Login
           </h2>
@@ -55,11 +55,11 @@ function Login() {
           >
             <fieldset className="flex flex-col gap-4">
               <div className="flex flex-col gap-2">
-                <Label htmlFor="email" style={{ fontVariant: "small-caps" }}>
+                <Label htmlFor="email" style={{ fontVariant: 'small-caps' }}>
                   email
                 </Label>
                 <Input
-                  {...register("email", { required: true })}
+                  {...register('email', { required: true })}
                   type="email"
                   placeholder="Email"
                   maxLength={48}
@@ -67,13 +67,13 @@ function Login() {
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <Label htmlFor="password" style={{ fontVariant: "small-caps" }}>
+                <Label htmlFor="password" style={{ fontVariant: 'small-caps' }}>
                   password
                 </Label>
                 <div className=" flex items-center justify-between bg-transparent p-1 border border-transparent border-b-teal-700">
                   <Input
-                    {...register("password", { required: true })}
-                    type={isShown ? "text" : "password"}
+                    {...register('password', { required: true })}
+                    type={isShown ? 'text' : 'password'}
                     placeholder="Password"
                     maxLength={48}
                     className="w-full bg-transparent pr-6 outline-none focus:border-teal-700 focus:rounded-md placeholder:text-stone-500"
@@ -90,7 +90,7 @@ function Login() {
               font="large"
               weight="bold"
               type="submit"
-              style={{ fontVariant: "small-caps" }}
+              style={{ fontVariant: 'small-caps' }}
             >
               submit
             </Button>

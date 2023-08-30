@@ -1,4 +1,4 @@
-import { Node } from "@prisma/client";
+import { Node } from '@prisma/client';
 import {
   Card,
   Col,
@@ -10,8 +10,8 @@ import {
   TabPanel,
   Text,
   Title,
-} from "@tremor/react";
-import { HelpCircle } from "lucide-react";
+} from '@tremor/react';
+import { HelpCircle } from 'lucide-react';
 
 type Props = {
   nodes: Node[];

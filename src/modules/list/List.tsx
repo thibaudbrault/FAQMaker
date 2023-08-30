@@ -4,10 +4,10 @@ import {
   AccordionItem,
   AccordionTrigger,
   Badge,
-} from "@/components";
+} from '@/components';
 
-import { useNodes } from "@/hooks";
-import { CreateAnswer } from "../answer";
+import { useNodes } from '@/hooks';
+import { CreateAnswer } from '../answer';
 
 type Props = {
   tenantId: string;
@@ -49,7 +49,7 @@ export const List = ({ tenantId }: Props) => {
                           variant="pill"
                           rounded="full"
                           size="small"
-                          style={{ fontVariant: "small-caps" }}
+                          style={{ fontVariant: 'small-caps' }}
                         >
                           {tag.label.toLowerCase()}
                         </Badge>
@@ -77,7 +77,7 @@ export const List = ({ tenantId }: Props) => {
       ) : (
         <p
           className="text-center text-2xl font-bold lowercase"
-          style={{ fontVariant: "small-caps" }}
+          style={{ fontVariant: 'small-caps' }}
         >
           Ask a question
         </p>

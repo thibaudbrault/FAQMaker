@@ -1,27 +1,27 @@
-import { cn } from "@/utils/cn";
-import { cva, type VariantProps } from "class-variance-authority";
-import NextLink, { LinkProps } from "next/link";
-import { forwardRef, ReactNode } from "react";
+import { cn } from '@/utils/cn';
+import { cva, type VariantProps } from 'class-variance-authority';
+import NextLink, { LinkProps } from 'next/link';
+import { forwardRef, ReactNode } from 'react';
 
-const link = cva("link", {
+const link = cva('link', {
   variants: {
     intent: {
-      primary: ["cursor-pointer"],
+      primary: ['cursor-pointer'],
       secondary: [
-        "bg-white",
-        "text-gray-800",
-        "border-gray-400",
-        "hover:bg-gray-100",
+        'bg-white',
+        'text-gray-800',
+        'border-gray-400',
+        'hover:bg-gray-100',
       ],
     },
     decoration: {
-      underline: ["hover:underline"],
-      none: ["hover:no-underline"],
+      underline: ['hover:underline'],
+      none: ['hover:no-underline'],
     },
   },
   defaultVariants: {
-    intent: "primary",
-    decoration: "none",
+    intent: 'primary',
+    decoration: 'none',
   },
 });
 
@@ -37,6 +37,6 @@ export const Link = forwardRef<LinkProps, AnchorProps>(
       ref={ref}
       {...props}
     />
-  )
+  ),
 );
-Link.displayName = "Link";
+Link.displayName = 'Link';

@@ -1,8 +1,8 @@
-import { prisma } from "lib/prisma";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from 'lib/prisma';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "GET") {
+const userReq = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === 'GET') {
     try {
       const { email } = req.query;
       const user = await prisma.user.findUnique({
@@ -17,7 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } catch (error) {
       res.status(400).end();
     }
-  } else if (req.method === "POST") {
+  } else if (req.method === 'POST') {
     const { firstName, lastName, email, tenantId } = req.body;
     const user = await prisma.user.create({
       data: {
@@ -47,3 +47,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   //     res.json({ status: "ok" });
   //   }
 };
+
+export default userReq;

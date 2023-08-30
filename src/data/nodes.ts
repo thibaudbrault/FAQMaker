@@ -1,8 +1,8 @@
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError } from 'axios';
 
 export const getNodes = async (tenant: string) => {
   try {
-    const { data } = await axios.get("/api/nodes", {
+    const { data } = await axios.get('/api/nodes', {
       params: { tenant },
     });
     return data;
@@ -20,7 +20,7 @@ export const createNode = async (values, user) => {
       tenantId: user.user.tenantId,
       userId: user.user.id,
     };
-    await axios.post("/api/nodes", body);
+    await axios.post('/api/nodes', body);
   } catch (error) {
     if (error instanceof AxiosError) {
       console.error(error);

@@ -1,9 +1,9 @@
-import { Link, Tooltip, TooltipContent, TooltipTrigger } from "@/components";
-import { useUser } from "@/hooks";
-import { cn } from "@/utils/cn";
-import { LogOut, Settings, User as UserIcon } from "lucide-react";
-import { signOut } from "next-auth/react";
-import { CreateQuestion } from "../../question";
+import { Link, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
+import { useUser } from '@/hooks';
+import { cn } from '@/utils/cn';
+import { LogOut, Settings, User as UserIcon } from 'lucide-react';
+import { signOut } from 'next-auth/react';
+import { CreateQuestion } from '../../question';
 
 type Props = {
   email?: string;
@@ -13,7 +13,7 @@ type Props = {
 export const Header = ({ email, company }: Props) => {
   const { data: user, isLoading } = useUser(email);
 
-  const tooltipClass = "bg-teal-800 text-stone-200 border border-stone-200";
+  const tooltipClass = 'bg-teal-800 text-stone-200 border border-stone-200';
 
   return (
     <header className="flex justify-between items-center px-8 py-4 bg-teal-700 text-stone-200">
@@ -42,7 +42,7 @@ export const Header = ({ email, company }: Props) => {
                   </TooltipContent>
                 </Tooltip>
               </li>
-              {user?.role === "Admin" && (
+              {user?.role === 'Admin' && (
                 <li>
                   <Tooltip>
                     <TooltipTrigger asChild>

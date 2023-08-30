@@ -1,9 +1,9 @@
-import { Layout, List, Search } from "@/modules";
-import { Tenant } from "@prisma/client";
-import { prisma } from "lib/prisma";
-import { GetServerSidePropsContext } from "next";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]";
+import { Layout, List, Search } from '@/modules';
+import { Tenant } from '@prisma/client';
+import { prisma } from 'lib/prisma';
+import { GetServerSidePropsContext } from 'next';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]';
 
 type Props = {
   email: string;

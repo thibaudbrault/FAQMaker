@@ -8,13 +8,13 @@ import {
   DialogTrigger,
   Input,
   Label,
-} from "@/components";
-import { createNode } from "@/data";
-import { Question, User } from "@prisma/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { HelpCircle } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+} from '@/components';
+import { createNode } from '@/data';
+import { Question, User } from '@prisma/client';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { HelpCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 type Props = {
   user: User;
@@ -30,12 +30,12 @@ export const CreateQuestion = ({ user }: Props) => {
     onSuccess: () => {
       reset();
       queryClient.invalidateQueries({
-        queryKey: ["nodes", user.tenantId],
+        queryKey: ['nodes', user.tenantId],
       });
     },
   });
 
-  const questionText = watch("text", "");
+  const questionText = watch('text', '');
 
   useEffect(() => {
     setDisabled(isLoading || questionText.length < 3);
@@ -49,7 +49,7 @@ export const CreateQuestion = ({ user }: Props) => {
           font="large"
           size="small"
           className="font-semibold lowercase"
-          style={{ fontVariant: "small-caps" }}
+          style={{ fontVariant: 'small-caps' }}
         >
           New Question
         </Button>
@@ -66,12 +66,12 @@ export const CreateQuestion = ({ user }: Props) => {
             <Label
               htmlFor="question"
               className="lowercase"
-              style={{ fontVariant: "small-caps" }}
+              style={{ fontVariant: 'small-caps' }}
             >
               Question
             </Label>
             <Input
-              {...register("text", { required: true, min: 3 })}
+              {...register('text', { required: true, min: 3 })}
               withIcon
               icon={<HelpCircle />}
               type="text"
@@ -81,7 +81,7 @@ export const CreateQuestion = ({ user }: Props) => {
             />
           </div>
           <Button
-            variant={disabled ? "disabledDark" : "primaryDark"}
+            variant={disabled ? 'disabledDark' : 'primaryDark'}
             type="submit"
             disabled={disabled}
           >
@@ -91,7 +91,7 @@ export const CreateQuestion = ({ user }: Props) => {
         <DialogFooter className="text-xs justify-start text-center">
           <p>
             {disabled
-              ? "The question must have 3 or more letters"
+              ? 'The question must have 3 or more letters'
               : "You're good to post"}
           </p>
         </DialogFooter>

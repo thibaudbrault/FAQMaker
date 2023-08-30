@@ -1,8 +1,8 @@
-import { prisma } from "lib/prisma";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from 'lib/prisma';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "GET") {
+const answerReq = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === 'GET') {
     try {
       const { nodeId } = req.query;
       const answer = await prisma.answer.findUnique({
@@ -20,7 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } catch (error) {
       res.status(400).end();
     }
-  } else if (req.method === "POST") {
+  } else if (req.method === 'POST') {
     const { text, nodeId } = req.body;
     const answer = await prisma.answer.create({
       data: {
@@ -48,3 +48,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   //     res.json({ status: "ok" });
   //   }
 };
+
+export default answerReq;

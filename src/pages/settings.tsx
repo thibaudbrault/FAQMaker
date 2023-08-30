@@ -1,9 +1,9 @@
-import { General, Layout, Users } from "@/modules";
-import { Tenant, User } from "@prisma/client";
-import { prisma } from "lib/prisma";
-import { GetServerSidePropsContext } from "next";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]";
+import { General, Layout, Users } from '@/modules';
+import { Tenant, User } from '@prisma/client';
+import { prisma } from 'lib/prisma';
+import { GetServerSidePropsContext } from 'next';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]';
 import {
   Card,
   Grid,
@@ -12,10 +12,10 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-} from "@tremor/react";
-import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { getNodes } from "@/data";
-import { useNodes } from "@/hooks";
+} from '@tremor/react';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { getNodes } from '@/data';
+import { useNodes } from '@/hooks';
 
 type Props = {
   user: User & { tenant: Tenant };
@@ -73,7 +73,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     include: { tenant: { select: { company: true } } },
   });
 
-  if (user.role !== "Admin") {
+  if (user.role !== 'Admin') {
     return {
       redirect: {
         destination: `/`,
@@ -84,8 +84,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(["nodes", user.tenantId], () =>
-    getNodes(user.tenantId)
+  await queryClient.prefetchQuery(['nodes', user.tenantId], () =>
+    getNodes(user.tenantId),
   );
 
   return {

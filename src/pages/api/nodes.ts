@@ -1,8 +1,8 @@
-import { prisma } from "lib/prisma";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from 'lib/prisma';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "GET") {
+const nodesReq = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === 'GET') {
     try {
       const { tenant } = req.query;
       const nodes = await prisma.node.findMany({
@@ -40,7 +40,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } catch (error) {
       res.status(400).end();
     }
-  } else if (req.method === "POST") {
+  } else if (req.method === 'POST') {
     const { text, tenantId, userId } = req.body;
     const node = await prisma.node.create({
       data: {
@@ -69,3 +69,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   //     res.json({ status: "ok" });
   //   }
 };
+
+export default nodesReq;

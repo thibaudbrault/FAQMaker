@@ -1,11 +1,11 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
-import NextAuth, { NextAuthOptions } from "next-auth";
-import { NextApiHandler } from "next/types";
-import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
-import { prisma } from "lib/prisma";
-import { LoginValidator } from "@/utils/validators/login";
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import { PrismaClient, User } from '@prisma/client';
+import NextAuth, { NextAuthOptions } from 'next-auth';
+import { NextApiHandler } from 'next/types';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import bcrypt from 'bcrypt';
+import { prisma } from 'lib/prisma';
+import { LoginValidator } from '@/utils/validators/login';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/login",
+    signIn: '/login',
   },
   callbacks: {
     session({ session, token }) {
@@ -50,7 +50,8 @@ export const authOptions: NextAuthOptions = {
       if (account) {
         token.accessToken = account.access_token;
         token.id = user.id;
-        token.username = (user as User).name;
+        token.username =
+          (user as User).firstName + '-' + (user as User).lastName;
       }
       return token;
     },

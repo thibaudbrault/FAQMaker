@@ -1,5 +1,5 @@
-import { cn } from "@/utils/cn";
-import { ReactNode, forwardRef } from "react";
+import { cn } from '@/utils/cn';
+import { ReactNode, forwardRef } from 'react';
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -17,13 +17,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           ref={ref}
-          className={cn("pl-12", className)}
+          className={cn('pl-12', className)}
           {...props}
         />
       </div>
     ) : (
       <input type={type} ref={ref} className={className} {...props} />
     );
-  }
+  },
 );
-Input.displayName = "Input";
+Input.displayName = 'Input';
