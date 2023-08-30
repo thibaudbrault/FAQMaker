@@ -17,6 +17,7 @@ model Tenant {
   company   String
   users     User[]
   nodes     Node[]
+  tags      Tag[]
   color     Color?
 }
 
@@ -72,7 +73,7 @@ model User {
   lastName  String
   email     String    @unique
   password  String    @default("TempPassword")
-  role      Role      @default(User)
+  role      Role      @default(user)
   tenant    Tenant    @relation(fields: [tenantId], references: [id])
   tenantId  String
   nodes     Node[]
@@ -117,10 +118,13 @@ model Source {
 model Tag {
   id     String @id @default(uuid())
   label  String
-  node   Node   @relation(fields: [nodeId], references: [id])
-  nodeId String
+  node   Node?   @relation(fields: [nodeId], references: [id])
+  nodeId String?
+  tenant Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId String
 
   @@index([nodeId])
+  @@index([tenantId])
 }
 
 model Color {
@@ -134,11 +138,11 @@ model Color {
 }
 
 enum Plan {
-  Free
-  Paid
+  free
+  paid
 }
 
 enum Role {
-  User
-  Admin
+  user
+  admin
 }
