@@ -8,31 +8,67 @@ import {
   DialogTrigger,
   Input,
   Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  errorToast,
+  successToast,
 } from '@/components';
-import { createNode, createUser } from '@/data';
-import user from '@/pages/api/user';
-import { Question, User } from '@prisma/client';
+import { createUser } from '@/data';
+import { User } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AtSign, HelpCircle, PlusCircle } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { AtSign, PlusCircle, UserIcon } from 'lucide-react';
+import { useMemo } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
 type Props = {
   tenantId: string;
 };
 
 export const CreateUser = ({ tenantId }: Props) => {
-  const { register, handleSubmit, reset } = useForm();
+  const fields = useMemo(
+    () => [
+      {
+        label: 'First Name',
+        value: 'firstName',
+        type: 'text',
+        icon: <UserIcon className="w-5 h-5" />,
+      },
+      {
+        label: 'Last Name',
+        value: 'lastName',
+        type: 'text',
+        icon: <UserIcon className="w-5 h-5" />,
+      },
+      {
+        label: 'Email',
+        value: 'email',
+        type: 'email',
+        icon: <AtSign className="w-5 h-5" />,
+      },
+    ],
+    [],
+  );
+
+  const { register, handleSubmit, control, reset } = useForm();
   const queryClient = useQueryClient();
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isLoading, isError, error } = useMutation({
     mutationFn: (values: User) => createUser(values, tenantId),
-    onSuccess: () => {
+    onSuccess: (data) => {
+      successToast(data.message);
       reset();
       queryClient.invalidateQueries({
         queryKey: ['users', tenantId],
       });
     },
   });
+
+  if (isError && error instanceof Error) {
+    errorToast(error.message);
+  }
 
   return (
     <Dialog>
@@ -48,7 +84,7 @@ export const CreateUser = ({ tenantId }: Props) => {
           Add
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-stone-200/80">
+      <DialogContent className="bg-stone-200/90">
         <DialogHeader>
           <DialogTitle className="font-serif text-2xl">New user</DialogTitle>
         </DialogHeader>
@@ -56,63 +92,57 @@ export const CreateUser = ({ tenantId }: Props) => {
           onSubmit={handleSubmit(mutate)}
           className="flex flex-col items-center gap-4"
         >
-          <fieldset className="flex flex-col w-full gap-2">
-            <div className="flex flex-col gap-1 w-11/12 mx-auto">
+          <fieldset className="flex flex-col w-11/12 mx-auto gap-2">
+            {fields.map((field) => (
+              <div
+                key={field.value}
+                className="flex flex-col gap-1 [&_svg]:focus-within:text-teal-700"
+              >
+                <Label
+                  htmlFor={field.value}
+                  className="lowercase"
+                  style={{ fontVariant: 'small-caps' }}
+                >
+                  {field.label}
+                </Label>
+                <Input
+                  {...register(field.value, { required: true })}
+                  withIcon
+                  icon={field.icon}
+                  type={field.type}
+                  id={field.value}
+                  placeholder={field.label}
+                  className="w-full border border-transparent outline-none rounded-md py-1 focus:border-teal-700"
+                />
+              </div>
+            ))}
+            <div className="flex flex-col gap-1">
               <Label
-                htmlFor="firstName"
+                htmlFor="role"
                 className="lowercase"
                 style={{ fontVariant: 'small-caps' }}
               >
-                First Name
+                Role
               </Label>
-              <Input
-                {...register('firstName', { required: true })}
-                withIcon
-                icon={<HelpCircle />}
-                type="text"
-                id="firstName"
-                placeholder="First Name"
-                className="w-full border border-transparent outline-none rounded-md py-1 focus:border-teal-700"
-              />
-            </div>
-            <div className="flex flex-col gap-1 w-11/12 mx-auto">
-              <Label
-                htmlFor="lastName"
-                className="lowercase"
-                style={{ fontVariant: 'small-caps' }}
-              >
-                Last Name
-              </Label>
-              <Input
-                {...register('lastName', { required: true })}
-                withIcon
-                icon={<HelpCircle />}
-                type="text"
-                id="lastName"
-                placeholder="Last Name"
-                className="w-full border border-transparent outline-none rounded-md py-1 focus:border-teal-700"
-              />
-            </div>
-            <div className="flex flex-col gap-1 w-11/12 mx-auto">
-              <Label
-                htmlFor="email"
-                className="lowercase"
-                style={{ fontVariant: 'small-caps' }}
-              >
-                Email
-              </Label>
-              <Input
-                {...register('email', { required: true })}
-                withIcon
-                icon={<AtSign />}
-                type="text"
-                id="email"
-                placeholder="Email"
-                className="w-full border border-transparent outline-none rounded-md py-1 focus:border-teal-700"
+              <Controller
+                control={control}
+                name="role"
+                rules={{ required: true }}
+                render={({ field: { onChange } }) => (
+                  <Select onValueChange={onChange} defaultValue="user">
+                    <SelectTrigger className="bg-white focus:border-teal-700 focus:ring-0 data-[state=open]:border-teal-700">
+                      <SelectValue placeholder="Select a role" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-stone-200">
+                      <SelectItem value="user">User</SelectItem>
+                      <SelectItem value="admin">Admin</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
               />
             </div>
           </fieldset>
-          <Button variant={'primaryDark'} type="submit">
+          <Button variant={'primaryDark'} type="submit" disabled={isLoading}>
             Add
           </Button>
         </form>
