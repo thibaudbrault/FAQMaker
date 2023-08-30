@@ -1,7 +1,7 @@
 import { Link, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
 import { useUser } from '@/hooks';
 import { cn } from '@/utils/cn';
-import { LogOut, Settings, User as UserIcon } from 'lucide-react';
+import { LogOut, Settings, UserIcon } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import { CreateQuestion } from '../../question';
 

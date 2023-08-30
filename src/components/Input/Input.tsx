@@ -17,12 +17,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           ref={ref}
-          className={cn('pl-12', className)}
+          className={cn('pl-12 shadow-sm', className)}
           {...props}
         />
       </div>
     ) : (
-      <input type={type} ref={ref} className={className} {...props} />
+      <input
+        type={type}
+        ref={ref}
+        className={cn('shadow-sm', className)}
+        {...props}
+      />
     );
   },
 );
