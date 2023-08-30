@@ -8,6 +8,8 @@ import {
   DialogTrigger,
   Input,
   Label,
+  errorToast,
+  successToast,
 } from '@/components';
 import { createNode } from '@/data';
 import { Question, User } from '@prisma/client';
@@ -25,15 +27,20 @@ export const CreateQuestion = ({ user }: Props) => {
   const { register, handleSubmit, reset, watch } = useForm();
   const queryClient = useQueryClient();
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isLoading, isError, error } = useMutation({
     mutationFn: (values: Question) => createNode(values, user),
-    onSuccess: () => {
+    onSuccess: (data) => {
+      successToast(data.message);
       reset();
       queryClient.invalidateQueries({
         queryKey: ['nodes', user.tenantId],
       });
     },
   });
+
+  if (isError && error instanceof Error) {
+    errorToast(error.message);
+  }
 
   const questionText = watch('text', '');
 
@@ -54,7 +61,7 @@ export const CreateQuestion = ({ user }: Props) => {
           New Question
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-stone-200/80">
+      <DialogContent className="bg-stone-200/90">
         <DialogHeader>
           <DialogTitle className="font-serif">New question</DialogTitle>
         </DialogHeader>

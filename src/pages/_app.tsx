@@ -8,6 +8,7 @@ import {
 import { SessionProvider } from 'next-auth/react';
 import { Crimson_Text } from 'next/font/google';
 import { useState } from 'react';
+import { Toaster } from 'react-hot-toast';
 
 const crimson = Crimson_Text({
   subsets: ['latin'],
@@ -16,12 +17,24 @@ const crimson = Crimson_Text({
 });
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            cacheTime: Infinity,
+            staleTime: Infinity,
+            retry: false,
+          },
+        },
+      }),
+  );
 
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
+          <Toaster />
           <TooltipProvider>
             <div
               className={`relative min-h-screen text-stone-900 ${crimson.variable}`}

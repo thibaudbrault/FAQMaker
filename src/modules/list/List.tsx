@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
   Badge,
+  errorToast,
 } from '@/components';
 
 import { useNodes } from '@/hooks';
@@ -21,7 +22,7 @@ export const List = ({ tenantId }: Props) => {
   }
 
   if (isError && error instanceof Error) {
-    console.error(error.message);
+    errorToast(error.message);
   }
 
   return (
