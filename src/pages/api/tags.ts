@@ -1,42 +1,37 @@
 import { prisma } from 'lib/prisma';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const answerReq = async (req: NextApiRequest, res: NextApiResponse) => {
+const userReq = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     try {
-      if (!req.query) {
-        return res
-          .status(404)
-          .json({ success: false, message: `Node not found` });
-      }
-      const { nodeId } = req.query;
-      const answer = await prisma.answer.findUnique({
-        where: { nodeId: nodeId as string },
-        select: {
-          text: true,
-        },
+      const { tenantId } = req.query;
+      const tags = await prisma.tag.findMany({
+        where: { tenantId: tenantId as string },
       });
-      return res.status(200).json(answer);
+      return res.status(200).json(tags);
     } catch (error) {
-      return res.status(404).json({ error: error.message });
+      res.status(400).end();
     }
   } else if (req.method === 'POST') {
     try {
       if (!req.body) {
         return res
           .status(404)
-          .json({ success: false, message: `Data not provided` });
+          .json({ success: false, message: `Form data not provided` });
       }
-      const { text, nodeId } = req.body;
-      await prisma.answer.create({
+      const { firstName, lastName, email, role, tenantId } = req.body;
+      await prisma.user.create({
         data: {
-          text,
-          node: { connect: { id: nodeId } },
+          firstName,
+          lastName,
+          email,
+          role,
+          tenantId,
         },
       });
-      return res.status(201).json({ message: 'Answer added successfully' });
+      return res.status(201).end();
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      res.status(500).end();
     }
   }
   //   } else if (req.method === "PUT") {
@@ -58,4 +53,4 @@ const answerReq = async (req: NextApiRequest, res: NextApiResponse) => {
   //   }
 };
 
-export default answerReq;
+export default userReq;

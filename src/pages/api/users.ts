@@ -4,18 +4,18 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 const usersReq = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     try {
+      if (!req.query) {
+        return res
+          .status(404)
+          .json({ success: false, message: `Tenant not found` });
+      }
       const { tenantId } = req.query;
       const users = await prisma.user.findMany({
         where: { tenantId: tenantId as string },
       });
-      if (!users) {
-        return res
-          .status(404)
-          .json({ success: false, message: `No users found` });
-      }
       return res.status(200).json(users);
     } catch (error) {
-      res.status(400).end();
+      return res.status(404).json({ error: error.message });
     }
   }
   //   } else if (req.method === "POST") {
