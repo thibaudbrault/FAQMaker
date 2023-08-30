@@ -1,7 +1,7 @@
 import { Button } from '@/components';
 import { useUsers } from '@/hooks';
 import { Card, Flex, Icon, TabPanel, Text, Title } from '@tremor/react';
-import { ShieldAlert, User } from 'lucide-react';
+import { ShieldAlert, UserIcon } from 'lucide-react';
 import { CreateUser } from './Create';
 
 type Props = {
@@ -28,7 +28,7 @@ export const Users = ({ tenantId }: Props) => {
               <Flex justifyContent="start">
                 <Icon
                   size="xl"
-                  icon={user.role === 'User' ? User : ShieldAlert}
+                  icon={user.role === 'User' ? UserIcon : ShieldAlert}
                   color="stone"
                 />
                 <Flex flexDirection="col" alignItems="start">

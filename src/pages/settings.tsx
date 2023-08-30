@@ -1,4 +1,4 @@
-import { General, Layout, Users } from '@/modules';
+import { General, Layout, Tags, Users } from '@/modules';
 import { Tenant, User } from '@prisma/client';
 import { prisma } from 'lib/prisma';
 import { GetServerSidePropsContext } from 'next';
@@ -34,15 +34,22 @@ function Settings({ user }: Props) {
 
   return (
     <Layout email={user.email} company={user.tenant.company}>
-      <section className="flex flex-col items-center p-4">
-        <h2 className="font-serif text-3xl">Settings</h2>
+      <section className="flex flex-col items-center p-4 pb-12">
+        <h2
+          className="font-serif text-3xl lowercase"
+          style={{ fontVariant: 'small-caps' }}
+        >
+          Settings
+        </h2>
         <TabGroup className="mt-6">
           <TabList variant="solid" className="w-full">
             <Tab>General</Tab>
+            <Tab>Tags</Tab>
             <Tab>Users</Tab>
           </TabList>
           <TabPanels>
             <General nodes={nodes} />
+            <Tags />
             <Users tenantId={user.tenantId} />
           </TabPanels>
         </TabGroup>

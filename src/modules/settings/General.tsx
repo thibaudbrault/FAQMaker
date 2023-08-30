@@ -51,6 +51,9 @@ export const General = ({ nodes }: Props) => {
             <Card>
               <div className="h-24" />
             </Card>
+            <Card>
+              <div className="h-24" />
+            </Card>
           </div>
         </Col>
       </Grid>
