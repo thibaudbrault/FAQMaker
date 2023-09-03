@@ -1,4 +1,4 @@
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 import { ReactNode, forwardRef } from 'react';
 
 export interface InputProps

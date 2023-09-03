@@ -1,4 +1,5 @@
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
+import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { ButtonHTMLAttributes, forwardRef } from 'react';
 
@@ -9,40 +10,22 @@ const button = cva('button', {
         'bg-teal-700',
         'text-stone-200',
         'border-transparent',
-        'rounded-md',
         'hover:bg-teal-800',
       ],
       primaryLight: [
         'bg-stone-200',
         'text-teal-700',
         'border-transparent',
-        'rounded-md',
         'hover:bg-stone-300',
       ],
-      secondaryDark: [
+      secondaryDark: ['bg-transparent', 'text-teal-700', 'border-transparent'],
+      secondaryLight: [
         'bg-transparent',
         'text-stone-200',
         'border-transparent',
-        'rounded-md',
       ],
-      secondaryLigh: [
-        'bg-transparent',
-        'text-teal-700',
-        'border-transparent',
-        'rounded-md',
-      ],
-      disabledDark: [
-        'bg-stone-600',
-        'text-stone-200',
-        'border-transparent',
-        'rounded-md',
-      ],
-      disabledLight: [
-        'bg-stone-500',
-        'text-teal-700',
-        'border-transparent',
-        'rounded-md',
-      ],
+      disabledDark: ['bg-stone-600', 'text-stone-200', 'border-transparent'],
+      disabledLight: ['bg-stone-500', 'text-teal-700', 'border-transparent'],
     },
     icon: {
       withIcon: ['flex', 'justify-center', 'items-center', 'gap-4'],
@@ -51,6 +34,10 @@ const button = cva('button', {
       small: ['text-sm'],
       base: ['text-base'],
       large: ['text-lg'],
+    },
+    rounded: {
+      all: ['rounded-md'],
+      bottom: ['rounded-b-md'],
     },
     weight: {
       bold: ['font-bold'],
@@ -64,21 +51,42 @@ const button = cva('button', {
   },
   defaultVariants: {
     font: 'base',
+    rounded: 'all',
     size: 'medium',
   },
 });
 
 export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof button> {}
+    VariantProps<typeof button> {
+  asChild?: boolean;
+}
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, icon, font, weight, size, ...props }, ref) => (
-    <button
-      className={cn(button({ variant, font, icon, weight, size, className }))}
-      ref={ref}
-      {...props}
-    />
-  ),
+  (
+    {
+      className,
+      asChild = false,
+      variant,
+      icon,
+      font,
+      rounded,
+      weight,
+      size,
+      ...props
+    },
+    ref,
+  ) => {
+    const Comp = asChild ? Slot : 'button';
+    return (
+      <Comp
+        className={cn(
+          button({ variant, font, icon, weight, rounded, size, className }),
+        )}
+        ref={ref}
+        {...props}
+      />
+    );
+  },
 );
 Button.displayName = 'Button';

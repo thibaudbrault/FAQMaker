@@ -17,18 +17,7 @@ const crimson = Crimson_Text({
 });
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            cacheTime: Infinity,
-            staleTime: Infinity,
-            retry: false,
-          },
-        },
-      }),
-  );
+  const [queryClient] = useState(() => new QueryClient());
 
   return (
     <SessionProvider session={session}>

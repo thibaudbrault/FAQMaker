@@ -21,31 +21,34 @@ export const Users = ({ tenantId }: Props) => {
 
   return (
     <TabPanel>
-      <Flex flexDirection="col" className="gap-4">
+      <ul className="flex flex-col gap-4">
         {users.map((user) => (
-          <Card key={user.id}>
-            <Flex justifyContent="between">
-              <Flex justifyContent="start">
+          <li
+            key={user.id}
+            className="bg-white border border-stone-200 p-6 rounded-md shadow-sm"
+          >
+            <div className="flex justify-between">
+              <div className="flex justify-start">
                 <Icon
                   size="xl"
-                  icon={user.role === 'User' ? UserIcon : ShieldAlert}
+                  icon={user.role === 'user' ? UserIcon : ShieldAlert}
                   color="stone"
                 />
-                <Flex flexDirection="col" alignItems="start">
-                  <Title>
+                <div className="flex flex-col items-start">
+                  <h2>
                     {user.firstName} {user.lastName}
-                  </Title>
-                  <Text>{user.email}</Text>
-                </Flex>
-              </Flex>
-              <Button variant="primaryDark" size="small">
+                  </h2>
+                  <p>{user.email}</p>
+                </div>
+              </div>
+              <Button variant="primaryDark" size="medium">
                 Modify
               </Button>
-            </Flex>
-          </Card>
+            </div>
+          </li>
         ))}
         <CreateUser tenantId={tenantId} />
-      </Flex>
+      </ul>
     </TabPanel>
   );
 };

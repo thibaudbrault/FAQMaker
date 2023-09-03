@@ -1,63 +1,51 @@
+import { loginUser } from '@/lib';
+import ApiError from '@/lib/server/error';
+import { Routes } from '@/utils';
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import { PrismaClient, User } from '@prisma/client';
+import prisma from 'lib/prisma';
 import NextAuth, { NextAuthOptions } from 'next-auth';
-import { NextApiHandler } from 'next/types';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import bcrypt from 'bcrypt';
-import { prisma } from 'lib/prisma';
-import { LoginValidator } from '@/utils/validators/login';
+import { NextApiHandler } from 'next/types';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
+      id: `credentials`,
       name: `credentials`,
       credentials: {
         email: { label: `email`, type: `email` },
         password: { label: `Password`, type: `password` },
       },
       authorize: async (credentials) => {
-        try {
-          const { email, password } = LoginValidator.parse(credentials);
-          const user = await prisma.user.findUnique({
-            where: { email },
-          });
-          if (!user) {
-            return null;
-          }
-          const isPasswordValid = bcrypt.compare(password, user.password);
-          if (!isPasswordValid) {
-            throw new Error(`Invalid credentials`);
-          }
-          return user;
-        } catch (error) {
-          console.error(`An error occured: `, error);
-          throw error;
-        }
+        if (!credentials) throw new ApiError('Undefined credentials', 400);
+
+        const { user, error } = await loginUser(credentials);
+        if (error) throw error;
+        return user;
       },
     }),
   ],
   pages: {
-    signIn: '/login',
+    signIn: Routes.SITE.LOGIN,
+    error: Routes.SITE.LOGIN,
   },
   callbacks: {
-    session({ session, token }) {
-      session.user.id = token.id;
-      session.user.name = token.username;
-      return session;
-    },
-    jwt({ token, account, user }) {
+    async jwt({ token, account, user }) {
       if (account) {
         token.accessToken = account.access_token;
         token.id = user.id;
-        token.username =
-          (user as User).firstName + '-' + (user as User).lastName;
       }
       return token;
+    },
+    async session({ session, token }) {
+      session.user.id = token.id;
+      return session;
     },
   },
   session: {
     strategy: `jwt`,
+    maxAge: 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

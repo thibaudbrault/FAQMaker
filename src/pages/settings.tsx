@@ -1,42 +1,26 @@
-import { General, Layout, Tags, Users } from '@/modules';
-import { Tenant, User } from '@prisma/client';
-import { prisma } from 'lib/prisma';
-import { GetServerSidePropsContext } from 'next';
-import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]';
-import {
-  Card,
-  Grid,
-  Tab,
-  TabGroup,
-  TabList,
-  TabPanel,
-  TabPanels,
-} from '@tremor/react';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { getNodes } from '@/data';
 import { useNodes } from '@/hooks';
+import { PageLayout } from '@/layouts';
+import { getMe, getNodes, ssrNcHandler } from '@/lib';
+import { General, Tags, Users } from '@/modules';
+import { ClientUser } from '@/types';
+import { QueryKeys, Redirects } from '@/utils';
+import { Tenant, User } from '@prisma/client';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { Tab, TabGroup, TabList, TabPanels } from '@tremor/react';
+import { GetServerSideProps } from 'next';
 
 type Props = {
-  user: User & { tenant: Tenant };
+  me: User & { tenant: Tenant };
 };
 
-function Settings({ user }: Props) {
-  const { data: nodes, isLoading, isError, error } = useNodes(user.tenantId);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError && error instanceof Error) {
-    return <div>Error: {error.message}</div>;
-  }
+function Settings({ me }: Props) {
+  const { data: nodes } = useNodes(me.tenantId);
 
   return (
-    <Layout email={user.email} company={user.tenant.company}>
+    <PageLayout id={me.id} company={me.tenant.company}>
       <section className="flex flex-col items-center p-4 pb-12">
         <h2
-          className="font-serif text-3xl lowercase"
+          className="font-serif text-5xl lowercase"
           style={{ fontVariant: 'small-caps' }}
         >
           Settings
@@ -49,56 +33,35 @@ function Settings({ user }: Props) {
           </TabList>
           <TabPanels>
             <General nodes={nodes} />
-            <Tags tenantId={user.tenantId} />
-            <Users tenantId={user.tenantId} />
+            <Tags tenantId={me.tenantId} />
+            <Users tenantId={me.tenantId} />
           </TabPanels>
         </TabGroup>
       </section>
-    </Layout>
+    </PageLayout>
   );
 }
 
 export default Settings;
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getServerSession(context.req, context.res, authOptions);
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const callbackMe = async () => await getMe({ req });
+  const me = await ssrNcHandler<ClientUser | null>(req, res, callbackMe);
 
-  if (!session) {
-    return {
-      redirect: {
-        destination: `/login`,
-        permanent: false,
-      },
-    };
-  }
+  if (!me) return Redirects.LOGIN;
 
-  const email =
-    typeof session.user?.email === `string` ? session.user?.email : undefined;
-
-  const user = await prisma.user.findUnique({
-    where: { email },
-    include: { tenant: { select: { company: true } } },
-  });
-
-  if (user.role !== 'Admin') {
-    return {
-      redirect: {
-        destination: `/`,
-        permanent: false,
-      },
-    };
-  }
+  if (me.role !== 'admin') return Redirects.HOME;
 
   const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery(['nodes', user.tenantId], () =>
-    getNodes(user.tenantId),
+  await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);
+  await queryClient.prefetchQuery([QueryKeys.NODES, me.tenantId], () =>
+    getNodes(me.tenantId),
   );
 
   return {
     props: {
-      user: JSON.parse(JSON.stringify(user)),
-      dehydratedState: dehydrate(queryClient),
+      me: JSON.parse(JSON.stringify(me)),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   };
-}
+};

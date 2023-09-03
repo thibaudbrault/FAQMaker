@@ -14,11 +14,9 @@ import {
   SelectTrigger,
   SelectValue,
   errorToast,
-  successToast,
 } from '@/components';
-import { createUser } from '@/data';
+import { useCreateUser } from '@/hooks';
 import { User } from '@prisma/client';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AtSign, PlusCircle, UserIcon } from 'lucide-react';
 import { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -53,18 +51,11 @@ export const CreateUser = ({ tenantId }: Props) => {
   );
 
   const { register, handleSubmit, control, reset } = useForm();
-  const queryClient = useQueryClient();
+  const { mutate, isLoading, isError, error } = useCreateUser(tenantId, reset);
 
-  const { mutate, isLoading, isError, error } = useMutation({
-    mutationFn: (values: User) => createUser(values, tenantId),
-    onSuccess: (data) => {
-      successToast(data.message);
-      reset();
-      queryClient.invalidateQueries({
-        queryKey: ['users', tenantId],
-      });
-    },
-  });
+  const onSubmit = (values: User) => {
+    mutate(values);
+  };
 
   if (isError && error instanceof Error) {
     errorToast(error.message);
@@ -89,7 +80,7 @@ export const CreateUser = ({ tenantId }: Props) => {
           <DialogTitle className="font-serif text-2xl">New user</DialogTitle>
         </DialogHeader>
         <form
-          onSubmit={handleSubmit(mutate)}
+          onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col items-center gap-4"
         >
           <fieldset className="flex flex-col w-11/12 mx-auto gap-2">

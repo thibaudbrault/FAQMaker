@@ -4,11 +4,12 @@ import {
   AccordionItem,
   AccordionTrigger,
   Badge,
+  Button,
+  Loader,
   errorToast,
 } from '@/components';
-
 import { useNodes } from '@/hooks';
-import { CreateAnswer } from '../answer';
+import Link from 'next/link';
 
 type Props = {
   tenantId: string;
@@ -18,7 +19,7 @@ export const List = ({ tenantId }: Props) => {
   const { data: nodes, isLoading, isError, error } = useNodes(tenantId);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader size="screen" color="border-teal-700" />;
   }
 
   if (isError && error instanceof Error) {
@@ -36,9 +37,9 @@ export const List = ({ tenantId }: Props) => {
             <AccordionItem
               key={node.id}
               value={node.id.toString()}
-              className="bg-stone-100 border border-teal-700 rounded-md px-6"
+              className="relative bg-stone-100 border border-teal-700 rounded-md"
             >
-              <AccordionTrigger>
+              <AccordionTrigger className="px-6">
                 <div className="flex flex-col items-start gap-4">
                   <h2 className="font-semibold text-2xl">
                     {node.question.text}
@@ -59,19 +60,33 @@ export const List = ({ tenantId }: Props) => {
                   </ul>
                 </div>
               </AccordionTrigger>
-              <AccordionContent>
+              <AccordionContent className="px-6">
                 {node.answer ? (
                   <p>{node.answer.text}</p>
                 ) : (
-                  <div className="flex justify-center">
-                    <CreateAnswer
-                      question={node.question.text}
-                      tenantId={tenantId}
-                      nodeId={node.id}
-                    />
-                  </div>
+                  <p className="text-center italic">No answer</p>
                 )}
               </AccordionContent>
+              <Button
+                variant="secondaryDark"
+                size="full"
+                font="large"
+                weight="bold"
+                rounded="bottom"
+                className="lowercase block text-center border-t border-t-teal-700"
+                style={{ fontVariant: 'small-caps' }}
+                asChild
+              >
+                <Link
+                  href={{
+                    pathname: '/question/[slug]',
+                    query: { slug: node.question.slug, id: node.question.id },
+                  }}
+                  as={`/question/${node.question.slug}`}
+                >
+                  Modify
+                </Link>
+              </Button>
             </AccordionItem>
           ))}
         </Accordion>

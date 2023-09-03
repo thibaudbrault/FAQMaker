@@ -1,5 +1,5 @@
-import { Button, Input, Label } from '@/components';
-import { LoginValidator } from '@/utils/validators/login';
+import { Button, Input, Label, errorToast, successToast } from '@/components';
+import { userLoginSchema } from '@/lib';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -10,10 +10,11 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-type LoginCredentials = z.infer<typeof LoginValidator>;
+type LoginCredentials = z.infer<typeof userLoginSchema>;
 
-function Login() {
+function Login({ providers }) {
   const router = useRouter();
+  const { error } = router.query;
   const [isShown, setIsShown] = useState<boolean>(false);
 
   const {
@@ -21,26 +22,28 @@ function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginCredentials>({
-    resolver: zodResolver(LoginValidator),
+    resolver: zodResolver(userLoginSchema),
   });
 
   const { mutate: loginHandler, isLoading } = useMutation({
     mutationFn: async (values: LoginCredentials) => {
       try {
-        await signIn(`credentials`, { ...values, callbackUrl: `/` });
+        await signIn(`credentials`, {
+          ...values,
+          callbackUrl: `${window.location.origin}/`,
+        });
         await router.push(`/`);
-        // successToast(`You are logged in`);
+        successToast(`You are logged in`);
       } catch (error) {
         if (error instanceof AxiosError) {
-          console.error(error);
-          //   errorToast(error.response?.data.message);
+          errorToast(error.response?.data.message);
         }
       }
     },
   });
 
   return (
-    <main className="bg-gradient-to-br from-lime-50 via-emerald-200 to-teal-700">
+    <main className="h-screen w-full bg-gradient-to-br from-lime-50 via-emerald-200 to-teal-700">
       <section className="flex justify-center absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 w-1/3">
         <div className="bg-green-50 px-8 py-20 rounded-md flex flex-col items-center w-full">
           <h2
@@ -85,16 +88,17 @@ function Login() {
               </div>
             </fieldset>
             <Button
-              variant="primaryDark"
+              variant={isLoading ? 'disabledDark' : 'primaryDark'}
               size="full"
               font="large"
               weight="bold"
               type="submit"
               style={{ fontVariant: 'small-caps' }}
             >
-              submit
+              {isLoading ? 'loading...' : 'submit'}
             </Button>
           </form>
+          {error && <LoginError error={error} />}
         </div>
       </section>
     </main>
@@ -102,3 +106,23 @@ function Login() {
 }
 
 export default Login;
+
+const errors = {
+  Signin: 'Try signing with a different account.',
+  OAuthSignin: 'Try signing with a different account.',
+  OAuthCallback: 'Try signing with a different account.',
+  OAuthCreateAccount: 'Try signing with a different account.',
+  EmailCreateAccount: 'Try signing with a different account.',
+  Callback: 'Try signing with a different account.',
+  OAuthAccountNotLinked:
+    'To confirm your identity, sign in with the same account you used originally.',
+  EmailSignin: 'Check your email address.',
+  CredentialsSignin:
+    'Sign in failed. Check the details you provided are correct.',
+  default: 'Unable to sign in.',
+};
+
+const LoginError = ({ error }) => {
+  const errorMessage = error && (errors[error] ?? errors.default);
+  return <div>{errorMessage}</div>;
+};

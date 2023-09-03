@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  Editor,
   Input,
   Label,
   errorToast,
@@ -16,8 +17,12 @@ import { createAnswer } from '@/data';
 import { Answer } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AlertCircle } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import MDEditor from '@uiw/react-md-editor';
+import rehypeSanitize from 'rehype-sanitize';
+import { useCreateAnswer } from '@/hooks';
+import { MeContext } from '@/contexts';
 
 type Props = {
   nodeId: string;
@@ -30,16 +35,18 @@ export const CreateAnswer = ({ nodeId, question, tenantId }: Props) => {
   const { register, handleSubmit, reset, watch } = useForm();
   const queryClient = useQueryClient();
 
-  const { mutate, isLoading, isError, error } = useMutation({
-    mutationFn: (values: Answer) => createAnswer(values, nodeId),
-    onSuccess: (data) => {
-      successToast(data.message);
-      reset();
-      queryClient.invalidateQueries({
-        queryKey: ['nodes', tenantId],
-      });
-    },
-  });
+  const { me } = useContext(MeContext);
+
+  const { mutate, isLoading, isError, error } = useCreateAnswer(
+    reset,
+    nodeId,
+    me.id,
+    tenantId,
+  );
+
+  const onSubmit = (values: Answer) => {
+    mutate(values);
+  };
 
   if (isError && error instanceof Error) {
     errorToast(error.message);
@@ -50,7 +57,7 @@ export const CreateAnswer = ({ nodeId, question, tenantId }: Props) => {
   useEffect(() => {
     setDisabled(isLoading || answerText.length < 3);
   }, [isLoading, answerText]);
-
+  const [value, setValue] = useState('**Hello world!!!**');
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -67,10 +74,12 @@ export const CreateAnswer = ({ nodeId, question, tenantId }: Props) => {
       <DialogContent className="bg-stone-200/90">
         <DialogHeader>
           <DialogTitle>Answer a question</DialogTitle>
-          <DialogDescription>Question: {question}</DialogDescription>
+          <DialogDescription>
+            Question: <b>{question}</b>
+          </DialogDescription>
         </DialogHeader>
         <form
-          onSubmit={handleSubmit(mutate)}
+          onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col items-center gap-2"
         >
           <div className="flex flex-col gap-1 w-11/12 mx-auto">
@@ -81,15 +90,15 @@ export const CreateAnswer = ({ nodeId, question, tenantId }: Props) => {
             >
               Answer
             </Label>
-            <Input
-              {...register('text', { required: true, min: 3 })}
+            <Editor className="bg-white rounded-md" />
+            {/* <Input
               withIcon
               icon={<AlertCircle />}
               type="text"
               id="answer"
               placeholder="New answer"
               className="w-full border border-transparent outline-none rounded-md py-1 focus:border-teal-700"
-            />
+            /> */}
           </div>
           <Button
             variant={disabled ? 'disabledDark' : 'primaryDark'}

@@ -9,11 +9,9 @@ import {
   Input,
   Label,
   errorToast,
-  successToast,
 } from '@/components';
-import { createNode } from '@/data';
+import { useCreateNode } from '@/hooks';
 import { Question, User } from '@prisma/client';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { HelpCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -25,18 +23,12 @@ type Props = {
 export const CreateQuestion = ({ user }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const { register, handleSubmit, reset, watch } = useForm();
-  const queryClient = useQueryClient();
 
-  const { mutate, isLoading, isError, error } = useMutation({
-    mutationFn: (values: Question) => createNode(values, user),
-    onSuccess: (data) => {
-      successToast(data.message);
-      reset();
-      queryClient.invalidateQueries({
-        queryKey: ['nodes', user.tenantId],
-      });
-    },
-  });
+  const { mutate, isLoading, isError, error } = useCreateNode(user, reset);
+
+  const onSubmit = (values: Question) => {
+    mutate(values);
+  };
 
   if (isError && error instanceof Error) {
     errorToast(error.message);
@@ -66,8 +58,8 @@ export const CreateQuestion = ({ user }: Props) => {
           <DialogTitle>New question</DialogTitle>
         </DialogHeader>
         <form
-          onSubmit={handleSubmit(mutate)}
-          className="flex flex-col items-center gap-2"
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col items-center gap-2 [&_svg]:focus-within:text-teal-700"
         >
           <div className="flex flex-col gap-1 w-11/12 mx-auto">
             <Label

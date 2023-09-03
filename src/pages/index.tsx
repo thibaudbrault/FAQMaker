@@ -1,51 +1,40 @@
-import { Layout, List, Search } from '@/modules';
-import { Tenant } from '@prisma/client';
-import { prisma } from 'lib/prisma';
-import { GetServerSidePropsContext } from 'next';
-import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]';
+import { PageLayout } from '@/layouts';
+import { getMe, ssrNcHandler } from '@/lib';
+import { List, Search } from '@/modules';
+import { ClientUser } from '@/types';
+import { QueryKeys, Redirects } from '@/utils';
+import { Tenant, User } from '@prisma/client';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetServerSideProps } from 'next';
 
 type Props = {
-  email: string;
-  tenant: Tenant;
-  tenantId: string;
+  me: User & { tenant: Tenant };
 };
 
-function Home({ email, tenant, tenantId }: Props) {
+function Home({ me }: Props) {
   return (
-    <main className="bg-stone-200 h-screen">
-      <Layout email={email} company={tenant.company}>
-        <div className="my-12">
-          <Search />
-          <List tenantId={tenantId} />
-        </div>
-      </Layout>
-    </main>
+    <PageLayout id={me.id} company={me.tenant.company}>
+      <Search />
+      <List tenantId={me.tenantId} />
+    </PageLayout>
   );
 }
 
 export default Home;
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getServerSession(context.req, context.res, authOptions);
-  if (!session) {
-    return {
-      redirect: {
-        destination: `/login`,
-        permanent: false,
-      },
-    };
-  }
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const callbackMe = async () => await getMe({ req });
+  const me = await ssrNcHandler<ClientUser | null>(req, res, callbackMe);
 
-  const email =
-    typeof session.user?.email === `string` ? session.user?.email : undefined;
+  if (!me) return Redirects.LOGIN;
 
-  const user = await prisma.user.findUnique({
-    where: { email },
-    include: { tenant: { select: { company: true } } },
-  });
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);
 
   return {
-    props: JSON.parse(JSON.stringify(user)),
+    props: {
+      me: JSON.parse(JSON.stringify(me)),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
   };
-}
+};

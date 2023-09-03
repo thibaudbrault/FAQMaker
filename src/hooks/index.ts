@@ -1,1 +1,1 @@
-export * from './useQueries';
+export * from './queries';

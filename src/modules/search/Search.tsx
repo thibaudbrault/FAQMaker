@@ -12,7 +12,6 @@ export const Search = () => {
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
-    console.log('first');
     if (typeof searchQuery !== 'string') {
       return;
     }

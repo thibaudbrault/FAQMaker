@@ -2,21 +2,17 @@ import {
   Button,
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
   Input,
   Label,
   errorToast,
-  successToast,
 } from '@/components';
-import { createNode, createTag } from '@/data';
-import user from '@/pages/api/user';
-import { Question } from '@prisma/client';
-import { useQueryClient, useMutation } from '@tanstack/react-query';
-import { HelpCircle, Tag as TagIcon } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import { useCreateTag } from '@/hooks';
+import { Tag } from '@prisma/client';
+import { Tag as TagIcon } from 'lucide-react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 type Props = {
@@ -24,20 +20,18 @@ type Props = {
 };
 
 export const CreateTag = ({ tenantId }: Props) => {
-  const [disabled, setDisabled] = useState<boolean>(true);
-  const { register, handleSubmit, reset, watch } = useForm();
-  const queryClient = useQueryClient();
+  const [disabled, setDisabled] = useState<boolean>(false);
+  const { register, handleSubmit, reset } = useForm();
 
-  const { mutate, isLoading, isError, error } = useMutation({
-    mutationFn: (values: Question) => createTag(values, tenantId),
-    onSuccess: (data) => {
-      successToast(data.message);
-      reset();
-      queryClient.invalidateQueries({
-        queryKey: ['tags', tenantId],
-      });
-    },
-  });
+  const { mutate, isLoading, isError, error } = useCreateTag(tenantId, reset);
+
+  const onSubmit = (values: Tag) => {
+    mutate(values);
+  };
+
+  if (isLoading) {
+    setDisabled(true);
+  }
 
   if (isError && error instanceof Error) {
     errorToast(error.message);
@@ -62,7 +56,7 @@ export const CreateTag = ({ tenantId }: Props) => {
           <DialogTitle>New tag</DialogTitle>
         </DialogHeader>
         <form
-          onSubmit={handleSubmit(mutate)}
+          onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col items-center gap-2"
         >
           <div className="flex flex-col gap-1 w-11/12 mx-auto">
@@ -86,18 +80,11 @@ export const CreateTag = ({ tenantId }: Props) => {
           <Button
             variant={disabled ? 'disabledDark' : 'primaryDark'}
             type="submit"
-            disabled={isLoading}
+            disabled={disabled}
           >
             Add
           </Button>
         </form>
-        {/* <DialogFooter className="text-xs justify-start text-center">
-          <p>
-            {disabled
-              ? 'The question must have 3 or more letters'
-              : "You're good to post"}
-          </p>
-        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   );
