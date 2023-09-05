@@ -8,16 +8,18 @@ import {
   Loader,
   errorToast,
 } from '@/components';
-import { useNodes } from '@/hooks';
+import { ExtendedNode } from '@/types';
+import { AxiosError } from 'axios';
 import Link from 'next/link';
 
 type Props = {
-  tenantId: string;
+  nodes: ExtendedNode[];
+  isLoading: boolean;
+  isError: boolean;
+  error: AxiosError;
 };
 
-export const List = ({ tenantId }: Props) => {
-  const { data: nodes, isLoading, isError, error } = useNodes(tenantId);
-
+export const List = ({ nodes, isLoading, isError, error }: Props) => {
   if (isLoading) {
     return <Loader size="screen" color="border-teal-700" />;
   }
@@ -48,7 +50,7 @@ export const List = ({ tenantId }: Props) => {
                     {node.tags.map((tag) => (
                       <li key={tag.id}>
                         <Badge
-                          variant="pill"
+                          variant="primary"
                           rounded="full"
                           size="small"
                           style={{ fontVariant: 'small-caps' }}
@@ -80,9 +82,9 @@ export const List = ({ tenantId }: Props) => {
                 <Link
                   href={{
                     pathname: '/question/[slug]',
-                    query: { slug: node.question.slug, id: node.question.id },
+                    query: { slug: node.question.slug, id: node.id },
                   }}
-                  as={`/question/${node.question.slug}`}
+                  as={`/question/${node.question.slug}?id=${node.id}`}
                 >
                   Modify
                 </Link>
