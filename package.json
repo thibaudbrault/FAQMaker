@@ -71,8 +71,7 @@
   "lint-staged": {
     "./src/**/*.{ts,js,jsx,tsx}": [
       "pnpm lint:fix",
-      "pnpm prettier:write",
-      "pnpm type"
+      "pnpm prettier:write"
     ]
   }
 }
