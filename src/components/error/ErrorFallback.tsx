@@ -37,3 +37,4 @@ export const ErrorFallback = forwardRef<HTMLDivElement, ErrorProps>(
     );
   },
 );
+ErrorFallback.displayName = 'ErrorFallback';

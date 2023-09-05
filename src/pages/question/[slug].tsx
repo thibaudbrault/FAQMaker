@@ -70,7 +70,7 @@ function QuestionPage({ me, id }: Props) {
           />
           <ul>
             {node.tags.map((tag) => (
-              <li>
+              <li key={tag.id}>
                 <Badge variant="primary" rounded="full" size="small">
                   {tag.label}
                 </Badge>

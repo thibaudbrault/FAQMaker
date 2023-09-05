@@ -49,8 +49,9 @@ function Settings({ me }: Props) {
         </h2>
         <Tabs defaultValue="general" className="mt-6 w-full">
           <TabsList className="w-full mb-4">
-            {tabs.map((tab) => (
+            {tabs.map((tab, index) => (
               <TabsTrigger
+                key={index}
                 value={tab.value}
                 className={tabStyle}
                 style={{ fontVariant: 'small-caps' }}
