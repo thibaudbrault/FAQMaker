@@ -1,4 +1,4 @@
-import { ClientUser } from '@/types/global';
+import { ClientUser } from '@/types';
 import { PrismaClient, User } from '@prisma/client';
 
 let prisma: PrismaClient;

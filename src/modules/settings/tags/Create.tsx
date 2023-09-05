@@ -68,7 +68,7 @@ export const CreateTag = ({ tenantId }: Props) => {
               Label
             </Label>
             <Input
-              {...register('label', { required: true, min: 3 })}
+              {...register('label', { required: true })}
               withIcon
               icon={<TagIcon />}
               type="label"

@@ -1,5 +1,6 @@
+import { useNodes } from '@/hooks';
 import { PageLayout } from '@/layouts';
-import { getMe, ssrNcHandler } from '@/lib';
+import { getMe, getNodes, ssrNcHandler } from '@/lib';
 import { List, Search } from '@/modules';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
@@ -12,10 +13,16 @@ type Props = {
 };
 
 function Home({ me }: Props) {
+  const { data: nodes, isLoading, isError, error } = useNodes(me.tenantId);
   return (
     <PageLayout id={me.id} company={me.tenant.company}>
       <Search />
-      <List tenantId={me.tenantId} />
+      <List
+        nodes={nodes}
+        isLoading={isLoading}
+        isError={isError}
+        error={error}
+      />
     </PageLayout>
   );
 }
@@ -30,6 +37,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);
+  await queryClient.prefetchQuery([QueryKeys.NODES, me.tenantId], () =>
+    getNodes(me.tenantId),
+  );
 
   return {
     props: {
