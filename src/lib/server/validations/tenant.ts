@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 export const tenantGetSchema = z.object({
-  id: z.string().cuid(),
-  createdAt: z.date(),
+  id: z.string().uuid(),
+  createdAt: z.string().datetime(),
   firstName: z.string(),
   lastName: z.string(),
   email: z.string(),

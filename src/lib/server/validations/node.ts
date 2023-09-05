@@ -6,15 +6,15 @@ import { answerGetSchema } from './answer';
 import { questionGetSchema } from './question';
 
 export const nodeGetSchema = z.object({
-  id: z.string().cuid(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  id: z.string().uuid(),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
   question: questionGetSchema,
-  questionId: z.string().cuid(),
+  questionId: z.string().uuid(),
   answer: answerGetSchema.optional(),
   tags: z.array(tagGetSchema),
   user: userGetSchema,
-  userId: z.string().cuid(),
+  userId: z.string().uuid(),
   tenant: tenantGetSchema,
-  tenantId: z.string().cuid(),
+  tenantId: z.string().uuid(),
 });

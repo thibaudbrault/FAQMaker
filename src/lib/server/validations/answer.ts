@@ -2,12 +2,12 @@ import { z } from 'zod';
 import { sourceGetSchema } from './source';
 
 export const answerGetSchema = z.object({
-  id: z.string().cuid(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  id: z.string().uuid(),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
   text: z.string(),
   sources: z.array(sourceGetSchema),
-  nodeId: z.string().cuid(),
+  nodeId: z.string().uuid(),
 });
 
 export const answerCreateSchema = z.object({
