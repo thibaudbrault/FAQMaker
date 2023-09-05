@@ -6,13 +6,14 @@ import { forwardRef, HTMLAttributes } from 'react';
 const badge = cva('badge', {
   variants: {
     variant: {
-      pill: ['bg-teal-700', 'text-stone-200', 'rounded-full'],
+      primary: ['bg-teal-700', 'text-stone-200'],
+      disabled: ['bg-stone-600', 'text-stone-200'],
     },
     rounded: {
       full: ['rounded-full'],
     },
     size: {
-      small: ['px-2'],
+      small: ['px-2 py-1'],
     },
   },
 });

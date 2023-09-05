@@ -14,9 +14,9 @@ export const PageLayout = ({ children, id, company }: Props) => {
     <ErrorBoundaryWrapper errorFallbackType="screen">
       <SuspenseWrapper loaderType="screen">
         <MeProvider>
-          <main className="bg-stone-200 h-screen">
+          <main className="flex flex-col bg-stone-200 min-h-screen h-full">
             <Header id={id} company={company} />
-            <div className="my-12">{children}</div>
+            <div className="my-12 flex-grow">{children}</div>
             <Footer />
           </main>
         </MeProvider>

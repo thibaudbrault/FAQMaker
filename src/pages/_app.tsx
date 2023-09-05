@@ -26,7 +26,7 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
           <Toaster />
           <TooltipProvider>
             <div
-              className={`relative min-h-screen text-stone-900 ${crimson.variable}`}
+              className={`relative h-full min-h-screen text-stone-900 ${crimson.variable}`}
             >
               <Component {...pageProps} />
             </div>

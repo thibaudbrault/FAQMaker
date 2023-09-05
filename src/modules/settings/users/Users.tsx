@@ -1,6 +1,6 @@
-import { Button } from '@/components';
+import { Button, Loader } from '@/components';
 import { useUsers } from '@/hooks';
-import { Card, Flex, Icon, TabPanel, Text, Title } from '@tremor/react';
+import { Icon } from '@tremor/react';
 import { ShieldAlert, UserIcon } from 'lucide-react';
 import { CreateUser } from './Create';
 
@@ -12,15 +12,17 @@ export const Users = ({ tenantId }: Props) => {
   const { data: users, isLoading, isError, error } = useUsers(tenantId);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader size="page" />;
   }
 
   if (isError && error instanceof Error) {
     return <div>Error: {error.message}</div>;
   }
 
+  const iconStyle = 'w-9 h-9 m-3 inline-flex flex-shrink-0 items-center';
+
   return (
-    <TabPanel>
+    <section>
       <ul className="flex flex-col gap-4">
         {users.map((user) => (
           <li
@@ -29,11 +31,11 @@ export const Users = ({ tenantId }: Props) => {
           >
             <div className="flex justify-between">
               <div className="flex justify-start">
-                <Icon
-                  size="xl"
-                  icon={user.role === 'user' ? UserIcon : ShieldAlert}
-                  color="stone"
-                />
+                {user.role === 'user' ? (
+                  <UserIcon className={iconStyle} />
+                ) : (
+                  <ShieldAlert className={iconStyle} />
+                )}
                 <div className="flex flex-col items-start">
                   <h2>
                     {user.firstName} {user.lastName}
@@ -49,6 +51,6 @@ export const Users = ({ tenantId }: Props) => {
         ))}
         <CreateUser tenantId={tenantId} />
       </ul>
-    </TabPanel>
+    </section>
   );
 };

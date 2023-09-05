@@ -36,8 +36,9 @@ const button = cva('button', {
       large: ['text-lg'],
     },
     rounded: {
-      all: ['rounded-md'],
+      base: ['rounded-md'],
       bottom: ['rounded-b-md'],
+      full: ['rounded-full'],
     },
     weight: {
       bold: ['font-bold'],
@@ -51,7 +52,7 @@ const button = cva('button', {
   },
   defaultVariants: {
     font: 'base',
-    rounded: 'all',
+    rounded: 'base',
     size: 'medium',
   },
 });

@@ -1,8 +1,6 @@
 import { errorToast } from '@/components';
-import { TabPanel } from '@tremor/react';
-import React from 'react';
-import { CreateTag } from './Create';
 import { useTags } from '@/hooks';
+import { CreateTag } from './Create';
 
 type Props = {
   tenantId: string;
@@ -10,7 +8,6 @@ type Props = {
 
 export const Tags = ({ tenantId }: Props) => {
   const { data: tags, isLoading, isError, error } = useTags(tenantId);
-  console.log('🚀 ~ file: Tags.tsx:13 ~ Tags ~ tags:', tags);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -21,16 +18,21 @@ export const Tags = ({ tenantId }: Props) => {
   }
 
   return (
-    <TabPanel>
+    <section>
       <h3 className="text-2xl lowercase" style={{ fontVariant: 'small-caps' }}>
         Tags created
       </h3>
       {tags.length > 0 ? (
-        <ul>
+        <ul className="my-6 flex flex-wrap gap-4">
           {tags.map((tag) => (
-            <li>
-              <p>{tag.label}</p>
-              <button>x</button>
+            <li
+              key={tag.id}
+              className="flex items-center bg-teal-700 text-stone-200 w-fit rounded-md gap-2"
+            >
+              <p className="px-2">{tag.label}</p>
+              <button className="flex items-center font-semibold bg-stone-200 border border-teal-700 text-teal-700 rounded-r-md px-2">
+                x
+              </button>
             </li>
           ))}
         </ul>
@@ -38,6 +40,6 @@ export const Tags = ({ tenantId }: Props) => {
         <p className="text-center italic my-6">No tags</p>
       )}
       <CreateTag tenantId={tenantId} />
-    </TabPanel>
+    </section>
   );
 };
