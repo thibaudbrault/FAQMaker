@@ -1,5 +1,5 @@
 import { successToast } from '@/components';
-import { Routes } from '@/utils';
+import { QueryKeys, Routes } from '@/utils';
 import { Tag } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
@@ -22,7 +22,7 @@ export const useCreateTag = (tenantId: string, reset: () => void) => {
       successToast('Tag created');
       reset();
       queryClient.invalidateQueries({
-        queryKey: ['tags', tenantId],
+        queryKey: [QueryKeys.TAGS, tenantId],
       });
     },
   });

@@ -1,7 +1,10 @@
 import prisma from 'lib/prisma';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const userReq = async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method === 'GET') {
     try {
       if (!req.query) {
@@ -65,6 +68,4 @@ const userReq = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(500).json({ error: error.message });
     }
   }
-};
-
-export default userReq;
+}

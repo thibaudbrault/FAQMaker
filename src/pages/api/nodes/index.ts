@@ -76,12 +76,15 @@ export default async function handler(
           error: { message: 'Invalid request', errors },
         });
       } else {
-        const { text, slug, tenantId, userId } = result.data;
+        const { text, slug, tenantId, userId, tags } = result.data;
         await prisma.node.create({
           data: {
             tenant: { connect: { id: tenantId } },
             question: {
               create: { text, slug, user: { connect: { id: userId } } },
+            },
+            tags: {
+              connect: tags.map((tag) => ({ id: tag })),
             },
           },
         });
