@@ -11,3 +11,4 @@ export * from './toast';
 export * from './editor';
 export * from './loader';
 export * from './error';
+export * from './tabs';
