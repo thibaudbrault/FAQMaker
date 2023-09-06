@@ -6,7 +6,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
-import { Crimson_Text } from 'next/font/google';
+import { Crimson_Text, Inter } from 'next/font/google';
 import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 
@@ -14,6 +14,11 @@ const crimson = Crimson_Text({
   subsets: ['latin'],
   weight: '400',
   variable: '--font-crimson',
+});
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+  variable: '--font-inter',
 });
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
@@ -26,7 +31,7 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
           <Toaster />
           <TooltipProvider>
             <div
-              className={`relative h-full min-h-screen text-stone-900 ${crimson.variable}`}
+              className={`relative h-full min-h-screen text-stone-900 ${crimson.variable} ${inter.variable}`}
             >
               <Component {...pageProps} />
             </div>
