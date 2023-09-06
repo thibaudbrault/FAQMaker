@@ -1,4 +1,20 @@
-import type { CodeBlockEditorDescriptor } from '@mdxeditor/editor';
+import {
+  InsertImage,
+  type CodeBlockEditorDescriptor,
+  InsertAdmonition,
+  imagePlugin,
+  BlockTypeSelect,
+  Separator,
+  ListsToggle,
+  InsertTable,
+  InsertThematicBreak,
+  tablePlugin,
+  thematicBreakPlugin,
+  directivesPlugin,
+  AdmonitionDirectiveDescriptor,
+  CodeToggle,
+  InsertCodeBlock,
+} from '@mdxeditor/editor';
 import '@mdxeditor/editor/style.css';
 const {
   MDXEditor,
@@ -43,7 +59,7 @@ export const Editor = ({ className }: Props) => {
     <MDXEditor
       className={className}
       onChange={console.log}
-      markdown={'Hello world!'}
+      markdown={''}
       plugins={[
         codeBlockPlugin({
           codeBlockEditorDescriptors: [PlainTextCodeEditorDescriptor],
@@ -51,19 +67,38 @@ export const Editor = ({ className }: Props) => {
         toolbarPlugin({
           toolbarContents: () => (
             <>
-              {' '}
               <UndoRedo />
+              <Separator />
               <BoldItalicUnderlineToggles />
+              <CodeToggle />
+              <InsertCodeBlock />
+              <Separator />
+              <ListsToggle />
+              <Separator />
+              <BlockTypeSelect />
+              <Separator />
               <CreateLink />
+              <InsertImage />
+              <Separator />
+              <InsertTable />
+              <InsertThematicBreak />
+              <Separator />
+              <InsertAdmonition />
             </>
           ),
         }),
         headingsPlugin(),
         listsPlugin(),
         linkPlugin(),
+        imagePlugin(),
         linkDialogPlugin(),
         quotePlugin(),
+        tablePlugin(),
+        thematicBreakPlugin(),
         markdownShortcutPlugin(),
+        directivesPlugin({
+          directiveDescriptors: [AdmonitionDirectiveDescriptor],
+        }),
       ]}
     />
   );

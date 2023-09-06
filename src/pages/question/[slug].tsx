@@ -19,6 +19,7 @@ type Props = {
 
 function QuestionPage({ me, id }: Props) {
   const [isEditingQuestion, setIsEditingQuestion] = useState<boolean>(false);
+  const [isEditingAnswer, setIsEditingAnswer] = useState<boolean>(false);
 
   const {
     data: node,
@@ -78,7 +79,11 @@ function QuestionPage({ me, id }: Props) {
             ))}
           </ul>
           <hr className="my-6 border-teal-700" />
-          <EditAnswer answer={node.answer} />
+          <EditAnswer
+            answer={node.answer}
+            isEditingAnswer={isEditingAnswer}
+            setIsEditingAnswer={setIsEditingAnswer}
+          />
           <hr className="my-6 border-teal-700" />
           <div className="flex justify-between">
             <div className="text-xs">
