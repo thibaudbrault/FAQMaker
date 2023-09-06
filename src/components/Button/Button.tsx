@@ -18,11 +18,15 @@ const button = cva('button', {
         'border-transparent',
         'hover:bg-stone-300',
       ],
-      secondaryDark: ['bg-transparent', 'text-teal-700', 'border-transparent'],
+      secondaryDark: [
+        'bg-transparent',
+        'text-teal-700',
+        'border border-teal-700',
+      ],
       secondaryLight: [
         'bg-transparent',
         'text-stone-200',
-        'border-transparent',
+        'border border-teal-700',
       ],
       disabledDark: ['bg-stone-600', 'text-stone-200', 'border-transparent'],
       disabledLight: ['bg-stone-500', 'text-teal-700', 'border-transparent'],
