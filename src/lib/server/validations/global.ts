@@ -7,3 +7,7 @@ export const getTenantIdSchema = z.object({
 export const getNodeIdSchema = z.object({
   nodeId: z.string(),
 });
+
+export const getUserIdSchema = z.object({
+  userId: z.string(),
+});

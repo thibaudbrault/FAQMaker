@@ -9,7 +9,8 @@ export const Routes = {
   API: {
     USERS: '/api/users',
     NODES: '/api/nodes',
-    ANSWER: '/api/answer',
+    ANSWERS: '/api/answers',
+    QUESTIONS: '/api/questions',
     TAGS: '/api/tags',
   },
 } as const;
