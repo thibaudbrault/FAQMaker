@@ -103,7 +103,7 @@ export const CreateUser = ({ tenantId }: Props) => {
                   type={field.type}
                   id={field.value}
                   placeholder={field.label}
-                  className="w-full border border-transparent outline-none rounded-md py-1 focus:border-teal-700"
+                  className="w-full border border-transparent outline-none rounded-md p-1 focus:border-teal-700"
                 />
               </div>
             ))}
