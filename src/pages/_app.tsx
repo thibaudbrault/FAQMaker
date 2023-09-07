@@ -22,7 +22,18 @@ const inter = Inter({
 });
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            cacheTime: Infinity,
+            staleTime: Infinity,
+            retry: false,
+          },
+        },
+      }),
+  );
 
   return (
     <SessionProvider session={session}>
