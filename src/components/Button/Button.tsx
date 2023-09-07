@@ -21,15 +21,15 @@ const button = cva('button', {
       secondaryDark: [
         'bg-transparent',
         'text-teal-700',
-        'border border-teal-700',
+        'border',
+        'border-transparent',
       ],
-      secondaryLight: [
-        'bg-transparent',
-        'text-stone-200',
-        'border border-teal-700',
-      ],
+      secondaryLight: ['bg-transparent', 'text-stone-200', 'border'],
       disabledDark: ['bg-stone-600', 'text-stone-200', 'border-transparent'],
       disabledLight: ['bg-stone-500', 'text-teal-700', 'border-transparent'],
+    },
+    border: {
+      primary: ['border-teal-700'],
     },
     icon: {
       withIcon: ['flex', 'justify-center', 'items-center', 'gap-4'],
@@ -73,6 +73,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       asChild = false,
       variant,
+      border,
       icon,
       font,
       rounded,
@@ -86,7 +87,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp
         className={cn(
-          button({ variant, font, icon, weight, rounded, size, className }),
+          button({
+            variant,
+            border,
+            font,
+            icon,
+            weight,
+            rounded,
+            size,
+            className,
+          }),
         )}
         ref={ref}
         {...props}

@@ -17,7 +17,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           ref={ref}
-          className={cn('pl-12 shadow-sm', className)}
+          className={cn('!pl-12 shadow-sm', className)}
           {...props}
         />
       </div>
