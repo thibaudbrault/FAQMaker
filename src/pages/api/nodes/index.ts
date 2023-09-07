@@ -1,4 +1,5 @@
 import { getTenantIdSchema, questionCreateSchema } from '@/lib';
+import { nodeModel } from '@/utils';
 import prisma from 'lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -24,37 +25,7 @@ export default async function handler(
         const { tenantId } = result.data;
         const nodes = await prisma.node.findMany({
           where: { tenantId: tenantId as string },
-          include: {
-            question: {
-              select: {
-                id: true,
-                text: true,
-                slug: true,
-                user: {
-                  select: {
-                    firstName: true,
-                    lastName: true,
-                  },
-                },
-              },
-            },
-            answer: {
-              select: {
-                text: true,
-                user: {
-                  select: {
-                    firstName: true,
-                    lastName: true,
-                  },
-                },
-              },
-            },
-            tags: {
-              select: {
-                label: true,
-              },
-            },
-          },
+          include: nodeModel,
         });
         return res.status(200).json(nodes);
       }

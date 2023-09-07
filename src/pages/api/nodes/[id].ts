@@ -1,3 +1,4 @@
+import { nodeModel } from '@/utils';
 import prisma from 'lib/prisma';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -15,42 +16,7 @@ export default async function handler(
       const { tenantId, id } = req.query;
       const node = await prisma.node.findUnique({
         where: { id: id as string, tenantId: tenantId as string },
-        include: {
-          question: {
-            select: {
-              id: true,
-              createdAt: true,
-              updatedAt: true,
-              text: true,
-              user: {
-                select: {
-                  firstName: true,
-                  lastName: true,
-                },
-              },
-            },
-          },
-          answer: {
-            select: {
-              id: true,
-              createdAt: true,
-              updatedAt: true,
-              text: true,
-              user: {
-                select: {
-                  firstName: true,
-                  lastName: true,
-                },
-              },
-            },
-          },
-          tags: {
-            select: {
-              id: true,
-              label: true,
-            },
-          },
-        },
+        include: nodeModel,
       });
       return res.status(200).json(node);
     } catch (error) {
@@ -90,7 +56,6 @@ export default async function handler(
               data: {
                 text: text as string,
                 slug: slug as string,
-                user: { connect: { id: userId as string } },
               },
             },
           },
