@@ -2,12 +2,12 @@ import { Badge, Button, Loader, errorToast } from '@/components';
 import { useNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNode, ssrNcHandler } from '@/lib';
-import { EditAnswer, EditQuestion } from '@/modules';
+import { EditAnswer } from '@/modules';
 import { ClientUser } from '@/types';
-import { QueryKeys, Redirects } from '@/utils';
+import { QueryKeys, Redirects, dateOptions } from '@/utils';
 import { Tenant, User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { MoveLeft, PenSquare } from 'lucide-react';
+import { MoveLeft } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -18,7 +18,6 @@ type Props = {
 };
 
 function QuestionPage({ me, id }: Props) {
-  const [isEditingQuestion, setIsEditingQuestion] = useState<boolean>(false);
   const [isEditingAnswer, setIsEditingAnswer] = useState<boolean>(false);
 
   const {
@@ -27,12 +26,6 @@ function QuestionPage({ me, id }: Props) {
     isError,
     error,
   } = useNode(me.tenantId, id as string);
-
-  const dateOptions: Intl.DateTimeFormatOptions = {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  };
 
   if (isLoading) {
     return <Loader size="screen" />;
@@ -61,14 +54,20 @@ function QuestionPage({ me, id }: Props) {
           </Link>
         </Button>
         <div className="bg-stone-100 rounded-md p-4">
-          <EditQuestion
-            isEditingQuestion={isEditingQuestion}
-            setIsEditingQuestion={setIsEditingQuestion}
-            node={node}
-            id={id}
-            tenantId={me.tenantId}
-            userId={me.id}
-          />
+          <div className="flex justify-between items-end">
+            <h2 className="text-2xl font-semibold">{node.question.text}</h2>
+            <Button variant="primaryDark" asChild>
+              <Link
+                href={{
+                  pathname: '/question/edit',
+                  query: { id: node.id },
+                }}
+                as={`/question/edit?id=${node.id}`}
+              >
+                Edit
+              </Link>
+            </Button>
+          </div>
           <ul>
             {node.tags.map((tag) => (
               <li key={tag.id}>
@@ -154,7 +153,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   res,
   query,
 }) => {
-  const { slug, id } = query;
+  const { id } = query;
   const callbackMe = async () => await getMe({ req });
   const me = await ssrNcHandler<ClientUser | null>(req, res, callbackMe);
 
