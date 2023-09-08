@@ -1,7 +1,10 @@
-import { Input, Label } from '@/components';
+import { FormEvent, useState } from 'react';
+
 import { SearchIcon } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+
+import { Input, Label } from '@/components';
+
 
 export const Search = () => {
   const search = useSearchParams();

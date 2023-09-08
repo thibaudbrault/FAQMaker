@@ -1,7 +1,9 @@
-import { Button, Loader } from '@/components';
-import { useUsers } from '@/hooks';
 import { Icon } from '@tremor/react';
 import { ShieldAlert, UserIcon } from 'lucide-react';
+
+import { Button, Loader } from '@/components';
+import { useUsers } from '@/hooks';
+
 import { CreateUser } from './Create';
 
 type Props = {

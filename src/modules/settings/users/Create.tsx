@@ -1,3 +1,9 @@
+import { useMemo } from 'react';
+
+import { User } from '@prisma/client';
+import { AtSign, PlusCircle, UserIcon } from 'lucide-react';
+import { Controller, useForm } from 'react-hook-form';
+
 import {
   Button,
   Dialog,
@@ -16,10 +22,8 @@ import {
   errorToast,
 } from '@/components';
 import { useCreateUser } from '@/hooks';
-import { User } from '@prisma/client';
-import { AtSign, PlusCircle, UserIcon } from 'lucide-react';
-import { useMemo } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+
+
 
 type Props = {
   tenantId: string;

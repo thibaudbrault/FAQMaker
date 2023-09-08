@@ -1,7 +1,10 @@
-import { cn } from '@/utils';
+import { forwardRef, ReactNode } from 'react';
+
 import { cva, type VariantProps } from 'class-variance-authority';
 import NextLink, { LinkProps } from 'next/link';
-import { forwardRef, ReactNode } from 'react';
+
+import { cn } from '@/utils';
+
 
 const link = cva('link', {
   variants: {

@@ -1,7 +1,8 @@
-import { QueryKeys, Routes } from '@/utils';
 import { Question } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
+
+import { QueryKeys, Routes } from '@/utils';
 
 const getUserQuestions = async (userId: string) => {
   const { data } = await axios.get(Routes.API.QUESTIONS, {

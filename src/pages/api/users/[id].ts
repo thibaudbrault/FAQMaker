@@ -1,4 +1,5 @@
-import prisma from 'lib/prisma';
+import prisma, { excludeFromUser } from 'lib/prisma';
+
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -16,7 +17,8 @@ export default async function handler(
       const user = await prisma.user.findUnique({
         where: { id: id as string },
       });
-      return res.status(200).json(user);
+      const userWithoutPassword = excludeFromUser(user);
+      return res.status(200).json(userWithoutPassword);
     } catch (error) {
       return res.status(404).json({ error: error.message });
     }

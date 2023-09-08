@@ -1,6 +1,7 @@
+import { GetSessionParams, getSession } from 'next-auth/react';
+
 import { ClientUser } from '@/types';
 import prisma, { excludeFromUser } from 'lib/prisma';
-import { GetSessionParams, getSession } from 'next-auth/react';
 
 export const getMe = async (
   params: GetSessionParams,

@@ -1,3 +1,6 @@
+import { AxiosError } from 'axios';
+import Link from 'next/link';
+
 import {
   Accordion,
   AccordionContent,
@@ -9,8 +12,6 @@ import {
   errorToast,
 } from '@/components';
 import { ExtendedNode } from '@/types';
-import { AxiosError } from 'axios';
-import Link from 'next/link';
 
 type Props = {
   nodes: ExtendedNode[];

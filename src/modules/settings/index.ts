@@ -1,3 +1,3 @@
 export * from './users';
-export * from './General';
+export * from './general';
 export * from './tags';

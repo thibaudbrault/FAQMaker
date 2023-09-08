@@ -1,9 +1,14 @@
 import { User } from '@prisma/client';
 import bcrypt from 'bcrypt';
-import ApiError from '../error';
-import prisma from 'lib/prisma';
-import { userLoginSchema } from '../validations/user';
+import slugify from 'slugify';
+
 import { UserLogin } from '@/types';
+import prisma from 'lib/prisma';
+
+import ApiError from '../error';
+import { userLoginSchema } from '../validations/user';
+
+
 
 export const loginUser = async ({
   email,
@@ -22,13 +27,15 @@ export const loginUser = async ({
   }
 
   const user = await prisma.user.findUnique({
-    where: { email },
+    where: { email, password },
   });
+
+  const errorMessage = slugify('User not found');
 
   if (!user) {
     return {
       user: null,
-      error: new ApiError(`User with email: ${email} does not exist.`, 404),
+      error: new ApiError(errorMessage, 404),
     };
   }
 

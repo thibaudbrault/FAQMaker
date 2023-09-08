@@ -1,7 +1,10 @@
-import { Button, Editor } from '@/components';
+import { Dispatch, SetStateAction } from 'react';
+
 import { Answer } from '@prisma/client';
 import { PenSquare } from 'lucide-react';
-import { Dispatch, SetStateAction } from 'react';
+
+import { Button, Editor } from '@/components';
+
 
 type Props = {
   answer: Answer;

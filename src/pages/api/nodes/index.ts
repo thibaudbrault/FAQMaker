@@ -1,7 +1,8 @@
-import { getTenantIdSchema, questionCreateSchema } from '@/lib';
+import { NextApiRequest, NextApiResponse } from 'next';
+
+import { getIdSchemaFn, questionCreateSchema } from '@/lib';
 import { nodeModel } from '@/utils';
 import prisma from 'lib/prisma';
-import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,6 +15,7 @@ export default async function handler(
           .status(404)
           .json({ success: false, message: `Tenant not found` });
       }
+      const getTenantIdSchema = getIdSchemaFn('tenantId');
       const result = getTenantIdSchema.safeParse(req.query);
       if (result.success === false) {
         const { errors } = result.error;

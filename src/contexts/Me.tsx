@@ -1,6 +1,7 @@
+import { ReactNode, createContext } from 'react';
+
 import { useMe } from '@/hooks';
 import { ClientUser } from '@/types';
-import { ReactNode, createContext } from 'react';
 
 type ContextProps = {
   me: ClientUser | null;

@@ -1,12 +1,15 @@
-import { Button, Input } from '@/components';
-import { Tenant, User } from '@prisma/client';
+import { useMemo } from 'react';
+
+import { Tenant } from '@prisma/client';
 import { Label } from '@radix-ui/react-label';
 import { AtSign, Lock, UserIcon } from 'lucide-react';
-import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { Button, Input } from '@/components';
+import { ClientUser } from '@/types';
+
 type Props = {
-  me: User & { tenant: Tenant };
+  me: ClientUser & { tenant: Tenant };
 };
 
 export const UpdateProfile = ({ me }: Props) => {
@@ -60,6 +63,7 @@ export const UpdateProfile = ({ me }: Props) => {
               </Label>
               <Input
                 {...register(field.value, { required: true })}
+                defaultValue={me[field.value]}
                 withIcon
                 icon={field.icon}
                 type={field.type}

@@ -1,15 +1,16 @@
+import { Tenant } from '@prisma/client';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetServerSideProps } from 'next';
+
 import { useNodes } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNodes, ssrNcHandler } from '@/lib';
 import { List, Search } from '@/modules';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
-import { Tenant, User } from '@prisma/client';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { GetServerSideProps } from 'next';
 
 type Props = {
-  me: User & { tenant: Tenant };
+  me: ClientUser & { tenant: Tenant };
 };
 
 function Home({ me }: Props) {

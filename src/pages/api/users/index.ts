@@ -1,5 +1,6 @@
-import { getTenantIdSchema } from '@/lib';
+import { getIdSchemaFn } from '@/lib';
 import prisma from 'lib/prisma';
+
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -13,6 +14,7 @@ export default async function handler(
           .status(404)
           .json({ success: false, message: `Tenant not found` });
       }
+      const getTenantIdSchema = getIdSchemaFn('tenantId');
       const result = getTenantIdSchema.safeParse(req.query);
       if (result.success === false) {
         const { errors } = result.error;

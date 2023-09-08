@@ -1,3 +1,11 @@
+import { useState } from 'react';
+
+import { Tenant } from '@prisma/client';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { MoveLeft } from 'lucide-react';
+import { GetServerSideProps } from 'next';
+import Link from 'next/link';
+
 import { Badge, Button, Loader, errorToast } from '@/components';
 import { useNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
@@ -5,15 +13,10 @@ import { getMe, getNode, ssrNcHandler } from '@/lib';
 import { EditAnswer } from '@/modules';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects, dateOptions } from '@/utils';
-import { Tenant, User } from '@prisma/client';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { MoveLeft } from 'lucide-react';
-import { GetServerSideProps } from 'next';
-import Link from 'next/link';
-import { useState } from 'react';
+
 
 type Props = {
-  me: User & { tenant: Tenant };
+  me: ClientUser & { tenant: Tenant };
   id: string;
 };
 

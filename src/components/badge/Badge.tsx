@@ -1,7 +1,8 @@
+import { forwardRef, HTMLAttributes } from 'react';
+
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/utils';
-import { forwardRef, HTMLAttributes } from 'react';
 
 const badge = cva('badge', {
   variants: {

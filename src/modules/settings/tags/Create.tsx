@@ -1,3 +1,9 @@
+import { useState } from 'react';
+
+import { Tag } from '@prisma/client';
+import { Tag as TagIcon } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+
 import {
   Button,
   Dialog,
@@ -10,10 +16,8 @@ import {
   errorToast,
 } from '@/components';
 import { useCreateTag } from '@/hooks';
-import { Tag } from '@prisma/client';
-import { Tag as TagIcon } from 'lucide-react';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+
+
 
 type Props = {
   tenantId: string;

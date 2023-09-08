@@ -1,5 +1,6 @@
-import { Loader, LoaderProps } from '@/components';
 import { ReactNode, Suspense } from 'react';
+
+import { Loader, LoaderProps } from '@/components';
 
 type Props = {
   children: ReactNode;

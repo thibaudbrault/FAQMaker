@@ -1,14 +1,17 @@
-import { TooltipProvider } from '@/components';
 import '@/styles/globals.css';
+import { useState } from 'react';
+
+
 import {
   Hydrate,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import { SessionProvider } from 'next-auth/react';
 import { Crimson_Text, Inter } from 'next/font/google';
-import { useState } from 'react';
+import { SessionProvider } from 'next-auth/react';
 import { Toaster } from 'react-hot-toast';
+
+import { TooltipProvider } from '@/components';
 
 const crimson = Crimson_Text({
   subsets: ['latin'],

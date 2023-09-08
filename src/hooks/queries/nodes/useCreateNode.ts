@@ -1,9 +1,10 @@
-import { successToast } from '@/components';
-import { Routes } from '@/utils';
 import { Question, User } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import slugify from 'slugify';
+
+import { successToast } from '@/components';
+import { Routes } from '@/utils';
 
 const createNode = async (
   values: Question,

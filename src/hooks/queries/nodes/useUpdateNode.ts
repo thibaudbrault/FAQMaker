@@ -1,9 +1,10 @@
-import { successToast } from '@/components';
-import { QueryKeys, Routes } from '@/utils';
 import { Question } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import slugify from 'slugify';
+
+import { successToast } from '@/components';
+import { QueryKeys, Routes } from '@/utils';
 
 const updateNode = async (
   values: Question,

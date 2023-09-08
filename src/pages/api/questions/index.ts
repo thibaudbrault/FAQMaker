@@ -1,6 +1,7 @@
-import { getUserIdSchema } from '@/lib';
-import prisma from 'lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
+
+import { getIdSchemaFn } from '@/lib';
+import prisma from 'lib/prisma';
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,6 +14,7 @@ export default async function handler(
           .status(404)
           .json({ success: false, message: `User not found` });
       }
+      const getUserIdSchema = getIdSchemaFn('userId');
       const result = getUserIdSchema.safeParse(req.query);
       if (result.success === false) {
         const { errors } = result.error;

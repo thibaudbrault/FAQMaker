@@ -1,11 +1,13 @@
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import { NextApiHandler } from 'next/types';
+import NextAuth, { NextAuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+
 import { loginUser } from '@/lib';
 import ApiError from '@/lib/server/error';
 import { Routes } from '@/utils';
-import { PrismaAdapter } from '@auth/prisma-adapter';
 import prisma from 'lib/prisma';
-import NextAuth, { NextAuthOptions } from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { NextApiHandler } from 'next/types';
+
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),

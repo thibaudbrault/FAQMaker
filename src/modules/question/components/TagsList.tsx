@@ -1,6 +1,8 @@
-import { Button, Loader } from '@/components';
-import { Tag } from '@prisma/client';
 import { Dispatch, SetStateAction } from 'react';
+
+import { Tag } from '@prisma/client';
+
+import { Button, Loader } from '@/components';
 
 type Props = {
   tagsLoading: boolean;

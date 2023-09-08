@@ -1,6 +1,8 @@
-import { cn } from '@/utils';
-import * as TabsPrimitive from '@radix-ui/react-tabs';
 import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+
+import * as TabsPrimitive from '@radix-ui/react-tabs';
+
+import { cn } from '@/utils';
 
 const Tabs = TabsPrimitive.Root;
 
@@ -11,7 +13,7 @@ const TabsList = forwardRef<
   <TabsPrimitive.List
     ref={ref}
     className={cn(
-      'inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground',
+      'inline-flex gap-4 h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground',
       className,
     )}
     {...props}

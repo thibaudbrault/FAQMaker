@@ -1,7 +1,8 @@
+import React, { ReactNode } from 'react';
+
 import { MeProvider } from '@/contexts';
 import { ErrorBoundaryWrapper, SuspenseWrapper } from '@/lib';
 import { Footer, Header } from '@/modules';
-import React, { ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;

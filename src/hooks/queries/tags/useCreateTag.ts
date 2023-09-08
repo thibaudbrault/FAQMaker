@@ -1,8 +1,9 @@
-import { successToast } from '@/components';
-import { QueryKeys, Routes } from '@/utils';
 import { Tag } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+
+import { successToast } from '@/components';
+import { QueryKeys, Routes } from '@/utils';
 
 const createTag = async (values: Tag, tenantId: string) => {
   const body = {

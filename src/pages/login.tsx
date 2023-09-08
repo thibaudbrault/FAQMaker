@@ -1,14 +1,16 @@
-import { Button, Input, Label, errorToast, successToast } from '@/components';
-import { userLoginSchema } from '@/lib';
+import { useState } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+
+import { Button, Input, Label, errorToast, successToast } from '@/components';
+import { userLoginSchema } from '@/lib';
 
 type LoginCredentials = z.infer<typeof userLoginSchema>;
 
@@ -124,5 +126,5 @@ const errors = {
 
 const LoginError = ({ error }) => {
   const errorMessage = error && (errors[error] ?? errors.default);
-  return <div>{errorMessage}</div>;
+  return <div className="text-red-700 mt-6">{errorMessage}</div>;
 };

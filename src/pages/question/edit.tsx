@@ -1,19 +1,21 @@
+import { useEffect, useState } from 'react';
+
+import { Question, Tenant } from '@prisma/client';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { MoveLeft } from 'lucide-react';
+import { GetServerSideProps } from 'next';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+
 import { Button, Input, Loader } from '@/components';
 import { useNode, useUpdateNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNode, ssrNcHandler } from '@/lib';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
-import { Question, Tenant, User } from '@prisma/client';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { MoveLeft } from 'lucide-react';
-import { GetServerSideProps } from 'next';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 
 type Props = {
-  me: User & { tenant: Tenant };
+  me: ClientUser & { tenant: Tenant };
   id: string;
 };
 

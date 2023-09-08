@@ -12,6 +12,7 @@ export const Routes = {
     ANSWERS: '/api/answers',
     QUESTIONS: '/api/questions',
     TAGS: '/api/tags',
+    TENANT: '/api/tenant',
   },
 } as const;
 

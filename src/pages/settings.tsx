@@ -1,21 +1,25 @@
+import { useMemo } from 'react';
+
+import { Tenant } from '@prisma/client';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetServerSideProps } from 'next';
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
-import { useNodes } from '@/hooks';
+import { useNodesCount, useTenant } from '@/hooks';
 import { PageLayout } from '@/layouts';
-import { getMe, getNodes, ssrNcHandler } from '@/lib';
+import { getMe, getNodesCount, getTenant, ssrNcHandler } from '@/lib';
 import { General, Tags, Users } from '@/modules';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
-import { Tenant, User } from '@prisma/client';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { GetServerSideProps } from 'next';
-import { useMemo } from 'react';
+
 
 type Props = {
-  me: User & { tenant: Tenant };
+  me: ClientUser & { tenant: Tenant };
 };
 
 function Settings({ me }: Props) {
-  const { data: nodes } = useNodes(me.tenantId);
+  const { data: nodes } = useNodesCount(me.tenantId);
+  const { data: tenant } = useTenant(me.tenantId);
 
   const tabs = useMemo(
     () => [
@@ -36,7 +40,7 @@ function Settings({ me }: Props) {
   );
 
   const tabStyle =
-    'data-[state=active]:bg-teal-700 data-[state=active]:text-stone-200 text-xl lowercase gap-4 font-semibold';
+    'data-[state=active]:bg-teal-700 data-[state=active]:text-stone-200 text-xl lowercase font-semibold';
 
   return (
     <PageLayout id={me.id} company={me.tenant.company}>
@@ -87,8 +91,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);
-  await queryClient.prefetchQuery([QueryKeys.NODES, me.tenantId], () =>
-    getNodes(me.tenantId),
+  await queryClient.prefetchQuery([QueryKeys.NODES_COUNT, me.tenantId], () =>
+    getNodesCount(me.tenantId),
+  );
+  await queryClient.prefetchQuery([QueryKeys.NODES_COUNT, me.tenantId], () =>
+    getTenant(me.tenantId),
   );
 
   return {

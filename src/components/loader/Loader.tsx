@@ -1,6 +1,8 @@
-import { cn } from '@/utils';
-import { VariantProps, cva } from 'class-variance-authority';
 import { HTMLAttributes, forwardRef } from 'react';
+
+import { VariantProps, cva } from 'class-variance-authority';
+
+import { cn } from '@/utils';
 
 const loader = cva(
   [

@@ -1,11 +1,13 @@
 import { FC, ReactNode } from 'react';
-import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
-import { FallbackType } from '@/types/global';
-import { ErrorFallback, ErrorProps } from '@/components';
+
 import {
   QueryErrorResetBoundary,
   useQueryErrorResetBoundary,
 } from '@tanstack/react-query';
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
+
+import { ErrorFallback, ErrorProps } from '@/components';
+import { FallbackType } from '@/types/global';
 
 type Props = {
   children: ReactNode;
