@@ -1,21 +1,23 @@
-import { Question, User } from '@prisma/client';
+import { Question } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { NextRouter } from 'next/router';
 import slugify from 'slugify';
 
 import { successToast } from '@/components';
-import { Routes } from '@/utils';
+import { ClientUser } from '@/types';
+import { QueryKeys, Routes } from '@/utils';
 
 const createNode = async (
   values: Question,
-  user: User,
+  me: ClientUser,
   selectedTags: String[],
 ) => {
   const body = {
     ...values,
     slug: slugify(values.text),
-    tenantId: user.tenantId,
-    userId: user.id,
+    tenantId: me.tenantId,
+    userId: me.id,
     tags: selectedTags,
   };
   const { data } = await axios.post(Routes.API.NODES, body);
@@ -23,19 +25,19 @@ const createNode = async (
 };
 
 export const useCreateNode = (
-  user: User,
+  me: ClientUser,
+  router: NextRouter,
   selectedTags: String[],
-  reset: () => void,
 ) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (values: Question) => createNode(values, user, selectedTags),
+    mutationFn: (values: Question) => createNode(values, me, selectedTags),
     onSuccess: (data) => {
       successToast(data.message);
-      reset();
+      router.push('/');
       queryClient.invalidateQueries({
-        queryKey: ['nodes', user.tenantId],
+        queryKey: [QueryKeys.NODES, me.tenantId],
       });
     },
   });
