@@ -5,21 +5,27 @@ import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSideProps } from 'next';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
-import { useNodesCount, useTenant } from '@/hooks';
+import { useNodesCount, useTenant, useUsersCount } from '@/hooks';
 import { PageLayout } from '@/layouts';
-import { getMe, getNodesCount, getTenant, ssrNcHandler } from '@/lib';
+import {
+  getMe,
+  getNodesCount,
+  getTenant,
+  getUsersCount,
+  ssrNcHandler,
+} from '@/lib';
 import { General, Tags, Users } from '@/modules';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
-
 
 type Props = {
   me: ClientUser & { tenant: Tenant };
 };
 
 function Settings({ me }: Props) {
-  const { data: nodes } = useNodesCount(me.tenantId);
-  const { data: tenant } = useTenant(me.tenantId);
+  const { data: nodesCount } = useNodesCount(me.tenantId);
+  const { data: usersCount } = useUsersCount(me.tenantId);
+  const { data: tenant, isLoading: isTenantLoading } = useTenant(me.tenantId);
 
   const tabs = useMemo(
     () => [
@@ -46,7 +52,7 @@ function Settings({ me }: Props) {
     <PageLayout id={me.id} company={me.tenant.company}>
       <section className="flex flex-col items-center p-4 pb-12">
         <h2
-          className="font-serif text-5xl lowercase"
+          className="font-serif text-6xl lowercase"
           style={{ fontVariant: 'small-caps' }}
         >
           Settings
@@ -65,7 +71,12 @@ function Settings({ me }: Props) {
             ))}
           </TabsList>
           <TabsContent value="general">
-            <General nodes={nodes} />
+            <General
+              nodesCount={nodesCount}
+              usersCount={usersCount}
+              tenant={tenant}
+              isTenantLoading={isTenantLoading}
+            />
           </TabsContent>
           <TabsContent value="tags">
             <Tags tenantId={me.tenantId} />
@@ -94,7 +105,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   await queryClient.prefetchQuery([QueryKeys.NODES_COUNT, me.tenantId], () =>
     getNodesCount(me.tenantId),
   );
-  await queryClient.prefetchQuery([QueryKeys.NODES_COUNT, me.tenantId], () =>
+  await queryClient.prefetchQuery([QueryKeys.USERS_COUNT, me.tenantId], () =>
+    getUsersCount(me.tenantId),
+  );
+  await queryClient.prefetchQuery([QueryKeys.TENANT, me.tenantId], () =>
     getTenant(me.tenantId),
   );
 

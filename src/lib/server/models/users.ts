@@ -20,3 +20,13 @@ export const getMe = async (
 
   return excludeFromUser(me);
 };
+
+export const getUsersCount = async (tenantId: string) => {
+  const users = await prisma.user.count({
+    where: { tenantId },
+  });
+
+  if (!users) return null;
+
+  return users;
+};
