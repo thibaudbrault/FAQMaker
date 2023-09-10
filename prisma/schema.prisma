@@ -10,8 +10,6 @@ generator client {
 model Tenant {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  firstName String
-  lastName  String
   email     String   @unique
   plan      Plan
   company   String
