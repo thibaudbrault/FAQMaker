@@ -62,11 +62,10 @@ function Edit({ me, id }: Props) {
         <Button
           variant="primaryDark"
           weight="semibold"
-          size="medium"
           icon="withIcon"
           font="large"
           asChild
-          className="w-fit lowercase"
+          className="lowercase"
           style={{ fontVariant: 'small-caps' }}
         >
           <Link
@@ -100,8 +99,9 @@ function Edit({ me, id }: Props) {
             <Button
               variant={disabled ? 'disabledDark' : 'primaryDark'}
               type="submit"
-              className="w-fit"
+              className="lowercase"
               disabled={disabled}
+              style={{ fontVariant: 'small-caps' }}
             >
               Update
             </Button>

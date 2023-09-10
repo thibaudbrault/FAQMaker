@@ -19,10 +19,7 @@ export const Tags = ({ tenantId }: Props) => {
   }
 
   return (
-    <section>
-      <h3 className="text-2xl lowercase" style={{ fontVariant: 'small-caps' }}>
-        Tags created
-      </h3>
+    <section className="w-3/4 mx-auto">
       {tags.length > 0 ? (
         <ul className="my-6 flex flex-wrap gap-4">
           {tags.map((tag) => (

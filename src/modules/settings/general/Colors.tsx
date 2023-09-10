@@ -6,7 +6,7 @@ export const Colors = () => {
   const [hexPrimary, setHexPrimary] = useState('#0f766e');
   const [hexSecondary, setHexSecondary] = useState('#e7e5e4');
   return (
-    <>
+    <div className="flex flex-col gap-4 w-3/4 mx-auto bg-stone-100 rounded-md p-4 mb-4">
       <h2
         className="text-4xl text-center font-serif font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
@@ -37,8 +37,8 @@ export const Colors = () => {
         className="text-center font-semibold w-fit px-2 py-1"
         style={{ backgroundColor: hexSecondary, color: hexPrimary }}
       >
-        Test the colours
+        Test the colors
       </p>
-    </>
+    </div>
   );
 };

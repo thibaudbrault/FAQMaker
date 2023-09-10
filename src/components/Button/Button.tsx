@@ -5,7 +5,6 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/utils';
 
-
 const button = cva('button', {
   variants: {
     variant: {
@@ -52,9 +51,9 @@ const button = cva('button', {
       semibold: ['font-semibold'],
     },
     size: {
-      small: ['py-1', 'px-2'],
-      medium: ['py-2', 'px-4'],
-      full: ['py-2 w-full'],
+      small: ['py-1', 'px-2', 'w-fit'],
+      medium: ['py-2', 'px-4', 'w-fit'],
+      full: ['py-2', 'w-full'],
     },
   },
   defaultVariants: {

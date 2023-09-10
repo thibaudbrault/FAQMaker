@@ -1,4 +1,3 @@
-import { Icon } from '@tremor/react';
 import { ShieldAlert, UserIcon } from 'lucide-react';
 
 import { Button, Loader } from '@/components';
@@ -24,7 +23,7 @@ export const Users = ({ tenantId }: Props) => {
   const iconStyle = 'w-9 h-9 m-3 inline-flex flex-shrink-0 items-center';
 
   return (
-    <section>
+    <section className="w-3/4 mx-auto">
       <ul className="flex flex-col gap-4">
         {users.map((user) => (
           <li
@@ -39,13 +38,20 @@ export const Users = ({ tenantId }: Props) => {
                   <ShieldAlert className={iconStyle} />
                 )}
                 <div className="flex flex-col items-start">
-                  <h2>
-                    {user.firstName} {user.lastName}
+                  <h2 className="text-2xl">
+                    <b>
+                      {user.firstName} {user.lastName}
+                    </b>
                   </h2>
                   <p>{user.email}</p>
                 </div>
               </div>
-              <Button variant="primaryDark" size="medium">
+              <Button
+                variant="primaryDark"
+                weight="semibold"
+                className="lowercase"
+                style={{ fontVariant: 'small-caps' }}
+              >
                 Modify
               </Button>
             </div>
