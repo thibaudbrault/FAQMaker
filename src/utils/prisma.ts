@@ -29,3 +29,39 @@ export const nodeModel = {
     },
   },
 };
+
+export const nodeModelWithDate = {
+  question: {
+    select: {
+      createdAt: true,
+      updatedAt: true,
+      id: true,
+      text: true,
+      slug: true,
+      user: {
+        select: {
+          firstName: true,
+          lastName: true,
+        },
+      },
+    },
+  },
+  answer: {
+    select: {
+      createdAt: true,
+      updatedAt: true,
+      text: true,
+      user: {
+        select: {
+          firstName: true,
+          lastName: true,
+        },
+      },
+    },
+  },
+  tags: {
+    select: {
+      label: true,
+    },
+  },
+};

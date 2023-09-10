@@ -1,4 +1,4 @@
-import { nodeModel } from '@/utils';
+import { nodeModelWithDate } from '@/utils';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -17,7 +17,7 @@ export default async function handler(
       const { tenantId, id } = req.query;
       const node = await prisma.node.findUnique({
         where: { id: id as string, tenantId: tenantId as string },
-        include: nodeModel,
+        include: nodeModelWithDate,
       });
       return res.status(200).json(node);
     } catch (error) {

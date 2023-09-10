@@ -27,6 +27,7 @@ export default async function handler(
         const { tenantId } = result.data;
         const nodes = await prisma.node.findMany({
           where: { tenantId: tenantId as string },
+          orderBy: { createdAt: 'desc' },
           include: nodeModel,
         });
         return res.status(200).json(nodes);

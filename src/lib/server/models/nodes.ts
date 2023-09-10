@@ -1,9 +1,10 @@
-import { nodeModel } from '@/utils';
+import { nodeModel, nodeModelWithDate } from '@/utils';
 import prisma from 'lib/prisma';
 
 export const getNodes = async (tenantId: string) => {
   const nodes = await prisma.node.findMany({
     where: { tenantId },
+    orderBy: { createdAt: 'desc' },
     include: nodeModel,
   });
 
@@ -25,7 +26,7 @@ export const getNodesCount = async (tenantId: string) => {
 export const getNode = async (tenantId: string, id: string) => {
   const node = await prisma.node.findUnique({
     where: { id, tenantId },
-    include: nodeModel,
+    include: nodeModelWithDate,
   });
 
   if (!node) return null;
