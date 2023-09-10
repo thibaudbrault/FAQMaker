@@ -6,4 +6,16 @@
   html {
     font-family: Inter, sans-serif;
   }
+
+  details {
+    user-select: none;
+  }
+
+  details[open] > summary > svg {
+    transform: rotate(180deg);
+  }
+
+  summary > svg {
+    transition: 0.3s ease-in-out;
+  }
 }
