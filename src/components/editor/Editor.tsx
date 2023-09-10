@@ -1,105 +1,27 @@
-import {
-  InsertImage,
-  type CodeBlockEditorDescriptor,
-  InsertAdmonition,
-  imagePlugin,
-  BlockTypeSelect,
-  Separator,
-  ListsToggle,
-  InsertTable,
-  InsertThematicBreak,
-  tablePlugin,
-  thematicBreakPlugin,
-  directivesPlugin,
-  AdmonitionDirectiveDescriptor,
-  CodeToggle,
-  InsertCodeBlock,
-} from '@mdxeditor/editor';
-import '@mdxeditor/editor/style.css';
-const {
-  MDXEditor,
-  toolbarPlugin,
-  UndoRedo,
-  BoldItalicUnderlineToggles,
-  CreateLink,
-  codeBlockPlugin,
-  headingsPlugin,
-  listsPlugin,
-  linkPlugin,
-  linkDialogPlugin,
-  quotePlugin,
-  markdownShortcutPlugin,
-  useCodeBlockEditorContext,
-} = await import('@mdxeditor/editor');
+import '@uiw/react-md-editor/markdown-editor.css';
 
-const PlainTextCodeEditorDescriptor: CodeBlockEditorDescriptor = {
-  match: () => true,
-  priority: 0,
-  Editor: (props) => {
-    const cb = useCodeBlockEditorContext();
-    return (
-      <div onKeyDown={(e) => e.nativeEvent.stopImmediatePropagation()}>
-        <textarea
-          rows={3}
-          cols={20}
-          defaultValue={props.code}
-          onChange={(e) => cb.setCode(e.target.value)}
-        />
-      </div>
-    );
-  },
-};
+import dynamic from 'next/dynamic';
+import rehypeSanitize from 'rehype-sanitize';
+
+const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
 type Props = {
-  className: string;
+  onChange: (...event: any[]) => void;
+  value: string;
 };
 
-export const Editor = ({ className }: Props) => {
+export const Editor = ({ onChange, value }: Props) => {
   return (
-    <MDXEditor
-      className={className}
-      onChange={console.log}
-      markdown={''}
-      plugins={[
-        codeBlockPlugin({
-          codeBlockEditorDescriptors: [PlainTextCodeEditorDescriptor],
-        }),
-        toolbarPlugin({
-          toolbarContents: () => (
-            <>
-              <UndoRedo />
-              <Separator />
-              <BoldItalicUnderlineToggles />
-              <CodeToggle />
-              <InsertCodeBlock />
-              <Separator />
-              <ListsToggle />
-              <Separator />
-              <BlockTypeSelect />
-              <Separator />
-              <CreateLink />
-              <InsertImage />
-              <Separator />
-              <InsertTable />
-              <InsertThematicBreak />
-              <Separator />
-              <InsertAdmonition />
-            </>
-          ),
-        }),
-        headingsPlugin(),
-        listsPlugin(),
-        linkPlugin(),
-        imagePlugin(),
-        linkDialogPlugin(),
-        quotePlugin(),
-        tablePlugin(),
-        thematicBreakPlugin(),
-        markdownShortcutPlugin(),
-        directivesPlugin({
-          directiveDescriptors: [AdmonitionDirectiveDescriptor],
-        }),
-      ]}
-    />
+    <div className="w-full">
+      <MDEditor
+        className="!bg-white !rounded-md !w-full border border-teal-700"
+        value={value}
+        onChange={onChange}
+        height={300}
+        previewOptions={{
+          rehypePlugins: [[rehypeSanitize]],
+        }}
+      />
+    </div>
   );
 };

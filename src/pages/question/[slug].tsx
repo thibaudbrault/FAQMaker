@@ -14,15 +14,12 @@ import { EditAnswer } from '@/modules';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects, dateOptions } from '@/utils';
 
-
 type Props = {
   me: ClientUser & { tenant: Tenant };
   id: string;
 };
 
 function QuestionPage({ me, id }: Props) {
-  const [isEditingAnswer, setIsEditingAnswer] = useState<boolean>(false);
-
   const {
     data: node,
     isLoading,
@@ -44,11 +41,10 @@ function QuestionPage({ me, id }: Props) {
         <Button
           variant="primaryDark"
           weight="semibold"
-          size="medium"
           icon="withIcon"
           font="large"
           asChild
-          className="w-fit lowercase"
+          className="lowercase"
           style={{ fontVariant: 'small-caps' }}
         >
           <Link href="/">
@@ -81,11 +77,7 @@ function QuestionPage({ me, id }: Props) {
             ))}
           </ul>
           <hr className="my-6 border-teal-700" />
-          <EditAnswer
-            answer={node.answer}
-            isEditingAnswer={isEditingAnswer}
-            setIsEditingAnswer={setIsEditingAnswer}
-          />
+          <EditAnswer answer={node.answer} nodeId={node.id} />
           <hr className="my-6 border-teal-700" />
           <div className="flex justify-between">
             <div className="text-xs">
