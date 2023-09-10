@@ -8,7 +8,6 @@ import ApiError from '@/lib/server/error';
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
-
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [

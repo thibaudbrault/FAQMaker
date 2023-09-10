@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Input, Label } from '@/components';
 
-
 export const Search = () => {
   const search = useSearchParams();
   const [searchQuery, setSearchQuery] = useState<string | null>(

@@ -17,8 +17,6 @@ import {
 } from '@/components';
 import { useCreateTag } from '@/hooks';
 
-
-
 type Props = {
   tenantId: string;
 };

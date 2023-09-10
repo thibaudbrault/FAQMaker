@@ -5,7 +5,6 @@ import { Check, ChevronDown } from 'lucide-react';
 
 import { cn } from '@/utils';
 
-
 const Select = SelectPrimitive.Root;
 
 const SelectGroup = SelectPrimitive.Group;

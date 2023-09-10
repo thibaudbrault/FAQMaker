@@ -8,8 +8,6 @@ import prisma from 'lib/prisma';
 import ApiError from '../error';
 import { userLoginSchema } from '../validations/user';
 
-
-
 export const loginUser = async ({
   email,
   password,

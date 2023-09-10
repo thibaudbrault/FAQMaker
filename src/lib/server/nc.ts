@@ -5,7 +5,6 @@ import nc from 'next-connect';
 
 import { NextReq } from '@/types';
 
-
 import ApiError, { handleApiError, handleSsrError } from './error';
 
 export const ncOptions = {

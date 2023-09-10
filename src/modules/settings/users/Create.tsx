@@ -23,8 +23,6 @@ import {
 } from '@/components';
 import { useCreateUser } from '@/hooks';
 
-
-
 type Props = {
   tenantId: string;
 };
