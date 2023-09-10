@@ -1,16 +1,33 @@
+import { Tenant } from '@prisma/client';
+
 import { Colors } from './Colors';
+import { Company } from './Company';
+import { Data } from './Data';
 
 type Props = {
-  nodes: number;
+  nodesCount: number;
+  usersCount: number;
+  tenant: Tenant;
+  isTenantLoading: boolean;
 };
 
-export const General = ({ nodes }: Props) => {
+export const General = ({
+  nodesCount,
+  usersCount,
+  tenant,
+  isTenantLoading,
+}: Props) => {
   return (
     <>
-      <section className="flex flex-col gap-4 w-3/4 mx-auto bg-stone-100 rounded-md p-4 mb-4">
+      <section className="relative">
         <Colors />
       </section>
-      <section></section>
+      <section className="relative">
+        <Company tenant={tenant} isLoading={isTenantLoading} />
+      </section>
+      <section className="relative">
+        <Data nodesCount={nodesCount} usersCount={usersCount} />
+      </section>
     </>
   );
 };

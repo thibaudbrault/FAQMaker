@@ -1,12 +1,12 @@
 import { LogOut, Settings, UserIcon } from 'lucide-react';
+import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 
-import { Link, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
 import { useUser } from '@/hooks';
 import { cn } from '@/utils';
 
 import { CreateQuestion } from '../question';
-
 
 type Props = {
   id?: string;
@@ -26,14 +26,13 @@ export const Header = ({ id, company }: Props) => {
         </Link>
       </h1>
       {user && (
-        <div className="flex gap-4 items-baseline">
+        <div className="flex gap-4 items-end">
           {!isLoading && (
             <ul className="flex gap-4">
               <li>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Link
-                      decoration="none"
                       href="/profile"
                       className="flex items-center gap-1 hover:text-stone-300"
                     >
@@ -49,11 +48,7 @@ export const Header = ({ id, company }: Props) => {
                 <li>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Link
-                        decoration="none"
-                        href="/settings"
-                        className="hover:text-stone-300"
-                      >
+                      <Link href="/settings" className="hover:text-stone-300">
                         <Settings />
                       </Link>
                     </TooltipTrigger>
@@ -80,7 +75,16 @@ export const Header = ({ id, company }: Props) => {
               </li>
             </ul>
           )}
-          <CreateQuestion user={user} />
+          <Button
+            variant="primaryLight"
+            font="large"
+            size="small"
+            className="font-semibold lowercase"
+            style={{ fontVariant: 'small-caps' }}
+            asChild
+          >
+            <Link href="/question/new">New Question</Link>
+          </Button>
         </div>
       )}
     </header>
