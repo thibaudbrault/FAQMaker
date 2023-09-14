@@ -26,17 +26,17 @@ export const List = ({ nodes, isLoading, isError, error }: Props) => {
       {nodes.length > 0 ? (
         <ul className="w-3/4 mx-auto flex flex-col gap-6">
           {nodes.map((node) => (
-            <li key={node.id}>
-              <details
-                key={node.id}
-                className="relative bg-stone-100 border border-teal-700 rounded-md"
-              >
-                <summary className="flex items-center justify-between px-6 py-2 list-none cursor-pointer">
+            <li
+              className="relative bg-stone-100 border border-teal-700 rounded-md"
+              key={node.id}
+            >
+              <details>
+                <summary className="flex items-center justify-between px-6 py-3 list-none cursor-pointer">
                   <div>
                     <h2 className="font-semibold text-2xl">
                       {node.question.text}
                     </h2>
-                    <ul className="flex text-sm gap-4">
+                    <ul className="flex text-xs gap-4">
                       {node.tags.map((tag) => (
                         <li key={tag.id}>
                           <Badge
@@ -61,27 +61,27 @@ export const List = ({ nodes, isLoading, isError, error }: Props) => {
                     <p className="text-center italic">No answer</p>
                   )}
                 </div>
-                <Button
-                  variant="secondaryDark"
-                  size="full"
-                  font="large"
-                  weight="bold"
-                  rounded="bottom"
-                  className="lowercase block text-center border-t border-t-teal-700"
-                  style={{ fontVariant: 'small-caps' }}
-                  asChild
-                >
-                  <Link
-                    href={{
-                      pathname: '/question/[slug]',
-                      query: { slug: node.question.slug, id: node.id },
-                    }}
-                    as={`/question/${node.question.slug}?id=${node.id}`}
-                  >
-                    Modify
-                  </Link>
-                </Button>
               </details>
+              <Button
+                variant="secondaryDark"
+                size="full"
+                font="large"
+                weight="bold"
+                rounded="bottom"
+                className="lowercase block text-center border-t border-t-teal-700"
+                style={{ fontVariant: 'small-caps' }}
+                asChild
+              >
+                <Link
+                  href={{
+                    pathname: '/question/[slug]',
+                    query: { slug: node.question.slug, id: node.id },
+                  }}
+                  as={`/question/${node.question.slug}?id=${node.id}`}
+                >
+                  Modify
+                </Link>
+              </Button>
             </li>
           ))}
         </ul>

@@ -67,7 +67,7 @@ function QuestionPage({ me, id }: Props) {
               </Link>
             </Button>
           </div>
-          <ul>
+          <ul className="flex gap-2 text-xs">
             {node.tags.map((tag) => (
               <li key={tag.id}>
                 <Badge variant="primary" rounded="full" size="small">
