@@ -1,5 +1,5 @@
-import { errorToast } from '@/components';
-import { useTags } from '@/hooks';
+import { Loader, errorToast } from '@/components';
+import { useDeleteTag, useTags } from '@/hooks';
 
 import { CreateTag } from './Create';
 
@@ -10,8 +10,14 @@ type Props = {
 export const Tags = ({ tenantId }: Props) => {
   const { data: tags, isLoading, isError, error } = useTags(tenantId);
 
+  const { mutate, isLoading: isTagLoading } = useDeleteTag(tenantId);
+
+  const handleDeleteTag = (id: string) => {
+    mutate({ id });
+  };
+
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader size="screen" />;
   }
 
   if (isError && error instanceof Error) {
@@ -28,7 +34,10 @@ export const Tags = ({ tenantId }: Props) => {
               className="flex items-center bg-teal-700 text-stone-200 w-fit rounded-md gap-2"
             >
               <p className="px-2">{tag.label}</p>
-              <button className="flex items-center font-semibold bg-stone-200 border border-teal-700 text-teal-700 rounded-r-md px-2">
+              <button
+                className="flex items-center font-semibold bg-stone-200 border border-teal-700 text-teal-700 rounded-r-md px-2"
+                onClick={() => handleDeleteTag(tag.id)}
+              >
                 x
               </button>
             </li>
