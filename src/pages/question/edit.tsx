@@ -5,6 +5,7 @@ import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { MoveLeft } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import { Button, Input, Loader } from '@/components';
@@ -21,7 +22,8 @@ type Props = {
 
 function Edit({ me, id }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const { register, handleSubmit, reset, watch } = useForm();
+  const { register, handleSubmit, watch } = useForm();
+  const router = useRouter();
 
   const {
     data: node,
@@ -34,7 +36,8 @@ function Edit({ me, id }: Props) {
     id,
     me.tenantId,
     node.question.id,
-    reset,
+    me.id,
+    router,
   );
 
   const onSubmit = (values: Question) => {
