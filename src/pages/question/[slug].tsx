@@ -1,16 +1,28 @@
 import { Tenant } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { MoveLeft } from 'lucide-react';
+import { HelpCircle, MoveLeft, PenSquare } from 'lucide-react';
 import { GetServerSideProps } from 'next';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import { Badge, Button, Loader, errorToast } from '@/components';
+import {
+  Badge,
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  Loader,
+  errorToast,
+} from '@/components';
 import { useNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNode, ssrNcHandler } from '@/lib';
-import { EditAnswer } from '@/modules';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects, dateOptions } from '@/utils';
+const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
+  ssr: false,
+});
 
 type Props = {
   me: ClientUser & { tenant: Tenant };
@@ -36,35 +48,60 @@ function QuestionPage({ me, id }: Props) {
   return (
     <PageLayout id={me.id} company={me.tenant.company}>
       <section className="flex flex-col gap-4 w-3/4 mx-auto">
-        <Button
-          variant="primaryDark"
-          weight="semibold"
-          icon="withIcon"
-          font="large"
-          asChild
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-        >
-          <Link href="/">
-            <MoveLeft />
-            Go back
-          </Link>
-        </Button>
+        <div className="flex justify-between items-center">
+          <Button
+            variant="primaryDark"
+            weight="semibold"
+            icon="withIcon"
+            font="large"
+            asChild
+            className="lowercase"
+            style={{ fontVariant: 'small-caps' }}
+          >
+            <Link href="/">
+              <MoveLeft />
+              Go back
+            </Link>
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              className="bg-teal-700 text-stone-200 uppercase font-bold py-2 px-4 w-fit rounded-md"
+              style={{ fontVariant: 'small-caps' }}
+            >
+              Edit
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-stone-100">
+              <DropdownMenuItem className="text-base hover:text-teal-700">
+                <Link
+                  className="flex items-center gap-2 justify-start"
+                  href={{
+                    pathname: '/question/edit',
+                    query: { id: node.id },
+                  }}
+                  as={`/question/edit?id=${node.id}`}
+                >
+                  <HelpCircle className="w-4" />
+                  Question
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="text-base hover:text-teal-700">
+                <Link
+                  className="flex items-center gap-2 justify-start"
+                  href={{
+                    pathname: '/question/answer',
+                    query: { id: node.id },
+                  }}
+                  as={`/question/answer?id=${node.id}`}
+                >
+                  <PenSquare className="w-4" />
+                  Answer
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <div className="bg-stone-100 rounded-md p-4">
-          <div className="flex justify-between items-end">
-            <h2 className="text-2xl font-semibold">{node.question.text}</h2>
-            <Button variant="primaryDark" asChild>
-              <Link
-                href={{
-                  pathname: '/question/edit',
-                  query: { id: node.id },
-                }}
-                as={`/question/edit?id=${node.id}`}
-              >
-                Edit
-              </Link>
-            </Button>
-          </div>
+          <h2 className="text-2xl font-semibold">{node.question.text}</h2>
           <ul className="flex gap-2 text-xs">
             {node.tags.map((tag) => (
               <li key={tag.id}>
@@ -75,7 +112,14 @@ function QuestionPage({ me, id }: Props) {
             ))}
           </ul>
           <hr className="my-6 border-teal-700" />
-          <EditAnswer answer={node.answer} nodeId={node.id} />
+          {node.answer ? (
+            <MarkdownPreview
+              className="w-11/12 mx-auto text-left"
+              source={node.answer.text}
+            />
+          ) : (
+            <p className="text-center italic">No answer</p>
+          )}
           <hr className="my-6 border-teal-700" />
           <div className="flex justify-between">
             <div className="text-xs">
