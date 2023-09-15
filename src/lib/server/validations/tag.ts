@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 export const tagGetSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().cuid(),
   label: z.string(),
-  nodeId: z.string().uuid(),
-  tenantId: z.string().uuid(),
+  nodeId: z.string().cuid(),
+  tenantId: z.string().cuid(),
 });

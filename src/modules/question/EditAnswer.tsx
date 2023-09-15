@@ -1,8 +1,12 @@
 import { Answer } from '@prisma/client';
 import { PenSquare } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import { Button } from '@/components';
+const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
+  ssr: false,
+});
 
 type Props = {
   answer: Answer;
@@ -13,7 +17,10 @@ export const EditAnswer = ({ answer, nodeId }: Props) => {
   if (answer) {
     return (
       <div className="flex flex-col items-center gap-4">
-        <p>{answer.text}</p>
+        <MarkdownPreview
+          className="w-11/12 mx-auto text-left"
+          source={answer.text}
+        />
         <Button variant="primaryDark" asChild>
           <Link
             href={{

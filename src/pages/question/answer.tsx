@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 
-import { Tenant } from '@prisma/client';
+import { Answer, Tenant } from '@prisma/client';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { MoveLeft } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
 
 import { Button, Editor, Loader } from '@/components';
-import { useNode } from '@/hooks';
+import { useCreateAnswer, useNode, useUpdateAnswer } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNode, ssrNcHandler } from '@/lib';
 import { ClientUser } from '@/types';
@@ -21,14 +22,32 @@ type Props = {
 
 function Answer({ me, id }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const { register, handleSubmit, reset, watch, control } = useForm();
+  const { handleSubmit, watch, control } = useForm();
 
-  const {
-    data: node,
-    isLoading,
-    isError,
-    error,
-  } = useNode(me.tenantId, id as string);
+  const router = useRouter();
+
+  const { data: node, isLoading } = useNode(me.tenantId, id as string);
+
+  const { mutate: createAnswer } = useCreateAnswer(
+    id,
+    me.id,
+    me.tenantId,
+    router,
+  );
+  const { mutate: updateAnswer } = useUpdateAnswer(
+    node.answer?.id,
+    me.id,
+    me.tenantId,
+    router,
+  );
+
+  const onSubmit = (values: Answer) => {
+    if (node.answer) {
+      updateAnswer(values);
+    } else {
+      createAnswer(values);
+    }
+  };
 
   const answerText = watch('text') ?? '';
 
@@ -69,17 +88,21 @@ function Answer({ me, id }: Props) {
             className="text-4xl text-center font-serif font-semibold lowercase"
             style={{ fontVariant: 'small-caps' }}
           >
-            Edit the question
+            {node.answer ? 'Edit the answer' : 'Answer'}
           </h2>
           <form
             className="flex justify-center items-center flex-col gap-2"
-            // onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <Controller
               control={control}
               name="text"
               render={({ field: { onChange, value } }) => (
-                <Editor value={value} onChange={onChange} />
+                <Editor
+                  value={value}
+                  onChange={onChange}
+                  prevAnswer={node.answer?.text ?? ''}
+                />
               )}
             />
             <Button

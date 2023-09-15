@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const questionGetSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().cuid(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
   text: z.string(),
@@ -13,5 +13,5 @@ export const questionCreateSchema = z.object({
   slug: z.string(),
   tenantId: z.string(),
   userId: z.string(),
-  tags: z.array(z.string().uuid()),
+  tags: z.array(z.string().cuid()),
 });

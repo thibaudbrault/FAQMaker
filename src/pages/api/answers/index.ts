@@ -46,5 +46,24 @@ export default async function handler(
     } catch (error) {
       return res.status(404).json({ error: error.message });
     }
+  } else if (req.method === 'POST') {
+    try {
+      if (!req.body) {
+        return res
+          .status(404)
+          .json({ success: false, message: `Answer not provided` });
+      }
+      const { text, nodeId, userId } = req.body;
+      await prisma.answer.create({
+        data: {
+          nodeId,
+          userId,
+          text,
+        },
+      });
+      return res.status(201).json({ message: 'Answer created successfully' });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
   }
 }

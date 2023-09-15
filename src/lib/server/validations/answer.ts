@@ -3,12 +3,12 @@ import { z } from 'zod';
 import { sourceGetSchema } from './source';
 
 export const answerGetSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().cuid(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
   text: z.string(),
   sources: z.array(sourceGetSchema),
-  nodeId: z.string().uuid(),
+  nodeId: z.string().cuid(),
 });
 
 export const answerCreateSchema = z.object({

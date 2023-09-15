@@ -14,6 +14,7 @@ export const nodeModel = {
   },
   answer: {
     select: {
+      id: true,
       text: true,
       user: {
         select: {
@@ -50,6 +51,7 @@ export const nodeModelWithDate = {
     select: {
       createdAt: true,
       updatedAt: true,
+      id: true,
       text: true,
       user: {
         select: {

@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { Tenant } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { MoveLeft } from 'lucide-react';

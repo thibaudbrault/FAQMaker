@@ -1,9 +1,13 @@
 import { AxiosError } from 'axios';
 import { ChevronDown } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import { Badge, Button, Loader, errorToast } from '@/components';
 import { ExtendedNode } from '@/types';
+const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
+  ssr: false,
+});
 
 type Props = {
   nodes: ExtendedNode[];
@@ -56,7 +60,7 @@ export const List = ({ nodes, isLoading, isError, error }: Props) => {
                 <hr className="w-3/4 my-6 mx-auto h-px bg-teal-700 border-none" />
                 <div className="px-6 mb-6">
                   {node.answer ? (
-                    <p>{node.answer.text}</p>
+                    <MarkdownPreview source={node.answer.text} />
                   ) : (
                     <p className="text-center italic">No answer</p>
                   )}

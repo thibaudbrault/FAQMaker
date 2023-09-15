@@ -12,14 +12,14 @@ export const userLoginSchema = z.object({
 
 export const userGetSchema = z
   .object({
-    id: z.string().uuid(),
+    id: z.string().cuid(),
     createdAt: z.string().datetime(),
     firstName: z.string(),
     lastName: z.string(),
     email: z.string().email(),
     password: z.string(),
     role: z.enum(['user', 'admin']),
-    tenantId: z.string().uuid(),
+    tenantId: z.string().cuid(),
   })
   .refine((data) => data.id, 'Id should be specified.');
 

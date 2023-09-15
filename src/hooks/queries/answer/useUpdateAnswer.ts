@@ -6,18 +6,19 @@ import { NextRouter } from 'next/router';
 import { successToast } from '@/components';
 import { QueryKeys, Routes } from '@/utils';
 
-const createAnswer = async (values: Answer, nodeId: string, userId: string) => {
-  const body = {
-    ...values,
-    nodeId,
-    userId,
-  };
-  const { data } = await axios.post(Routes.API.ANSWERS, body);
+const updateAnswer = async (values: Answer, id: string, userId: string) => {
+  const { data } = await axios.put(`${Routes.API.ANSWERS}/${id}`, {
+    params: {
+      ...values,
+      id,
+      userId,
+    },
+  });
   return data;
 };
 
-export const useCreateAnswer = (
-  nodeId: string,
+export const useUpdateAnswer = (
+  id: string,
   userId: string,
   tenantId: string,
   router: NextRouter,
@@ -25,7 +26,7 @@ export const useCreateAnswer = (
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (values: Answer) => createAnswer(values, nodeId, userId),
+    mutationFn: (values: Answer) => updateAnswer(values, id, userId),
     onSuccess: (data) => {
       successToast(data.message);
       router.push('/');
