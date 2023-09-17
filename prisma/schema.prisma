@@ -121,13 +121,11 @@ model Source {
 
 model Tag {
   id       String  @id @default(cuid())
-  label    String
-  node     Node?   @relation(fields: [nodeId], references: [id])
-  nodeId   String?
+  label    String?
+  nodes    Node[]
   tenant   Tenant  @relation(fields: [tenantId], references: [id])
   tenantId String
 
-  @@index([nodeId])
   @@index([tenantId])
 }
 
