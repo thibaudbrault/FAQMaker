@@ -1,15 +1,16 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { Tenant } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSideProps } from 'next';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
-import { useNodesCount, useTenant, useUsersCount } from '@/hooks';
+import { useNodesCount, useTags, useTenant, useUsersCount } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import {
   getMe,
   getNodesCount,
+  getTags,
   getTenant,
   getUsersCount,
   ssrNcHandler,
@@ -17,15 +18,23 @@ import {
 import { General, Tags, Users } from '@/modules';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
+import { useRouter } from 'next/router';
 
 type Props = {
   me: ClientUser & { tenant: Tenant };
 };
 
 function Settings({ me }: Props) {
+  const router = useRouter();
   const { data: nodesCount } = useNodesCount(me.tenantId);
   const { data: usersCount } = useUsersCount(me.tenantId);
   const { data: tenant, isLoading: isTenantLoading } = useTenant(me.tenantId);
+  const {
+    data: tags,
+    isLoading: isTagsLoading,
+    isError: isTagsError,
+    error: tagsError,
+  } = useTags(me.tenantId);
 
   const tabs = useMemo(
     () => [
@@ -44,6 +53,17 @@ function Settings({ me }: Props) {
     ],
     [],
   );
+
+  const handleTabRouter = (value: string) => {
+    router.replace({
+      query: { ...router.query, tab: value },
+    });
+  };
+
+  useEffect(() => {
+    router.query.tab = 'general';
+    router.push(router);
+  }, []);
 
   const tabStyle =
     'data-[state=active]:bg-teal-700 data-[state=active]:text-stone-200 text-xl lowercase font-semibold';
@@ -65,6 +85,7 @@ function Settings({ me }: Props) {
                 value={tab.value}
                 className={tabStyle}
                 style={{ fontVariant: 'small-caps' }}
+                onClick={() => handleTabRouter(tab.value)}
               >
                 {tab.label}
               </TabsTrigger>
@@ -79,10 +100,16 @@ function Settings({ me }: Props) {
             />
           </TabsContent>
           <TabsContent value="tags">
-            <Tags tenantId={me.tenantId} />
+            <Tags
+              tags={tags}
+              isLoading={isTagsLoading}
+              isError={isTagsError}
+              error={tagsError}
+              tenantId={me.tenantId}
+            />
           </TabsContent>
           <TabsContent value="users">
-            <Users tenantId={me.tenantId} />
+            <Users meId={me.id} tenantId={me.tenantId} />
           </TabsContent>
         </Tabs>
       </section>
@@ -110,6 +137,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   );
   await queryClient.prefetchQuery([QueryKeys.TENANT, me.tenantId], () =>
     getTenant(me.tenantId),
+  );
+  await queryClient.prefetchQuery([QueryKeys.TAGS, me.tenantId], () =>
+    getTags(me.tenantId),
   );
 
   return {

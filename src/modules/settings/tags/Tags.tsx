@@ -1,15 +1,19 @@
 import { Loader, errorToast } from '@/components';
-import { useDeleteTag, useTags } from '@/hooks';
+import { useDeleteTag } from '@/hooks';
 
 import { CreateTag } from './Create';
+import { Tag } from '@prisma/client';
+import { AxiosError } from 'axios';
 
 type Props = {
+  tags: Tag[];
+  isLoading: boolean;
+  isError: boolean;
+  error: AxiosError;
   tenantId: string;
 };
 
-export const Tags = ({ tenantId }: Props) => {
-  const { data: tags, isLoading, isError, error } = useTags(tenantId);
-
+export const Tags = ({ tags, isLoading, isError, error, tenantId }: Props) => {
   const { mutate, isLoading: isTagLoading } = useDeleteTag(tenantId);
 
   const handleDeleteTag = (id: string) => {
@@ -38,7 +42,7 @@ export const Tags = ({ tenantId }: Props) => {
                 className="flex items-center font-semibold bg-stone-200 border border-teal-700 text-teal-700 rounded-r-md px-2"
                 onClick={() => handleDeleteTag(tag.id)}
               >
-                x
+                X
               </button>
             </li>
           ))}
