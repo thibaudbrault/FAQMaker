@@ -1,7 +1,9 @@
 import { getIdSchemaFn } from '@/lib';
+import { generatePassword } from '@/utils';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
+import bcrypt from 'bcrypt';
 
 export default async function handler(
   req: NextApiRequest,
@@ -32,15 +34,36 @@ export default async function handler(
     } catch (error) {
       return res.status(404).json({ error: error.message });
     }
+  } else if (req.method === 'POST') {
+    try {
+      if (!req.body) {
+        return res
+          .status(404)
+          .json({ success: false, message: `Form data not provided` });
+      }
+      const { firstName, lastName, email, role, tenantId } = req.body;
+      const password = generatePassword();
+      console.log('🚀 ~ file: index.ts:45 ~ password:', password);
+      const hashPassword = async (password: string) => {
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        return hashedPassword;
+      };
+      await prisma.user.create({
+        data: {
+          firstName,
+          lastName,
+          password: await hashPassword(password),
+          email,
+          role,
+          tenantId,
+        },
+      });
+      return res.status(201).json({ message: 'User created successfully' });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
   }
-  //   } else if (req.method === "POST") {
-  //     // create todo
-  //     const text = JSON.parse(req.body).text;
-  //     const todo = await prisma.todo.create({
-  //       data: { text, completed: false },
-  //     });
-
-  //     res.json(todo);
   //   } else if (req.method === "PUT") {
   //     // update todo
   //     const id = req.query.todoId as string;

@@ -22,18 +22,18 @@ type Props = {
 };
 
 export const CreateTag = ({ tenantId }: Props) => {
-  const [disabled, setDisabled] = useState<boolean>(false);
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitting },
+  } = useForm();
 
-  const { mutate, isLoading, isError, error } = useCreateTag(tenantId, reset);
+  const { mutate, isError, error } = useCreateTag(tenantId, reset);
 
   const onSubmit = (values: Tag) => {
     mutate(values);
   };
-
-  if (isLoading) {
-    setDisabled(true);
-  }
 
   if (isError && error instanceof Error) {
     errorToast(error.message);
@@ -61,7 +61,7 @@ export const CreateTag = ({ tenantId }: Props) => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col items-center gap-2"
         >
-          <div className="flex flex-col gap-1 w-11/12 mx-auto">
+          <fieldset className="flex flex-col gap-1 w-11/12 mx-auto [&_svg]:focus-within:text-teal-700">
             <Label
               htmlFor="label"
               className="lowercase"
@@ -78,11 +78,11 @@ export const CreateTag = ({ tenantId }: Props) => {
               placeholder="Tag label"
               className="w-full border border-transparent outline-none rounded-md py-1 focus:border-teal-700"
             />
-          </div>
+          </fieldset>
           <Button
-            variant={disabled ? 'disabledDark' : 'primaryDark'}
+            variant={isSubmitting ? 'disabledDark' : 'primaryDark'}
             type="submit"
-            disabled={disabled}
+            disabled={isSubmitting}
           >
             Add
           </Button>
