@@ -3,6 +3,7 @@ import { useEffect, useMemo } from 'react';
 import { Tenant } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
 import { useNodesCount, useTags, useTenant, useUsersCount } from '@/hooks';
@@ -18,7 +19,6 @@ import {
 import { General, Tags, Users } from '@/modules';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
-import { useRouter } from 'next/router';
 
 type Props = {
   me: ClientUser & { tenant: Tenant };

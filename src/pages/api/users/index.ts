@@ -1,9 +1,10 @@
+import bcrypt from 'bcrypt';
+
 import { getIdSchemaFn } from '@/lib';
 import { generatePassword } from '@/utils';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import bcrypt from 'bcrypt';
 
 export default async function handler(
   req: NextApiRequest,

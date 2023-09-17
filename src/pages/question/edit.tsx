@@ -12,9 +12,9 @@ import { Button, Input, Label, Loader, errorToast } from '@/components';
 import { useNode, useTags, useUpdateNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNode, getTags, ssrNcHandler } from '@/lib';
+import { TagsList } from '@/modules';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects, arraysAreEqual } from '@/utils';
-import { TagsList } from '@/modules';
 
 type Props = {
   me: ClientUser & { tenant: Tenant };

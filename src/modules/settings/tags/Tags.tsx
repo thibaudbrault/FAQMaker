@@ -1,9 +1,10 @@
+import { Tag } from '@prisma/client';
+import { AxiosError } from 'axios';
+
 import { Loader, errorToast } from '@/components';
 import { useDeleteTag } from '@/hooks';
 
 import { CreateTag } from './Create';
-import { Tag } from '@prisma/client';
-import { AxiosError } from 'axios';
 
 type Props = {
   tags: Tag[];
