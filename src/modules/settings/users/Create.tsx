@@ -135,7 +135,7 @@ export const CreateUser = ({ tenantId }: Props) => {
               />
             </div>
           </fieldset>
-          <Button variant={'primaryDark'} type="submit" disabled={isLoading}>
+          <Button variant={'primaryDark'} disabled={isLoading}>
             Add
           </Button>
         </form>
