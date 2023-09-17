@@ -7,23 +7,16 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { Button, Input, Label, errorToast, successToast } from '@/components';
-import { userLoginSchema } from '@/lib';
+import { LoginCredentials, userLoginSchema } from '@/lib';
 
-type LoginCredentials = z.infer<typeof userLoginSchema>;
-
-function Login({ providers }) {
+function Login() {
   const router = useRouter();
   const { error } = router.query;
   const [isShown, setIsShown] = useState<boolean>(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginCredentials>({
+  const { register, handleSubmit } = useForm<LoginCredentials>({
     resolver: zodResolver(userLoginSchema),
   });
 
