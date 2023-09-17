@@ -7,14 +7,14 @@ import { cn } from '@/utils';
 const badge = cva('badge', {
   variants: {
     variant: {
-      primary: ['bg-teal-700', 'text-stone-200'],
-      disabled: ['bg-stone-600', 'text-stone-200'],
+      primary: ['bg-teal-700', 'text-stone-200', 'text-center'],
+      disabled: ['bg-stone-600', 'text-stone-200', 'text-center'],
     },
     rounded: {
       full: ['rounded-full'],
     },
     size: {
-      small: ['px-2 py-1'],
+      small: ['px-2', 'py-1', 'min-w-[40px]'],
     },
   },
 });

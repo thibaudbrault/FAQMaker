@@ -5,14 +5,14 @@ import { Tag } from '@prisma/client';
 import { Button, Loader } from '@/components';
 
 type Props = {
-  tagsLoading: boolean;
+  isLoading: boolean;
   tags: Tag[];
-  selectedTags: String[];
-  setSelectedTags: Dispatch<SetStateAction<String[]>>;
+  selectedTags: string[];
+  setSelectedTags: Dispatch<SetStateAction<string[]>>;
 };
 
 export const TagsList = ({
-  tagsLoading,
+  isLoading,
   tags,
   selectedTags,
   setSelectedTags,
@@ -25,11 +25,11 @@ export const TagsList = ({
     }
   };
 
-  if (tagsLoading) {
+  if (isLoading) {
     return <Loader size="items" />;
   } else if (tags.length > 0) {
     return (
-      <ul className="flex flex-wrap gap-4">
+      <ul className="w-11/12 mx-auto flex justify-start flex-wrap gap-4">
         {tags.map((tag) => (
           <li key={tag.id}>
             <Button

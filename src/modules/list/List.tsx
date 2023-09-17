@@ -72,7 +72,7 @@ export const List = ({ nodes, isLoading, isError, error }: Props) => {
                 font="large"
                 weight="bold"
                 rounded="bottom"
-                className="lowercase block text-center border-t border-t-teal-700"
+                className="lowercase block text-center border-transparent border-t border-t-teal-700"
                 style={{ fontVariant: 'small-caps' }}
                 asChild
               >
