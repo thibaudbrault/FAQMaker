@@ -24,11 +24,7 @@ export const nodeModel = {
       },
     },
   },
-  tags: {
-    select: {
-      label: true,
-    },
-  },
+  tags: true,
 };
 
 export const nodeModelWithDate = {
@@ -61,9 +57,5 @@ export const nodeModelWithDate = {
       },
     },
   },
-  tags: {
-    select: {
-      label: true,
-    },
-  },
+  tags: true,
 };

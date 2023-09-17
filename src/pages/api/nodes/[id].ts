@@ -47,7 +47,9 @@ export default async function handler(
   } else if (req.method === 'PUT') {
     try {
       const { id } = req.query;
-      const { tenantId, questionId, text, slug, userId } = req.body.params;
+      const { tenantId, questionId, text, slug, userId, tags } =
+        req.body.params;
+      console.log(req.body.params);
       await prisma.node.update({
         where: { id: id as string, tenantId: tenantId as string },
         data: {
@@ -60,6 +62,14 @@ export default async function handler(
                 user: { connect: { id: userId } },
               },
             },
+          },
+          tags: {
+            connectOrCreate: tags.map((tag: string) => {
+              return {
+                where: { id: tag, tenantId },
+                create: { id: tag, tenantId },
+              };
+            }),
           },
         },
       });

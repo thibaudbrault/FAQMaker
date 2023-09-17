@@ -13,6 +13,7 @@ const updateNode = async (
   tenantId: string,
   questionId: string,
   userId: string,
+  tags: string[],
 ) => {
   const { data } = await axios.put(`${Routes.API.NODES}/${id}`, {
     params: {
@@ -21,6 +22,7 @@ const updateNode = async (
       questionId,
       slug: slugify(values.text),
       userId,
+      tags,
     },
   });
   return data;
@@ -31,13 +33,14 @@ export const useUpdateNode = (
   tenantId: string,
   questionId: string,
   userId: string,
+  tags: string[],
   router: NextRouter,
 ) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: (values: Question) =>
-      updateNode(values, id, tenantId, questionId, userId),
+      updateNode(values, id, tenantId, questionId, userId, tags),
     onSuccess: (data) => {
       successToast(data.message);
       router.push('/');

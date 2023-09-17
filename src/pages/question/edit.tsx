@@ -1,19 +1,20 @@
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 
 import { Question, Tenant } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { MoveLeft } from 'lucide-react';
+import { HelpCircle, MoveLeft } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
-import { Button, Input, Loader } from '@/components';
-import { useNode, useUpdateNode } from '@/hooks';
+import { Button, Input, Label, Loader, errorToast } from '@/components';
+import { useNode, useTags, useUpdateNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
-import { getMe, getNode, ssrNcHandler } from '@/lib';
+import { getMe, getNode, getTags, ssrNcHandler } from '@/lib';
 import { ClientUser } from '@/types';
-import { QueryKeys, Redirects } from '@/utils';
+import { QueryKeys, Redirects, arraysAreEqual } from '@/utils';
+import { TagsList } from '@/modules';
 
 type Props = {
   me: ClientUser & { tenant: Tenant };
@@ -22,9 +23,17 @@ type Props = {
 
 function Edit({ me, id }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const { register, handleSubmit, watch } = useForm();
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { isSubmitting },
+  } = useForm();
   const router = useRouter();
 
+  const { data: tags, isLoading: isTagsLoading } = useTags(me.tenantId);
   const {
     data: node,
     isLoading,
@@ -32,11 +41,12 @@ function Edit({ me, id }: Props) {
     error,
   } = useNode(me.tenantId, id as string);
 
-  const { mutate, isLoading: mutateIsLoading } = useUpdateNode(
+  const { mutate } = useUpdateNode(
     id,
     me.tenantId,
     node.question.id,
     me.id,
+    selectedTags,
     router,
   );
 
@@ -45,18 +55,24 @@ function Edit({ me, id }: Props) {
   };
 
   const questionText = watch('text', '');
+  const tagsId = node.tags.map((tag) => tag.id);
 
   useEffect(() => {
+    setSelectedTags(node.tags.map((tag) => tag.id));
     setDisabled(
-      mutateIsLoading ||
+      isSubmitting ||
         questionText.length < 3 ||
         questionText === node.question.text,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mutateIsLoading, questionText]);
+  }, [isSubmitting, questionText]);
 
   if (isLoading) {
     return <Loader size="screen" />;
+  }
+
+  if (isError && error instanceof Error) {
+    errorToast(error.message);
   }
 
   return (
@@ -90,20 +106,42 @@ function Edit({ me, id }: Props) {
             Edit the question
           </h2>
           <form
-            className="flex justify-center items-center flex-col gap-2"
+            className="flex justify-center items-center flex-col gap-4 "
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Input
-              {...register('text', { required: true, min: 3 })}
-              defaultValue={node.question.text}
-              type="text"
-              className="bg-stone-100 rounded-md p-1 w-80 border border-stone-200 focus:border-teal-700 outline-none "
+            <fieldset className="flex flex-col gap-1 w-11/12 mx-auto [&_svg]:focus-within:text-teal-700">
+              <Label
+                htmlFor="question"
+                className="lowercase"
+                style={{ fontVariant: 'small-caps' }}
+              >
+                Question
+              </Label>
+              <Input
+                {...register('text', { required: true, min: 3 })}
+                defaultValue={node.question.text}
+                withIcon
+                icon={<HelpCircle />}
+                type="text"
+                id="question"
+                className="w-full rounded-md p-1 border border-stone-200 focus:border-teal-700 outline-none "
+              />
+            </fieldset>
+            <TagsList
+              isLoading={isTagsLoading}
+              tags={tags}
+              selectedTags={selectedTags}
+              setSelectedTags={setSelectedTags}
             />
             <Button
-              variant={disabled ? 'disabledDark' : 'primaryDark'}
+              variant={
+                disabled && arraysAreEqual(tagsId, selectedTags)
+                  ? 'disabledDark'
+                  : 'primaryDark'
+              }
               type="submit"
               className="lowercase"
-              disabled={disabled}
+              disabled={disabled && arraysAreEqual(tagsId, selectedTags)}
               style={{ fontVariant: 'small-caps' }}
             >
               Update
@@ -132,6 +170,9 @@ export const getServerSideProps: GetServerSideProps = async ({
   await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);
   await queryClient.prefetchQuery([QueryKeys.NODE, me.tenantId, id], () =>
     getNode(me.tenantId, id as string),
+  );
+  await queryClient.prefetchQuery([QueryKeys.TAGS, me.tenantId], () =>
+    getTags(me.tenantId),
   );
 
   return {

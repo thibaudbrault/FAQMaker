@@ -11,7 +11,8 @@ import { useForm } from 'react-hook-form';
 import { Button, Input, Label, errorToast } from '@/components';
 import { useCreateNode, useTags } from '@/hooks';
 import { PageLayout } from '@/layouts';
-import { getMe, getNode, ssrNcHandler } from '@/lib';
+import { getMe, getTags, ssrNcHandler } from '@/lib';
+import { TagsList } from '@/modules';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
 
@@ -21,17 +22,18 @@ type Props = {
 
 function New({ me }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const [selectedTags, setSelectedTags] = useState<String[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const { register, handleSubmit, watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { isSubmitting },
+  } = useForm();
   const router = useRouter();
 
-  const { data: tags, isLoading: tagsLoading } = useTags(me.tenantId);
-  const { mutate, isLoading, isError, error } = useCreateNode(
-    me,
-    router,
-    selectedTags,
-  );
+  const { data: tags, isLoading } = useTags(me.tenantId);
+  const { mutate, isError, error } = useCreateNode(me, router, selectedTags);
 
   const onSubmit = (values: Question) => {
     mutate(values);
@@ -44,8 +46,8 @@ function New({ me }: Props) {
   const questionText = watch('text', '');
 
   useEffect(() => {
-    setDisabled(isLoading || questionText.length < 3);
-  }, [isLoading, questionText]);
+    setDisabled(isSubmitting || questionText.length < 3);
+  }, [isSubmitting, questionText]);
 
   return (
     <PageLayout id={me.id} company={me.tenant.company}>
@@ -73,9 +75,9 @@ function New({ me }: Props) {
           </h2>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col items-center gap-2 [&_svg]:focus-within:text-teal-700"
+            className="flex flex-col items-center gap-4"
           >
-            <div className="flex flex-col gap-1 w-11/12 mx-auto">
+            <fieldset className="flex flex-col gap-1 w-11/12 mx-auto [&_svg]:focus-within:text-teal-700">
               <Label
                 htmlFor="question"
                 className="lowercase"
@@ -92,7 +94,13 @@ function New({ me }: Props) {
                 placeholder="New question"
                 className="w-full border border-transparent outline-none rounded-md py-1 focus:border-teal-700"
               />
-            </div>
+            </fieldset>
+            <TagsList
+              isLoading={isLoading}
+              tags={tags}
+              selectedTags={selectedTags}
+              setSelectedTags={setSelectedTags}
+            />
             <Button
               variant={disabled ? 'disabledDark' : 'primaryDark'}
               type="submit"
@@ -124,6 +132,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);
+  await queryClient.prefetchQuery([QueryKeys.TAGS, me.tenantId], () =>
+    getTags(me.tenantId),
+  );
 
   return {
     props: {
