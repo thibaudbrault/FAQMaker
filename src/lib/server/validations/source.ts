@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
 export const sourceGetSchema = z.object({
-  id: z.string().cuid(),
+  id: z.string().uuid(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
   label: z.string(),
   link: z.string().url(),
-  answerId: z.string().cuid(),
+  answerId: z.string().uuid(),
 });

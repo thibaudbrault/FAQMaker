@@ -10,16 +10,18 @@ export const userLoginSchema = z.object({
   password: z.string().min(passwordMin).max(passwordMax),
 });
 
+export type LoginCredentials = z.infer<typeof userLoginSchema>;
+
 export const userGetSchema = z
   .object({
-    id: z.string().cuid(),
+    id: z.string().uuid(),
     createdAt: z.string().datetime(),
     firstName: z.string(),
     lastName: z.string(),
     email: z.string().email(),
     password: z.string(),
     role: z.enum(['user', 'admin']),
-    tenantId: z.string().cuid(),
+    tenantId: z.string().uuid(),
   })
   .refine((data) => data.id, 'Id should be specified.');
 
