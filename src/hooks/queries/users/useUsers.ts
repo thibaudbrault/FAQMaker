@@ -1,7 +1,7 @@
-import { User } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 
+import { ClientUser } from '@/types';
 import { QueryKeys, Routes } from '@/utils';
 
 const getUsers = async (tenantId: string) => {
@@ -10,7 +10,7 @@ const getUsers = async (tenantId: string) => {
 };
 
 export const useUsers = (tenantId: string) => {
-  const query = useQuery<User[], AxiosError>({
+  const query = useQuery<ClientUser[], AxiosError>({
     queryKey: [QueryKeys.USERS, tenantId],
     queryFn: () => getUsers(tenantId),
   });

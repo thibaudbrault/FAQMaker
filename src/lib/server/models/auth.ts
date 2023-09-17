@@ -17,7 +17,7 @@ export const loginUser = async ({
 }> => {
   const result = userLoginSchema.safeParse({ email, password });
 
-  if (!result.success) {
+  if (result.success === false) {
     return {
       user: null,
       error: ApiError.fromZodError(result.error),
@@ -42,7 +42,7 @@ export const loginUser = async ({
   // if (!isValid) {
   //   return {
   //     user,
-  //     error: new ApiError('Invalid password.', 401),
+  //     error: new ApiError(errorMessage, 401),
   //   };
   // }
 

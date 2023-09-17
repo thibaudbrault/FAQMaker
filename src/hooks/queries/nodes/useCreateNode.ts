@@ -11,7 +11,7 @@ import { QueryKeys, Routes } from '@/utils';
 const createNode = async (
   values: Question,
   me: ClientUser,
-  selectedTags: String[],
+  selectedTags: string[],
 ) => {
   const body = {
     ...values,
@@ -27,7 +27,7 @@ const createNode = async (
 export const useCreateNode = (
   me: ClientUser,
   router: NextRouter,
-  selectedTags: String[],
+  selectedTags: string[],
 ) => {
   const queryClient = useQueryClient();
 

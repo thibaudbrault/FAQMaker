@@ -5,10 +5,9 @@ import { successToast } from '@/components';
 import { QueryKeys, Routes } from '@/utils';
 
 const deleteTag = async (tenantId: string, id: string) => {
-  const { data } = await axios.delete(`${Routes.API.TAGS}/${id}`, {
+  await axios.delete(`${Routes.API.TAGS}/${id}`, {
     params: { tenantId },
   });
-  return data;
 };
 
 type MutationParams = {
