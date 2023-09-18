@@ -4,6 +4,7 @@ import { Button, Loader, errorToast } from '@/components';
 import { useDeleteUser, useUsers } from '@/hooks';
 
 import { CreateUser } from './Create';
+import { UpdateUser } from './Update';
 
 type Props = {
   meId: string;
@@ -55,15 +56,7 @@ export const Users = ({ meId, tenantId }: Props) => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button
-                    variant="primaryDark"
-                    weight="semibold"
-                    size="small"
-                    className="lowercase"
-                    style={{ fontVariant: 'small-caps' }}
-                  >
-                    Modify
-                  </Button>
+                  <UpdateUser user={user} tenantId={tenantId} />
                   {(user.role !== 'admin' || user.id !== meId) && (
                     <Button
                       variant="secondaryDark"

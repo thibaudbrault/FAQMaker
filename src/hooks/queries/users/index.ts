@@ -5,3 +5,4 @@ export * from './useUserQuestions';
 export * from './useUsersAnswers';
 export * from './useUsersCount';
 export * from './useDeleteUser';
+export * from './useUpdateUser';

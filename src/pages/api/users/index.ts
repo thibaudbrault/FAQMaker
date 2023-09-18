@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 
 import { getIdSchemaFn } from '@/lib';
 import { generatePassword } from '@/utils';
-import prisma from 'lib/prisma';
+import prisma, { excludeFromUserArray } from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -30,7 +30,8 @@ export default async function handler(
         const users = await prisma.user.findMany({
           where: { tenantId: tenantId as string },
         });
-        return res.status(200).json(users);
+        const usersWithoutPassword = excludeFromUserArray(users);
+        return res.status(200).json(usersWithoutPassword);
       }
     } catch (error) {
       return res.status(404).json({ error: error.message });
@@ -44,7 +45,6 @@ export default async function handler(
       }
       const { firstName, lastName, email, role, tenantId } = req.body;
       const password = generatePassword();
-      console.log('🚀 ~ file: index.ts:45 ~ password:', password);
       const hashPassword = async (password: string) => {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);

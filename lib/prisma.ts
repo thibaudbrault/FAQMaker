@@ -30,3 +30,25 @@ export const exclude = <T, Key extends keyof T>(
 export const excludeFromUser = (user: User): ClientUser => {
   return exclude(user, 'password');
 };
+
+export const excludeFromArray = <T, Key extends keyof T>(
+  models: T[],
+  ...keys: Key[]
+): Omit<T, Key>[] => {
+  if (!models || models.length === 0) {
+    throw new Error('Models array is missing or empty.');
+  }
+
+  const result: Omit<T, Key>[] = [];
+
+  for (const model of models) {
+    const excludedModel = exclude(model, ...keys);
+    result.push(excludedModel);
+  }
+
+  return result;
+};
+
+export const excludeFromUserArray = (users: User[]): ClientUser[] => {
+  return excludeFromArray(users, 'password');
+};

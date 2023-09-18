@@ -24,13 +24,17 @@ export default async function handler(
     }
   } else if (req.method === 'PUT') {
     try {
-      const id = req.query.todoId as string;
+      if (!req.query) {
+        return res
+          .status(404)
+          .json({ success: false, message: `User not found` });
+      }
+      const id = req.query.id as string;
       const data = req.body;
       await prisma.user.update({
         where: { id },
         data,
       });
-
       return res.status(201).json({ message: 'User updated successfully' });
     } catch (error) {
       return res.status(500).json({ error: error.message });
