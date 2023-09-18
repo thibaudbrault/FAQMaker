@@ -3,6 +3,7 @@ import { Tenant } from '@prisma/client';
 import { Colors } from './Colors';
 import { Company } from './Company';
 import { Data } from './Data';
+import { Integrations } from './Integrations';
 
 type Props = {
   nodesCount: number;
@@ -25,6 +26,8 @@ export const General = ({
       <section className="relative">
         <Company tenant={tenant} isLoading={isTenantLoading} />
       </section>
+      <section className="relative"></section>
+      <Integrations tenant={tenant} isLoading={isTenantLoading} />
       <section className="relative">
         <Data nodesCount={nodesCount} usersCount={usersCount} />
       </section>
