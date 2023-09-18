@@ -11,6 +11,7 @@ const getUserAnswers = async (userId: string) => {
 };
 
 type NodeWithQuestionAndAnswer = {
+  id: string;
   answer: {
     text: string;
   };
