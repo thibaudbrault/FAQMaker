@@ -8,15 +8,25 @@ generator client {
 }
 
 model Tenant {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  email     String   @unique
-  plan      Plan
-  company   String
-  users     User[]
-  nodes     Node[]
-  tags      Tag[]
-  color     Color?
+  id           String        @id @default(cuid())
+  createdAt    DateTime      @default(now())
+  email        String        @unique
+  plan         Plan
+  company      String
+  users        User[]
+  nodes        Node[]
+  tags         Tag[]
+  integrations Integrations?
+  color        Color?
+}
+
+model Integrations {
+  id       String @id @default(cuid())
+  slack    String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+  tenantId String @unique
+
+  @@index([tenantId])
 }
 
 model Node {
