@@ -28,7 +28,7 @@ function Profile({ me }: Props) {
         <UserQuestions questions={questions} isLoading={isQuestionsLoading} />
       </section>
       <section className="flex flex-col gap-4 w-3/4 mx-auto bg-stone-100 rounded-md p-4">
-        <UserAnswers answers={answers} isLoading={isAnswersLoading} />
+        <UserAnswers nodes={answers} isLoading={isAnswersLoading} />
       </section>
     </PageLayout>
   );

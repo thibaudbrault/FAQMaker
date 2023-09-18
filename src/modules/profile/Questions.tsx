@@ -32,7 +32,7 @@ export const UserQuestions = ({ questions, isLoading }: Props) => {
         <ul className="flex flex-col gap-2">
           {questions.map((question) => (
             <li
-              className="flex items-center justify-between shadow-sm rounded-md bg-stone-50 border border-teal-700 px-3 py-2"
+              className="flex items-center justify-between shadow-sm bg-white px-3 py-2 rounded-md"
               key={question.id}
             >
               <h3 className="text-2xl font-semibold hover:underline">

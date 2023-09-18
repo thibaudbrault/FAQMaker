@@ -112,7 +112,14 @@ export const UpdateProfile = ({ me }: Props) => {
             </div>
           </div>
         </fieldset>
-        <Button variant="primaryDark">Update</Button>
+        <Button
+          variant="primaryDark"
+          weight="semibold"
+          className="lowercase"
+          style={{ fontVariant: 'small-caps' }}
+        >
+          Update
+        </Button>
       </form>
     </>
   );

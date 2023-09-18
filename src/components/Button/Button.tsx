@@ -47,6 +47,7 @@ const button = cva('button', {
       large: ['text-lg'],
     },
     rounded: {
+      none: ['rounded-none'],
       base: ['rounded-md'],
       bottom: ['rounded-b-md'],
       full: ['rounded-full'],
