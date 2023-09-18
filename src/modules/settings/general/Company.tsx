@@ -1,9 +1,11 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Tenant } from '@prisma/client';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import { Button, Input, Label, Loader } from '@/components';
+import { useUpdateTenant } from '@/hooks';
 
 type Props = {
   tenant: Tenant;
@@ -11,7 +13,24 @@ type Props = {
 };
 
 export const Company = ({ tenant, isLoading }: Props) => {
-  const { register, handleSubmit, reset } = useForm();
+  const [disabled, setDisabled] = useState<boolean>(true);
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, isDirty },
+  } = useForm({
+    defaultValues: {
+      company: tenant.company,
+      email: tenant.email,
+    },
+  });
+
+  const { mutate } = useUpdateTenant(tenant.id, router);
+
+  const onSubmit = (values: Tenant) => {
+    mutate(values);
+  };
 
   const fields = useMemo(
     () => [
@@ -29,6 +48,10 @@ export const Company = ({ tenant, isLoading }: Props) => {
     [],
   );
 
+  useEffect(() => {
+    setDisabled(isSubmitting || !isDirty);
+  }, [isDirty, isSubmitting]);
+
   if (isLoading) {
     return <Loader size="items" />;
   }
@@ -41,7 +64,10 @@ export const Company = ({ tenant, isLoading }: Props) => {
       >
         Company
       </h2>
-      <form className="flex flex-col items-center gap-4">
+      <form
+        className="flex flex-col items-center gap-4"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <fieldset className="flex w-11/12 mx-auto gap-2">
           {fields.map((field) => (
             <div
@@ -67,10 +93,11 @@ export const Company = ({ tenant, isLoading }: Props) => {
           ))}
         </fieldset>
         <Button
-          variant="primaryDark"
+          variant={disabled ? 'disabledDark' : 'primaryDark'}
           weight="semibold"
           className="lowercase"
           style={{ fontVariant: 'small-caps' }}
+          disabled={disabled}
         >
           Update
         </Button>

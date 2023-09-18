@@ -61,29 +61,18 @@ export default async function handler(
     //     } catch (error) {
     //       return res.status(500).json({ error: error.message });
     //     }
-    //   } else if (req.method === 'PUT') {
-    //     try {
-    //       const { id } = req.query;
-    //       const { tenantId, questionId, text, slug, userId } = req.body;
-    //       await prisma.node.update({
-    //         where: { id: id as string, tenantId: tenantId as string },
-    //         data: {
-    //           question: {
-    //             update: {
-    //               where: { id: questionId as string },
-    //               data: {
-    //                 text: text as string,
-    //                 slug: slug as string,
-    //               },
-    //             },
-    //           },
-    //         },
-    //       });
-
-    //       return res.status(201).json({ message: 'Question updated successfully' });
-    //     } catch (error) {
-    //       return res.status(500).json({ error: error.message });
-    //     }
+  } else if (req.method === 'PUT') {
+    try {
+      const id = req.query.id as string;
+      const data = req.body;
+      await prisma.tenant.update({
+        where: { id },
+        data,
+      });
+      return res.status(201).json({ message: 'Tenant updated successfully' });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
     //   } else if (req.method === 'DELETE') {
     //     try {
     //       if (!req.query) {
