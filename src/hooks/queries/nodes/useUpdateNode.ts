@@ -15,16 +15,15 @@ const updateNode = async (
   userId: string,
   tags: string[],
 ) => {
-  const { data } = await axios.put(`${Routes.API.NODES}/${id}`, {
-    params: {
-      ...values,
-      tenantId,
-      questionId,
-      slug: slugify(values.text),
-      userId,
-      tags,
-    },
-  });
+  const body = {
+    ...values,
+    tenantId,
+    questionId,
+    slug: slugify(values.text),
+    userId,
+    tags,
+  };
+  const { data } = await axios.put(`${Routes.API.NODES}/${id}`, body);
   return data;
 };
 

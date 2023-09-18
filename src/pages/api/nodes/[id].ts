@@ -46,12 +46,15 @@ export default async function handler(
     //     }
   } else if (req.method === 'PUT') {
     try {
-      const { id } = req.query;
-      const { tenantId, questionId, text, slug, userId, tags } =
-        req.body.params;
-      console.log(req.body.params);
+      if (!req.query) {
+        return res
+          .status(404)
+          .json({ success: false, message: `Node not found` });
+      }
+      const id = req.query.id as string;
+      const { tenantId, questionId, text, slug, userId, tags } = req.body;
       await prisma.node.update({
-        where: { id: id as string, tenantId: tenantId as string },
+        where: { id, tenantId: tenantId as string },
         data: {
           question: {
             update: {

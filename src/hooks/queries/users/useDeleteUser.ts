@@ -5,10 +5,8 @@ import { successToast } from '@/components';
 import { QueryKeys, Routes } from '@/utils';
 
 const deleteUser = async (tenantId: string, id: string) => {
-  const { data } = await axios.delete(`${Routes.API.USERS}/${id}`, {
-    params: { tenantId },
-  });
-  return data;
+  const data = { tenantId };
+  await axios.delete(`${Routes.API.USERS}/${id}`, { data });
 };
 
 type MutationParams = {

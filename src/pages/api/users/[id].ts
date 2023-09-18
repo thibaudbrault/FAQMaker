@@ -46,9 +46,10 @@ export default async function handler(
           .status(404)
           .json({ success: false, message: `User not found` });
       }
-      const { id, tenantId } = req.query;
+      const id = req.query.id as string;
+      const tenantId = req.body as string;
       await prisma.user.delete({
-        where: { id: id as string, tenantId: tenantId as string },
+        where: { id, tenantId },
       });
       return res.status(200).end();
     } catch (error) {

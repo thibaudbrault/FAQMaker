@@ -7,13 +7,11 @@ import { successToast } from '@/components';
 import { QueryKeys, Routes } from '@/utils';
 
 const updateAnswer = async (values: Answer, id: string, userId: string) => {
-  const { data } = await axios.put(`${Routes.API.ANSWERS}/${id}`, {
-    params: {
-      ...values,
-      id,
-      userId,
-    },
-  });
+  const body = {
+    ...values,
+    userId,
+  };
+  const { data } = await axios.put(`${Routes.API.ANSWERS}/${id}`, body);
   return data;
 };
 
