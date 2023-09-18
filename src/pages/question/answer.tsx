@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Answer, Tenant } from '@prisma/client';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
-import { MoveLeft } from 'lucide-react';
+import { ExternalLink, MoveLeft } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -94,17 +94,30 @@ function Answer({ me, id }: Props) {
             className="flex justify-center items-center flex-col gap-2"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Controller
-              control={control}
-              name="text"
-              render={({ field: { onChange, value } }) => (
-                <Editor
-                  value={value}
-                  onChange={onChange}
-                  prevAnswer={node.answer?.text ?? ''}
-                />
-              )}
-            />
+            <div className="w-full">
+              <p className="w-full text-left text-sm">
+                Question: <b>{node.question.text}</b>
+              </p>
+              <Controller
+                control={control}
+                name="text"
+                render={({ field: { onChange, value } }) => (
+                  <Editor
+                    value={value}
+                    onChange={onChange}
+                    prevAnswer={node.answer?.text ?? ''}
+                  />
+                )}
+              />
+              <Link
+                className="flex gap-1 items-center text-sm hover:underline"
+                href="https://www.markdownguide.org/cheat-sheet/"
+                target="_blank"
+              >
+                Markdown guide
+                <ExternalLink className="w-3 h-3" />
+              </Link>
+            </div>
             <Button
               variant={disabled ? 'disabledDark' : 'primaryDark'}
               type="submit"
