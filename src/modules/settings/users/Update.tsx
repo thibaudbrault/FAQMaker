@@ -126,8 +126,11 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
                 name="role"
                 rules={{ required: true }}
                 render={({ field: { onChange } }) => (
-                  <Select onValueChange={onChange} defaultValue="user">
-                    <SelectTrigger className="bg-white focus:border-teal-700 focus:ring-0 data-[state=open]:border-teal-700">
+                  <Select onValueChange={onChange} defaultValue={user.role}>
+                    <SelectTrigger
+                      id="role"
+                      className="bg-white focus:border-teal-700 focus:ring-0 data-[state=open]:border-teal-700"
+                    >
                       <SelectValue placeholder="Select a role" />
                     </SelectTrigger>
                     <SelectContent className="bg-stone-200">

@@ -122,8 +122,11 @@ export const CreateUser = ({ tenantId }: Props) => {
                 name="role"
                 rules={{ required: true }}
                 render={({ field: { onChange } }) => (
-                  <Select onValueChange={onChange} defaultValue="user">
-                    <SelectTrigger className="bg-white focus:border-teal-700 focus:ring-0 data-[state=open]:border-teal-700">
+                  <Select onValueChange={onChange}>
+                    <SelectTrigger
+                      id="role"
+                      className="bg-white focus:border-teal-700 focus:ring-0 data-[state=open]:border-teal-700"
+                    >
                       <SelectValue placeholder="Select a role" />
                     </SelectTrigger>
                     <SelectContent className="bg-stone-200">
@@ -145,10 +148,9 @@ export const CreateUser = ({ tenantId }: Props) => {
             Add
           </Button>
         </form>
-        <DialogFooter>
-          <p className="text-xs">
-            The password will be created automatically and sent to the email
-            entered
+        <DialogFooter className="w-full">
+          <p className="w-full text-xs text-center">
+            A secured password will be created and sent to the email entered
           </p>
         </DialogFooter>
       </DialogContent>
