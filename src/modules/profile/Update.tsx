@@ -1,21 +1,39 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Tenant } from '@prisma/client';
 import { Label } from '@radix-ui/react-label';
-import { AtSign, Lock, UserIcon } from 'lucide-react';
+import { AtSign, UserIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
-import { Button, Input } from '@/components';
-import { ClientUser } from '@/types';
+import { Button, Input, errorToast } from '@/components';
+import { useUpdateUser } from '@/hooks';
+import { ClientUser, IUserFields } from '@/types';
 
 type Props = {
   me: ClientUser & { tenant: Tenant };
 };
 
 export const UpdateProfile = ({ me }: Props) => {
-  const { register, handleSubmit, reset } = useForm();
+  const [disabled, setDisabled] = useState<boolean>(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, isDirty },
+  } = useForm({
+    defaultValues: {
+      firstName: me.firstName,
+      lastName: me.lastName,
+      email: me.email,
+    },
+  });
 
-  const fields = useMemo(
+  const { mutate, isError, error } = useUpdateUser(me.id, me.tenantId);
+
+  const onSubmit = (values: ClientUser) => {
+    mutate(values);
+  };
+
+  const fields: IUserFields[] = useMemo(
     () => [
       {
         label: 'First Name',
@@ -39,6 +57,14 @@ export const UpdateProfile = ({ me }: Props) => {
     [],
   );
 
+  useEffect(() => {
+    setDisabled(isSubmitting || !isDirty);
+  }, [isDirty, isSubmitting]);
+
+  if (isError && error instanceof Error) {
+    errorToast(error.message);
+  }
+
   return (
     <>
       <h2
@@ -47,7 +73,10 @@ export const UpdateProfile = ({ me }: Props) => {
       >
         Informations
       </h2>
-      <form className="flex flex-col items-center gap-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col items-center gap-4"
+      >
         <fieldset className="flex flex-col w-11/12 mx-auto gap-2">
           {fields.map((field) => (
             <div
@@ -62,7 +91,7 @@ export const UpdateProfile = ({ me }: Props) => {
                 {field.label}
               </Label>
               <Input
-                {...register(field.value, { required: true })}
+                {...register(field.value)}
                 defaultValue={me[field.value]}
                 withIcon
                 icon={field.icon}
@@ -73,50 +102,13 @@ export const UpdateProfile = ({ me }: Props) => {
               />
             </div>
           ))}
-          <div className="flex gap-2 w-full">
-            <div className="flex flex-1 flex-col gap-1 [&_svg]:focus-within:text-teal-700">
-              <Label
-                htmlFor="password"
-                className="lowercase"
-                style={{ fontVariant: 'small-caps' }}
-              >
-                Password
-              </Label>
-              <Input
-                {...register('password', { required: true })}
-                withIcon
-                icon={<Lock />}
-                type="password"
-                id="password"
-                placeholder="Password"
-                className="w-full border border-transparent outline-none rounded-md p-1 focus:border-teal-700"
-              />
-            </div>
-            <div className="flex flex-1 flex-col gap-1 [&_svg]:focus-within:text-teal-700">
-              <Label
-                htmlFor="cpassword"
-                className="lowercase"
-                style={{ fontVariant: 'small-caps' }}
-              >
-                Confirm Password
-              </Label>
-              <Input
-                {...register('cpassword', { required: true })}
-                withIcon
-                icon={<Lock />}
-                type="password"
-                id="cpassword"
-                placeholder="Confirm password"
-                className="w-full border border-transparent outline-none rounded-md p-1 focus:border-teal-700"
-              />
-            </div>
-          </div>
         </fieldset>
         <Button
-          variant="primaryDark"
+          variant={disabled ? 'disabledDark' : 'primaryDark'}
           weight="semibold"
           className="lowercase"
           style={{ fontVariant: 'small-caps' }}
+          disabled={disabled}
         >
           Update
         </Button>

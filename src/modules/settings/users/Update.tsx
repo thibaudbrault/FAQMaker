@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { AtSign, UserIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
@@ -21,7 +21,7 @@ import {
   errorToast,
 } from '@/components';
 import { useUpdateUser } from '@/hooks';
-import { ClientUser } from '@/types';
+import { ClientUser, IUserFields } from '@/types';
 
 type Props = {
   user: ClientUser;
@@ -29,7 +29,30 @@ type Props = {
 };
 
 export const UpdateUser = ({ user, tenantId }: Props) => {
-  const fields = useMemo(
+  const [disabled, setDisabled] = useState<boolean>(true);
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { isSubmitting, isDirty },
+  } = useForm({
+    defaultValues: {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+    },
+  });
+  const { mutate, isLoading, isError, error } = useUpdateUser(
+    user.id,
+    tenantId,
+  );
+
+  const onSubmit = (values: ClientUser) => {
+    mutate(values);
+  };
+
+  const fields: IUserFields[] = useMemo(
     () => [
       {
         label: 'First Name',
@@ -53,15 +76,9 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
     [],
   );
 
-  const { register, handleSubmit, control } = useForm();
-  const { mutate, isLoading, isError, error } = useUpdateUser(
-    user.id,
-    tenantId,
-  );
-
-  const onSubmit = (values: ClientUser) => {
-    mutate(values);
-  };
+  useEffect(() => {
+    setDisabled(isSubmitting || !isDirty);
+  }, [isDirty, isSubmitting]);
 
   if (isError && error instanceof Error) {
     errorToast(error.message);
@@ -143,11 +160,11 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
             </div>
           </fieldset>
           <Button
-            variant="primaryDark"
+            variant={disabled ? 'disabledDark' : 'primaryDark'}
             weight="semibold"
             className="lowercase"
-            disabled={isLoading}
             style={{ fontVariant: 'small-caps' }}
+            disabled={disabled}
           >
             Update
           </Button>
