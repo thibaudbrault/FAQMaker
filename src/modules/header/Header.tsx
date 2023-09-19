@@ -1,12 +1,10 @@
 import { LogOut, Settings, UserIcon } from 'lucide-react';
-import Link from 'next/link';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
 import { useUser } from '@/hooks';
 import { cn } from '@/utils';
-
-import { CreateQuestion } from '../question';
 
 type Props = {
   id?: string;
