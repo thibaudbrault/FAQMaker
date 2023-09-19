@@ -63,7 +63,7 @@ function Settings({ me }: Props) {
   useEffect(() => {
     router.query.tab = 'general';
     router.push(router);
-  }, []);
+  }, [router.isReady]);
 
   const tabStyle =
     'data-[state=active]:bg-teal-700 data-[state=active]:text-stone-200 text-xl lowercase font-semibold';

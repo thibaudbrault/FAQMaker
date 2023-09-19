@@ -1,7 +1,8 @@
 import { IncomingMessage } from 'http';
 
-import { NextApiRequestCookies } from 'next/dist/server/api-utils';
 import { ReactElement } from 'react';
+
+import { NextApiRequestCookies } from 'next/dist/server/api-utils';
 
 export type FallbackType = 'screen' | 'page' | 'item';
 export type QueryParamsType = Partial<{
