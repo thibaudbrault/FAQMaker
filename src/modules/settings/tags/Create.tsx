@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { Tag } from '@prisma/client';
-import { Tag as TagIcon } from 'lucide-react';
+import { PlusCircle, Tag as TagIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -44,12 +44,14 @@ export const CreateTag = ({ tenantId }: Props) => {
       <DialogTrigger asChild>
         <Button
           variant="primaryDark"
+          icon="withIcon"
           font="large"
           size="full"
           weight="bold"
           className="lowercase"
           style={{ fontVariant: 'small-caps' }}
         >
+          <PlusCircle />
           New tag
         </Button>
       </DialogTrigger>

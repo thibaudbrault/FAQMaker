@@ -71,10 +71,12 @@ export const CreateUser = ({ tenantId }: Props) => {
           size="full"
           font="large"
           icon="withIcon"
-          weight="bold"
+          weight="semibold"
+          className="lowercase"
+          style={{ fontVariant: 'small-caps' }}
         >
           <PlusCircle />
-          Add
+          New user
         </Button>
       </DialogTrigger>
       <DialogContent className="bg-stone-200/90">
