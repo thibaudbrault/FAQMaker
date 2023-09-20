@@ -9,6 +9,10 @@ export default withAuth({
       if (token) return true;
       if (pathname === `${process.env.NEXT_PUBLIC_SITE_URL}/register`)
         return true;
+      if (pathname === `${process.env.NEXT_PUBLIC_SITE_URL}/register/user`)
+        return true;
+      if (pathname === `${process.env.NEXT_PUBLIC_SITE_URL}/register/confirm`)
+        return true;
     },
   },
   pages: {
