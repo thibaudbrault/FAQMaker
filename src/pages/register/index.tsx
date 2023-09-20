@@ -1,10 +1,12 @@
+import { useMemo } from 'react';
+
+import { MoveRight } from 'lucide-react';
+import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
+
 import { Button, Field, Input } from '@/components';
 import { useRegisterState } from '@/contexts/RegisterState';
 import { AuthLayout } from '@/layouts';
-import { MoveRight } from 'lucide-react';
-import { useRouter } from 'next/router';
-import { useMemo } from 'react';
-import { useForm } from 'react-hook-form';
 
 function Company() {
   const [state, setState] = useRegisterState();
@@ -57,6 +59,7 @@ function Company() {
           </div>
           {fields.map((field) => (
             <Field
+              key={field.value}
               label={field.label}
               value={field.value}
               error={errors?.[field.value]}

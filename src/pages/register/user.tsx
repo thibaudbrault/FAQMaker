@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
 
-import { Button, Field, Input } from '@/components';
-import { useRegisterState } from '@/contexts';
-import { AuthLayout } from '@/layouts';
 import { MoveRight } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+
+import { Button, Field, Input } from '@/components';
+import { useRegisterState } from '@/contexts';
+import { AuthLayout } from '@/layouts';
 
 function Register() {
   const [state, setState] = useRegisterState();
@@ -75,6 +76,7 @@ function Register() {
           </div>
           {fields.map((field) => (
             <Field
+              key={field.value}
               label={field.label}
               value={field.value}
               error={errors?.[field.value]}

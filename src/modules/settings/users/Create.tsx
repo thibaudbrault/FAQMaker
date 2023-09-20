@@ -106,6 +106,7 @@ export const CreateUser = ({ tenantId }: Props) => {
           <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
             {fields.map((field) => (
               <Field
+                key={field.value}
                 label={field.label}
                 value={field.value}
                 error={errors?.[field.error]}

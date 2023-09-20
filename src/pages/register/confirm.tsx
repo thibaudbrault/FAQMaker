@@ -1,7 +1,8 @@
+import { useForm } from 'react-hook-form';
+
 import { Button } from '@/components';
 import { useRegisterState } from '@/contexts';
 import { AuthLayout } from '@/layouts';
-import { useForm } from 'react-hook-form';
 
 function Confirm() {
   const [state, setState] = useRegisterState();
