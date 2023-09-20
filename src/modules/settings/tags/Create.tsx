@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Tag } from '@prisma/client';
 import { PlusCircle, Tag as TagIcon } from 'lucide-react';
@@ -11,8 +11,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  Field,
   Input,
-  Label,
   errorToast,
 } from '@/components';
 import { useCreateTag } from '@/hooks';
@@ -22,11 +22,12 @@ type Props = {
 };
 
 export const CreateTag = ({ tenantId }: Props) => {
+  const [disabled, setDisabled] = useState<boolean>(true);
   const {
     register,
     handleSubmit,
     reset,
-    formState: { isSubmitting },
+    formState: { errors, isSubmitting, isValid },
   } = useForm();
 
   const { mutate, isError, error } = useCreateTag(tenantId, reset);
@@ -34,6 +35,10 @@ export const CreateTag = ({ tenantId }: Props) => {
   const onSubmit = (values: Tag) => {
     mutate(values);
   };
+
+  useEffect(() => {
+    setDisabled(isSubmitting || !isValid);
+  }, [isSubmitting, isValid]);
 
   if (isError && error instanceof Error) {
     errorToast(error.message);
@@ -64,27 +69,26 @@ export const CreateTag = ({ tenantId }: Props) => {
           className="flex flex-col items-center gap-2"
         >
           <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-teal-700">
-            <Label
-              htmlFor="label"
-              className="lowercase"
-              style={{ fontVariant: 'small-caps' }}
-            >
-              Label
-            </Label>
-            <Input
-              {...register('label', { required: true })}
-              withIcon
-              icon={<TagIcon />}
-              type="label"
-              id="label"
-              placeholder="Tag label"
-              className="w-full rounded-md border border-transparent py-1 outline-none focus:border-teal-700"
-            />
+            <Field label={'Label'} value={'label'} error={errors?.label}>
+              <Input
+                {...register('label', {
+                  required: 'Enter a label',
+                })}
+                withIcon
+                icon={<TagIcon />}
+                type="label"
+                id="label"
+                placeholder="Tag label"
+                className="w-full rounded-md border border-transparent py-1 outline-none focus:border-teal-700"
+              />
+            </Field>
           </fieldset>
           <Button
-            variant={isSubmitting ? 'disabledDark' : 'primaryDark'}
-            type="submit"
-            disabled={isSubmitting}
+            variant={disabled ? 'disabledDark' : 'primaryDark'}
+            weight="semibold"
+            className="lowercase"
+            style={{ fontVariant: 'small-caps' }}
+            disabled={disabled}
           >
             Add
           </Button>

@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
-import { Button, Input, Label, errorToast } from '@/components';
+import { Button, Field, Input, Label, errorToast } from '@/components';
 import { useCreateNode, useTags } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getTags, ssrNcHandler } from '@/lib';
@@ -28,7 +28,7 @@ function New({ me }: Props) {
     register,
     handleSubmit,
     watch,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors, isValid },
   } = useForm();
   const router = useRouter();
 
@@ -46,8 +46,8 @@ function New({ me }: Props) {
   const questionText = watch('text', '');
 
   useEffect(() => {
-    setDisabled(isSubmitting || questionText.length < 3);
-  }, [isSubmitting, questionText]);
+    setDisabled(isSubmitting || !isValid);
+  }, [isSubmitting, isValid]);
 
   return (
     <PageLayout id={me.id} company={me.tenant.company}>
@@ -67,43 +67,42 @@ function New({ me }: Props) {
           </Link>
         </Button>
         <div className="flex flex-col gap-4 rounded-md bg-stone-100 p-4">
-          <h2
-            className="text-center font-serif text-4xl font-semibold lowercase"
-            style={{ fontVariant: 'small-caps' }}
-          >
-            Ask a question
-          </h2>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col items-center gap-4"
           >
-            <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-teal-700">
-              <Label
-                htmlFor="question"
-                className="lowercase"
-                style={{ fontVariant: 'small-caps' }}
-              >
-                Question
-              </Label>
-              <Input
-                {...register('text', { required: true, min: 3 })}
-                withIcon
-                icon={<HelpCircle />}
-                type="text"
-                id="question"
-                placeholder="New question"
-                className="w-full rounded-md border border-transparent py-1 outline-none focus:border-teal-700"
+            <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-teal-700">
+              <div className="w-full text-center">
+                <legend
+                  className="font-serif text-4xl font-semibold lowercase"
+                  style={{ fontVariant: 'small-caps' }}
+                >
+                  Ask a question
+                </legend>
+              </div>
+              <Field label="Question" value="text" error={errors?.text}>
+                <Input
+                  {...register('text', { required: true, minLength: 3 })}
+                  withIcon
+                  icon={<HelpCircle />}
+                  type="text"
+                  id="question"
+                  placeholder="New question"
+                  className="w-full rounded-md border border-transparent py-1 outline-none focus:border-teal-700"
+                />
+              </Field>
+              <TagsList
+                isLoading={isLoading}
+                tags={tags}
+                selectedTags={selectedTags}
+                setSelectedTags={setSelectedTags}
               />
             </fieldset>
-            <TagsList
-              isLoading={isLoading}
-              tags={tags}
-              selectedTags={selectedTags}
-              setSelectedTags={setSelectedTags}
-            />
             <Button
               variant={disabled ? 'disabledDark' : 'primaryDark'}
-              type="submit"
+              weight="semibold"
+              className="lowercase"
+              style={{ fontVariant: 'small-caps' }}
               disabled={disabled}
             >
               Submit

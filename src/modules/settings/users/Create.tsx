@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { User } from '@prisma/client';
 import { AtSign, PlusCircle, UserIcon } from 'lucide-react';
@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  Field,
   Input,
   Label,
   Select,
@@ -28,6 +29,7 @@ type Props = {
 };
 
 export const CreateUser = ({ tenantId }: Props) => {
+  const [disabled, setDisabled] = useState<boolean>(true);
   const fields = useMemo(
     () => [
       {
@@ -35,29 +37,43 @@ export const CreateUser = ({ tenantId }: Props) => {
         value: 'firstName',
         type: 'text',
         icon: <UserIcon className="h-5 w-5" />,
+        error: 'First name is required',
       },
       {
         label: 'Last Name',
         value: 'lastName',
         type: 'text',
         icon: <UserIcon className="h-5 w-5" />,
+        error: 'Last name is required',
       },
       {
         label: 'Email',
         value: 'email',
         type: 'email',
         icon: <AtSign className="h-5 w-5" />,
+        error: 'Email is required',
       },
     ],
     [],
   );
 
-  const { register, handleSubmit, control, reset } = useForm();
-  const { mutate, isLoading, isError, error } = useCreateUser(tenantId, reset);
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors, isValid, isSubmitting },
+  } = useForm();
+
+  const { mutate, isError, error } = useCreateUser(tenantId, reset);
 
   const onSubmit = (values: User) => {
     mutate(values);
   };
+
+  useEffect(() => {
+    setDisabled(isSubmitting || !isValid);
+  }, [isSubmitting, isValid]);
 
   if (isError && error instanceof Error) {
     errorToast(error.message);
@@ -89,19 +105,13 @@ export const CreateUser = ({ tenantId }: Props) => {
         >
           <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
             {fields.map((field) => (
-              <div
-                key={field.value}
-                className="flex flex-col gap-1 [&_svg]:focus-within:text-teal-700"
+              <Field
+                label={field.label}
+                value={field.value}
+                error={errors?.[field.error]}
               >
-                <Label
-                  htmlFor={field.value}
-                  className="lowercase"
-                  style={{ fontVariant: 'small-caps' }}
-                >
-                  {field.label}
-                </Label>
                 <Input
-                  {...register(field.value, { required: true })}
+                  {...register(field.value, { required: field.error })}
                   withIcon
                   icon={field.icon}
                   type={field.type}
@@ -109,7 +119,7 @@ export const CreateUser = ({ tenantId }: Props) => {
                   placeholder={field.label}
                   className="w-full rounded-md border border-transparent p-1 outline-none focus:border-teal-700"
                 />
-              </div>
+              </Field>
             ))}
             <div className="flex flex-col gap-1">
               <Label
@@ -141,11 +151,11 @@ export const CreateUser = ({ tenantId }: Props) => {
             </div>
           </fieldset>
           <Button
-            variant="primaryDark"
+            variant={disabled ? 'disabledDark' : 'primaryDark'}
             weight="semibold"
             className="lowercase"
-            disabled={isLoading}
             style={{ fontVariant: 'small-caps' }}
+            disabled={disabled}
           >
             Add
           </Button>
