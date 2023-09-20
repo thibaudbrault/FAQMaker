@@ -29,7 +29,7 @@ export const TagsList = ({
     return <Loader size="items" />;
   } else if (tags.length > 0) {
     return (
-      <ul className="mx-auto flex w-11/12 flex-wrap justify-start gap-4">
+      <ul className="flex flex-wrap justify-start gap-4">
         {tags.map((tag) => (
           <li key={tag.id}>
             <Button
@@ -37,6 +37,7 @@ export const TagsList = ({
                 selectedTags.includes(tag.id) ? 'primaryDark' : 'disabledDark'
               }
               rounded="base"
+              font="small"
               size="small"
               type="button"
               onClick={() => handleSelection(tag.id)}

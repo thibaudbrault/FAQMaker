@@ -88,9 +88,10 @@ function Login() {
             font="large"
             weight="bold"
             type="submit"
+            className="lowercase"
             style={{ fontVariant: 'small-caps' }}
           >
-            {isLoading ? 'loading...' : 'submit'}
+            {isLoading ? 'Loading...' : 'Submit'}
           </Button>
         </form>
         {error && <LoginError error={error} />}

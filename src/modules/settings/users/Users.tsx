@@ -36,7 +36,7 @@ export const Users = ({ meId, tenantId }: Props) => {
         {users.map((user) => (
           <li
             key={user.id}
-            className="rounded-md border border-stone-200 bg-white p-6 shadow-sm"
+            className="rounded-md border border-stone-200 bg-stone-100 p-6 shadow-sm"
           >
             <div className="flex justify-between">
               <div className="flex w-full justify-between">
