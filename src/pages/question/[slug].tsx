@@ -47,8 +47,8 @@ function QuestionPage({ me, id }: Props) {
 
   return (
     <PageLayout id={me.id} company={me.tenant.company}>
-      <section className="flex flex-col gap-4 w-3/4 mx-auto">
-        <div className="flex justify-between items-center">
+      <section className="mx-auto flex w-3/4 flex-col gap-4">
+        <div className="flex items-center justify-between">
           <Button
             variant="primaryDark"
             weight="semibold"
@@ -65,7 +65,7 @@ function QuestionPage({ me, id }: Props) {
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger
-              className="bg-teal-700 text-stone-200 uppercase font-bold py-2 px-4 w-fit rounded-md"
+              className="w-fit rounded-md bg-teal-700 px-4 py-2 font-bold uppercase text-stone-200"
               style={{ fontVariant: 'small-caps' }}
             >
               Edit
@@ -73,7 +73,7 @@ function QuestionPage({ me, id }: Props) {
             <DropdownMenuContent className="bg-stone-100">
               <DropdownMenuItem className="text-base hover:text-teal-700">
                 <Link
-                  className="flex items-center gap-2 justify-start"
+                  className="flex items-center justify-start gap-2"
                   href={{
                     pathname: '/question/edit',
                     query: { id: node.id },
@@ -86,7 +86,7 @@ function QuestionPage({ me, id }: Props) {
               </DropdownMenuItem>
               <DropdownMenuItem className="text-base hover:text-teal-700">
                 <Link
-                  className="flex items-center gap-2 justify-start"
+                  className="flex items-center justify-start gap-2"
                   href={{
                     pathname: '/question/answer',
                     query: { id: node.id },
@@ -100,7 +100,7 @@ function QuestionPage({ me, id }: Props) {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="bg-stone-100 rounded-md p-4">
+        <div className="rounded-md bg-stone-100 p-4">
           <h2 className="text-2xl font-semibold">{node.question.text}</h2>
           <ul className="flex gap-2 text-xs">
             {node.tags.map((tag) => (
@@ -114,7 +114,7 @@ function QuestionPage({ me, id }: Props) {
           <hr className="my-6 border-teal-700" />
           {node.answer ? (
             <MarkdownPreview
-              className="w-11/12 mx-auto text-left"
+              className="mx-auto w-11/12 text-left"
               source={node.answer.text}
             />
           ) : (

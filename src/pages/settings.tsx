@@ -78,7 +78,7 @@ function Settings({ me }: Props) {
           Settings
         </h2>
         <Tabs defaultValue="general" className="mt-6 w-full">
-          <TabsList className="w-full mb-4">
+          <TabsList className="mb-4 w-full">
             {tabs.map((tab, index) => (
               <TabsTrigger
                 key={index}

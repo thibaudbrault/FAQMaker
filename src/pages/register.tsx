@@ -1,5 +1,6 @@
-import { AuthLayout } from '@/layouts';
 import React from 'react';
+
+import { AuthLayout } from '@/layouts';
 
 function Register() {
   return (

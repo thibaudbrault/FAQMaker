@@ -62,7 +62,7 @@ function Answer({ me, id }: Props) {
 
   return (
     <PageLayout id={me.id} company={me.tenant.company}>
-      <section className="flex flex-col gap-4 w-3/4 mx-auto">
+      <section className="mx-auto flex w-3/4 flex-col gap-4">
         <Button
           variant="primaryDark"
           weight="semibold"
@@ -83,15 +83,15 @@ function Answer({ me, id }: Props) {
             Go back
           </Link>
         </Button>
-        <div className="flex flex-col bg-stone-100 rounded-md p-4 gap-4">
+        <div className="flex flex-col gap-4 rounded-md bg-stone-100 p-4">
           <h2
-            className="text-4xl text-center font-serif font-semibold lowercase"
+            className="text-center font-serif text-4xl font-semibold lowercase"
             style={{ fontVariant: 'small-caps' }}
           >
             {node.answer ? 'Edit the answer' : 'Answer'}
           </h2>
           <form
-            className="flex justify-center items-center flex-col gap-2"
+            className="flex flex-col items-center justify-center gap-2"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="w-full">
@@ -110,12 +110,12 @@ function Answer({ me, id }: Props) {
                 )}
               />
               <Link
-                className="flex gap-1 items-center text-sm hover:underline"
+                className="flex items-center gap-1 text-sm hover:underline"
                 href="https://www.markdownguide.org/cheat-sheet/"
                 target="_blank"
               >
                 Markdown guide
-                <ExternalLink className="w-3 h-3" />
+                <ExternalLink className="h-3 w-3" />
               </Link>
             </div>
             <Button

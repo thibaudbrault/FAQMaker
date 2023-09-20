@@ -30,7 +30,7 @@ export const UserAnswers = ({ nodes, isLoading }: Props) => {
   return (
     <>
       <h2
-        className="text-4xl text-center font-serif font-semibold lowercase"
+        className="text-center font-serif text-4xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
       >
         Answers
@@ -39,7 +39,7 @@ export const UserAnswers = ({ nodes, isLoading }: Props) => {
         <ul className="flex flex-col gap-2 ">
           {nodes.map((node, index) => (
             <li
-              className="flex items-center justify-between rounded-md shadow-sm bg-white px-3 py-2"
+              className="flex items-center justify-between rounded-md bg-white px-3 py-2 shadow-sm"
               key={index}
             >
               <MarkdownPreview source={node.answer.text} />

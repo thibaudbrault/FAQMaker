@@ -17,14 +17,14 @@ export const Header = ({ id, company }: Props) => {
   const tooltipClass = 'bg-teal-800 text-stone-200 border border-stone-200';
 
   return (
-    <header className="flex justify-between items-center px-8 py-4 bg-teal-700 text-stone-200">
+    <header className="flex items-center justify-between bg-teal-700 px-8 py-4 text-stone-200">
       <h1>
-        <Link href="/" className="text-4xl font-serif">
+        <Link href="/" className="font-serif text-4xl">
           {company}
         </Link>
       </h1>
       {user && (
-        <div className="flex gap-4 items-end">
+        <div className="flex items-end gap-4">
           {!isLoading && (
             <ul className="flex gap-4">
               <li>

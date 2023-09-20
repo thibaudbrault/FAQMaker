@@ -6,14 +6,14 @@ export const Colors = () => {
   const [hexPrimary, setHexPrimary] = useState('#0f766e');
   const [hexSecondary, setHexSecondary] = useState('#e7e5e4');
   return (
-    <div className="flex flex-col gap-4 w-3/4 mx-auto bg-stone-100 rounded-md p-4 mb-4">
+    <div className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-stone-100 p-4">
       <h2
-        className="text-4xl text-center font-serif font-semibold lowercase"
+        className="text-center font-serif text-4xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
       >
         Colors
       </h2>
-      <div className="flex justify-evenly items-center mb-2">
+      <div className="mb-2 flex items-center justify-evenly">
         <Sketch
           style={{ boxShadow: 'none' }}
           color={hexPrimary}
@@ -34,7 +34,7 @@ export const Colors = () => {
         />
       </div>
       <p
-        className="text-center font-semibold w-fit px-2 py-1"
+        className="w-fit px-2 py-1 text-center font-semibold"
         style={{ backgroundColor: hexSecondary, color: hexPrimary }}
       >
         Test the colors

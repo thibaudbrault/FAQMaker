@@ -58,9 +58,9 @@ export const Company = ({ tenant, isLoading }: Props) => {
   }
 
   return (
-    <div className="flex flex-col gap-4 w-3/4 mx-auto bg-stone-100 rounded-md p-4 mb-4">
+    <div className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-stone-100 p-4">
       <h2
-        className="text-4xl text-center font-serif font-semibold lowercase"
+        className="text-center font-serif text-4xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
       >
         Company
@@ -69,7 +69,7 @@ export const Company = ({ tenant, isLoading }: Props) => {
         className="flex flex-col items-center gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <fieldset className="flex w-11/12 mx-auto gap-2">
+        <fieldset className="mx-auto flex w-11/12 gap-2">
           {fields.map((field) => (
             <div
               key={field.value}
@@ -88,7 +88,7 @@ export const Company = ({ tenant, isLoading }: Props) => {
                 type={field.type}
                 id={field.value}
                 placeholder={field.label}
-                className="w-full border border-transparent outline-none rounded-md p-1 focus:border-teal-700"
+                className="w-full rounded-md border border-transparent p-1 outline-none focus:border-teal-700"
               />
             </div>
           ))}

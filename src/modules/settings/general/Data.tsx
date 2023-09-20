@@ -13,12 +13,12 @@ export const Data = ({ nodesCount, usersCount }: Props) => {
       {
         text: 'Questions',
         value: nodesCount,
-        icon: <HelpCircle className="w-9 h-9" />,
+        icon: <HelpCircle className="h-9 w-9" />,
       },
       {
         text: 'Users',
         value: usersCount,
-        icon: <UserIcon className="w-9 h-9" />,
+        icon: <UserIcon className="h-9 w-9" />,
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -26,11 +26,11 @@ export const Data = ({ nodesCount, usersCount }: Props) => {
   );
 
   return (
-    <div className="w-3/4 mx-auto mb-4">
+    <div className="mx-auto mb-4 w-3/4">
       <ul className="grid grid-cols-3 gap-4">
         {cards.map((card, index) => (
           <li
-            className="flex items-center gap-6 bg-stone-100 rounded-md p-4"
+            className="flex items-center gap-6 rounded-md bg-stone-100 p-4"
             key={index}
           >
             {card.icon}

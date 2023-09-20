@@ -58,19 +58,19 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
         label: 'First Name',
         value: 'firstName',
         type: 'text',
-        icon: <UserIcon className="w-5 h-5" />,
+        icon: <UserIcon className="h-5 w-5" />,
       },
       {
         label: 'Last Name',
         value: 'lastName',
         type: 'text',
-        icon: <UserIcon className="w-5 h-5" />,
+        icon: <UserIcon className="h-5 w-5" />,
       },
       {
         label: 'Email',
         value: 'email',
         type: 'email',
-        icon: <AtSign className="w-5 h-5" />,
+        icon: <AtSign className="h-5 w-5" />,
       },
     ],
     [],
@@ -105,7 +105,7 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col items-center gap-4"
         >
-          <fieldset className="flex flex-col w-11/12 mx-auto gap-2">
+          <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
             {fields.map((field) => (
               <div
                 key={field.value}
@@ -126,7 +126,7 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
                   type={field.type}
                   id={field.value}
                   placeholder={field.label}
-                  className="w-full border border-transparent outline-none rounded-md p-1 focus:border-teal-700"
+                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-teal-700"
                 />
               </div>
             ))}

@@ -31,15 +31,15 @@ export const Users = ({ meId, tenantId }: Props) => {
   const iconStyle = 'w-9 h-9 m-3 inline-flex flex-shrink-0 items-center';
 
   return (
-    <section className="w-3/4 mx-auto">
+    <section className="mx-auto w-3/4">
       <ul className="flex flex-col gap-4">
         {users.map((user) => (
           <li
             key={user.id}
-            className="bg-white border border-stone-200 p-6 rounded-md shadow-sm"
+            className="rounded-md border border-stone-200 bg-white p-6 shadow-sm"
           >
             <div className="flex justify-between">
-              <div className="w-full flex justify-between">
+              <div className="flex w-full justify-between">
                 <div className="flex justify-start">
                   {user.role === 'user' ? (
                     <UserIcon className={iconStyle} />

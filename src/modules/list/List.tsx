@@ -28,19 +28,19 @@ export const List = ({ nodes, isLoading, isError, error }: Props) => {
   return (
     <section className="mt-6">
       {nodes.length > 0 ? (
-        <ul className="w-3/4 mx-auto flex flex-col gap-6">
+        <ul className="mx-auto flex w-3/4 flex-col gap-6">
           {nodes.map((node) => (
             <li
-              className="relative bg-stone-100 border border-teal-700 rounded-md"
+              className="relative rounded-md border border-teal-700 bg-stone-100"
               key={node.id}
             >
               <details>
-                <summary className="flex items-center justify-between px-6 py-3 list-none cursor-pointer">
+                <summary className="flex cursor-pointer list-none items-center justify-between px-6 py-3">
                   <div>
-                    <h2 className="font-semibold text-2xl">
+                    <h2 className="text-2xl font-semibold">
                       {node.question.text}
                     </h2>
-                    <ul className="flex text-xs gap-4">
+                    <ul className="flex gap-4 text-xs">
                       {node.tags.map((tag) => (
                         <li key={tag.id}>
                           <Badge
@@ -57,8 +57,8 @@ export const List = ({ nodes, isLoading, isError, error }: Props) => {
                   </div>
                   <ChevronDown />
                 </summary>
-                <hr className="w-3/4 my-6 mx-auto h-px bg-teal-700 border-none" />
-                <div className="px-6 mb-6">
+                <hr className="mx-auto my-6 h-px w-3/4 border-none bg-teal-700" />
+                <div className="mb-6 px-6">
                   {node.answer ? (
                     <MarkdownPreview source={node.answer.text} />
                   ) : (
@@ -72,7 +72,7 @@ export const List = ({ nodes, isLoading, isError, error }: Props) => {
                 font="large"
                 weight="bold"
                 rounded="bottom"
-                className="lowercase block text-center border-transparent border-t border-t-teal-700"
+                className="block border-t border-transparent border-t-teal-700 text-center lowercase"
                 style={{ fontVariant: 'small-caps' }}
                 asChild
               >

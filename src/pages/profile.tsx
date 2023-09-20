@@ -21,13 +21,13 @@ function Profile({ me }: Props) {
 
   return (
     <PageLayout id={me.id} company={me.tenant.company}>
-      <section className="flex flex-col gap-4 w-3/4 mx-auto bg-stone-100 rounded-md p-4 mb-4">
+      <section className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-stone-100 p-4">
         <UpdateProfile me={me} />
       </section>
-      <section className="flex flex-col gap-4 w-3/4 mx-auto bg-stone-100 rounded-md p-4 mb-4">
+      <section className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-stone-100 p-4">
         <UserQuestions questions={questions} isLoading={isQuestionsLoading} />
       </section>
-      <section className="flex flex-col gap-4 w-3/4 mx-auto bg-stone-100 rounded-md p-4">
+      <section className="mx-auto flex w-3/4 flex-col gap-4 rounded-md bg-stone-100 p-4">
         <UserAnswers nodes={answers} isLoading={isAnswersLoading} />
       </section>
     </PageLayout>

@@ -30,17 +30,17 @@ export const Tags = ({ tags, isLoading, isError, error, tenantId }: Props) => {
   }
 
   return (
-    <section className="w-3/4 mx-auto">
+    <section className="mx-auto w-3/4">
       {tags.length > 0 ? (
         <ul className="my-6 flex flex-wrap gap-4">
           {tags.map((tag) => (
             <li
               key={tag.id}
-              className="flex items-center bg-teal-700 text-stone-200 w-fit rounded-md gap-2"
+              className="flex w-fit items-center gap-2 rounded-md bg-teal-700 text-stone-200"
             >
               <p className="px-2">{tag.label}</p>
               <button
-                className="flex items-center font-semibold bg-stone-200 border border-teal-700 text-teal-700 rounded-r-md px-2"
+                className="flex items-center rounded-r-md border border-teal-700 bg-stone-200 px-2 font-semibold text-teal-700"
                 onClick={() => handleDeleteTag(tag.id)}
               >
                 X
@@ -49,7 +49,7 @@ export const Tags = ({ tags, isLoading, isError, error, tenantId }: Props) => {
           ))}
         </ul>
       ) : (
-        <p className="text-center italic my-6">No tags</p>
+        <p className="my-6 text-center italic">No tags</p>
       )}
       <CreateTag tenantId={tenantId} />
     </section>

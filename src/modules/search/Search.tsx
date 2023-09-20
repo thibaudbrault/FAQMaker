@@ -22,10 +22,10 @@ export const Search = () => {
   };
 
   return (
-    <section className="w-full flex justify-center">
+    <section className="flex w-full justify-center">
       <form
         onSubmit={handleSearch}
-        className="flex flex-col w-fit gap-1 [&_svg]:focus-within:text-teal-700"
+        className="flex w-fit flex-col gap-1 [&_svg]:focus-within:text-teal-700"
       >
         <Label
           htmlFor="search"
@@ -42,7 +42,7 @@ export const Search = () => {
           id="search"
           placeholder="Search"
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="bg-stone-100 rounded-md py-1 w-80 border border-stone-200 focus:border-teal-700 outline-none "
+          className="w-80 rounded-md border border-stone-200 bg-stone-100 py-1 outline-none focus:border-teal-700 "
         />
       </form>
     </section>

@@ -77,7 +77,7 @@ function Edit({ me, id }: Props) {
 
   return (
     <PageLayout id={me.id} company={me.tenant.company}>
-      <section className="flex flex-col gap-4 w-3/4 mx-auto">
+      <section className="mx-auto flex w-3/4 flex-col gap-4">
         <Button
           variant="primaryDark"
           weight="semibold"
@@ -98,18 +98,18 @@ function Edit({ me, id }: Props) {
             Go back
           </Link>
         </Button>
-        <div className="flex flex-col bg-stone-100 rounded-md p-4 gap-4">
+        <div className="flex flex-col gap-4 rounded-md bg-stone-100 p-4">
           <h2
-            className="text-4xl text-center font-serif font-semibold lowercase"
+            className="text-center font-serif text-4xl font-semibold lowercase"
             style={{ fontVariant: 'small-caps' }}
           >
             Edit the question
           </h2>
           <form
-            className="flex justify-center items-center flex-col gap-4 "
+            className="flex flex-col items-center justify-center gap-4 "
             onSubmit={handleSubmit(onSubmit)}
           >
-            <fieldset className="flex flex-col gap-1 w-11/12 mx-auto [&_svg]:focus-within:text-teal-700">
+            <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-teal-700">
               <Label
                 htmlFor="question"
                 className="lowercase"
@@ -124,7 +124,7 @@ function Edit({ me, id }: Props) {
                 icon={<HelpCircle />}
                 type="text"
                 id="question"
-                className="w-full rounded-md p-1 border border-stone-200 focus:border-teal-700 outline-none "
+                className="w-full rounded-md border border-stone-200 p-1 outline-none focus:border-teal-700 "
               />
             </fieldset>
             <TagsList

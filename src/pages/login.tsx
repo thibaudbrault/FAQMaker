@@ -9,8 +9,8 @@ import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
 import { Button, Input, Label, errorToast, successToast } from '@/components';
-import { LoginCredentials, userLoginSchema } from '@/lib';
 import { AuthLayout } from '@/layouts';
+import { LoginCredentials, userLoginSchema } from '@/lib';
 
 function Login() {
   const router = useRouter();
