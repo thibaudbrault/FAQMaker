@@ -13,6 +13,7 @@ export default withAuth({
         return true;
       if (pathname === `${process.env.NEXT_PUBLIC_SITE_URL}/register/confirm`)
         return true;
+      return true;
     },
   },
   pages: {

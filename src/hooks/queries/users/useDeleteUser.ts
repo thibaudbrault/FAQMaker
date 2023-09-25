@@ -6,7 +6,10 @@ import { QueryKeys, Routes } from '@/utils';
 
 const deleteUser = async (tenantId: string, id: string) => {
   const data = { tenantId };
-  await axios.delete(`${Routes.API.USERS}/${id}`, { data });
+  const { data: deleteData } = await axios.delete(`${Routes.API.USERS}/${id}`, {
+    data,
+  });
+  return deleteData;
 };
 
 type MutationParams = {
@@ -17,8 +20,8 @@ export const useDeleteUser = (tenantId: string) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: ({ id }: MutationParams) => deleteUser(tenantId, id),
-    onSuccess: () => {
-      successToast('User deleted');
+    onSuccess: (data) => {
+      successToast(data.message);
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.USERS, tenantId],
       });

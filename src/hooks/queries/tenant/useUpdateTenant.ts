@@ -18,8 +18,8 @@ export const useUpdateTenant = (id: string, router: NextRouter) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values: Tenant) => updateTenant(values, id),
-    onSuccess: () => {
-      successToast('Tenant updated');
+    onSuccess: (data) => {
+      successToast(data.message);
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.TENANT, id],
       });

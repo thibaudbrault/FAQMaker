@@ -8,16 +8,19 @@ generator client {
 }
 
 model Tenant {
-  id           String        @id @default(cuid())
-  createdAt    DateTime      @default(now())
-  email        String        @unique
-  plan         Plan
-  company      String
-  users        User[]
-  nodes        Node[]
-  tags         Tag[]
-  integrations Integrations?
-  color        Color?
+  id               String        @id @default(cuid())
+  createdAt        DateTime      @default(now())
+  email            String        @unique
+  plan             Plan          @default(free)
+  company          String
+  stripeCustomerId String?       @unique
+  isActive         Boolean       @default(false)
+  subscriptionId   String?
+  users            User[]
+  nodes            Node[]
+  tags             Tag[]
+  integrations     Integrations?
+  color            Color?
 }
 
 model Integrations {
@@ -151,10 +154,12 @@ model Color {
 
 enum Plan {
   free
-  paid
+  business
+  enterprise
 }
 
 enum Role {
   user
   admin
+  tenant
 }

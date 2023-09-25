@@ -11,6 +11,7 @@ export const Routes = {
     NODES: '/api/nodes',
     ANSWERS: '/api/answers',
     QUESTIONS: '/api/questions',
+    SEARCH: '/api/search',
     TAGS: '/api/tags',
     TENANT: '/api/tenant',
   },

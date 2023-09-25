@@ -1,30 +1,35 @@
-import { FormEvent, useState } from 'react';
+import { Dispatch, FormEvent, SetStateAction } from 'react';
 
 import { SearchIcon } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Input, Label } from '@/components';
+import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
 
-export const Search = () => {
-  const search = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState<string | null>(
-    search ? search.get('q') : '',
-  );
+type Props = {
+  searchQuery: string;
+  setSearchQuery: Dispatch<SetStateAction<string>>;
+};
+
+export const Search = ({ searchQuery, setSearchQuery }: Props) => {
   const router = useRouter();
+  const { handleSubmit, register } = useForm();
 
-  const handleSearch = (e: FormEvent) => {
-    e.preventDefault();
-    if (typeof searchQuery !== 'string') {
-      return;
+  const onSearch = (values) => {
+    const { search } = values;
+    setSearchQuery(search);
+    if (search) {
+      const encodedSearch = encodeURI(search);
+      router.push(`?search=${encodedSearch}`);
+    } else {
+      router.push('');
     }
-    const encodedSearchQuery = encodeURI(searchQuery);
-    router.push(`/search?q=${encodedSearchQuery}`);
   };
 
   return (
     <section className="flex w-full justify-center">
       <form
-        onSubmit={handleSearch}
+        onSubmit={handleSubmit(onSearch)}
         className="flex w-fit flex-col gap-1 [&_svg]:focus-within:text-teal-700"
       >
         <Label
@@ -35,13 +40,12 @@ export const Search = () => {
           Search
         </Label>
         <Input
-          value={searchQuery || ''}
+          {...register('search')}
           withIcon
           icon={<SearchIcon />}
           type="text"
           id="search"
           placeholder="Search"
-          onChange={(e) => setSearchQuery(e.target.value)}
           className="w-80 rounded-md border border-stone-200 bg-stone-100 py-1 outline-none focus:border-teal-700 "
         />
       </form>

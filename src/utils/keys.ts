@@ -10,4 +10,5 @@ export const QueryKeys = {
   USER: 'user',
   TAGS: 'tags',
   TENANT: 'tenant',
+  SEARCH: 'search',
 } as const;

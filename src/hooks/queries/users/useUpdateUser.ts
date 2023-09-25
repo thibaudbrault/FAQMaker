@@ -18,8 +18,8 @@ export const useUpdateUser = (id: string, tenantId: string) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values: ClientUser) => updateUser(values, id, tenantId),
-    onSuccess: () => {
-      successToast('User updated');
+    onSuccess: (data) => {
+      successToast(data.message);
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.USERS, tenantId],
       });

@@ -51,7 +51,7 @@ export default async function handler(
       await prisma.user.delete({
         where: { id, tenantId },
       });
-      return res.status(200).end();
+      return res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }

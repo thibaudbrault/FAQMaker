@@ -14,9 +14,10 @@ type Props = {
   isLoading: boolean;
   isError: boolean;
   error: AxiosError;
+  message: string;
 };
 
-export const List = ({ nodes, isLoading, isError, error }: Props) => {
+export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
   if (isLoading) {
     return <Loader size="screen" color="border-teal-700" />;
   }
@@ -91,10 +92,10 @@ export const List = ({ nodes, isLoading, isError, error }: Props) => {
         </ul>
       ) : (
         <p
-          className="text-center text-2xl font-bold lowercase"
+          className="text-center text-3xl font-bold lowercase"
           style={{ fontVariant: 'small-caps' }}
         >
-          Ask a question
+          {message}
         </p>
       )}
     </section>

@@ -7,6 +7,7 @@ import { loginUser } from '@/lib';
 import ApiError from '@/lib/server/error';
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
+import Stripe from 'stripe';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -19,8 +20,6 @@ export const authOptions: NextAuthOptions = {
         password: { label: `Password`, type: `password` },
       },
       authorize: async (credentials) => {
-        if (!credentials) throw new ApiError('Undefined credentials', 400);
-
         const { user, error } = await loginUser(credentials);
         if (error) throw error;
         return user;
@@ -49,6 +48,26 @@ export const authOptions: NextAuthOptions = {
     maxAge: 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
+  // events: {
+  //   createUser: async ({ user }) => {
+  //     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  //       apiVersion: '2023-08-16',
+  //     });
+  //     await stripe.customers
+  //       .create({
+  //         email: user.email,
+  //         name: user.name,
+  //       })
+  //       .then(async (customer) => {
+  //         return prisma.tenant.update({
+  //           where: { id: user.id },
+  //           data: {
+  //             stripeCustomerId: customer.id,
+  //           },
+  //         });
+  //       });
+  //   },
+  // },
 };
 
 const authHandler: NextApiHandler = (req, res) => {

@@ -2,27 +2,63 @@ import { Tenant } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSideProps } from 'next';
 
-import { useNodes } from '@/hooks';
+import { useNodes, useSearchNodes } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNodes, ssrNcHandler } from '@/lib';
 import { List, Search } from '@/modules';
-import { ClientUser } from '@/types';
+import { ClientUser, ExtendedNode } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 type Props = {
   me: ClientUser & { tenant: Tenant };
 };
 
 function Home({ me }: Props) {
-  const { data: nodes, isLoading, isError, error } = useNodes(me.tenantId);
+  const search = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState<string>(
+    search.get('search') ?? '',
+  );
+  const [isLoading, setIsLoading] = useState<boolean>();
+
+  let nodes: ExtendedNode[] = [];
+  let message = 'Ask a question';
+  const {
+    data: initialNodes,
+    isLoading: isNodesLoading,
+    isError,
+    error,
+  } = useNodes(me.tenantId);
+  const { data: filteredNodes, isInitialLoading } = useSearchNodes(
+    me.tenantId,
+    searchQuery,
+  );
+
+  if (searchQuery.length > 0) {
+    if (filteredNodes && filteredNodes.length > 0) {
+      nodes = filteredNodes;
+    } else {
+      nodes = [];
+      message = 'No result';
+    }
+  } else {
+    nodes = initialNodes ?? [];
+  }
+
+  useEffect(() => {
+    setIsLoading(isNodesLoading || isInitialLoading);
+  }, [isNodesLoading, isInitialLoading]);
+
   return (
     <PageLayout id={me.id} company={me.tenant.company}>
-      <Search />
+      <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <List
         nodes={nodes}
         isLoading={isLoading}
         isError={isError}
         error={error}
+        message={message}
       />
     </PageLayout>
   );

@@ -7,7 +7,8 @@ import { QueryKeys, Routes } from '@/utils';
 
 const createUser = async (values: ClientUser, tenantId: string) => {
   const body = { ...values, tenantId };
-  await axios.post(Routes.API.USERS, body);
+  const { data } = await axios.post(Routes.API.USERS, body);
+  return data;
 };
 
 export const useCreateUser = (tenantId: string, reset: () => void) => {
@@ -15,8 +16,8 @@ export const useCreateUser = (tenantId: string, reset: () => void) => {
 
   const mutation = useMutation({
     mutationFn: (values: ClientUser) => createUser(values, tenantId),
-    onSuccess: () => {
-      successToast('User created successfully');
+    onSuccess: (data) => {
+      successToast(data.message);
       reset();
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.USERS, tenantId],

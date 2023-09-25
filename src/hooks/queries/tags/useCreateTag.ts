@@ -19,8 +19,8 @@ export const useCreateTag = (tenantId: string, reset: () => void) => {
 
   const mutation = useMutation({
     mutationFn: (values: Tag) => createTag(values, tenantId),
-    onSuccess: () => {
-      successToast('Tag created');
+    onSuccess: (data) => {
+      successToast(data.message);
       reset();
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.TAGS, tenantId],

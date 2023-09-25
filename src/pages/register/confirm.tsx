@@ -3,15 +3,25 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components';
 import { useRegisterState } from '@/contexts';
 import { AuthLayout } from '@/layouts';
+import { useCreateTenant } from '@/hooks';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 function Confirm() {
+  const [disabled, setDisabled] = useState<boolean>(true);
   const [state, setState] = useRegisterState();
-  console.log('🚀 ~ file: confirm.tsx:10 ~ Confirm ~ state:', state);
+  const router = useRouter();
   const { handleSubmit } = useForm({ defaultValues: state });
 
+  const { mutate } = useCreateTenant(router);
+
   const onSubmit = (values) => {
-    console.log('🚀 ~ file: confirm.tsx:17 ~ onSubmit ~ values:', values);
+    mutate(values);
   };
+
+  useEffect(() => {
+    setDisabled(Object.keys(state).length === 0);
+  }, [state]);
 
   return (
     <AuthLayout>
@@ -20,7 +30,7 @@ function Confirm() {
         className="flex min-w-[500px] flex-col items-center gap-8 rounded-md bg-green-50 p-8"
       >
         <section className="flex w-full flex-col gap-4">
-          <div className="flex w-full flex-col gap-2 text-center">
+          <div className="flex w-full flex-col gap-1 text-center">
             <legend
               className="font-serif text-5xl font-bold lowercase"
               style={{ fontVariant: 'small-caps' }}
@@ -57,12 +67,13 @@ function Confirm() {
           </div>
         </section>
         <Button
-          variant="primaryDark"
+          variant={disabled ? 'disabledDark' : 'primaryDark'}
           size="full"
           font="large"
           weight="bold"
           className="lowercase"
           style={{ fontVariant: 'small-caps' }}
+          disabled={disabled}
         >
           Submit
         </Button>

@@ -6,8 +6,8 @@ const passwordMax = 20;
 const ROLE = ['user', 'admin'] as const;
 
 export const userLoginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(passwordMin).max(passwordMax),
+  email: z.string().email().nonempty(),
+  password: z.string().min(passwordMin).max(passwordMax).nonempty(),
 });
 
 export type LoginCredentials = z.infer<typeof userLoginSchema>;
