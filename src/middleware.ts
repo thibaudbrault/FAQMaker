@@ -11,9 +11,14 @@ export default withAuth({
         return true;
       if (pathname === `${process.env.NEXT_PUBLIC_SITE_URL}/register/user`)
         return true;
+      if (pathname === `${process.env.NEXT_PUBLIC_SITE_URL}/register/plan`)
+        return true;
       if (pathname === `${process.env.NEXT_PUBLIC_SITE_URL}/register/confirm`)
         return true;
-      return true;
+      if (
+        pathname === `${process.env.NEXT_PUBLIC_SITE_URL}/api/checkout_sessions`
+      )
+        return true;
     },
   },
   pages: {

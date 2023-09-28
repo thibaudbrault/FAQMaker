@@ -6,6 +6,7 @@ import { AuthLayout } from '@/layouts';
 import { useCreateTenant } from '@/hooks';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { Check, MoveLeft } from 'lucide-react';
 
 function Confirm() {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -53,30 +54,40 @@ function Confirm() {
           <div>
             <p className="mb-2 text-xl font-bold">User</p>
             <div className="grid grid-cols-4 grid-rows-1 gap-8">
-              <p className="text-sm">First Name</p>
-              <p className="col-span-3 font-bold">{state.firstName}</p>
-            </div>
-            <div className="grid grid-cols-4 grid-rows-1 gap-8">
-              <p className="text-sm">Last Name</p>
-              <p className="col-span-3 font-bold">{state.lastName}</p>
-            </div>
-            <div className="grid grid-cols-4 grid-rows-1 gap-8">
               <p className="text-sm">Email</p>
               <p className="col-span-3 font-bold">{state.email}</p>
             </div>
           </div>
         </section>
-        <Button
-          variant={disabled ? 'disabledDark' : 'primaryDark'}
-          size="full"
-          font="large"
-          weight="bold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-          disabled={disabled}
-        >
-          Submit
-        </Button>
+        <div className="flex w-full items-center justify-between gap-4">
+          <Button
+            variant="secondaryDark"
+            size="full"
+            icon="withIcon"
+            font="large"
+            weight="bold"
+            className="lowercase"
+            style={{ fontVariant: 'small-caps' }}
+            type="button"
+            onClick={() => router.push('/register/user')}
+          >
+            <MoveLeft />
+            Previous
+          </Button>
+          <Button
+            variant={disabled ? 'disabledDark' : 'primaryDark'}
+            size="full"
+            icon="withIcon"
+            font="large"
+            weight="bold"
+            className="lowercase"
+            style={{ fontVariant: 'small-caps' }}
+            disabled={disabled}
+          >
+            Submit
+            <Check />
+          </Button>
+        </div>
       </form>
     </AuthLayout>
   );
