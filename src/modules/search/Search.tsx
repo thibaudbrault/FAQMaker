@@ -1,10 +1,10 @@
 import { Dispatch, FormEvent, SetStateAction } from 'react';
 
 import { SearchIcon } from 'lucide-react';
-
-import { Input, Label } from '@/components';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+
+import { Input, Label } from '@/components';
 
 type Props = {
   searchQuery: string;

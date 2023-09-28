@@ -2,6 +2,7 @@ import { SetStateAction, useEffect, useState } from 'react';
 
 import { Question, Tenant } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { HelpCircle, MoveLeft } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
@@ -15,7 +16,6 @@ import { getMe, getNode, getTags, ssrNcHandler } from '@/lib';
 import { TagsList } from '@/modules';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects, arraysAreEqual } from '@/utils';
-import { AxiosError } from 'axios';
 
 type Props = {
   me: ClientUser & { tenant: Tenant };

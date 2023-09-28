@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { User } from '@prisma/client';
+import { AxiosError } from 'axios';
 import { AtSign, PlusCircle } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -23,7 +24,6 @@ import {
 } from '@/components';
 import { useCreateUser } from '@/hooks';
 import { IUserFields } from '@/types';
-import { AxiosError } from 'axios';
 
 type Props = {
   tenantId: string;

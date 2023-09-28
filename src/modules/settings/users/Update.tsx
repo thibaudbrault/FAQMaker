@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { AxiosError } from 'axios';
 import { AtSign } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -22,7 +23,6 @@ import {
 } from '@/components';
 import { useUpdateUser } from '@/hooks';
 import { ClientUser } from '@/types';
-import { AxiosError } from 'axios';
 
 type Props = {
   user: ClientUser;

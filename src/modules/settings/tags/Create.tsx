@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { Tag } from '@prisma/client';
+import { AxiosError } from 'axios';
 import { PlusCircle, Tag as TagIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
@@ -16,7 +17,6 @@ import {
   errorToast,
 } from '@/components';
 import { useCreateTag } from '@/hooks';
-import { AxiosError } from 'axios';
 
 type Props = {
   tenantId: string;

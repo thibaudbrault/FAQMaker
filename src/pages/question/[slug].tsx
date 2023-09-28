@@ -1,5 +1,6 @@
 import { Tenant } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { HelpCircle, MoveLeft, PenSquare } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
@@ -20,7 +21,6 @@ import { PageLayout } from '@/layouts';
 import { getMe, getNode, ssrNcHandler } from '@/lib';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects, dateOptions } from '@/utils';
-import { AxiosError } from 'axios';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });

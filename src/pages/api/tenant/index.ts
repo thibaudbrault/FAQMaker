@@ -18,12 +18,10 @@ export default async function hadndler(
         where: { email: companyEmail },
       });
       if (tenantExists) {
-        return res
-          .status(409)
-          .json({
-            success: false,
-            message: 'An account with the same company email already exists',
-          });
+        return res.status(409).json({
+          success: false,
+          message: 'An account with the same company email already exists',
+        });
       }
       const tenant = await prisma.tenant.create({
         data: {

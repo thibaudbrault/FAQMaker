@@ -1,10 +1,10 @@
-import { signIn } from 'next-auth/react';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
 
+import googleIcon from '@/assets/google.svg';
 import { Button } from '@/components';
 import { AuthLayout } from '@/layouts';
-import Image from 'next/image';
-import googleIcon from '@/assets/google.svg';
 
 function Login() {
   const router = useRouter();

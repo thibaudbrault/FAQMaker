@@ -1,8 +1,10 @@
+import { useMemo, useState } from 'react';
+
+import { Wallet } from 'lucide-react';
+
 import { Button } from '@/components';
 import { useRegisterState } from '@/contexts';
 import { AuthLayout } from '@/layouts';
-import { Wallet } from 'lucide-react';
-import { useMemo, useState } from 'react';
 
 function Plan() {
   const [state, setState] = useRegisterState();

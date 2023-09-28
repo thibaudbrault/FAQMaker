@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import { NextRouter } from 'next/router';
 
 import { successToast } from '@/components';
 import { Routes } from '@/utils';
-import { NextRouter } from 'next/router';
 
 const createTenant = async (values) => {
   const body = {

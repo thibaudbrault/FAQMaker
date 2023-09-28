@@ -1,11 +1,11 @@
 import { LogOut, Settings } from 'lucide-react';
-import { signOut } from 'next-auth/react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
 import { useUser } from '@/hooks';
 import { cn } from '@/utils';
-import Image from 'next/image';
 
 type Props = {
   id?: string;

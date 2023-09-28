@@ -2,14 +2,14 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { Tenant } from '@prisma/client';
 import { Label } from '@radix-ui/react-label';
+import { AxiosError } from 'axios';
 import { AtSign, UserIcon } from 'lucide-react';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 
 import { Button, Input, errorToast } from '@/components';
 import { useUpdateUser } from '@/hooks';
 import { ClientUser, IUserFields } from '@/types';
-import Image from 'next/image';
-import { AxiosError } from 'axios';
 
 type Props = {
   me: ClientUser & { tenant: Tenant };

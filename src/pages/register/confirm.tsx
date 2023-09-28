@@ -1,12 +1,13 @@
+import { useEffect, useState } from 'react';
+
+import { Check, MoveLeft } from 'lucide-react';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import { Button } from '@/components';
 import { useRegisterState } from '@/contexts';
-import { AuthLayout } from '@/layouts';
 import { useCreateTenant } from '@/hooks';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { Check, MoveLeft } from 'lucide-react';
+import { AuthLayout } from '@/layouts';
 
 function Confirm() {
   const [disabled, setDisabled] = useState<boolean>(true);

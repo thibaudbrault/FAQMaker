@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { ShieldAlert, UserIcon } from 'lucide-react';
 
 import { Button, Loader, errorToast } from '@/components';
@@ -5,7 +6,6 @@ import { useDeleteUser, useUsers } from '@/hooks';
 
 import { CreateUser } from './Create';
 import { UpdateUser } from './Update';
-import { AxiosError } from 'axios';
 
 type Props = {
   meId: string;
@@ -29,7 +29,7 @@ export const Users = ({ meId, tenantId }: Props) => {
     const errorMessage = error.response?.data.message || 'An error occurred';
     errorToast(errorMessage);
   }
-  
+
   const iconStyle = 'w-9 h-9 m-3 inline-flex flex-shrink-0 items-center';
 
   return (

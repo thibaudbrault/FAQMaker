@@ -1,6 +1,9 @@
+import { useEffect, useState } from 'react';
+
 import { Tenant } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSideProps } from 'next';
+import { useSearchParams } from 'next/navigation';
 
 import { useNodes, useSearchNodes } from '@/hooks';
 import { PageLayout } from '@/layouts';
@@ -8,8 +11,6 @@ import { getMe, getNodes, ssrNcHandler } from '@/lib';
 import { List, Search } from '@/modules';
 import { ClientUser, ExtendedNode } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
 
 type Props = {
   me: ClientUser & { tenant: Tenant };
