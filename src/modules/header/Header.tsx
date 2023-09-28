@@ -1,10 +1,11 @@
-import { LogOut, Settings, UserIcon } from 'lucide-react';
-import Link from 'next/link';
+import { LogOut, Settings } from 'lucide-react';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
 import { useUser } from '@/hooks';
 import { cn } from '@/utils';
+import Image from 'next/image';
 
 type Props = {
   id?: string;
@@ -34,7 +35,13 @@ export const Header = ({ id, company }: Props) => {
                       href="/profile"
                       className="flex items-center gap-1 hover:text-stone-300"
                     >
-                      <UserIcon />
+                      <Image
+                        src={user.image}
+                        alt="Profile"
+                        width={24}
+                        height={24}
+                        className="rounded-full"
+                      />
                     </Link>
                   </TooltipTrigger>
                   <TooltipContent className={cn(tooltipClass)}>
