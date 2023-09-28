@@ -5,6 +5,7 @@ import { useDeleteUser, useUsers } from '@/hooks';
 
 import { CreateUser } from './Create';
 import { UpdateUser } from './Update';
+import { AxiosError } from 'axios';
 
 type Props = {
   meId: string;
@@ -24,10 +25,11 @@ export const Users = ({ meId, tenantId }: Props) => {
     return <Loader size="page" />;
   }
 
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
   }
-
+  
   const iconStyle = 'w-9 h-9 m-3 inline-flex flex-shrink-0 items-center';
 
   return (
@@ -48,9 +50,7 @@ export const Users = ({ meId, tenantId }: Props) => {
                   )}
                   <div className="flex flex-col items-start">
                     <h2 className="text-2xl">
-                      <b>
-                        {user.firstName} {user.lastName}
-                      </b>
+                      <b>{user.name}</b>
                     </h2>
                     <p>{user.email}</p>
                   </div>

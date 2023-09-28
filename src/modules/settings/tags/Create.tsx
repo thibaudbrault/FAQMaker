@@ -16,6 +16,7 @@ import {
   errorToast,
 } from '@/components';
 import { useCreateTag } from '@/hooks';
+import { AxiosError } from 'axios';
 
 type Props = {
   tenantId: string;
@@ -40,8 +41,9 @@ export const CreateTag = ({ tenantId }: Props) => {
     setDisabled(isSubmitting || !isValid);
   }, [isSubmitting, isValid]);
 
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
   }
 
   return (

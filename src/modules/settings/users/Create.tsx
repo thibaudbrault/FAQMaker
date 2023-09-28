@@ -1,14 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { User } from '@prisma/client';
-import { AtSign, PlusCircle, UserIcon } from 'lucide-react';
+import { AtSign, PlusCircle } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
 import {
   Button,
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -23,6 +22,8 @@ import {
   errorToast,
 } from '@/components';
 import { useCreateUser } from '@/hooks';
+import { IUserFields } from '@/types';
+import { AxiosError } from 'axios';
 
 type Props = {
   tenantId: string;
@@ -30,22 +31,8 @@ type Props = {
 
 export const CreateUser = ({ tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const fields = useMemo(
+  const fields: IUserFields[] = useMemo(
     () => [
-      {
-        label: 'First Name',
-        value: 'firstName',
-        type: 'text',
-        icon: <UserIcon className="h-5 w-5" />,
-        error: 'First name is required',
-      },
-      {
-        label: 'Last Name',
-        value: 'lastName',
-        type: 'text',
-        icon: <UserIcon className="h-5 w-5" />,
-        error: 'Last name is required',
-      },
       {
         label: 'Email',
         value: 'email',
@@ -75,8 +62,9 @@ export const CreateUser = ({ tenantId }: Props) => {
     setDisabled(isSubmitting || !isValid);
   }, [isSubmitting, isValid]);
 
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
   }
 
   return (
@@ -161,11 +149,6 @@ export const CreateUser = ({ tenantId }: Props) => {
             Add
           </Button>
         </form>
-        <DialogFooter className="w-full">
-          <p className="w-full text-center text-xs">
-            A secured password will be created and sent to the email entered
-          </p>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

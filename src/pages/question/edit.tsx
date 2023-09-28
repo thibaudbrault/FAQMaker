@@ -15,6 +15,7 @@ import { getMe, getNode, getTags, ssrNcHandler } from '@/lib';
 import { TagsList } from '@/modules';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects, arraysAreEqual } from '@/utils';
+import { AxiosError } from 'axios';
 
 type Props = {
   me: ClientUser & { tenant: Tenant };
@@ -34,14 +35,9 @@ function Edit({ me, id }: Props) {
   const router = useRouter();
 
   const { data: tags, isLoading: isTagsLoading } = useTags(me.tenantId);
-  const {
-    data: node,
-    isLoading,
-    isError,
-    error,
-  } = useNode(me.tenantId, id as string);
+  const { data: node, isLoading } = useNode(me.tenantId, id as string);
 
-  const { mutate } = useUpdateNode(
+  const { mutate, isError, error } = useUpdateNode(
     id,
     me.tenantId,
     node.question.id,
@@ -71,8 +67,9 @@ function Edit({ me, id }: Props) {
     return <Loader size="screen" />;
   }
 
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
   }
 
   return (

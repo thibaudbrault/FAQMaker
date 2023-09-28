@@ -20,6 +20,7 @@ import { PageLayout } from '@/layouts';
 import { getMe, getNode, ssrNcHandler } from '@/lib';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects, dateOptions } from '@/utils';
+import { AxiosError } from 'axios';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
@@ -41,8 +42,9 @@ function QuestionPage({ me, id }: Props) {
     return <Loader size="screen" />;
   }
 
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
   }
 
   return (
@@ -124,10 +126,7 @@ function QuestionPage({ me, id }: Props) {
           <div className="flex justify-between">
             <div className="text-xs">
               <p>
-                Asked by{' '}
-                <b>
-                  {node.question.user.firstName} {node.question.user.lastName}
-                </b>
+                Asked by <b>{node.question.user.name}</b>
               </p>
               <p>
                 Asked on{' '}
@@ -151,10 +150,7 @@ function QuestionPage({ me, id }: Props) {
             {node.answer && (
               <div className="text-xs">
                 <p>
-                  Answered by{' '}
-                  <b>
-                    {node.answer.user.firstName} {node.answer.user.lastName}
-                  </b>
+                  Answered by <b>{node.answer.user.name}</b>
                 </p>
                 <p>
                   Answered on{' '}

@@ -15,6 +15,7 @@ import { getMe, getTags, ssrNcHandler } from '@/lib';
 import { TagsList } from '@/modules';
 import { ClientUser } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
+import { AxiosError } from 'axios';
 
 type Props = {
   me: ClientUser & { tenant: Tenant };
@@ -27,7 +28,6 @@ function New({ me }: Props) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { isSubmitting, errors, isValid },
   } = useForm();
   const router = useRouter();
@@ -39,11 +39,10 @@ function New({ me }: Props) {
     mutate(values);
   };
 
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
   }
-
-  const questionText = watch('text', '');
 
   useEffect(() => {
     setDisabled(isSubmitting || !isValid);

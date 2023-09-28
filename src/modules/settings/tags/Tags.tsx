@@ -25,8 +25,9 @@ export const Tags = ({ tags, isLoading, isError, error, tenantId }: Props) => {
     return <Loader size="screen" />;
   }
 
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
   }
 
   return (
