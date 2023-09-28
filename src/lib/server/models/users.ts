@@ -1,7 +1,7 @@
 import { GetSessionParams, getSession } from 'next-auth/react';
 
 import { ClientUser } from '@/types';
-import prisma, { excludeFromUser } from 'lib/prisma';
+import prisma from 'lib/prisma';
 
 export const getMe = async (
   params: GetSessionParams,
@@ -18,7 +18,7 @@ export const getMe = async (
 
   if (!me) return null;
 
-  return excludeFromUser(me);
+  return me;
 };
 
 export const getUsersCount = async (tenantId: string) => {
