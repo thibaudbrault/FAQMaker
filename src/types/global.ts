@@ -16,10 +16,11 @@ interface IFields {
   label: string;
   type: string;
   icon?: ReactElement;
+  error?: string;
 }
 
 export interface IUserFields extends IFields {
-  value: 'firstName' | 'lastName' | 'email';
+  value: 'name' | 'email';
 }
 
 export interface ITenantFields extends IFields {
