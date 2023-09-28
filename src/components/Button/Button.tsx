@@ -39,7 +39,7 @@ const button = cva('button', {
       primary: ['border-teal-700'],
     },
     icon: {
-      withIcon: ['flex', 'justify-center', 'items-center', 'gap-4'],
+      withIcon: ['flex', 'justify-center', 'items-end', 'gap-2'],
     },
     font: {
       small: ['text-sm'],

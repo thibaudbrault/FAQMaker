@@ -94,8 +94,8 @@ function Answer({ me, id }: Props) {
             className="flex flex-col items-center justify-center gap-2"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="w-full">
-              <p className="w-full text-left text-sm">
+            <div className="flex w-full flex-col justify-start">
+              <p className="text-sm">
                 Question: <b>{node.question.text}</b>
               </p>
               <Controller
@@ -110,7 +110,7 @@ function Answer({ me, id }: Props) {
                 )}
               />
               <Link
-                className="flex items-center gap-1 text-sm hover:underline"
+                className="flex w-fit items-baseline gap-1 text-sm hover:underline"
                 href="https://www.markdownguide.org/cheat-sheet/"
                 target="_blank"
               >
@@ -121,6 +121,7 @@ function Answer({ me, id }: Props) {
             <Button
               variant={disabled ? 'disabledDark' : 'primaryDark'}
               type="submit"
+              weight="semibold"
               className="lowercase"
               disabled={disabled}
               style={{ fontVariant: 'small-caps' }}
