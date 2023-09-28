@@ -75,19 +75,19 @@ model Session {
 }
 
 model User {
-  id        String     @id @default(cuid())
-  createdAt DateTime   @default(now())
-  firstName String
-  lastName  String
-  email     String     @unique
-  password  String
-  role      Role       @default(user)
-  tenant    Tenant     @relation(fields: [tenantId], references: [id])
-  tenantId  String
-  questions Question[]
-  answers   Answer[]
-  accounts  Account[]
-  sessions  Session[]
+  id            String     @id @default(cuid())
+  createdAt     DateTime   @default(now())
+  name          String?
+  email         String     @unique
+  emailVerified DateTime?
+  image         String?
+  role          Role       @default(user)
+  tenant        Tenant     @relation(fields: [tenantId], references: [id])
+  tenantId      String
+  questions     Question[]
+  answers       Answer[]
+  accounts      Account[]
+  sessions      Session[]
 
   @@index([tenantId])
 }
