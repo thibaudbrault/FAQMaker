@@ -1,62 +1,44 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-import { MoveRight } from 'lucide-react';
+import { MoveLeft, MoveRight } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import { Button, Field, Input } from '@/components';
 import { useRegisterState } from '@/contexts';
 import { AuthLayout } from '@/layouts';
+import { IUserFields } from '@/types';
 
 function Register() {
   const [state, setState] = useRegisterState();
+  const [disabled, setDisabled] = useState<boolean>(true);
   const router = useRouter();
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { isValid, errors },
+    formState: { isValid, isSubmitting, errors },
   } = useForm({ defaultValues: state });
-  const watchPassword = watch('password');
 
   const saveData = (values) => {
     setState({ ...state, ...values });
-    router.push('/register/confirm');
+    router.push('/register/plan');
   };
 
-  const fields = useMemo(
+  const fields: IUserFields[] = useMemo(
     () => [
-      {
-        label: 'First Name',
-        value: 'firstName',
-        type: 'text',
-        error: 'First name is required',
-      },
-      {
-        label: 'Last Name',
-        value: 'lastName',
-        type: 'text',
-        error: 'Last name is required',
-      },
       {
         label: 'Email',
         value: 'email',
         type: 'email',
         error: 'Email is required',
       },
-      {
-        label: 'Password',
-        value: 'password',
-        type: 'password',
-        error: 'Password is required',
-      },
     ],
     [],
   );
 
-  //   if (isError && error instanceof Error) {
-  //     errorToast(error.message);
-  //   }
+  useEffect(() => {
+    setDisabled(!isValid || isSubmitting);
+  }, [isValid, isSubmitting]);
 
   return (
     <AuthLayout>
@@ -72,7 +54,7 @@ function Register() {
             >
               User
             </legend>
-            <p className="text-sm">Your profile details</p>
+            <p className="text-sm">Your connection mail</p>
           </div>
           {fields.map((field) => (
             <Field
@@ -92,37 +74,37 @@ function Register() {
               />
             </Field>
           ))}
-          <Field
-            label="Confirm password"
-            value="confirmPassword"
-            error={errors?.confirmPassword}
-          >
-            <Input
-              {...register('confirmPassword', {
-                required: 'Confirm the password',
-                validate: (value) =>
-                  value === watchPassword || 'The passwords do not match',
-              })}
-              type="password"
-              id="confirmPassword"
-              placeholder="Confirm password"
-              className="w-full border border-transparent border-b-teal-700 bg-transparent p-1 outline-none placeholder:text-stone-500 focus:rounded-md focus:border-teal-700"
-            />
-          </Field>
         </fieldset>
-        <Button
-          variant={!isValid ? 'disabledDark' : 'primaryDark'}
-          size="full"
-          icon="withIcon"
-          font="large"
-          weight="bold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-          disabled={!isValid}
-        >
-          Next
-          <MoveRight />
-        </Button>
+        <div className="flex w-full items-center justify-between gap-4">
+          <Button
+            variant="secondaryDark"
+            size="full"
+            icon="withIcon"
+            font="large"
+            weight="bold"
+            className="lowercase"
+            style={{ fontVariant: 'small-caps' }}
+            type="button"
+            onClick={() => router.push('/register')}
+          >
+            <MoveLeft />
+            Previous
+          </Button>
+          <Button
+            variant={disabled ? 'disabledDark' : 'primaryDark'}
+            size="full"
+            icon="withIcon"
+            font="large"
+            weight="bold"
+            className="lowercase"
+            style={{ fontVariant: 'small-caps' }}
+            disabled={disabled}
+            type="submit"
+          >
+            Next
+            <MoveRight />
+          </Button>
+        </div>
       </form>
     </AuthLayout>
   );

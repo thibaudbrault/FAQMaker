@@ -2,6 +2,7 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import { NextApiHandler } from 'next/types';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 
 import { loginUser } from '@/lib';
 import ApiError from '@/lib/server/error';
@@ -12,6 +13,11 @@ import Stripe from 'stripe';
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true,
+    }),
     CredentialsProvider({
       id: `credentials`,
       name: `credentials`,
@@ -31,6 +37,21 @@ export const authOptions: NextAuthOptions = {
     error: Routes.SITE.LOGIN,
   },
   callbacks: {
+    async signIn({ user, account, profile }) {
+      const maybeUser = await prisma.user.findUnique({
+        where: { email: user.email },
+      });
+      if (!maybeUser) return false;
+      if (account.provider === 'google' && !user.name) {
+        await prisma.user.update({
+          where: { id: user.id },
+          data: {
+            name: profile.name,
+          },
+        });
+      }
+      return true;
+    },
     async jwt({ token, account, user }) {
       if (account) {
         token.accessToken = account.access_token;

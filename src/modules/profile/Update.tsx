@@ -8,6 +8,8 @@ import { useForm } from 'react-hook-form';
 import { Button, Input, errorToast } from '@/components';
 import { useUpdateUser } from '@/hooks';
 import { ClientUser, IUserFields } from '@/types';
+import Image from 'next/image';
+import { AxiosError } from 'axios';
 
 type Props = {
   me: ClientUser & { tenant: Tenant };
@@ -21,8 +23,7 @@ export const UpdateProfile = ({ me }: Props) => {
     formState: { isSubmitting, isDirty },
   } = useForm({
     defaultValues: {
-      firstName: me.firstName,
-      lastName: me.lastName,
+      name: me.name,
       email: me.email,
     },
   });
@@ -36,14 +37,8 @@ export const UpdateProfile = ({ me }: Props) => {
   const fields: IUserFields[] = useMemo(
     () => [
       {
-        label: 'First Name',
-        value: 'firstName',
-        type: 'text',
-        icon: <UserIcon className="h-5 w-5" />,
-      },
-      {
-        label: 'Last Name',
-        value: 'lastName',
+        label: 'Name',
+        value: 'name',
         type: 'text',
         icon: <UserIcon className="h-5 w-5" />,
       },
@@ -61,25 +56,35 @@ export const UpdateProfile = ({ me }: Props) => {
     setDisabled(isSubmitting || !isDirty);
   }, [isDirty, isSubmitting]);
 
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
   }
 
   return (
-    <>
-      <h2
-        className="text-center font-serif text-4xl font-semibold lowercase"
-        style={{ fontVariant: 'small-caps' }}
-      >
-        Informations
-      </h2>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-center gap-4"
-      >
-        <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col items-center gap-4"
+    >
+      <fieldset className="grid w-full grid-cols-4 gap-4">
+        <div className="col-span-4 w-full text-center">
+          <legend
+            className="text-center font-serif text-4xl font-semibold lowercase"
+            style={{ fontVariant: 'small-caps' }}
+          >
+            Informations
+          </legend>
+        </div>
+        <Image
+          src={me.image}
+          alt={'Profile  picture'}
+          width={128}
+          height={128}
+          className="row-start-2 self-center justify-self-center rounded-md"
+        />
+        <ul className="col-span-3 row-start-2 flex flex-col gap-2">
           {fields.map((field) => (
-            <div
+            <li
               key={field.value}
               className="flex flex-col gap-1 [&_svg]:focus-within:text-teal-700"
             >
@@ -100,19 +105,19 @@ export const UpdateProfile = ({ me }: Props) => {
                 placeholder={field.label}
                 className="w-full rounded-md border border-transparent p-1 outline-none focus:border-teal-700"
               />
-            </div>
+            </li>
           ))}
-        </fieldset>
-        <Button
-          variant={disabled ? 'disabledDark' : 'primaryDark'}
-          weight="semibold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-          disabled={disabled}
-        >
-          Update
-        </Button>
-      </form>
-    </>
+        </ul>
+      </fieldset>
+      <Button
+        variant={disabled ? 'disabledDark' : 'primaryDark'}
+        weight="semibold"
+        className="lowercase"
+        style={{ fontVariant: 'small-caps' }}
+        disabled={disabled}
+      >
+        Update
+      </Button>
+    </form>
   );
 };
