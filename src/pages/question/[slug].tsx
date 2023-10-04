@@ -67,7 +67,7 @@ function QuestionPage({ me, id }: Props) {
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger
-              className="text-negative w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase"
+              className="w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase text-negative"
               style={{ fontVariant: 'small-caps' }}
             >
               Edit

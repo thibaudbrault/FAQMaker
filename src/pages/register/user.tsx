@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { useAtom } from 'jotai';
 import { MoveLeft, MoveRight } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
@@ -8,7 +9,6 @@ import { Button, Field, Input } from '@/components';
 import { AuthLayout } from '@/layouts';
 import { registerAtom } from '@/store';
 import { IUserFields } from '@/types';
-import { useAtom } from 'jotai';
 
 function Register() {
   const [state, setState] = useAtom(registerAtom);

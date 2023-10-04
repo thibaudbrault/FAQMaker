@@ -37,7 +37,7 @@ export const Tags = ({ tags, isLoading, isError, error, tenantId }: Props) => {
           {tags.map((tag) => (
             <li
               key={tag.id}
-              className="text-negative flex w-fit items-center gap-2 rounded-md bg-negative"
+              className="flex w-fit items-center gap-2 rounded-md bg-negative text-negative"
             >
               <p className="px-2">{tag.label}</p>
               <button

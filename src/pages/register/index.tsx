@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 
+import { useAtom } from 'jotai';
 import { MoveRight } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
@@ -7,7 +8,6 @@ import { useForm } from 'react-hook-form';
 import { Button, Field, Input } from '@/components';
 import { AuthLayout } from '@/layouts';
 import { registerAtom } from '@/store';
-import { useAtom } from 'jotai';
 
 function Company() {
   const [state, setState] = useAtom(registerAtom);

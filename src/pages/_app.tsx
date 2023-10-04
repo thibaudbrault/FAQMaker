@@ -6,8 +6,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import { SessionProvider } from 'next-auth/react';
 import { Inter, Merriweather } from 'next/font/google';
+import { SessionProvider } from 'next-auth/react';
 import { Toaster } from 'sonner';
 
 import { TooltipProvider } from '@/components';

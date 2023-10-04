@@ -18,7 +18,7 @@ export const Header = ({ id, company }: Props) => {
   const tooltipClass = 'bg-teal-800 text-negative border border-stone-200';
 
   return (
-    <header className="text-negative flex items-center justify-between bg-negative px-8 py-4">
+    <header className="flex items-center justify-between bg-negative px-8 py-4 text-negative">
       <h1>
         <Link href="/" className="font-serif text-4xl">
           {company}

@@ -1,15 +1,15 @@
 import { useEffect, useMemo } from 'react';
 
+import { useAtom } from 'jotai';
 import { Check, Minus, MoveRight, Wallet } from 'lucide-react';
+import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
 
 import { Button, errorToast, successToast } from '@/components';
 import { useCreateCheckout } from '@/hooks';
 import { AuthLayout } from '@/layouts';
 import { registerAtom } from '@/store';
 import { Routes } from '@/utils';
-import { useAtom } from 'jotai';
-import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
 
 function Plan() {
   const [state, setState] = useAtom(registerAtom);
@@ -80,6 +80,8 @@ function Plan() {
     } else if (status === 'cancel') {
       errorToast('Payment unsuccessful');
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, router.isReady]);
 
   return (
@@ -87,12 +89,12 @@ function Plan() {
       <div className="flex min-h-screen w-full flex-col items-center justify-center gap-8 rounded-md p-8">
         <div className="mb-4 flex w-full flex-col gap-2 text-center">
           <h2
-            className="text-negative font-serif text-5xl font-bold lowercase"
+            className="font-serif text-5xl font-bold lowercase text-negative"
             style={{ fontVariant: 'small-caps' }}
           >
             Plan
           </h2>
-          <p className="text-negativeOffset text-sm">
+          <p className="text-sm text-negativeOffset">
             Choose the right plan for you
           </p>
         </div>
