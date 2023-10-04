@@ -6,16 +6,16 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import { Crimson_Text, Inter } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
+import { Inter, Merriweather } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 
 import { TooltipProvider } from '@/components';
 
-const crimson = Crimson_Text({
+const merriweather = Merriweather({
   subsets: ['latin'],
   weight: '400',
-  variable: '--font-crimson',
+  variable: '--font-merriweather',
 });
 const inter = Inter({
   subsets: ['latin'],
@@ -44,7 +44,7 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
           <Toaster />
           <TooltipProvider>
             <div
-              className={`relative h-full min-h-screen text-stone-900 ${crimson.variable} ${inter.variable}`}
+              className={`relative h-full min-h-screen text-default ${merriweather.variable} ${inter.variable}`}
             >
               <Component {...pageProps} />
             </div>
