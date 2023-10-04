@@ -7,6 +7,9 @@ module.exports = removeImports({
     images: {
         domains: ['lh3.googleusercontent.com']
     },
+    experimental: {
+        swcPlugins: [['@swc-jotai/react-refresh', {}]],
+    },
     webpack: (config) => {
         config.experiments = { ...config.experiments, topLevelAwait: true };
         return config;
