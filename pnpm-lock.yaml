@@ -62,6 +62,9 @@ dependencies:
   clsx:
     specifier: ^2.0.0
     version: 2.0.0
+  jotai:
+    specifier: ^2.4.3
+    version: 2.4.3(@types/react@18.0.27)(react@18.2.0)
   lucide-react:
     specifier: ^0.269.0
     version: 0.269.0(react@18.2.0)
@@ -115,6 +118,9 @@ devDependencies:
   '@changesets/cli':
     specifier: ^2.26.2
     version: 2.26.2
+  '@swc-jotai/react-refresh':
+    specifier: ^0.1.0
+    version: 0.1.0
   '@types/node':
     specifier: ^20.5.6
     version: 20.5.6
@@ -1537,6 +1543,10 @@ packages:
   /@stripe/stripe-js@2.1.6:
     resolution: {integrity: sha512-QSzqQIcowgap7a40f3a7oUR+59Xet/i8fp1EsnzzwxK5oPRQsCbbLQ4Cd6qM0y1pdZMonFnCrAWayWdE9Lr0iA==}
     dev: false
+
+  /@swc-jotai/react-refresh@0.1.0:
+    resolution: {integrity: sha512-CWV4W06GdfQo3cW3CoUM2fp7avH4Z/suR7SvECNJnQbr6Sa9U3p7o10nXjNv2zT6z09bbNUPM55HBw5Nwd24Iw==}
+    dev: true
 
   /@swc/helpers@0.5.1:
     resolution: {integrity: sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==}
@@ -4165,6 +4175,22 @@ packages:
 
   /jose@4.14.4:
     resolution: {integrity: sha512-j8GhLiKmUAh+dsFXlX1aJCbt5KMibuKb+d7j1JaOJG6s2UjX1PQlW+OKB/sD4a/5ZYF4RcmYmLSndOoU3Lt/3g==}
+    dev: false
+
+  /jotai@2.4.3(@types/react@18.0.27)(react@18.2.0):
+    resolution: {integrity: sha512-CSAHX9LqWG5WCrU8OgBoZbBJ+Bo9rQU0mPusEF4e0CZ/SNFgurG26vb3UpgvCSJZgYVcUQNiUBM5q86PA8rstQ==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=17.0.0'
+      react: '>=17.0.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      '@types/react': 18.0.27
+      react: 18.2.0
     dev: false
 
   /js-tokens@4.0.0:

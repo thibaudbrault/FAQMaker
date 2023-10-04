@@ -41,6 +41,7 @@
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "jotai": "^2.4.3",
     "lucide-react": "^0.269.0",
     "next": "13.4.19",
     "next-auth": "^4.23.1",
@@ -60,6 +61,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
+    "@swc-jotai/react-refresh": "^0.1.0",
     "@types/node": "^20.5.6",
     "@types/react": "^18.0.27",
     "autoprefixer": "^10.4.15",
