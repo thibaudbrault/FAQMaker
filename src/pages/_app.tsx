@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
 import { Inter, Merriweather } from 'next/font/google';
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from 'sonner';
 
 import { TooltipProvider } from '@/components';
 
@@ -41,7 +41,13 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <Toaster />
+          <Toaster
+            richColors
+            position="top-center"
+            toastOptions={{
+              style: { fontSize: '1rem' },
+            }}
+          />
           <TooltipProvider>
             <div
               className={`relative h-full min-h-screen text-default ${merriweather.variable} ${inter.variable}`}
