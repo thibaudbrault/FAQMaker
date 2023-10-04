@@ -19,3 +19,15 @@
     transition: 0.3s ease-in-out;
   }
 }
+
+:root {
+  --color-primary: theme('colors.neutral.900');
+  --color-primary-offset: theme('colors.neutral.800');
+  --color-secondary: theme('colors.yellow.500');
+  --color-text: theme('colors.neutral.950');
+  --color-text-offset: theme('colors.neutral.600');
+  --color-background: theme('colors.neutral.100');
+  --color-background-offset: theme('colors.neutral.200');
+  --color-background-negative: theme('colors.neutral.900');
+  --color-border: theme('colors.neutral.900' / 10%);
+}
