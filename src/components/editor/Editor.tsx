@@ -15,7 +15,7 @@ export const Editor = ({ onChange, value, prevAnswer }: Props) => {
   return (
     <div className="w-full">
       <MDEditor
-        className="!w-full !rounded-md border border-teal-700 !bg-white"
+        className="!w-full !rounded-md border border-secondary !bg-white"
         value={value ?? prevAnswer}
         onChange={onChange}
         height={300}

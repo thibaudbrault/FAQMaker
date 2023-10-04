@@ -19,7 +19,7 @@ type Props = {
 
 export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
   if (isLoading) {
-    return <Loader size="screen" color="border-teal-700" />;
+    return <Loader size="screen" color="border-secondary" />;
   }
 
   if (isError && error instanceof Error) {
@@ -32,7 +32,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
         <ul className="mx-auto flex w-3/4 flex-col gap-6">
           {nodes.map((node) => (
             <li
-              className="relative rounded-md border border-teal-700 bg-stone-100"
+              className="relative rounded-md border border-secondary bg-stone-100"
               key={node.id}
             >
               <details>
@@ -58,7 +58,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                   </div>
                   <ChevronDown />
                 </summary>
-                <hr className="mx-auto my-6 h-px w-3/4 border-none bg-teal-700" />
+                <hr className="mx-auto my-6 h-px w-3/4 border-none bg-negative" />
                 <div className="mb-6 px-6">
                   {node.answer ? (
                     <MarkdownPreview source={node.answer.text} />
@@ -68,7 +68,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                 </div>
               </details>
               <Button
-                variant="secondaryDark"
+                variant="secondary"
                 size="full"
                 font="large"
                 weight="bold"

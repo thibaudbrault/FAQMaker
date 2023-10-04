@@ -11,8 +11,8 @@ function Login() {
   const { error } = router.query;
 
   return (
-    <AuthLayout>
-      <div className="flex min-w-[500px] flex-col items-center gap-8 rounded-md bg-stone-100 p-8">
+    <AuthLayout hasBackground>
+      <div className="flex w-full flex-col gap-4">
         <div className="mb-4 flex w-full flex-col gap-2 text-center">
           <h2
             className="font-serif text-5xl font-bold lowercase"
@@ -20,7 +20,7 @@ function Login() {
           >
             Login
           </h2>
-          <p className="text-sm">Use your associated account</p>
+          <p className="text-sm text-offset">Use your associated account</p>
         </div>
         <Button
           variant="primaryDark"

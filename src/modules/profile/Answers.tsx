@@ -43,7 +43,7 @@ export const UserAnswers = ({ nodes, isLoading }: Props) => {
               key={index}
             >
               <MarkdownPreview source={node.answer.text} />
-              <Button variant="secondaryDark" weight="semibold" asChild>
+              <Button variant="secondary" weight="semibold" asChild>
                 <Link
                   href={{
                     pathname: '/question/[slug]',

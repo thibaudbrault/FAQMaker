@@ -9,34 +9,27 @@ const button = cva('button', {
   variants: {
     variant: {
       primaryDark: [
-        'bg-teal-700',
-        'text-stone-200',
+        'bg-negative',
+        'text-negative',
         'border-transparent',
-        'hover:bg-teal-800',
+        'hover:bg-negativeOffset',
       ],
       primaryLight: [
-        'bg-stone-200',
-        'text-teal-700',
+        'bg-default',
+        'text-default',
         'border-transparent',
-        'hover:bg-stone-300',
+        'hover:bg-offset',
       ],
-      secondaryDark: [
+      secondary: [
         'bg-transparent',
-        'text-teal-700',
+        'text-secondary',
         'border',
-        'border-teal-700',
+        'border-secondary',
       ],
-      secondaryLight: [
-        'bg-transparent',
-        'text-stone-200',
-        'border',
-        'border-teal-700',
-      ],
-      disabledDark: ['bg-stone-600', 'text-stone-200', 'border-transparent'],
-      disabledLight: ['bg-stone-500', 'text-teal-700', 'border-transparent'],
+      disabled: ['bg-disabled', 'text-negative', 'border-transparent'],
     },
     border: {
-      primary: ['border-teal-700'],
+      primary: ['border-secondary'],
     },
     icon: {
       withIcon: ['flex', 'justify-center', 'items-end', 'gap-2'],

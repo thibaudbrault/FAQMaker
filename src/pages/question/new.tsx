@@ -70,7 +70,7 @@ function New({ me }: Props) {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col items-center gap-4"
           >
-            <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-teal-700">
+            <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-secondary">
               <div className="w-full text-center">
                 <legend
                   className="font-serif text-4xl font-semibold lowercase"
@@ -87,7 +87,7 @@ function New({ me }: Props) {
                   type="text"
                   id="question"
                   placeholder="New question"
-                  className="w-full rounded-md border border-transparent py-1 outline-none focus:border-teal-700"
+                  className="w-full rounded-md border border-transparent py-1 outline-none focus:border-secondary"
                 />
               </Field>
               <TagsList
@@ -98,7 +98,7 @@ function New({ me }: Props) {
               />
             </fieldset>
             <Button
-              variant={disabled ? 'disabledDark' : 'primaryDark'}
+              variant={disabled ? 'disabled' : 'primaryDark'}
               weight="semibold"
               className="lowercase"
               style={{ fontVariant: 'small-caps' }}

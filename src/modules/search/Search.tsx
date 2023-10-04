@@ -30,11 +30,11 @@ export const Search = ({ searchQuery, setSearchQuery }: Props) => {
     <section className="flex w-full justify-center">
       <form
         onSubmit={handleSubmit(onSearch)}
-        className="flex w-fit flex-col gap-1 [&_svg]:focus-within:text-teal-700"
+        className="flex w-fit flex-col gap-1 [&_svg]:focus-within:text-secondary"
       >
         <Label
           htmlFor="search"
-          className="lowercase focus-within:text-teal-700"
+          className="lowercase focus-within:text-secondary"
           style={{ fontVariant: 'small-caps' }}
         >
           Search
@@ -46,7 +46,7 @@ export const Search = ({ searchQuery, setSearchQuery }: Props) => {
           type="text"
           id="search"
           placeholder="Search"
-          className="w-80 rounded-md border border-stone-200 bg-stone-100 py-1 outline-none focus:border-teal-700 "
+          className="w-80 rounded-md border border-stone-200 bg-stone-100 py-1 outline-none focus:border-secondary "
         />
       </form>
     </section>

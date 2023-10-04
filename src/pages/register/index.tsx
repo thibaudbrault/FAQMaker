@@ -43,10 +43,10 @@ function Company() {
   );
 
   return (
-    <AuthLayout>
+    <AuthLayout hasBackground>
       <form
         onSubmit={handleSubmit(saveData)}
-        className="flex min-w-[500px] flex-col items-center gap-8 rounded-md bg-stone-100 p-8"
+        className="flex w-full flex-col gap-4"
       >
         <fieldset className="flex w-full flex-col gap-4">
           <div className="mb-4 flex w-full flex-col gap-2 text-center">
@@ -56,7 +56,7 @@ function Company() {
             >
               Company
             </legend>
-            <p className="text-sm">Your company details</p>
+            <p className="text-sm text-offset">Your company details</p>
           </div>
           {fields.map((field) => (
             <Field
@@ -72,13 +72,13 @@ function Company() {
                 type={field.type}
                 id={field.value}
                 placeholder={field.label}
-                className="w-full border border-transparent border-b-teal-700 bg-transparent p-1 outline-none placeholder:text-stone-500 focus:rounded-md focus:border-teal-700"
+                className="w-full border border-transparent border-b-teal-700 bg-transparent p-1 outline-none placeholder:text-stone-500 focus:rounded-md focus:border-secondary"
               />
             </Field>
           ))}
         </fieldset>
         <Button
-          variant={!isValid ? 'disabledDark' : 'primaryDark'}
+          variant={!isValid ? 'disabled' : 'primaryDark'}
           size="full"
           icon="withIcon"
           font="large"

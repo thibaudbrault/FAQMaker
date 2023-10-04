@@ -106,7 +106,7 @@ function Edit({ me, id }: Props) {
             className="flex flex-col items-center justify-center gap-4 "
             onSubmit={handleSubmit(onSubmit)}
           >
-            <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-teal-700">
+            <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-secondary">
               <Label
                 htmlFor="question"
                 className="lowercase"
@@ -121,7 +121,7 @@ function Edit({ me, id }: Props) {
                 icon={<HelpCircle />}
                 type="text"
                 id="question"
-                className="w-full rounded-md border border-stone-200 p-1 outline-none focus:border-teal-700 "
+                className="w-full rounded-md border border-stone-200 p-1 outline-none focus:border-secondary "
               />
             </fieldset>
             <TagsList
@@ -133,7 +133,7 @@ function Edit({ me, id }: Props) {
             <Button
               variant={
                 disabled && arraysAreEqual(tagsId, selectedTags)
-                  ? 'disabledDark'
+                  ? 'disabled'
                   : 'primaryDark'
               }
               type="submit"

@@ -37,11 +37,11 @@ export const Tags = ({ tags, isLoading, isError, error, tenantId }: Props) => {
           {tags.map((tag) => (
             <li
               key={tag.id}
-              className="flex w-fit items-center gap-2 rounded-md bg-teal-700 text-stone-200"
+              className="text-negative flex w-fit items-center gap-2 rounded-md bg-negative"
             >
               <p className="px-2">{tag.label}</p>
               <button
-                className="flex items-center rounded-r-md border border-teal-700 bg-stone-200 px-2 font-semibold text-teal-700"
+                className="flex items-center rounded-r-md border border-secondary bg-stone-200 px-2 font-semibold text-secondary"
                 onClick={() => handleDeleteTag(tag.id)}
               >
                 X

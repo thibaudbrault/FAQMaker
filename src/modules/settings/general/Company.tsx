@@ -73,7 +73,7 @@ export const Company = ({ tenant, isLoading }: Props) => {
           {fields.map((field) => (
             <div
               key={field.value}
-              className="flex flex-1 flex-col gap-1 [&_svg]:focus-within:text-teal-700"
+              className="flex flex-1 flex-col gap-1 [&_svg]:focus-within:text-secondary"
             >
               <Label
                 htmlFor={field.value}
@@ -88,13 +88,13 @@ export const Company = ({ tenant, isLoading }: Props) => {
                 type={field.type}
                 id={field.value}
                 placeholder={field.label}
-                className="w-full rounded-md border border-transparent p-1 outline-none focus:border-teal-700"
+                className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
               />
             </div>
           ))}
         </fieldset>
         <Button
-          variant={disabled ? 'disabledDark' : 'primaryDark'}
+          variant={disabled ? 'disabled' : 'primaryDark'}
           weight="semibold"
           className="lowercase"
           style={{ fontVariant: 'small-caps' }}

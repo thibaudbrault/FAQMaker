@@ -15,10 +15,10 @@ type Props = {
 export const Header = ({ id, company }: Props) => {
   const { data: user, isLoading } = useUser(id);
 
-  const tooltipClass = 'bg-teal-800 text-stone-200 border border-stone-200';
+  const tooltipClass = 'bg-teal-800 text-negative border border-stone-200';
 
   return (
-    <header className="bg-negative flex items-center justify-between px-8 py-4 text-stone-200">
+    <header className="text-negative flex items-center justify-between bg-negative px-8 py-4">
       <h1>
         <Link href="/" className="font-serif text-4xl">
           {company}

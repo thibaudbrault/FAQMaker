@@ -119,7 +119,7 @@ function Answer({ me, id }: Props) {
               </Link>
             </div>
             <Button
-              variant={disabled ? 'disabledDark' : 'primaryDark'}
+              variant={disabled ? 'disabled' : 'primaryDark'}
               type="submit"
               weight="semibold"
               className="lowercase"

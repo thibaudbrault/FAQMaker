@@ -67,7 +67,7 @@ function Settings({ me }: Props) {
   }, [router.isReady]);
 
   const tabStyle =
-    'data-[state=active]:bg-teal-700 data-[state=active]:text-stone-200 text-xl lowercase font-semibold';
+    'data-[state=active]:bg-negative data-[state=active]:text-negative text-xl lowercase font-semibold';
 
   return (
     <PageLayout id={me.id} company={me.tenant.company}>

@@ -15,7 +15,7 @@ export const Field = ({ children, label, value, error }: Props) => {
   return (
     <div
       key={value}
-      className="flex flex-col gap-1 [&_svg]:focus-within:text-teal-700"
+      className="flex flex-col gap-1 [&_svg]:focus-within:text-secondary"
     >
       <Label
         htmlFor={value}

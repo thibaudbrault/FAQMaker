@@ -83,7 +83,7 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
           className="flex flex-col items-center gap-4"
         >
           <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
-            <div className="flex flex-col gap-1 [&_svg]:focus-within:text-teal-700">
+            <div className="flex flex-col gap-1 [&_svg]:focus-within:text-secondary">
               <Label
                 htmlFor="email"
                 className="lowercase"
@@ -99,7 +99,7 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
                 type="email"
                 id="email"
                 placeholder="Email"
-                className="w-full rounded-md border border-transparent p-1 outline-none focus:border-teal-700"
+                className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
               />
             </div>
             <div className="flex flex-col gap-1">
@@ -118,7 +118,7 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
                   <Select onValueChange={onChange} defaultValue={user.role}>
                     <SelectTrigger
                       id="role"
-                      className="bg-white focus:border-teal-700 focus:ring-0 data-[state=open]:border-teal-700"
+                      className="bg-white focus:border-secondary focus:ring-0 data-[state=open]:border-secondary"
                     >
                       <SelectValue placeholder="Select a role" />
                     </SelectTrigger>
@@ -132,7 +132,7 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
             </div>
           </fieldset>
           <Button
-            variant={disabled ? 'disabledDark' : 'primaryDark'}
+            variant={disabled ? 'disabled' : 'primaryDark'}
             weight="semibold"
             className="lowercase"
             style={{ fontVariant: 'small-caps' }}

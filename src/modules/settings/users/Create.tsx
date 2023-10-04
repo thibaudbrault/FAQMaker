@@ -106,7 +106,7 @@ export const CreateUser = ({ tenantId }: Props) => {
                   type={field.type}
                   id={field.value}
                   placeholder={field.label}
-                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-teal-700"
+                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
                 />
               </Field>
             ))}
@@ -126,7 +126,7 @@ export const CreateUser = ({ tenantId }: Props) => {
                   <Select onValueChange={onChange}>
                     <SelectTrigger
                       id="role"
-                      className="bg-white focus:border-teal-700 focus:ring-0 data-[state=open]:border-teal-700"
+                      className="bg-white focus:border-secondary focus:ring-0 data-[state=open]:border-secondary"
                     >
                       <SelectValue placeholder="Select a role" />
                     </SelectTrigger>
@@ -140,7 +140,7 @@ export const CreateUser = ({ tenantId }: Props) => {
             </div>
           </fieldset>
           <Button
-            variant={disabled ? 'disabledDark' : 'primaryDark'}
+            variant={disabled ? 'disabled' : 'primaryDark'}
             weight="semibold"
             className="lowercase"
             style={{ fontVariant: 'small-caps' }}

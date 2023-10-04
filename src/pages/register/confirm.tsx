@@ -30,10 +30,6 @@ function Confirm() {
     error: customerError,
   } = useCreateCustomer();
 
-  if (isSuccess) {
-    setState({ ...state, customerId });
-  }
-
   const onSubmit = async (values) => {
     await mutateCustomer(values);
     await mutateTenant(values);
@@ -49,16 +45,22 @@ function Confirm() {
   }
 
   useEffect(() => {
+    if (isSuccess) {
+      setState({ ...state, customerId });
+    }
+  }, [isSuccess, customerId]);
+
+  useEffect(() => {
     setDisabled(Object.keys(state).length === 0);
   }, [state]);
 
   return (
-    <AuthLayout>
+    <AuthLayout hasBackground>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex min-w-[500px] flex-col items-center gap-8 rounded-md bg-stone-100 p-8"
+        className="flex w-full flex-col gap-4"
       >
-        <section className="flex w-full flex-col gap-4">
+        <fieldset className="flex w-full flex-col gap-4">
           <div className="flex w-full flex-col gap-1 text-center">
             <legend
               className="font-serif text-5xl font-bold lowercase"
@@ -66,7 +68,7 @@ function Confirm() {
             >
               Confirm
             </legend>
-            <p className="text-sm">Confirm the information</p>
+            <p className="text-sm text-offset">Confirm the information</p>
           </div>
           <div>
             <p className="mb-2 text-xl font-bold">Company</p>
@@ -78,10 +80,6 @@ function Confirm() {
               <p className="text-sm">Email</p>
               <p className="col-span-3 font-bold">{state.companyEmail}</p>
             </div>
-            <div className="grid grid-cols-4 grid-rows-1 gap-4">
-              <p className="text-sm">Plan</p>
-              <p className="col-span-3 font-bold capitalize">{state.plan}</p>
-            </div>
           </div>
           <div>
             <p className="mb-2 text-xl font-bold">User</p>
@@ -90,10 +88,10 @@ function Confirm() {
               <p className="col-span-3 font-bold">{state.email}</p>
             </div>
           </div>
-        </section>
+        </fieldset>
         <div className="flex w-full items-center justify-between gap-4">
           <Button
-            variant="secondaryDark"
+            variant="secondary"
             size="full"
             icon="withIcon"
             font="large"
@@ -107,7 +105,7 @@ function Confirm() {
             Previous
           </Button>
           <Button
-            variant={disabled ? 'disabledDark' : 'primaryDark'}
+            variant={disabled ? 'disabled' : 'primaryDark'}
             size="full"
             icon="withIcon"
             font="large"

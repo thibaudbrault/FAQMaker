@@ -67,13 +67,13 @@ function QuestionPage({ me, id }: Props) {
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger
-              className="w-fit rounded-md bg-teal-700 px-4 py-2 font-bold uppercase text-stone-200"
+              className="text-negative w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase"
               style={{ fontVariant: 'small-caps' }}
             >
               Edit
             </DropdownMenuTrigger>
             <DropdownMenuContent className="bg-stone-100">
-              <DropdownMenuItem className="text-base hover:text-teal-700">
+              <DropdownMenuItem className="text-base hover:text-secondary">
                 <Link
                   className="flex items-center justify-start gap-2"
                   href={{
@@ -86,7 +86,7 @@ function QuestionPage({ me, id }: Props) {
                   Question
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-base hover:text-teal-700">
+              <DropdownMenuItem className="text-base hover:text-secondary">
                 <Link
                   className="flex items-center justify-start gap-2"
                   href={{
@@ -113,7 +113,7 @@ function QuestionPage({ me, id }: Props) {
               </li>
             ))}
           </ul>
-          <hr className="my-6 border-teal-700" />
+          <hr className="my-6 border-secondary" />
           {node.answer ? (
             <MarkdownPreview
               className="mx-auto w-11/12 text-left"
@@ -122,7 +122,7 @@ function QuestionPage({ me, id }: Props) {
           ) : (
             <p className="text-center italic">No answer</p>
           )}
-          <hr className="my-6 border-teal-700" />
+          <hr className="my-6 border-secondary" />
           <div className="flex justify-between">
             <div className="text-xs">
               <p>

@@ -87,12 +87,14 @@ function Plan() {
       <div className="flex min-h-screen w-full flex-col items-center justify-center gap-8 rounded-md p-8">
         <div className="mb-4 flex w-full flex-col gap-2 text-center">
           <h2
-            className="font-serif text-5xl font-bold lowercase"
+            className="text-negative font-serif text-5xl font-bold lowercase"
             style={{ fontVariant: 'small-caps' }}
           >
             Plan
           </h2>
-          <p className="text-sm">Choose the right plan for you</p>
+          <p className="text-negativeOffset text-sm">
+            Choose the right plan for you
+          </p>
         </div>
         <section className="grid grid-cols-1 justify-evenly gap-8 md:grid-cols-2 lg:grid-cols-3">
           {plans.map((plan, index) => (
@@ -109,7 +111,7 @@ function Plan() {
               </div>
               <div className="">
                 <div className="my-5">
-                  <p className="pt-2 text-sm font-bold text-teal-700">
+                  <p className="pt-2 text-sm font-bold text-secondary">
                     {plan.message}
                   </p>
                 </div>
@@ -117,16 +119,16 @@ function Plan() {
                   <ul className="text-right">
                     {plan.benefits.map((benefit, index) => (
                       <li key={index} className="flex gap-2">
-                        <Check className="text-teal-700" />
+                        <Check className="text-secondary" />
                         <p>{benefit}</p>
                       </li>
                     ))}
                     {plan.drawbacks?.map((drawback, index) => (
                       <li
                         key={index}
-                        className="flex gap-2 text-gray-500 opacity-70"
+                        className="flex gap-2 text-offset opacity-70"
                       >
-                        <Minus className="text-gray-500" />
+                        <Minus className="text-offset" />
                         <p>{drawback}</p>
                       </li>
                     ))}

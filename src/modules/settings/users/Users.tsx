@@ -59,7 +59,7 @@ export const Users = ({ meId, tenantId }: Props) => {
                   <UpdateUser user={user} tenantId={tenantId} />
                   {(user.role !== 'admin' || user.id !== meId) && (
                     <Button
-                      variant="secondaryDark"
+                      variant="secondary"
                       size="small"
                       weight="semibold"
                       className="lowercase"
