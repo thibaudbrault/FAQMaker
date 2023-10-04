@@ -8,22 +8,22 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     try {
-      const priceId = '{{PRICE_ID}}';
+      const priceId = req.body.price;
       const session = await stripe.checkout.sessions.create({
         line_items: [
           {
-            price: 'price_1NsiZpDrot5aQrVBMkNYEvHY',
+            price: priceId,
             quantity: 1,
           },
         ],
         mode: 'subscription',
-        success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/register/confirm`,
-        cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/register/plan`,
+        success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/register/plan?status=success`,
+        cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/register/plan?status=cancel`,
         automatic_tax: { enabled: true },
       });
-      res.redirect(303, session.url);
+      return res.json({ id: session.id });
     } catch (err) {
-      res.status(err.statusCode || 500).json(err.message);
+      return res.status(err.statusCode || 500).json(err.message);
     }
   } else {
     res.setHeader('Allow', 'POST');
