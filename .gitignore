@@ -4,6 +4,10 @@
 /node_modules
 /.pnp
 .pnp.js
+tsconfig.tsbuildinfo
+
+# env
+.env
 
 # testing
 /coverage
