@@ -5,14 +5,16 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import { Button, Field, Input } from '@/components';
-import { useRegisterState } from '@/contexts';
 import { AuthLayout } from '@/layouts';
+import { registerAtom } from '@/store';
 import { IUserFields } from '@/types';
+import { useAtom } from 'jotai';
 
 function Register() {
-  const [state, setState] = useRegisterState();
+  const [state, setState] = useAtom(registerAtom);
   const [disabled, setDisabled] = useState<boolean>(true);
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -21,7 +23,7 @@ function Register() {
 
   const saveData = (values) => {
     setState({ ...state, ...values });
-    router.push('/register/plan');
+    router.push('/register/confirm');
   };
 
   const fields: IUserFields[] = useMemo(
@@ -44,7 +46,7 @@ function Register() {
     <AuthLayout>
       <form
         onSubmit={handleSubmit(saveData)}
-        className="flex min-w-[500px] flex-col items-center gap-8 rounded-md bg-green-50 p-8"
+        className="flex min-w-[500px] flex-col items-center gap-8 rounded-md bg-stone-100 p-8"
       >
         <fieldset className="flex w-full flex-col gap-4">
           <div className="mb-4 flex w-full flex-col gap-2 text-center">
