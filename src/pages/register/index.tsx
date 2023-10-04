@@ -5,11 +5,12 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import { Button, Field, Input } from '@/components';
-import { useRegisterState } from '@/contexts/RegisterState';
 import { AuthLayout } from '@/layouts';
+import { registerAtom } from '@/store';
+import { useAtom } from 'jotai';
 
 function Company() {
-  const [state, setState] = useRegisterState();
+  const [state, setState] = useAtom(registerAtom);
   const router = useRouter();
 
   const {
@@ -45,7 +46,7 @@ function Company() {
     <AuthLayout>
       <form
         onSubmit={handleSubmit(saveData)}
-        className="flex min-w-[500px] flex-col items-center gap-8 rounded-md bg-green-50 p-8"
+        className="flex min-w-[500px] flex-col items-center gap-8 rounded-md bg-stone-100 p-8"
       >
         <fieldset className="flex w-full flex-col gap-4">
           <div className="mb-4 flex w-full flex-col gap-2 text-center">

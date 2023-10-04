@@ -1,6 +1,6 @@
+import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { signIn } from 'next-auth/react';
 
 import googleIcon from '@/assets/google.svg';
 import { Button } from '@/components';
@@ -12,13 +12,16 @@ function Login() {
 
   return (
     <AuthLayout>
-      <div className="flex w-full flex-col items-center rounded-md bg-green-50 px-8 py-20">
-        <h2
-          className="mb-8 font-serif text-5xl font-bold lowercase"
-          style={{ fontVariant: 'small-caps' }}
-        >
-          Login
-        </h2>
+      <div className="flex min-w-[500px] flex-col items-center gap-8 rounded-md bg-stone-100 p-8">
+        <div className="mb-4 flex w-full flex-col gap-2 text-center">
+          <h2
+            className="font-serif text-5xl font-bold lowercase"
+            style={{ fontVariant: 'small-caps' }}
+          >
+            Login
+          </h2>
+          <p className="text-sm">Use your associated account</p>
+        </div>
         <Button
           variant="primaryDark"
           size="full"
@@ -63,5 +66,5 @@ const errors = {
 
 const LoginError = ({ error }) => {
   const errorMessage = error && (errors[error] ?? errors.default);
-  return <div className="mt-6 text-red-700">{errorMessage}</div>;
+  return <div className="text-red-700">{errorMessage}</div>;
 };
