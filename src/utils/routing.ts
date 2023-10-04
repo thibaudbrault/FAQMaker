@@ -9,6 +9,8 @@ export const Routes = {
   API: {
     USERS: '/api/users',
     NODES: '/api/nodes',
+    CHECKOUT: '/api/checkout_sessions',
+    CUSTOMER: '/api/stripe/customer',
     ANSWERS: '/api/answers',
     QUESTIONS: '/api/questions',
     SEARCH: '/api/search',
