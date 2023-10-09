@@ -6,11 +6,11 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import { Button, errorToast, successToast } from '@/components';
+import { useCreateCheckout } from '@/hooks';
 import { AuthLayout } from '@/layouts';
 import { registerAtom } from '@/store';
 import { IPlan } from '@/types';
 import { Routes } from '@/utils';
-import { useCreateCheckout } from '@/hooks';
 
 function Plan() {
   const state = useAtomValue(registerAtom);

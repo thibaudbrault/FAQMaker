@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
+import { IPlan } from '@/types';
 import { Routes } from '@/utils';
 import getStripe from '@/utils/stripe';
-import { IPlan } from '@/types';
 
 const createCheckout = async (data: DataObject, customerId: string) => {
   const stripe = await getStripe();

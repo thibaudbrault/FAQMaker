@@ -3,10 +3,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { NextRouter } from 'next/router';
 import slugify from 'slugify';
+import { toast } from 'sonner';
 
 import { successToast } from '@/components';
 import { QueryKeys, Routes } from '@/utils';
-import { toast } from 'sonner';
 
 const createNode = async (
   values: Question,

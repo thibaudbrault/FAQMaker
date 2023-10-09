@@ -1,7 +1,7 @@
 import { PrismaAdapter } from '@auth/prisma-adapter';
+import { NextApiHandler } from 'next/types';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import { NextApiHandler } from 'next/types';
 
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';

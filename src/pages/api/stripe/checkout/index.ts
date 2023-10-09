@@ -1,5 +1,6 @@
-import prisma from 'lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
+
+import prisma from 'lib/prisma';
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 

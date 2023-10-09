@@ -1,9 +1,9 @@
+import { User } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
 import { successToast } from '@/components';
 import { QueryKeys, Routes } from '@/utils';
-import { User } from '@prisma/client';
 
 const createUser = async (values: User, tenantId: string) => {
   const body = { ...values, tenantId };

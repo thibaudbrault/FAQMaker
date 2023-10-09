@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { User } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { AtSign } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
@@ -22,7 +23,6 @@ import {
   errorToast,
 } from '@/components';
 import { useUpdateUser } from '@/hooks';
-import { User } from '@prisma/client';
 
 type Props = {
   user: User;

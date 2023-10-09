@@ -1,9 +1,9 @@
+import { User } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { useSession } from 'next-auth/react';
 
 import { QueryKeys, Routes } from '@/utils';
-import { User } from '@prisma/client';
 
 const getUser = async (id: string | undefined) => {
   if (!id) return null;

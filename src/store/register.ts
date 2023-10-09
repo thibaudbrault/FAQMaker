@@ -1,5 +1,6 @@
-import { RegisterInfo } from '@/types';
 import { atom } from 'jotai';
+
+import { RegisterInfo } from '@/types';
 
 export const registerAtom = atom<RegisterInfo>({
   company: '',

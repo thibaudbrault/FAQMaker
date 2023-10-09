@@ -1,8 +1,8 @@
+import { User } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 
 import { QueryKeys, Routes } from '@/utils';
-import { User } from '@prisma/client';
 
 const getUsers = async (tenantId: string) => {
   const { data } = await axios.get(Routes.API.USERS, { params: { tenantId } });
