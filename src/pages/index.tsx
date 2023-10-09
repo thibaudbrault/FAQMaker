@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Tenant } from '@prisma/client';
+import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSideProps } from 'next';
 import { useSearchParams } from 'next/navigation';
@@ -9,11 +9,11 @@ import { useNodes, useSearchNodes } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNodes, ssrNcHandler } from '@/lib';
 import { List, Search } from '@/modules';
-import { ClientUser, ExtendedNode } from '@/types';
+import { ExtendedNode, UserWithTenant } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
 
 type Props = {
-  me: ClientUser & { tenant: Tenant };
+  me: UserWithTenant;
 };
 
 function Home({ me }: Props) {
@@ -69,7 +69,7 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const callbackMe = async () => await getMe({ req });
-  const me = await ssrNcHandler<ClientUser | null>(req, res, callbackMe);
+  const me = await ssrNcHandler<User | null>(req, res, callbackMe);
 
   if (!me) return Redirects.LOGIN;
 

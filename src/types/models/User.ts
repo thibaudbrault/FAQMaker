@@ -1,8 +1,13 @@
-import { User } from '@prisma/client';
+import { Tenant, User } from '@prisma/client';
 
-export type ClientUser = Omit<User, 'password'>;
+export type UserWithTenant = User & {
+  tenant: Tenant;
+};
 
-export type UserLogin = {
+export type RegisterInfo = {
+  company: string;
+  companyEmail: string;
   email: string;
-  password: string;
+  customerId?: string;
+  plan: 'free' | 'business' | 'enterprise';
 };

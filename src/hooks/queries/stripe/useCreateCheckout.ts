@@ -3,21 +3,34 @@ import axios from 'axios';
 
 import { Routes } from '@/utils';
 import getStripe from '@/utils/stripe';
+import { IPlan } from '@/types';
 
-const createCheckout = async (price: string) => {
+const createCheckout = async (data: DataObject, customerId: string) => {
   const stripe = await getStripe();
   const body = {
-    price,
+    ...data,
+    customerId,
   };
   const checkoutSession = await axios.post(Routes.API.CHECKOUT, body);
   const result = await stripe.redirectToCheckout({
     sessionId: checkoutSession.data.id,
   });
+  console.log(
+    '🚀 ~ file: useCreateCheckout.ts:18 ~ createCheckout ~ result:',
+    result,
+  );
+  return result;
 };
 
-export const useCreateCheckout = () => {
+type DataObject = {
+  value: Exclude<IPlan['value'], 'free'>;
+  priceId: string;
+  email: string;
+};
+
+export const useCreateCheckout = (customerId: string) => {
   const mutation = useMutation({
-    mutationFn: (price: string) => createCheckout(price),
+    mutationFn: (data: DataObject) => createCheckout(data, customerId),
   });
   return mutation;
 };

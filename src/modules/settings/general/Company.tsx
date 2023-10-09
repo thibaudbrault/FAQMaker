@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 
 import { Button, Input, Label, Loader } from '@/components';
 import { useUpdateTenant } from '@/hooks';
-import { ITenantFields } from '@/types';
+import { ITenantUpdateFields } from '@/types';
 
 type Props = {
   tenant: Tenant;
@@ -33,7 +33,7 @@ export const Company = ({ tenant, isLoading }: Props) => {
     mutate(values);
   };
 
-  const fields: ITenantFields[] = useMemo(
+  const fields: ITenantUpdateFields[] = useMemo(
     () => [
       {
         label: 'Company',
@@ -58,7 +58,7 @@ export const Company = ({ tenant, isLoading }: Props) => {
   }
 
   return (
-    <div className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-stone-100 p-4">
+    <div className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-default p-4">
       <h2
         className="text-center font-serif text-4xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}

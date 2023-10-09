@@ -13,7 +13,7 @@ export default async function hadndler(
           .status(404)
           .json({ success: false, message: `Information not provided` });
       }
-      const { company, companyEmail, name, email } = req.body;
+      const { company, companyEmail, name, email, customerId } = req.body;
       const tenantExists = await prisma.tenant.findUnique({
         where: { email: companyEmail },
       });
@@ -27,6 +27,7 @@ export default async function hadndler(
         data: {
           company,
           email: companyEmail,
+          stripeCustomerId: customerId,
         },
       });
       if (!tenant) {
@@ -50,7 +51,7 @@ export default async function hadndler(
       }
       return res.status(201).json({ message: 'Account created successfully' });
     } catch (error) {
-      res.status(500).end();
+      res.status(500).json({ error: error.message });
     }
   }
 }

@@ -73,18 +73,5 @@ export default async function handler(
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
-    //   } else if (req.method === 'DELETE') {
-    //     try {
-    //       if (!req.query) {
-    //         return res
-    //           .status(404)
-    //           .json({ success: false, message: `User not found` });
-    //       }
-    //       const { userId } = req.query;
-    //       await prisma.user.delete({ where: { id: userId as string } });
-    //       return res.status(200).end();
-    //     } catch (error) {
-    //       return res.status(500).json({ error: error.message });
-    //     }
   }
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Question, Tenant } from '@prisma/client';
+import { Question, User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { HelpCircle, MoveLeft } from 'lucide-react';
@@ -9,16 +9,16 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
-import { Button, Field, Input, Label, errorToast } from '@/components';
+import { Button, Field, Input, Loader, errorToast } from '@/components';
 import { useCreateNode, useTags } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getTags, ssrNcHandler } from '@/lib';
 import { TagsList } from '@/modules';
-import { ClientUser } from '@/types';
-import { QueryKeys, Redirects } from '@/utils';
+import { UserWithTenant } from '@/types';
+import { QueryKeys, Redirects, cn } from '@/utils';
 
 type Props = {
-  me: ClientUser & { tenant: Tenant };
+  me: UserWithTenant;
 };
 
 function New({ me }: Props) {
@@ -65,7 +65,7 @@ function New({ me }: Props) {
             Go back
           </Link>
         </Button>
-        <div className="flex flex-col gap-4 rounded-md bg-stone-100 p-4">
+        <div className="flex flex-col gap-4 rounded-md bg-default p-4">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col items-center gap-4"
@@ -100,11 +100,21 @@ function New({ me }: Props) {
             <Button
               variant={disabled ? 'disabled' : 'primaryDark'}
               weight="semibold"
-              className="lowercase"
+              className={cn(
+                'lowercase',
+                `${isSubmitting && 'flex items-center justify-center gap-2'}`,
+              )}
               style={{ fontVariant: 'small-caps' }}
               disabled={disabled}
             >
-              Submit
+              {isSubmitting ? (
+                <>
+                  <Loader size="items" border="thin" color="border-negative" />
+                  <p>Submitting</p>
+                </>
+              ) : (
+                'Submit'
+              )}
             </Button>
           </form>
           <div className="justify-start text-center text-xs">
@@ -124,7 +134,7 @@ export default New;
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const callbackMe = async () => await getMe({ req });
-  const me = await ssrNcHandler<ClientUser | null>(req, res, callbackMe);
+  const me = await ssrNcHandler<User | null>(req, res, callbackMe);
 
   if (!me) return Redirects.LOGIN;
 

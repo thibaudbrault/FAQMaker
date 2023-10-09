@@ -22,10 +22,10 @@ import {
   errorToast,
 } from '@/components';
 import { useUpdateUser } from '@/hooks';
-import { ClientUser } from '@/types';
+import { User } from '@prisma/client';
 
 type Props = {
-  user: ClientUser;
+  user: User;
   tenantId: string;
 };
 
@@ -43,12 +43,9 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
       role: user.role,
     },
   });
-  const { mutate, isLoading, isError, error } = useUpdateUser(
-    user.id,
-    tenantId,
-  );
+  const { mutate, isError, error } = useUpdateUser(user.id, tenantId);
 
-  const onSubmit = (values: ClientUser) => {
+  const onSubmit = (values: User) => {
     mutate(values);
   };
 
@@ -102,34 +99,36 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
                 className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
               />
             </div>
-            <div className="flex flex-col gap-1">
-              <Label
-                htmlFor="role"
-                className="lowercase"
-                style={{ fontVariant: 'small-caps' }}
-              >
-                Role
-              </Label>
-              <Controller
-                control={control}
-                name="role"
-                rules={{ required: true }}
-                render={({ field: { onChange } }) => (
-                  <Select onValueChange={onChange} defaultValue={user.role}>
-                    <SelectTrigger
-                      id="role"
-                      className="bg-white focus:border-secondary focus:ring-0 data-[state=open]:border-secondary"
-                    >
-                      <SelectValue placeholder="Select a role" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-stone-200">
-                      <SelectItem value="user">User</SelectItem>
-                      <SelectItem value="admin">Admin</SelectItem>
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-            </div>
+            {user.role !== 'tenant' && (
+              <div className="flex flex-col gap-1">
+                <Label
+                  htmlFor="role"
+                  className="lowercase"
+                  style={{ fontVariant: 'small-caps' }}
+                >
+                  Role
+                </Label>
+                <Controller
+                  control={control}
+                  name="role"
+                  rules={{ required: true }}
+                  render={({ field: { onChange } }) => (
+                    <Select onValueChange={onChange} defaultValue={user.role}>
+                      <SelectTrigger
+                        id="role"
+                        className="bg-white focus:border-secondary focus:ring-0 data-[state=open]:border-secondary"
+                      >
+                        <SelectValue placeholder="Select a role" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-stone-200">
+                        <SelectItem value="user">User</SelectItem>
+                        <SelectItem value="admin">Admin</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+              </div>
+            )}
           </fieldset>
           <Button
             variant={disabled ? 'disabled' : 'primaryDark'}
@@ -141,12 +140,6 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
             Update
           </Button>
         </form>
-        <DialogFooter>
-          <p className="text-xs">
-            The password will be created automatically and sent to the email
-            entered
-          </p>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

@@ -6,22 +6,22 @@ import { Check, MoveLeft } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
-import { Button, errorToast } from '@/components';
+import { Button, Loader, errorToast } from '@/components';
 import { useCreateCustomer, useCreateTenant } from '@/hooks';
 import { AuthLayout } from '@/layouts';
 import { registerAtom } from '@/store';
+import { Routes, cn, hasEmptyField } from '@/utils';
 
 function Confirm() {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [state, setState] = useAtom(registerAtom);
+  const invalidState: boolean = hasEmptyField(state);
   const router = useRouter();
-  const { handleSubmit } = useForm({ defaultValues: state });
-
   const {
-    mutateAsync: mutateTenant,
-    isError: tenantIsError,
-    error: tenantError,
-  } = useCreateTenant(router);
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm({ defaultValues: state });
+
   const {
     data: customerId,
     mutateAsync: mutateCustomer,
@@ -29,10 +29,15 @@ function Confirm() {
     isError: customerIsError,
     error: customerError,
   } = useCreateCustomer();
+  const {
+    mutateAsync: mutateTenant,
+    isError: tenantIsError,
+    error: tenantError,
+  } = useCreateTenant(router);
 
   const onSubmit = async (values) => {
-    await mutateCustomer(values);
-    await mutateTenant(values);
+    const customerId = await mutateCustomer(values);
+    await mutateTenant({ ...values, customerId });
   };
 
   if (
@@ -53,8 +58,8 @@ function Confirm() {
   }, [isSuccess, customerId]);
 
   useEffect(() => {
-    setDisabled(Object.keys(state).length === 0);
-  }, [state]);
+    setDisabled(invalidState || isSubmitting);
+  }, [invalidState, isSubmitting]);
 
   return (
     <AuthLayout hasBackground>
@@ -101,7 +106,7 @@ function Confirm() {
             className="lowercase"
             style={{ fontVariant: 'small-caps' }}
             type="button"
-            onClick={() => router.push('/register/user')}
+            onClick={() => router.push(Routes.SITE.REGISTER.USER)}
           >
             <MoveLeft />
             Previous
@@ -109,15 +114,23 @@ function Confirm() {
           <Button
             variant={disabled ? 'disabled' : 'primaryDark'}
             size="full"
-            icon="withIcon"
             font="large"
             weight="bold"
-            className="lowercase"
+            className={cn(
+              'lowercase',
+              `${isSubmitting && 'flex items-center justify-center gap-2'}`,
+            )}
             style={{ fontVariant: 'small-caps' }}
             disabled={disabled}
           >
-            Submit
-            <Check />
+            {isSubmitting ? (
+              <>
+                <Loader size="items" border="thin" color="border-negative" />
+                <p>Submitting</p>
+              </>
+            ) : (
+              'Submit'
+            )}
           </Button>
         </div>
       </form>

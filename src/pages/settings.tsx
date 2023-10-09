@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 
-import { Tenant } from '@prisma/client';
+import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
@@ -17,11 +17,11 @@ import {
   ssrNcHandler,
 } from '@/lib';
 import { General, Tags, Users } from '@/modules';
-import { ClientUser } from '@/types';
+import { UserWithTenant } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
 
 type Props = {
-  me: ClientUser & { tenant: Tenant };
+  me: UserWithTenant;
 };
 
 function Settings({ me }: Props) {
@@ -122,11 +122,11 @@ export default Settings;
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const callbackMe = async () => await getMe({ req });
-  const me = await ssrNcHandler<ClientUser | null>(req, res, callbackMe);
+  const me = await ssrNcHandler<User | null>(req, res, callbackMe);
 
   if (!me) return Redirects.LOGIN;
 
-  if (me.role !== 'admin') return Redirects.HOME;
+  if (me.role === 'user') return Redirects.HOME;
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);

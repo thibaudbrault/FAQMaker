@@ -13,7 +13,9 @@ type Props = {
 };
 
 export const Users = ({ meId, tenantId }: Props) => {
+  console.log('🚀 ~ file: Users.tsx:16 ~ Users ~ meId:', meId);
   const { data: users, isLoading, isError, error } = useUsers(tenantId);
+  console.log('🚀 ~ file: Users.tsx:18 ~ Users ~ users:', users);
 
   const { mutate, isLoading: isUserLoading } = useDeleteUser(tenantId);
 
@@ -38,7 +40,7 @@ export const Users = ({ meId, tenantId }: Props) => {
         {users.map((user) => (
           <li
             key={user.id}
-            className="rounded-md border border-stone-200 bg-stone-100 p-6 shadow-sm"
+            className="rounded-md border border-stone-200 bg-default p-6 shadow-sm"
           >
             <div className="flex justify-between">
               <div className="flex w-full justify-between">
@@ -57,7 +59,7 @@ export const Users = ({ meId, tenantId }: Props) => {
                 </div>
                 <div className="flex items-center gap-2">
                   <UpdateUser user={user} tenantId={tenantId} />
-                  {(user.role !== 'admin' || user.id !== meId) && (
+                  {(user.role === 'user' || user.id !== meId) && (
                     <Button
                       variant="secondary"
                       size="small"

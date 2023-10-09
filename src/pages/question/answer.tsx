@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { Answer, Tenant } from '@prisma/client';
-import { dehydrate, QueryClient } from '@tanstack/react-query';
+import { Answer, User } from '@prisma/client';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { ExternalLink, MoveLeft } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
@@ -12,11 +12,11 @@ import { Button, Editor, Loader } from '@/components';
 import { useCreateAnswer, useNode, useUpdateAnswer } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNode, ssrNcHandler } from '@/lib';
-import { ClientUser } from '@/types';
+import { UserWithTenant } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
 
 type Props = {
-  me: ClientUser & { tenant: Tenant };
+  me: UserWithTenant;
   id: string;
 };
 
@@ -83,7 +83,7 @@ function Answer({ me, id }: Props) {
             Go back
           </Link>
         </Button>
-        <div className="flex flex-col gap-4 rounded-md bg-stone-100 p-4">
+        <div className="flex flex-col gap-4 rounded-md bg-default p-4">
           <h2
             className="text-center font-serif text-4xl font-semibold lowercase"
             style={{ fontVariant: 'small-caps' }}
@@ -144,7 +144,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const { id } = query;
   const callbackMe = async () => await getMe({ req });
-  const me = await ssrNcHandler<ClientUser | null>(req, res, callbackMe);
+  const me = await ssrNcHandler<User | null>(req, res, callbackMe);
 
   if (!me) return Redirects.LOGIN;
 

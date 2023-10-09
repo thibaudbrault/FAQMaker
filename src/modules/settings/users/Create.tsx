@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { User } from '@prisma/client';
 import { AxiosError } from 'axios';
@@ -23,7 +23,7 @@ import {
   errorToast,
 } from '@/components';
 import { useCreateUser } from '@/hooks';
-import { IUserFields } from '@/types';
+import { IUserCreateFields } from '@/types';
 
 type Props = {
   tenantId: string;
@@ -31,18 +31,13 @@ type Props = {
 
 export const CreateUser = ({ tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const fields: IUserFields[] = useMemo(
-    () => [
-      {
-        label: 'Email',
-        value: 'email',
-        type: 'email',
-        icon: <AtSign className="h-5 w-5" />,
-        error: 'Email is required',
-      },
-    ],
-    [],
-  );
+  const field: IUserCreateFields = {
+    label: 'Email',
+    value: 'email',
+    type: 'email',
+    icon: <AtSign className="h-5 w-5" />,
+    error: 'Email is required',
+  };
 
   const {
     register,
@@ -92,24 +87,22 @@ export const CreateUser = ({ tenantId }: Props) => {
           className="flex flex-col items-center gap-4"
         >
           <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
-            {fields.map((field) => (
-              <Field
-                key={field.value}
-                label={field.label}
-                value={field.value}
-                error={errors?.[field.error]}
-              >
-                <Input
-                  {...register(field.value, { required: field.error })}
-                  withIcon
-                  icon={field.icon}
-                  type={field.type}
-                  id={field.value}
-                  placeholder={field.label}
-                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
-                />
-              </Field>
-            ))}
+            <Field
+              key={field.value}
+              label={field.label}
+              value={field.value}
+              error={errors?.[field.error]}
+            >
+              <Input
+                {...register(field.value, { required: field.error })}
+                withIcon
+                icon={field.icon}
+                type={field.type}
+                id={field.value}
+                placeholder={field.label}
+                className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
+              />
+            </Field>
             <div className="flex flex-col gap-1">
               <Label
                 htmlFor="role"

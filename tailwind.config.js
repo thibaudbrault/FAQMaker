@@ -25,6 +25,7 @@ module.exports = {
       borderColor: {
         default: "var(--color-border)",
         secondary: "var(--color-border-secondary)",
+        negative: "var(--color-border-negative)",
       },
       keyframes: {
         "accordion-down": {

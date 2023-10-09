@@ -1,6 +1,6 @@
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { Question, Tenant } from '@prisma/client';
+import { Question, User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { HelpCircle, MoveLeft } from 'lucide-react';
@@ -14,11 +14,11 @@ import { useNode, useTags, useUpdateNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNode, getTags, ssrNcHandler } from '@/lib';
 import { TagsList } from '@/modules';
-import { ClientUser } from '@/types';
+import { UserWithTenant } from '@/types';
 import { QueryKeys, Redirects, arraysAreEqual } from '@/utils';
 
 type Props = {
-  me: ClientUser & { tenant: Tenant };
+  me: UserWithTenant;
   id: string;
 };
 
@@ -95,7 +95,7 @@ function Edit({ me, id }: Props) {
             Go back
           </Link>
         </Button>
-        <div className="flex flex-col gap-4 rounded-md bg-stone-100 p-4">
+        <div className="flex flex-col gap-4 rounded-md bg-default p-4">
           <h2
             className="text-center font-serif text-4xl font-semibold lowercase"
             style={{ fontVariant: 'small-caps' }}
@@ -159,7 +159,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const { id } = query;
   const callbackMe = async () => await getMe({ req });
-  const me = await ssrNcHandler<ClientUser | null>(req, res, callbackMe);
+  const me = await ssrNcHandler<User | null>(req, res, callbackMe);
 
   if (!me) return Redirects.LOGIN;
 

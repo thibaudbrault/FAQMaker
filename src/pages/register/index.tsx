@@ -8,6 +8,8 @@ import { useForm } from 'react-hook-form';
 import { Button, Field, Input } from '@/components';
 import { AuthLayout } from '@/layouts';
 import { registerAtom } from '@/store';
+import { ITenantCreateFields } from '@/types';
+import { Routes } from '@/utils';
 
 function Company() {
   const [state, setState] = useAtom(registerAtom);
@@ -21,10 +23,10 @@ function Company() {
 
   const saveData = (values) => {
     setState({ ...state, ...values });
-    router.push('/register/user');
+    router.push(Routes.SITE.REGISTER.USER);
   };
 
-  const fields = useMemo(
+  const fields: ITenantCreateFields[] = useMemo(
     () => [
       {
         label: 'Name',

@@ -42,7 +42,7 @@ export const useUpdateNode = (
       updateNode(values, id, tenantId, questionId, userId, tags),
     onSuccess: (data) => {
       successToast(data.message);
-      router.push('/');
+      router.push(Routes.SITE.HOME);
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.NODE, tenantId, id],
       });

@@ -1,42 +1,43 @@
 import { useEffect, useMemo } from 'react';
 
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { Check, Minus, MoveRight, Wallet } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import { Button, errorToast, successToast } from '@/components';
-import { useCreateCheckout } from '@/hooks';
 import { AuthLayout } from '@/layouts';
 import { registerAtom } from '@/store';
+import { IPlan } from '@/types';
 import { Routes } from '@/utils';
+import { useCreateCheckout } from '@/hooks';
 
 function Plan() {
-  const [state, setState] = useAtom(registerAtom);
+  const state = useAtomValue(registerAtom);
 
   const { handleSubmit } = useForm();
   const router = useRouter();
   const { status } = router.query;
 
-  const { mutate } = useCreateCheckout();
+  const { mutate } = useCreateCheckout(state.customerId);
 
-  const saveData = (value: string, price: string) => {
-    setState({ ...state, plan: value });
+  const saveData = (value: IPlan['value'], priceId: string) => {
     if (value === 'free') {
       return router.push(Routes.SITE.LOGIN);
     } else {
-      return mutate(price);
+      const email = state.companyEmail;
+      const data = { value, priceId, email };
+      return mutate(data);
     }
   };
 
-  const plans = useMemo(
+  const plans: IPlan[] = useMemo(
     () => [
       {
         label: 'Free',
         value: 'free',
         price: 0,
         priceId: '',
-        icon: '',
         message: 'Perfect to try out',
         benefits: ['5 users', 'Unlimited questions'],
         drawbacks: ['Slack integration', 'Theme personalization'],
@@ -46,7 +47,6 @@ function Plan() {
         value: 'business',
         price: 29,
         priceId: 'price_1NsiZpDrot5aQrVBMkNYEvHY',
-        icon: '',
         message: 'Perfect for startups',
         benefits: [
           '100 users',
@@ -60,7 +60,6 @@ function Plan() {
         value: 'enterprise',
         price: 49,
         priceId: 'price_1NsiaSDrot5aQrVBVUb9xzTw',
-        icon: '',
         message: 'Perfect for big companies',
         benefits: [
           'Unlimited users',
@@ -103,7 +102,7 @@ function Plan() {
             <form
               onSubmit={handleSubmit(() => saveData(plan.value, plan.priceId))}
               key={index}
-              className="w-full transform overflow-hidden rounded-md bg-stone-100 p-4 text-center transition duration-200 ease-in hover:scale-[1.02] hover:shadow-2xl"
+              className="w-full transform overflow-hidden rounded-md bg-default p-4 text-center transition duration-200 ease-in hover:scale-[1.02] hover:shadow-2xl"
             >
               <div className="w-full border-b border-black py-4">
                 <h2 className="text-xl uppercase">{plan.label}</h2>

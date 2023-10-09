@@ -13,7 +13,7 @@ export const Data = ({ nodesCount, usersCount, plan }: Props) => {
     () => [
       {
         text: 'Questions',
-        value: nodesCount,
+        value: nodesCount ?? 0,
         icon: <HelpCircle className="h-9 w-9" />,
       },
       {
@@ -36,7 +36,7 @@ export const Data = ({ nodesCount, usersCount, plan }: Props) => {
       <ul className="grid grid-cols-3 gap-4">
         {cards.map((card, index) => (
           <li
-            className="flex items-center gap-6 rounded-md bg-stone-100 p-4"
+            className="flex items-center gap-6 rounded-md bg-default p-4"
             key={index}
           >
             {card.icon}

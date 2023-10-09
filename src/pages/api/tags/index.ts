@@ -19,7 +19,7 @@ export default async function hadndler(
       });
       return res.status(200).json(tags);
     } catch (error) {
-      res.status(400).end();
+      res.status(400).json({ error: error.message });
     }
   } else if (req.method === 'POST') {
     try {
@@ -37,7 +37,7 @@ export default async function hadndler(
       });
       return res.status(201).json({ message: 'Tag created successfully' });
     } catch (error) {
-      res.status(500).end();
+      res.status(500).json({ error: error.message });
     }
     //   } else if (req.method === "PUT") {
     //     // update todo
@@ -58,9 +58,9 @@ export default async function hadndler(
       }
       const { id } = req.query;
       await prisma.tag.delete({ where: { id: id as string } });
-      return res.status(200).end();
+      return res.status(200).json({ error: error.message });
     } catch (error) {
-      res.status(500).end();
+      res.status(500).json({ error: error.message });
     }
   }
 }

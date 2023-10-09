@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useAtom } from 'jotai';
 import { MoveLeft, MoveRight } from 'lucide-react';
@@ -8,7 +8,8 @@ import { useForm } from 'react-hook-form';
 import { Button, Field, Input } from '@/components';
 import { AuthLayout } from '@/layouts';
 import { registerAtom } from '@/store';
-import { IUserFields } from '@/types';
+import { IUserCreateFields } from '@/types';
+import { Routes } from '@/utils';
 
 function Register() {
   const [state, setState] = useAtom(registerAtom);
@@ -23,20 +24,15 @@ function Register() {
 
   const saveData = (values) => {
     setState({ ...state, ...values });
-    router.push('/register/confirm');
+    router.push(Routes.SITE.REGISTER.CONFIRM);
   };
 
-  const fields: IUserFields[] = useMemo(
-    () => [
-      {
-        label: 'Email',
-        value: 'email',
-        type: 'email',
-        error: 'Email is required',
-      },
-    ],
-    [],
-  );
+  const field: IUserCreateFields = {
+    label: 'Email',
+    value: 'email',
+    type: 'email',
+    error: 'Email is required',
+  };
 
   useEffect(() => {
     setDisabled(!isValid || isSubmitting);
@@ -58,24 +54,22 @@ function Register() {
             </legend>
             <p className="text-sm text-offset">Your connection mail</p>
           </div>
-          {fields.map((field) => (
-            <Field
-              key={field.value}
-              label={field.label}
-              value={field.value}
-              error={errors?.[field.value]}
-            >
-              <Input
-                {...register(field.value, {
-                  required: field.error,
-                })}
-                type={field.type}
-                id={field.value}
-                placeholder={field.label}
-                className="w-full border border-transparent border-b-teal-700 bg-transparent p-1 outline-none placeholder:text-stone-500 focus:rounded-md focus:border-secondary"
-              />
-            </Field>
-          ))}
+          <Field
+            key={field.value}
+            label={field.label}
+            value={field.value}
+            error={errors?.[field.value]}
+          >
+            <Input
+              {...register(field.value, {
+                required: field.error,
+              })}
+              type={field.type}
+              id={field.value}
+              placeholder={field.label}
+              className="w-full border border-transparent border-b-teal-700 bg-transparent p-1 outline-none placeholder:text-stone-500 focus:rounded-md focus:border-secondary"
+            />
+          </Field>
         </fieldset>
         <div className="flex w-full items-center justify-between gap-4">
           <Button
@@ -87,7 +81,7 @@ function Register() {
             className="lowercase"
             style={{ fontVariant: 'small-caps' }}
             type="button"
-            onClick={() => router.push('/register')}
+            onClick={() => router.push(Routes.SITE.REGISTER.INDEX)}
           >
             <MoveLeft />
             Previous

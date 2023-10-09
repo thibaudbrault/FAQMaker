@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { Tenant } from '@prisma/client';
+import { User } from '@prisma/client';
 import { Label } from '@radix-ui/react-label';
 import { AxiosError } from 'axios';
 import { AtSign, UserIcon } from 'lucide-react';
@@ -9,10 +9,10 @@ import { useForm } from 'react-hook-form';
 
 import { Button, Input, errorToast } from '@/components';
 import { useUpdateUser } from '@/hooks';
-import { ClientUser, IUserFields } from '@/types';
+import { IUserUpdateFields, UserWithTenant } from '@/types';
 
 type Props = {
-  me: ClientUser & { tenant: Tenant };
+  me: UserWithTenant;
 };
 
 export const UpdateProfile = ({ me }: Props) => {
@@ -30,11 +30,11 @@ export const UpdateProfile = ({ me }: Props) => {
 
   const { mutate, isError, error } = useUpdateUser(me.id, me.tenantId);
 
-  const onSubmit = (values: ClientUser) => {
+  const onSubmit = (values: User) => {
     mutate(values);
   };
 
-  const fields: IUserFields[] = useMemo(
+  const fields: IUserUpdateFields[] = useMemo(
     () => [
       {
         label: 'Name',
@@ -75,13 +75,17 @@ export const UpdateProfile = ({ me }: Props) => {
             Informations
           </legend>
         </div>
-        <Image
-          src={me.image}
-          alt={'Profile  picture'}
-          width={128}
-          height={128}
-          className="row-start-2 self-center justify-self-center rounded-md"
-        />
+        {me.image ? (
+          <Image
+            src={me.image}
+            alt={'Profile  picture'}
+            width={128}
+            height={128}
+            className="row-start-2 self-center justify-self-center rounded-md"
+          />
+        ) : (
+          <UserIcon className="row-start-2 h-32 w-32 self-center justify-self-center rounded-md" />
+        )}
         <ul className="col-span-3 row-start-2 flex flex-col gap-2">
           {fields.map((field) => (
             <li
@@ -107,6 +111,12 @@ export const UpdateProfile = ({ me }: Props) => {
               />
             </li>
           ))}
+          <li>
+            <span className="lowercase" style={{ fontVariant: 'small-caps' }}>
+              Role:
+            </span>{' '}
+            <b className="capitalize">{me.role}</b>
+          </li>
         </ul>
       </fieldset>
       <Button

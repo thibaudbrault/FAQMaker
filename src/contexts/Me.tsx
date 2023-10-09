@@ -1,10 +1,10 @@
 import { ReactNode, createContext } from 'react';
 
 import { useMe } from '@/hooks';
-import { ClientUser } from '@/types';
+import { User } from '@prisma/client';
 
 type ContextProps = {
-  me: ClientUser | null;
+  me: User | null;
 };
 
 const defaultValue: ContextProps = { me: null };

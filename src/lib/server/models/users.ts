@@ -1,11 +1,9 @@
 import { GetSessionParams, getSession } from 'next-auth/react';
 
-import { ClientUser } from '@/types';
 import prisma from 'lib/prisma';
+import { User } from '@prisma/client';
 
-export const getMe = async (
-  params: GetSessionParams,
-): Promise<ClientUser | null> => {
+export const getMe = async (params: GetSessionParams): Promise<User | null> => {
   const session = await getSession(params);
   const id = session?.user?.id;
 

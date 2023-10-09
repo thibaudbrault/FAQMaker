@@ -32,7 +32,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
         <ul className="mx-auto flex w-3/4 flex-col gap-6">
           {nodes.map((node) => (
             <li
-              className="relative rounded-md border border-secondary bg-stone-100"
+              className="relative rounded-md border border-secondary bg-default"
               key={node.id}
             >
               <details>

@@ -28,7 +28,7 @@ export const useCreateAnswer = (
     mutationFn: (values: Answer) => createAnswer(values, nodeId, userId),
     onSuccess: (data) => {
       successToast(data.message);
-      router.push('/');
+      router.push(Routes.SITE.HOME);
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.NODES, tenantId],
       });

@@ -1,12 +1,8 @@
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import { NextApiHandler } from 'next/types';
 import NextAuth, { NextAuthOptions } from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
-import Stripe from 'stripe';
+import { NextApiHandler } from 'next/types';
 
-import { loginUser } from '@/lib';
-import ApiError from '@/lib/server/error';
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
@@ -17,19 +13,6 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
-    }),
-    CredentialsProvider({
-      id: `credentials`,
-      name: `credentials`,
-      credentials: {
-        email: { label: `email`, type: `email` },
-        password: { label: `Password`, type: `password` },
-      },
-      authorize: async (credentials) => {
-        const { user, error } = await loginUser(credentials);
-        if (error) throw error;
-        return user;
-      },
     }),
   ],
   pages: {
@@ -42,11 +25,12 @@ export const authOptions: NextAuthOptions = {
         where: { email: user.email },
       });
       if (!maybeUser) return false;
-      if (account.provider === 'google' && !user.name) {
+      if (account.provider === 'google' && (!user.name || !user.image)) {
         await prisma.user.update({
           where: { id: user.id },
           data: {
             name: profile.name,
+            image: profile.picture,
           },
         });
       }
@@ -69,26 +53,6 @@ export const authOptions: NextAuthOptions = {
     maxAge: 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
-  // events: {
-  //   createUser: async ({ user }) => {
-  //     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  //       apiVersion: '2023-08-16',
-  //     });
-  //     await stripe.customers
-  //       .create({
-  //         email: user.email,
-  //         name: user.name,
-  //       })
-  //       .then(async (customer) => {
-  //         return prisma.tenant.update({
-  //           where: { id: user.id },
-  //           data: {
-  //             stripeCustomerId: customer.id,
-  //           },
-  //         });
-  //       });
-  //   },
-  // },
 };
 
 const authHandler: NextApiHandler = (req, res) => {

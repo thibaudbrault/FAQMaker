@@ -46,7 +46,7 @@ export const Search = ({ searchQuery, setSearchQuery }: Props) => {
           type="text"
           id="search"
           placeholder="Search"
-          className="w-80 rounded-md border border-stone-200 bg-stone-100 py-1 outline-none focus:border-secondary "
+          className="w-80 rounded-md border border-stone-200 bg-default py-1 outline-none focus:border-secondary "
         />
       </form>
     </section>

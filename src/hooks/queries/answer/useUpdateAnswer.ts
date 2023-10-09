@@ -27,7 +27,7 @@ export const useUpdateAnswer = (
     mutationFn: (values: Answer) => updateAnswer(values, id, userId),
     onSuccess: (data) => {
       successToast(data.message);
-      router.push('/');
+      router.push(Routes.SITE.HOME);
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.NODES, tenantId],
       });

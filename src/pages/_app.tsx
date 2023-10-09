@@ -6,11 +6,12 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import { Inter, Merriweather } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
+import { Inter, Merriweather } from 'next/font/google';
 import { Toaster } from 'sonner';
 
 import { TooltipProvider } from '@/components';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const merriweather = Merriweather({
   subsets: ['latin'],
@@ -42,6 +43,7 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <Toaster
+            closeButton
             richColors
             position="top-center"
             toastOptions={{
@@ -53,6 +55,7 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
               className={`relative h-full min-h-screen text-default ${merriweather.variable} ${inter.variable}`}
             >
               <Component {...pageProps} />
+              <ReactQueryDevtools initialIsOpen={false} />
             </div>
           </TooltipProvider>
         </Hydrate>

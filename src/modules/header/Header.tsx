@@ -1,4 +1,4 @@
-import { LogOut, Settings } from 'lucide-react';
+import { LogOut, Settings, UserIcon, Wallet } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
@@ -15,7 +15,7 @@ type Props = {
 export const Header = ({ id, company }: Props) => {
   const { data: user, isLoading } = useUser(id);
 
-  const tooltipClass = 'bg-teal-800 text-negative border border-stone-200';
+  const tooltipClass = 'bg-negative text-negative border border-negative';
 
   return (
     <header className="flex items-center justify-between bg-negative px-8 py-4 text-negative">
@@ -33,15 +33,19 @@ export const Header = ({ id, company }: Props) => {
                   <TooltipTrigger asChild>
                     <Link
                       href="/profile"
-                      className="flex items-center gap-1 hover:text-stone-300"
+                      className="flex items-center gap-1 hover:text-negativeOffset"
                     >
-                      <Image
-                        src={user.image}
-                        alt="Profile"
-                        width={24}
-                        height={24}
-                        className="rounded-full"
-                      />
+                      {user.image ? (
+                        <Image
+                          src={user.image}
+                          alt="Profile"
+                          width={24}
+                          height={24}
+                          className="rounded-full"
+                        />
+                      ) : (
+                        <UserIcon />
+                      )}
                     </Link>
                   </TooltipTrigger>
                   <TooltipContent className={cn(tooltipClass)}>
@@ -49,12 +53,32 @@ export const Header = ({ id, company }: Props) => {
                   </TooltipContent>
                 </Tooltip>
               </li>
-              {user?.role === 'admin' && (
+              {user?.role !== 'user' && (
                 <li>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Link href="/settings" className="hover:text-stone-300">
+                      <Link
+                        href="/settings"
+                        className="hover:text-negativeOffset"
+                      >
                         <Settings />
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent className={cn(tooltipClass)}>
+                      <p>Settings</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </li>
+              )}
+              {user?.role === 'tenant' && (
+                <li>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Link
+                        href="/settings"
+                        className="hover:text-negativeOffset"
+                      >
+                        <Wallet />
                       </Link>
                     </TooltipTrigger>
                     <TooltipContent className={cn(tooltipClass)}>
@@ -68,7 +92,7 @@ export const Header = ({ id, company }: Props) => {
                   <TooltipTrigger asChild>
                     <button
                       onClick={() => signOut()}
-                      className="hover:text-stone-300"
+                      className="hover:text-negativeOffset"
                     >
                       <LogOut />
                     </button>

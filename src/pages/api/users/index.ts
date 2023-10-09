@@ -1,8 +1,5 @@
-import bcrypt from 'bcrypt';
-
 import { getIdSchemaFn } from '@/lib';
-import { generatePassword } from '@/utils';
-import prisma, { excludeFromUserArray } from 'lib/prisma';
+import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -30,8 +27,7 @@ export default async function handler(
         const users = await prisma.user.findMany({
           where: { tenantId: tenantId as string },
         });
-        const usersWithoutPassword = excludeFromUserArray(users);
-        return res.status(200).json(usersWithoutPassword);
+        return res.status(200).json(users);
       }
     } catch (error) {
       return res.status(404).json({ error: error.message });

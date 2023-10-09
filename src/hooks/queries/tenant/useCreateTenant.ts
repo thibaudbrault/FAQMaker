@@ -18,7 +18,7 @@ export const useCreateTenant = (router: NextRouter) => {
     mutationFn: (values) => createTenant(values),
     onSuccess: (data) => {
       successToast(data.message);
-      router.push('/register/plan');
+      router.push(Routes.SITE.REGISTER.PLAN);
     },
   });
   return mutation;

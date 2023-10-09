@@ -1,3 +1,4 @@
+import prisma from 'lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -8,7 +9,12 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     try {
-      const priceId = req.body.price;
+      if (!req.body) {
+        return res
+          .status(404)
+          .json({ success: false, message: `Information not provided` });
+      }
+      const { value, email, priceId, customerId } = req.body;
       const session = await stripe.checkout.sessions.create({
         line_items: [
           {
@@ -16,11 +22,21 @@ export default async function handler(
             quantity: 1,
           },
         ],
+        customer: customerId,
+        customer_update: {
+          address: 'auto',
+        },
         mode: 'subscription',
-        success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/register/plan?status=success`,
+        success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/login`,
         cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/register/plan?status=cancel`,
         automatic_tax: { enabled: true },
       });
+      // await prisma.tenant.update({
+      //   where: { email },
+      //   data: {
+      //     plan: value,
+      //   },
+      // });
       return res.json({ id: session.id });
     } catch (err) {
       return res.status(err.statusCode || 500).json(err.message);

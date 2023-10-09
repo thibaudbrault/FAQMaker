@@ -1,4 +1,4 @@
-import { Tenant } from '@prisma/client';
+import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { HelpCircle, MoveLeft, PenSquare } from 'lucide-react';
@@ -19,14 +19,14 @@ import {
 import { useNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNode, ssrNcHandler } from '@/lib';
-import { ClientUser } from '@/types';
+import { UserWithTenant } from '@/types';
 import { QueryKeys, Redirects, dateOptions } from '@/utils';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
 
 type Props = {
-  me: ClientUser & { tenant: Tenant };
+  me: UserWithTenant;
   id: string;
 };
 
@@ -72,7 +72,7 @@ function QuestionPage({ me, id }: Props) {
             >
               Edit
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-stone-100">
+            <DropdownMenuContent className="bg-default">
               <DropdownMenuItem className="text-base hover:text-secondary">
                 <Link
                   className="flex items-center justify-start gap-2"
@@ -102,7 +102,7 @@ function QuestionPage({ me, id }: Props) {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="rounded-md bg-stone-100 p-4">
+        <div className="rounded-md bg-default p-4">
           <h2 className="text-2xl font-semibold">{node.question.text}</h2>
           <ul className="flex gap-2 text-xs">
             {node.tags.map((tag) => (
@@ -188,7 +188,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const { id } = query;
   const callbackMe = async () => await getMe({ req });
-  const me = await ssrNcHandler<ClientUser | null>(req, res, callbackMe);
+  const me = await ssrNcHandler<User | null>(req, res, callbackMe);
 
   if (!me) return Redirects.LOGIN;
 
