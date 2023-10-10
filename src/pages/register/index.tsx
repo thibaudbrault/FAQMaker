@@ -65,7 +65,7 @@ function Company() {
               key={field.value}
               label={field.label}
               value={field.value}
-              error={errors?.[field.value]}
+              error={errors?.[field.value].message}
             >
               <Input
                 {...register(field.value, {

@@ -13,11 +13,9 @@ type Props = {
 };
 
 export const Users = ({ meId, tenantId }: Props) => {
-  console.log('🚀 ~ file: Users.tsx:16 ~ Users ~ meId:', meId);
-  const { data: users, isLoading, isError, error } = useUsers(tenantId);
-  console.log('🚀 ~ file: Users.tsx:18 ~ Users ~ users:', users);
+  const { data: users, isLoading } = useUsers(tenantId);
 
-  const { mutate, isLoading: isUserLoading } = useDeleteUser(tenantId);
+  const { mutate, isLoading: isUserLoading, isError, error } = useDeleteUser(tenantId);
 
   const handleDeleteUser = (id: string) => {
     mutate({ id });

@@ -29,12 +29,7 @@ function Settings({ me }: Props) {
   const { data: nodesCount } = useNodesCount(me.tenantId);
   const { data: usersCount } = useUsersCount(me.tenantId);
   const { data: tenant, isLoading: isTenantLoading } = useTenant(me.tenantId);
-  const {
-    data: tags,
-    isLoading: isTagsLoading,
-    isError: isTagsError,
-    error: tagsError,
-  } = useTags(me.tenantId);
+  const { data: tags, isLoading: isTagsLoading } = useTags(me.tenantId);
 
   const tabs = useMemo(
     () => [
@@ -104,8 +99,6 @@ function Settings({ me }: Props) {
             <Tags
               tags={tags}
               isLoading={isTagsLoading}
-              isError={isTagsError}
-              error={tagsError}
               tenantId={me.tenantId}
             />
           </TabsContent>

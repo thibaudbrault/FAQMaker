@@ -39,28 +39,5 @@ export default async function hadndler(
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-    //   } else if (req.method === "PUT") {
-    //     // update todo
-    //     const id = req.query.todoId as string;
-    //     const data = JSON.parse(req.body);
-    //     const todo = await prisma.todo.update({
-    //       where: { id },
-    //       data,
-    //     });
-
-    //     res.json(todo);
-  } else if (req.method === 'DELETE') {
-    try {
-      if (!req.query) {
-        return res
-          .status(404)
-          .json({ success: false, message: `Tag not found` });
-      }
-      const { id } = req.query;
-      await prisma.tag.delete({ where: { id: id as string } });
-      return res.status(200).json({ error: error.message });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
   }
 }

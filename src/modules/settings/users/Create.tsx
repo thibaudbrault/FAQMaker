@@ -29,6 +29,11 @@ type Props = {
   tenantId: string;
 };
 
+type FormData = {
+  email: string;
+  role: string;
+};
+
 export const CreateUser = ({ tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const field: IUserCreateFields = {
@@ -45,7 +50,7 @@ export const CreateUser = ({ tenantId }: Props) => {
     control,
     reset,
     formState: { errors, isValid, isSubmitting },
-  } = useForm();
+  } = useForm<FormData>();
 
   const { mutate, isError, error } = useCreateUser(tenantId, reset);
 
@@ -91,7 +96,7 @@ export const CreateUser = ({ tenantId }: Props) => {
               key={field.value}
               label={field.label}
               value={field.value}
-              error={errors?.[field.error]}
+              error={errors?.[field.error].message}
             >
               <Input
                 {...register(field.value, { required: field.error })}

@@ -9,19 +9,22 @@ import { CreateTag } from './Create';
 type Props = {
   tags: Tag[];
   isLoading: boolean;
-  isError: boolean;
-  error: AxiosError;
   tenantId: string;
 };
 
-export const Tags = ({ tags, isLoading, isError, error, tenantId }: Props) => {
-  const { mutate, isLoading: isTagLoading } = useDeleteTag(tenantId);
+export const Tags = ({ tags, isLoading, tenantId }: Props) => {
+  const {
+    mutate,
+    isLoading: isTagLoading,
+    isError,
+    error,
+  } = useDeleteTag(tenantId);
 
   const handleDeleteTag = (id: string) => {
     mutate({ id });
   };
 
-  if (isLoading) {
+  if (isLoading || isTagLoading) {
     return <Loader size="screen" />;
   }
 

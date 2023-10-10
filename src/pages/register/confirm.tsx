@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { AxiosError } from 'axios';
 import { useAtom } from 'jotai';
-import { Check, MoveLeft } from 'lucide-react';
+import { MoveLeft } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
