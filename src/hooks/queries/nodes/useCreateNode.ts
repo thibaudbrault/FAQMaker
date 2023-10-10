@@ -53,13 +53,13 @@ export const useCreateNode = (
         QueryKeys.NODES,
         me.tenantId,
       ]);
-      queryClient.setQueryData([QueryKeys.NODES, me.tenantId], (old) => [
-        ...old,
+      queryClient.setQueryData([QueryKeys.NODES, me.tenantId], (oldNodes) => [
+        ...oldNodes,
         values,
       ]);
       return { previousNodes };
     },
-    onError: (err, values, context) => {
+    onError: (_error, _values, context) => {
       queryClient.setQueryData(
         [QueryKeys.NODES, me.tenantId],
         context.previousNodes,
