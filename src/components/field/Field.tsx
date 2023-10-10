@@ -1,14 +1,12 @@
 import { ReactNode } from 'react';
 
-import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
-
 import { Label } from '../label';
 
 type Props = {
   children: ReactNode;
   label: string;
   value: string;
-  error: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
+  error: string;
 };
 
 export const Field = ({ children, label, value, error }: Props) => {
@@ -25,7 +23,7 @@ export const Field = ({ children, label, value, error }: Props) => {
         {label}
       </Label>
       {children}
-      {error && <small className="text-sm text-red-700">{error.message}</small>}
+      {error && <small className="text-sm text-red-700">{error}</small>}
     </div>
   );
 };

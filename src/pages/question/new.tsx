@@ -21,6 +21,10 @@ type Props = {
   me: UserWithTenant;
 };
 
+type FormData = {
+  text: string;
+};
+
 function New({ me }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -29,7 +33,7 @@ function New({ me }: Props) {
     register,
     handleSubmit,
     formState: { isSubmitting, errors, isValid },
-  } = useForm();
+  } = useForm<FormData>();
   const router = useRouter();
 
   const { data: tags, isLoading } = useTags(me.tenantId);
@@ -79,9 +83,15 @@ function New({ me }: Props) {
                   Ask a question
                 </legend>
               </div>
-              <Field label="Question" value="text" error={errors?.text}>
+              <Field label="Question" value="text" error={errors?.text.message}>
                 <Input
-                  {...register('text', { required: true, minLength: 3 })}
+                  {...register('text', {
+                    required: 'Enter a question',
+                    minLength: {
+                      value: 3,
+                      message: 'Question must be at least 3 characters long',
+                    },
+                  })}
                   withIcon
                   icon={<HelpCircle />}
                   type="text"
