@@ -78,7 +78,7 @@ export const CreateTag = ({ tenantId }: Props) => {
             <Field
               label={'Label'}
               value={'label'}
-              error={errors?.label.message}
+              error={errors?.label?.message}
             >
               <Input
                 {...register('label', {

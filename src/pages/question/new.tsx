@@ -83,7 +83,11 @@ function New({ me }: Props) {
                   Ask a question
                 </legend>
               </div>
-              <Field label="Question" value="text" error={errors?.text.message}>
+              <Field
+                label="Question"
+                value="text"
+                error={errors?.text?.message}
+              >
                 <Input
                   {...register('text', {
                     required: 'Enter a question',

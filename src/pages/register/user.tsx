@@ -58,7 +58,7 @@ function Register() {
             key={field.value}
             label={field.label}
             value={field.value}
-            error={errors?.[field.value].message}
+            error={errors?.[field.value]?.message}
           >
             <Input
               {...register(field.value, {

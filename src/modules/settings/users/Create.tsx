@@ -96,7 +96,7 @@ export const CreateUser = ({ tenantId }: Props) => {
               key={field.value}
               label={field.label}
               value={field.value}
-              error={errors?.[field.error].message}
+              error={errors?.[field.error]?.message}
             >
               <Input
                 {...register(field.value, { required: field.error })}
