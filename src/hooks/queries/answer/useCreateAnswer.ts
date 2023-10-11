@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { NextRouter } from 'next/router';
 
-import { successToast } from '@/components';
+import { promiseToast } from '@/components';
 import { QueryKeys, Routes } from '@/utils';
 
 const createAnswer = async (values: Answer, nodeId: string, userId: string) => {
@@ -23,15 +23,39 @@ export const useCreateAnswer = (
   router: NextRouter,
 ) => {
   const queryClient = useQueryClient();
+  const createAnswerMutation = async (values: Answer) => {
+    const promise = createAnswer(values, nodeId, userId);
+    promiseToast(promise, 'Creating answer...');
+    return promise;
+  };
 
   const mutation = useMutation({
-    mutationFn: (values: Answer) => createAnswer(values, nodeId, userId),
-    onSuccess: (data) => {
-      successToast(data.message);
-      router.push(Routes.SITE.HOME);
+    mutationFn: createAnswerMutation,
+    onMutate: async (values) => {
+      await queryClient.cancelQueries({
+        queryKey: [QueryKeys.NODES, tenantId],
+      });
+      const previousNodes = queryClient.getQueryData([
+        QueryKeys.NODES,
+        tenantId,
+      ]);
+      queryClient.setQueryData([QueryKeys.NODES, tenantId], (oldNodes) => [
+        oldNodes ?? [],
+        values,
+      ]);
+      return { previousNodes };
+    },
+    onError: (_error, _values, context) => {
+      queryClient.setQueryData(
+        [QueryKeys.NODES, tenantId],
+        context.previousNodes,
+      );
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.NODES, tenantId],
       });
+      router.push(Routes.SITE.HOME);
     },
   });
   return mutation;

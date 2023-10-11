@@ -3,9 +3,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { NextRouter } from 'next/router';
 import slugify from 'slugify';
-import { toast } from 'sonner';
 
-import { successToast } from '@/components';
+import { promiseToast } from '@/components';
 import { QueryKeys, Routes } from '@/utils';
 
 const createNode = async (
@@ -32,17 +31,10 @@ export const useCreateNode = (
   const queryClient = useQueryClient();
   const createNodeMutation = async (values: Question) => {
     const promise = createNode(values, me, selectedTags);
-    const result = toast.promise(promise, {
-      loading: 'Creating question...',
-      success: (data) => {
-        return `${data.message}`;
-      },
-      error: (data) => {
-        return `Something went wrong: ${data.response.data.message}`;
-      },
-    });
-    return result;
+    promiseToast(promise, 'Creating question...');
+    return promise;
   };
+
   const mutation = useMutation({
     mutationFn: createNodeMutation,
     onMutate: async (values) => {
@@ -54,7 +46,7 @@ export const useCreateNode = (
         me.tenantId,
       ]);
       queryClient.setQueryData([QueryKeys.NODES, me.tenantId], (oldNodes) => [
-        ...oldNodes,
+        oldNodes ?? [],
         values,
       ]);
       return { previousNodes };
@@ -69,9 +61,6 @@ export const useCreateNode = (
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.NODES, me.tenantId],
       });
-      // await new Promise((resolve) => setTimeout(resolve, 500));
-    },
-    onSuccess: () => {
       router.push(Routes.SITE.HOME);
     },
   });
