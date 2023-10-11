@@ -137,6 +137,7 @@ function Edit({ me, id }: Props) {
                   : 'primaryDark'
               }
               type="submit"
+              weight="semibold"
               className="lowercase"
               disabled={disabled && arraysAreEqual(tagsId, selectedTags)}
               style={{ fontVariant: 'small-caps' }}
