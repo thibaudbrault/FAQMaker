@@ -26,6 +26,7 @@ export default async function handler(
         const { userId } = result.data;
         const questions = await prisma.question.findMany({
           where: { userId: userId as string },
+          orderBy: { createdAt: 'desc' },
           include: { node: { select: { id: true } } },
         });
         return res.status(200).json(questions);
