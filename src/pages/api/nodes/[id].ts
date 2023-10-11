@@ -46,10 +46,10 @@ export default async function handler(
             },
           },
           tags: {
-            connectOrCreate: tags.map((tag: string) => {
+            updateMany: tags.map((tag: string) => {
               return {
                 where: { id: tag, tenantId },
-                create: { id: tag, tenantId },
+                data: { id: tag, tenantId },
               };
             }),
           },
