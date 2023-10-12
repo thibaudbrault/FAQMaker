@@ -22,7 +22,12 @@ type Props = {
 
 function Answer({ me, id }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const { handleSubmit, watch, control } = useForm();
+  const {
+    handleSubmit,
+    watch,
+    control,
+    formState: { isSubmitting },
+  } = useForm();
 
   const router = useRouter();
 
@@ -52,16 +57,20 @@ function Answer({ me, id }: Props) {
   const answerText = watch('text') ?? '';
 
   useEffect(() => {
-    setDisabled(answerText.length === 0 || answerText === node.answer?.text);
+    setDisabled(
+      answerText.length === 0 ||
+        answerText === node.answer?.text ||
+        isSubmitting,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [answerText]);
+  }, [answerText, isSubmitting]);
 
   if (isLoading) {
     return <Loader size="screen" />;
   }
 
   return (
-    <PageLayout id={me.id} company={me.tenant.company}>
+    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
       <section className="mx-auto flex w-3/4 flex-col gap-4">
         <Button
           variant="primaryDark"
