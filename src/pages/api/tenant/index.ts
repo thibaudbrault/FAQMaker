@@ -27,7 +27,7 @@ export default async function hadndler(
         data: {
           company,
           email: companyEmail,
-          stripeCustomerId: customerId,
+          customerId,
         },
       });
       if (!tenant) {
