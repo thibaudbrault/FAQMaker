@@ -46,10 +46,10 @@ export default async function handler(
             },
           },
           tags: {
-            updateMany: tags.map((tag: string) => {
+            set: tags.map((tag: string) => {
               return {
-                where: { id: tag, tenantId },
-                data: { id: tag, tenantId },
+                id: tag,
+                tenantId,
               };
             }),
           },
