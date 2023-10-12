@@ -2,11 +2,11 @@ import { LogOut, Settings, UserIcon, Wallet } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
+import { useForm } from 'react-hook-form';
 
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
 import { useCreateBillingPortal, useUser } from '@/hooks';
 import { cn } from '@/utils';
-import { useForm } from 'react-hook-form';
 
 type Props = {
   id: string;

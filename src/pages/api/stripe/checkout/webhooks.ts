@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import type { Stripe } from 'stripe';
 import getRawBody from 'raw-body';
-import prisma from 'lib/prisma';
+
 import { IPlan } from '@/types';
+import prisma from 'lib/prisma';
+
+import type { Stripe } from 'stripe';
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const STRIPE_SIGNATURE_HEADER = 'stripe-signature';
