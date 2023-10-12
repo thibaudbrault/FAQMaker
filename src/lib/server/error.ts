@@ -13,7 +13,6 @@ export default class ApiError extends Error {
 
     Error.captureStackTrace(this, this.constructor);
 
-    // set constructor name for Jest toBeInstanceOf()
     Object.setPrototypeOf(this, ApiError.prototype);
   }
 
@@ -27,7 +26,6 @@ export const handleApiError = (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
-  console.error('handled API error: ', error);
   const isProd = process.env.NODE_ENV === 'production';
 
   const response = {
@@ -36,7 +34,6 @@ export const handleApiError = (
     statusCode: error.statusCode,
     isOperational: error.isOperational,
   };
-  // if status > 399 => error
   res.status(error.statusCode || 500).json(response);
 };
 
