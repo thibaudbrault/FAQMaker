@@ -20,7 +20,7 @@ function Profile({ me }: Props) {
   const { data: answers, isLoading: isAnswersLoading } = useUserAnswers(me.id);
 
   return (
-    <PageLayout id={me.id} company={me.tenant.company}>
+    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
       <section className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-default p-4">
         <UpdateProfile me={me} />
       </section>

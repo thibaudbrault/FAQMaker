@@ -65,7 +65,7 @@ function Settings({ me }: Props) {
     'data-[state=active]:bg-negative data-[state=active]:text-negative text-xl lowercase font-semibold';
 
   return (
-    <PageLayout id={me.id} company={me.tenant.company}>
+    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
       <section className="flex flex-col items-center p-4 pb-12">
         <h2
           className="font-serif text-6xl lowercase"

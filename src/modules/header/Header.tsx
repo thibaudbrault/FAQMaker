@@ -4,16 +4,25 @@ import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
-import { useUser } from '@/hooks';
+import { useCreateBillingPortal, useUser } from '@/hooks';
 import { cn } from '@/utils';
+import { useForm } from 'react-hook-form';
 
 type Props = {
-  id?: string;
-  company?: string;
+  id: string;
+  company: string;
+  tenantId: string;
 };
 
-export const Header = ({ id, company }: Props) => {
+export const Header = ({ id, company, tenantId }: Props) => {
+  const { handleSubmit } = useForm();
   const { data: user, isLoading } = useUser(id);
+
+  const { mutate } = useCreateBillingPortal(tenantId);
+
+  const onSubmit = () => {
+    mutate();
+  };
 
   const tooltipClass = 'bg-negative text-negative border border-negative';
 
@@ -74,15 +83,19 @@ export const Header = ({ id, company }: Props) => {
                 <li>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Link
+                      <form onSubmit={handleSubmit(onSubmit)}>
+                        <button className="hover:text-negativeOffset">
+                          <Wallet />
+                        </button>
+                      </form>
+                      {/* <Link
                         href="/settings"
                         className="hover:text-negativeOffset"
                       >
-                        <Wallet />
-                      </Link>
+                      </Link> */}
                     </TooltipTrigger>
                     <TooltipContent className={cn(tooltipClass)}>
-                      <p>Settings</p>
+                      <p>Billing</p>
                     </TooltipContent>
                   </Tooltip>
                 </li>

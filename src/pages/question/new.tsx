@@ -53,7 +53,7 @@ function New({ me }: Props) {
   }, [isSubmitting, isValid]);
 
   return (
-    <PageLayout id={me.id} company={me.tenant.company}>
+    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
       <section className="mx-auto flex w-3/4 flex-col gap-4">
         <Button
           variant="primaryDark"

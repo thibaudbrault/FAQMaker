@@ -52,7 +52,7 @@ function Home({ me }: Props) {
   }, [isNodesLoading, isInitialLoading]);
 
   return (
-    <PageLayout id={me.id} company={me.tenant.company}>
+    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
       <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <List
         nodes={nodes}
