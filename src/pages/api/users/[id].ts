@@ -1,4 +1,4 @@
-import prisma, { excludeFromUser } from 'lib/prisma';
+import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -17,8 +17,7 @@ export default async function handler(
       const user = await prisma.user.findUnique({
         where: { id: id as string },
       });
-      const userWithoutPassword = excludeFromUser(user);
-      return res.status(200).json(userWithoutPassword);
+      return res.status(200).json(user);
     } catch (error) {
       return res.status(404).json({ error: error.message });
     }
@@ -47,7 +46,7 @@ export default async function handler(
           .json({ success: false, message: `User not found` });
       }
       const id = req.query.id as string;
-      const tenantId = req.body as string;
+      const tenantId = req.body.tenantId as string;
       await prisma.user.delete({
         where: { id, tenantId },
       });

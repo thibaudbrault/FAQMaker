@@ -4,6 +4,12 @@ module.exports = removeImports({
     // trailingSlash: true,
     transpilePackages: ['@mdxeditor/editor', 'react-diff-view'],
     swcMinify: true,
+    images: {
+        domains: ['lh3.googleusercontent.com']
+    },
+    experimental: {
+        swcPlugins: [['@swc-jotai/react-refresh', {}]],
+    },
     webpack: (config) => {
         config.experiments = { ...config.experiments, topLevelAwait: true };
         return config;

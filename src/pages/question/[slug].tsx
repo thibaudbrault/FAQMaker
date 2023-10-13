@@ -1,5 +1,6 @@
-import { Tenant } from '@prisma/client';
+import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { HelpCircle, MoveLeft, PenSquare } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
@@ -18,14 +19,14 @@ import {
 import { useNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNode, ssrNcHandler } from '@/lib';
-import { ClientUser } from '@/types';
+import { UserWithTenant } from '@/types';
 import { QueryKeys, Redirects, dateOptions } from '@/utils';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
 
 type Props = {
-  me: ClientUser & { tenant: Tenant };
+  me: UserWithTenant;
   id: string;
 };
 
@@ -41,12 +42,13 @@ function QuestionPage({ me, id }: Props) {
     return <Loader size="screen" />;
   }
 
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.message || 'An error occurred';
+    errorToast(errorMessage);
   }
 
   return (
-    <PageLayout id={me.id} company={me.tenant.company}>
+    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
       <section className="mx-auto flex w-3/4 flex-col gap-4">
         <div className="flex items-center justify-between">
           <Button
@@ -65,13 +67,13 @@ function QuestionPage({ me, id }: Props) {
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger
-              className="w-fit rounded-md bg-teal-700 px-4 py-2 font-bold uppercase text-stone-200"
+              className="w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase text-negative"
               style={{ fontVariant: 'small-caps' }}
             >
               Edit
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-stone-100">
-              <DropdownMenuItem className="text-base hover:text-teal-700">
+            <DropdownMenuContent className="bg-default">
+              <DropdownMenuItem className="text-base hover:text-secondary">
                 <Link
                   className="flex items-center justify-start gap-2"
                   href={{
@@ -84,7 +86,7 @@ function QuestionPage({ me, id }: Props) {
                   Question
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-base hover:text-teal-700">
+              <DropdownMenuItem className="text-base hover:text-secondary">
                 <Link
                   className="flex items-center justify-start gap-2"
                   href={{
@@ -100,7 +102,7 @@ function QuestionPage({ me, id }: Props) {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="rounded-md bg-stone-100 p-4">
+        <div className="rounded-md bg-default p-4">
           <h2 className="text-2xl font-semibold">{node.question.text}</h2>
           <ul className="flex gap-2 text-xs">
             {node.tags.map((tag) => (
@@ -111,7 +113,7 @@ function QuestionPage({ me, id }: Props) {
               </li>
             ))}
           </ul>
-          <hr className="my-6 border-teal-700" />
+          <hr className="my-6 border-secondary" />
           {node.answer ? (
             <MarkdownPreview
               className="mx-auto w-11/12 text-left"
@@ -120,14 +122,11 @@ function QuestionPage({ me, id }: Props) {
           ) : (
             <p className="text-center italic">No answer</p>
           )}
-          <hr className="my-6 border-teal-700" />
+          <hr className="my-6 border-secondary" />
           <div className="flex justify-between">
             <div className="text-xs">
               <p>
-                Asked by{' '}
-                <b>
-                  {node.question.user.firstName} {node.question.user.lastName}
-                </b>
+                Asked by <b>{node.question.user.name}</b>
               </p>
               <p>
                 Asked on{' '}
@@ -151,10 +150,7 @@ function QuestionPage({ me, id }: Props) {
             {node.answer && (
               <div className="text-xs">
                 <p>
-                  Answered by{' '}
-                  <b>
-                    {node.answer.user.firstName} {node.answer.user.lastName}
-                  </b>
+                  Answered by <b>{node.answer.user.name}</b>
                 </p>
                 <p>
                   Answered on{' '}
@@ -192,7 +188,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const { id } = query;
   const callbackMe = async () => await getMe({ req });
-  const me = await ssrNcHandler<ClientUser | null>(req, res, callbackMe);
+  const me = await ssrNcHandler<User | null>(req, res, callbackMe);
 
   if (!me) return Redirects.LOGIN;
 

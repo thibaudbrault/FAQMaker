@@ -1,11 +1,9 @@
+import { User } from '@prisma/client';
 import { GetSessionParams, getSession } from 'next-auth/react';
 
-import { ClientUser } from '@/types';
-import prisma, { excludeFromUser } from 'lib/prisma';
+import prisma from 'lib/prisma';
 
-export const getMe = async (
-  params: GetSessionParams,
-): Promise<ClientUser | null> => {
+export const getMe = async (params: GetSessionParams): Promise<User | null> => {
   const session = await getSession(params);
   const id = session?.user?.id;
 
@@ -18,7 +16,7 @@ export const getMe = async (
 
   if (!me) return null;
 
-  return excludeFromUser(me);
+  return me;
 };
 
 export const getUsersCount = async (tenantId: string) => {

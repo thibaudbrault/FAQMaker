@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { Tag } from '@prisma/client';
+import { AxiosError } from 'axios';
 import { PlusCircle, Tag as TagIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
@@ -21,6 +22,10 @@ type Props = {
   tenantId: string;
 };
 
+type FormData = {
+  label: string;
+};
+
 export const CreateTag = ({ tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const {
@@ -28,7 +33,7 @@ export const CreateTag = ({ tenantId }: Props) => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting, isValid },
-  } = useForm();
+  } = useForm<FormData>();
 
   const { mutate, isError, error } = useCreateTag(tenantId, reset);
 
@@ -40,8 +45,9 @@ export const CreateTag = ({ tenantId }: Props) => {
     setDisabled(isSubmitting || !isValid);
   }, [isSubmitting, isValid]);
 
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
   }
 
   return (
@@ -68,8 +74,12 @@ export const CreateTag = ({ tenantId }: Props) => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col items-center gap-2"
         >
-          <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-teal-700">
-            <Field label={'Label'} value={'label'} error={errors?.label}>
+          <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-secondary">
+            <Field
+              label={'Label'}
+              value={'label'}
+              error={errors?.label?.message}
+            >
               <Input
                 {...register('label', {
                   required: 'Enter a label',
@@ -79,12 +89,12 @@ export const CreateTag = ({ tenantId }: Props) => {
                 type="label"
                 id="label"
                 placeholder="Tag label"
-                className="w-full rounded-md border border-transparent py-1 outline-none focus:border-teal-700"
+                className="w-full rounded-md border border-transparent py-1 outline-none focus:border-secondary"
               />
             </Field>
           </fieldset>
           <Button
-            variant={disabled ? 'disabledDark' : 'primaryDark'}
+            variant={disabled ? 'disabled' : 'primaryDark'}
             weight="semibold"
             className="lowercase"
             style={{ fontVariant: 'small-caps' }}

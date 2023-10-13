@@ -8,15 +8,16 @@ type Props = {
   children: ReactNode;
   id: string;
   company: string;
+  tenantId: string;
 };
 
-export const PageLayout = ({ children, id, company }: Props) => {
+export const PageLayout = ({ children, id, company, tenantId }: Props) => {
   return (
     <ErrorBoundaryWrapper errorFallbackType="screen">
       <SuspenseWrapper loaderType="screen">
         <MeProvider>
           <main className="flex h-full min-h-screen flex-col bg-stone-200">
-            <Header id={id} company={company} />
+            <Header id={id} company={company} tenantId={tenantId} />
             <div className="my-12 flex-grow">{children}</div>
             <Footer />
           </main>

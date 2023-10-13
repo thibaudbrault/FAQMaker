@@ -16,12 +16,32 @@ interface IFields {
   label: string;
   type: string;
   icon?: ReactElement;
+  error?: string;
 }
 
-export interface IUserFields extends IFields {
-  value: 'firstName' | 'lastName' | 'email';
+export interface IUserCreateFields extends IFields {
+  value: 'email';
 }
 
-export interface ITenantFields extends IFields {
+export interface IUserUpdateFields extends IFields {
+  value: 'name' | 'email';
+}
+
+export interface ITenantCreateFields extends IFields {
+  value: 'company' | 'companyEmail';
+}
+
+export interface ITenantUpdateFields extends IFields {
   value: 'company' | 'email';
+}
+
+export interface IPlan {
+  label: 'Free' | 'Business' | 'Enterprise';
+  value: 'free' | 'business' | 'enterprise';
+  price: number;
+  priceId: string;
+  icon?: ReactElement;
+  message: string;
+  benefits: string[];
+  drawbacks?: string[];
 }

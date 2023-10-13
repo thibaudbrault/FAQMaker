@@ -1,8 +1,5 @@
-import bcrypt from 'bcrypt';
-
 import { getIdSchemaFn } from '@/lib';
-import { generatePassword } from '@/utils';
-import prisma, { excludeFromUserArray } from 'lib/prisma';
+import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -30,8 +27,7 @@ export default async function handler(
         const users = await prisma.user.findMany({
           where: { tenantId: tenantId as string },
         });
-        const usersWithoutPassword = excludeFromUserArray(users);
-        return res.status(200).json(usersWithoutPassword);
+        return res.status(200).json(users);
       }
     } catch (error) {
       return res.status(404).json({ error: error.message });
@@ -43,18 +39,33 @@ export default async function handler(
           .status(404)
           .json({ success: false, message: `Form data not provided` });
       }
-      const { firstName, lastName, email, role, tenantId } = req.body;
-      const password = generatePassword();
-      const hashPassword = async (password: string) => {
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-        return hashedPassword;
-      };
+      const { email, role, tenantId } = req.body;
+      const userExists = await prisma.user.findUnique({
+        where: { email, tenantId },
+      });
+      if (userExists) {
+        return res
+          .status(409)
+          .json({ success: false, message: 'User already exists' });
+      }
+      const usersCount = await prisma.user.count({
+        where: { tenantId },
+      });
+      const { plan } = await prisma.tenant.findUnique({
+        where: { id: tenantId },
+        select: { plan: true },
+      });
+      if (
+        (plan === 'free' && usersCount === 5) ||
+        (plan === 'business' && usersCount === 100)
+      ) {
+        return res.status(402).json({
+          success: false,
+          message: 'You reached the maximum number of users.',
+        });
+      }
       await prisma.user.create({
         data: {
-          firstName,
-          lastName,
-          password: await hashPassword(password),
           email,
           role,
           tenantId,

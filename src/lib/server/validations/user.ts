@@ -14,14 +14,14 @@ export type LoginCredentials = z.infer<typeof userLoginSchema>;
 
 export const userGetSchema = z
   .object({
-    id: z.string().uuid(),
+    id: z.string().cuid2(),
     createdAt: z.string().datetime(),
     firstName: z.string(),
     lastName: z.string(),
     email: z.string().email(),
     password: z.string(),
     role: z.enum(['user', 'admin']),
-    tenantId: z.string().uuid(),
+    tenantId: z.string().cuid2(),
   })
   .refine((data) => data.id, 'Id should be specified.');
 

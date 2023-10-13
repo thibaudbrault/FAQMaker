@@ -6,8 +6,7 @@ export const nodeModel = {
       slug: true,
       user: {
         select: {
-          firstName: true,
-          lastName: true,
+          name: true,
         },
       },
     },
@@ -18,8 +17,7 @@ export const nodeModel = {
       text: true,
       user: {
         select: {
-          firstName: true,
-          lastName: true,
+          name: true,
         },
       },
     },
@@ -37,8 +35,7 @@ export const nodeModelWithDate = {
       slug: true,
       user: {
         select: {
-          firstName: true,
-          lastName: true,
+          name: true,
         },
       },
     },
@@ -51,8 +48,7 @@ export const nodeModelWithDate = {
       text: true,
       user: {
         select: {
-          firstName: true,
-          lastName: true,
+          name: true,
         },
       },
     },

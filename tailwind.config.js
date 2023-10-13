@@ -5,8 +5,27 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        serif: ['var(--font-crimson)'],
+        serif: ['var(--font-merriweather)'],
         sans: ['var(--font-inter)']
+      },
+      textColor: {
+        default: "var(--color-text)",
+        offset: "var(--color-text-offset)",
+        secondary: "var(--color-text-secondary)",
+        negative: "var(--color-text-negative)",
+        negativeOffset: "var(--color-text-negative-offset)"
+      },
+      backgroundColor: {
+        default: "var(--color-background)",
+        offset: "var(--color-background-offset)",
+        negative: "var(--color-background-negative)",
+        negativeOffset: "var(--color-background-negative-offset)",
+        disabled: "var(--color-background-disabled)"
+      },
+      borderColor: {
+        default: "var(--color-border)",
+        secondary: "var(--color-border-secondary)",
+        negative: "var(--color-border-negative)",
       },
       keyframes: {
         "accordion-down": {

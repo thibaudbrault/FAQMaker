@@ -44,7 +44,7 @@ export const Integrations = ({ tenant, isLoading }: Props) => {
   }
 
   return (
-    <div className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-stone-100 p-4">
+    <div className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-default p-4">
       <h2
         className="text-center font-serif text-4xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
@@ -59,7 +59,7 @@ export const Integrations = ({ tenant, isLoading }: Props) => {
           {fields.map((field) => (
             <div
               key={field.value}
-              className="flex flex-1 flex-col gap-1 [&_svg]:focus-within:text-teal-700"
+              className="flex flex-1 flex-col gap-1 [&_svg]:focus-within:text-secondary"
             >
               <Label
                 htmlFor={field.value}
@@ -74,13 +74,13 @@ export const Integrations = ({ tenant, isLoading }: Props) => {
                 type={field.type}
                 id={field.value}
                 placeholder={field.label}
-                className="w-full rounded-md border border-transparent p-1 outline-none focus:border-teal-700"
+                className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
               />
             </div>
           ))}
         </fieldset>
         <Button
-          variant={disabled ? 'disabledDark' : 'primaryDark'}
+          variant={disabled ? 'disabled' : 'primaryDark'}
           weight="semibold"
           className="lowercase"
           style={{ fontVariant: 'small-caps' }}

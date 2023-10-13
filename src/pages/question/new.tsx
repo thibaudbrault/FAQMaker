@@ -1,23 +1,28 @@
 import { useEffect, useState } from 'react';
 
-import { Question, Tenant } from '@prisma/client';
+import { Question, User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { HelpCircle, MoveLeft } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
-import { Button, Field, Input, Label, errorToast } from '@/components';
+import { Button, Field, Input, Loader, errorToast } from '@/components';
 import { useCreateNode, useTags } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getTags, ssrNcHandler } from '@/lib';
 import { TagsList } from '@/modules';
-import { ClientUser } from '@/types';
-import { QueryKeys, Redirects } from '@/utils';
+import { UserWithTenant } from '@/types';
+import { QueryKeys, Redirects, cn } from '@/utils';
 
 type Props = {
-  me: ClientUser & { tenant: Tenant };
+  me: UserWithTenant;
+};
+
+type FormData = {
+  text: string;
 };
 
 function New({ me }: Props) {
@@ -27,9 +32,8 @@ function New({ me }: Props) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { isSubmitting, errors, isValid },
-  } = useForm();
+  } = useForm<FormData>();
   const router = useRouter();
 
   const { data: tags, isLoading } = useTags(me.tenantId);
@@ -39,18 +43,17 @@ function New({ me }: Props) {
     mutate(values);
   };
 
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
   }
-
-  const questionText = watch('text', '');
 
   useEffect(() => {
     setDisabled(isSubmitting || !isValid);
   }, [isSubmitting, isValid]);
 
   return (
-    <PageLayout id={me.id} company={me.tenant.company}>
+    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
       <section className="mx-auto flex w-3/4 flex-col gap-4">
         <Button
           variant="primaryDark"
@@ -66,12 +69,12 @@ function New({ me }: Props) {
             Go back
           </Link>
         </Button>
-        <div className="flex flex-col gap-4 rounded-md bg-stone-100 p-4">
+        <div className="flex flex-col gap-4 rounded-md bg-default p-4">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col items-center gap-4"
           >
-            <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-teal-700">
+            <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-secondary">
               <div className="w-full text-center">
                 <legend
                   className="font-serif text-4xl font-semibold lowercase"
@@ -80,15 +83,25 @@ function New({ me }: Props) {
                   Ask a question
                 </legend>
               </div>
-              <Field label="Question" value="text" error={errors?.text}>
+              <Field
+                label="Question"
+                value="text"
+                error={errors?.text?.message}
+              >
                 <Input
-                  {...register('text', { required: true, minLength: 3 })}
+                  {...register('text', {
+                    required: 'Enter a question',
+                    minLength: {
+                      value: 3,
+                      message: 'Question must be at least 3 characters long',
+                    },
+                  })}
                   withIcon
                   icon={<HelpCircle />}
                   type="text"
                   id="question"
                   placeholder="New question"
-                  className="w-full rounded-md border border-transparent py-1 outline-none focus:border-teal-700"
+                  className="w-full rounded-md border border-transparent py-1 outline-none focus:border-secondary"
                 />
               </Field>
               <TagsList
@@ -99,13 +112,23 @@ function New({ me }: Props) {
               />
             </fieldset>
             <Button
-              variant={disabled ? 'disabledDark' : 'primaryDark'}
+              variant={disabled ? 'disabled' : 'primaryDark'}
               weight="semibold"
-              className="lowercase"
+              className={cn(
+                'lowercase',
+                `${isSubmitting && 'flex items-center justify-center gap-2'}`,
+              )}
               style={{ fontVariant: 'small-caps' }}
               disabled={disabled}
             >
-              Submit
+              {isSubmitting ? (
+                <>
+                  <Loader size="items" border="thin" color="border-negative" />
+                  <p>Submitting</p>
+                </>
+              ) : (
+                'Submit'
+              )}
             </Button>
           </form>
           <div className="justify-start text-center text-xs">
@@ -125,7 +148,7 @@ export default New;
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const callbackMe = async () => await getMe({ req });
-  const me = await ssrNcHandler<ClientUser | null>(req, res, callbackMe);
+  const me = await ssrNcHandler<User | null>(req, res, callbackMe);
 
   if (!me) return Redirects.LOGIN;
 

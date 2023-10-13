@@ -1,16 +1,18 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { Tenant } from '@prisma/client';
+import { User } from '@prisma/client';
 import { Label } from '@radix-ui/react-label';
+import { AxiosError } from 'axios';
 import { AtSign, UserIcon } from 'lucide-react';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 
 import { Button, Input, errorToast } from '@/components';
 import { useUpdateUser } from '@/hooks';
-import { ClientUser, IUserFields } from '@/types';
+import { IUserUpdateFields, UserWithTenant } from '@/types';
 
 type Props = {
-  me: ClientUser & { tenant: Tenant };
+  me: UserWithTenant;
 };
 
 export const UpdateProfile = ({ me }: Props) => {
@@ -21,29 +23,22 @@ export const UpdateProfile = ({ me }: Props) => {
     formState: { isSubmitting, isDirty },
   } = useForm({
     defaultValues: {
-      firstName: me.firstName,
-      lastName: me.lastName,
+      name: me.name,
       email: me.email,
     },
   });
 
   const { mutate, isError, error } = useUpdateUser(me.id, me.tenantId);
 
-  const onSubmit = (values: ClientUser) => {
+  const onSubmit = (values: User) => {
     mutate(values);
   };
 
-  const fields: IUserFields[] = useMemo(
+  const fields: IUserUpdateFields[] = useMemo(
     () => [
       {
-        label: 'First Name',
-        value: 'firstName',
-        type: 'text',
-        icon: <UserIcon className="h-5 w-5" />,
-      },
-      {
-        label: 'Last Name',
-        value: 'lastName',
+        label: 'Name',
+        value: 'name',
         type: 'text',
         icon: <UserIcon className="h-5 w-5" />,
       },
@@ -61,27 +56,41 @@ export const UpdateProfile = ({ me }: Props) => {
     setDisabled(isSubmitting || !isDirty);
   }, [isDirty, isSubmitting]);
 
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
   }
 
   return (
-    <>
-      <h2
-        className="text-center font-serif text-4xl font-semibold lowercase"
-        style={{ fontVariant: 'small-caps' }}
-      >
-        Informations
-      </h2>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-center gap-4"
-      >
-        <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col items-center gap-4"
+    >
+      <fieldset className="grid w-full grid-cols-4 gap-4">
+        <div className="col-span-4 w-full text-center">
+          <legend
+            className="text-center font-serif text-4xl font-semibold lowercase"
+            style={{ fontVariant: 'small-caps' }}
+          >
+            Informations
+          </legend>
+        </div>
+        {me.image ? (
+          <Image
+            src={me.image}
+            alt={'Profile  picture'}
+            width={128}
+            height={128}
+            className="row-start-2 self-center justify-self-center rounded-md"
+          />
+        ) : (
+          <UserIcon className="row-start-2 h-32 w-32 self-center justify-self-center rounded-md" />
+        )}
+        <ul className="col-span-3 row-start-2 flex flex-col gap-2">
           {fields.map((field) => (
-            <div
+            <li
               key={field.value}
-              className="flex flex-col gap-1 [&_svg]:focus-within:text-teal-700"
+              className="flex flex-col gap-1 [&_svg]:focus-within:text-secondary"
             >
               <Label
                 htmlFor={field.value}
@@ -98,21 +107,27 @@ export const UpdateProfile = ({ me }: Props) => {
                 type={field.type}
                 id={field.value}
                 placeholder={field.label}
-                className="w-full rounded-md border border-transparent p-1 outline-none focus:border-teal-700"
+                className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
               />
-            </div>
+            </li>
           ))}
-        </fieldset>
-        <Button
-          variant={disabled ? 'disabledDark' : 'primaryDark'}
-          weight="semibold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-          disabled={disabled}
-        >
-          Update
-        </Button>
-      </form>
-    </>
+          <li>
+            <span className="lowercase" style={{ fontVariant: 'small-caps' }}>
+              Role:
+            </span>{' '}
+            <b className="capitalize">{me.role}</b>
+          </li>
+        </ul>
+      </fieldset>
+      <Button
+        variant={disabled ? 'disabled' : 'primaryDark'}
+        weight="semibold"
+        className="lowercase"
+        style={{ fontVariant: 'small-caps' }}
+        disabled={disabled}
+      >
+        Update
+      </Button>
+    </form>
   );
 };

@@ -20,16 +20,25 @@ export const General = ({
 }: Props) => {
   return (
     <>
-      <section className="relative">
-        <Colors />
-      </section>
+      {tenant.plan !== 'free' && (
+        <section className="relative">
+          <Colors />
+        </section>
+      )}
       <section className="relative">
         <Company tenant={tenant} isLoading={isTenantLoading} />
       </section>
-      <section className="relative"></section>
-      <Integrations tenant={tenant} isLoading={isTenantLoading} />
+      {tenant.plan !== 'free' && (
+        <section className="relative">
+          <Integrations tenant={tenant} isLoading={isTenantLoading} />
+        </section>
+      )}
       <section className="relative">
-        <Data nodesCount={nodesCount} usersCount={usersCount} />
+        <Data
+          nodesCount={nodesCount}
+          usersCount={usersCount}
+          plan={tenant.plan}
+        />
       </section>
     </>
   );

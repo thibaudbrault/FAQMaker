@@ -6,17 +6,16 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import { Crimson_Text, Inter } from 'next/font/google';
+import { Inter, Merriweather } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from 'sonner';
 
 import { TooltipProvider } from '@/components';
-import { RegisterProvider } from '@/contexts';
 
-const crimson = Crimson_Text({
+const merriweather = Merriweather({
   subsets: ['latin'],
   weight: '400',
-  variable: '--font-crimson',
+  variable: '--font-merriweather',
 });
 const inter = Inter({
   subsets: ['latin'],
@@ -40,20 +39,25 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
 
   return (
     <SessionProvider session={session}>
-      <RegisterProvider>
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
-            <Toaster />
-            <TooltipProvider>
-              <div
-                className={`relative h-full min-h-screen text-stone-900 ${crimson.variable} ${inter.variable}`}
-              >
-                <Component {...pageProps} />
-              </div>
-            </TooltipProvider>
-          </Hydrate>
-        </QueryClientProvider>
-      </RegisterProvider>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <Toaster
+            closeButton
+            richColors
+            position="top-center"
+            toastOptions={{
+              style: { fontSize: '1rem' },
+            }}
+          />
+          <TooltipProvider>
+            <div
+              className={`relative h-full min-h-screen text-default ${merriweather.variable} ${inter.variable}`}
+            >
+              <Component {...pageProps} />
+            </div>
+          </TooltipProvider>
+        </Hydrate>
+      </QueryClientProvider>
     </SessionProvider>
   );
 }

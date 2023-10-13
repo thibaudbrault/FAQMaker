@@ -19,7 +19,7 @@ export default async function hadndler(
       });
       return res.status(200).json(tags);
     } catch (error) {
-      res.status(400).end();
+      res.status(400).json({ error: error.message });
     }
   } else if (req.method === 'POST') {
     try {
@@ -37,30 +37,7 @@ export default async function hadndler(
       });
       return res.status(201).json({ message: 'Tag created successfully' });
     } catch (error) {
-      res.status(500).end();
-    }
-    //   } else if (req.method === "PUT") {
-    //     // update todo
-    //     const id = req.query.todoId as string;
-    //     const data = JSON.parse(req.body);
-    //     const todo = await prisma.todo.update({
-    //       where: { id },
-    //       data,
-    //     });
-
-    //     res.json(todo);
-  } else if (req.method === 'DELETE') {
-    try {
-      if (!req.query) {
-        return res
-          .status(404)
-          .json({ success: false, message: `Tag not found` });
-      }
-      const { id } = req.query;
-      await prisma.tag.delete({ where: { id: id as string } });
-      return res.status(200).end();
-    } catch (error) {
-      res.status(500).end();
+      res.status(500).json({ error: error.message });
     }
   }
 }

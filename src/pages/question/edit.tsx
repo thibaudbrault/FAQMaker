@@ -1,7 +1,8 @@
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { Question, Tenant } from '@prisma/client';
+import { Question, User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { HelpCircle, MoveLeft } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
@@ -13,11 +14,11 @@ import { useNode, useTags, useUpdateNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNode, getTags, ssrNcHandler } from '@/lib';
 import { TagsList } from '@/modules';
-import { ClientUser } from '@/types';
+import { UserWithTenant } from '@/types';
 import { QueryKeys, Redirects, arraysAreEqual } from '@/utils';
 
 type Props = {
-  me: ClientUser & { tenant: Tenant };
+  me: UserWithTenant;
   id: string;
 };
 
@@ -34,14 +35,9 @@ function Edit({ me, id }: Props) {
   const router = useRouter();
 
   const { data: tags, isLoading: isTagsLoading } = useTags(me.tenantId);
-  const {
-    data: node,
-    isLoading,
-    isError,
-    error,
-  } = useNode(me.tenantId, id as string);
+  const { data: node, isLoading } = useNode(me.tenantId, id as string);
 
-  const { mutate } = useUpdateNode(
+  const { mutate, isError, error } = useUpdateNode(
     id,
     me.tenantId,
     node.question.id,
@@ -71,12 +67,13 @@ function Edit({ me, id }: Props) {
     return <Loader size="screen" />;
   }
 
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
   }
 
   return (
-    <PageLayout id={me.id} company={me.tenant.company}>
+    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
       <section className="mx-auto flex w-3/4 flex-col gap-4">
         <Button
           variant="primaryDark"
@@ -98,7 +95,7 @@ function Edit({ me, id }: Props) {
             Go back
           </Link>
         </Button>
-        <div className="flex flex-col gap-4 rounded-md bg-stone-100 p-4">
+        <div className="flex flex-col gap-4 rounded-md bg-default p-4">
           <h2
             className="text-center font-serif text-4xl font-semibold lowercase"
             style={{ fontVariant: 'small-caps' }}
@@ -109,7 +106,7 @@ function Edit({ me, id }: Props) {
             className="flex flex-col items-center justify-center gap-4 "
             onSubmit={handleSubmit(onSubmit)}
           >
-            <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-teal-700">
+            <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-secondary">
               <Label
                 htmlFor="question"
                 className="lowercase"
@@ -124,7 +121,7 @@ function Edit({ me, id }: Props) {
                 icon={<HelpCircle />}
                 type="text"
                 id="question"
-                className="w-full rounded-md border border-stone-200 p-1 outline-none focus:border-teal-700 "
+                className="w-full rounded-md border border-stone-200 p-1 outline-none focus:border-secondary "
               />
             </fieldset>
             <TagsList
@@ -136,10 +133,11 @@ function Edit({ me, id }: Props) {
             <Button
               variant={
                 disabled && arraysAreEqual(tagsId, selectedTags)
-                  ? 'disabledDark'
+                  ? 'disabled'
                   : 'primaryDark'
               }
               type="submit"
+              weight="semibold"
               className="lowercase"
               disabled={disabled && arraysAreEqual(tagsId, selectedTags)}
               style={{ fontVariant: 'small-caps' }}
@@ -162,7 +160,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const { id } = query;
   const callbackMe = async () => await getMe({ req });
-  const me = await ssrNcHandler<ClientUser | null>(req, res, callbackMe);
+  const me = await ssrNcHandler<User | null>(req, res, callbackMe);
 
   if (!me) return Redirects.LOGIN;
 

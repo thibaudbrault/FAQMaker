@@ -11,9 +11,30 @@ export default withAuth({
         return true;
       if (pathname === `${process.env.NEXT_PUBLIC_SITE_URL}/register/user`)
         return true;
+      if (pathname === `${process.env.NEXT_PUBLIC_SITE_URL}/register/plan`)
+        return true;
+      if (
+        pathname ===
+        `${process.env.NEXT_PUBLIC_SITE_URL}/register/plan?status=cancel`
+      )
+        return true;
       if (pathname === `${process.env.NEXT_PUBLIC_SITE_URL}/register/confirm`)
         return true;
-      return true;
+      if (
+        pathname === `${process.env.NEXT_PUBLIC_SITE_URL}/api/stripe/checkout`
+      )
+        return true;
+      if (
+        pathname ===
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/stripe/checkout/webhooks`
+      )
+        return true;
+      if (
+        pathname === `${process.env.NEXT_PUBLIC_SITE_URL}/api/stripe/customer`
+      )
+        return true;
+      if (pathname === `${process.env.NEXT_PUBLIC_SITE_URL}/api/tenant`)
+        return true;
     },
   },
   pages: {

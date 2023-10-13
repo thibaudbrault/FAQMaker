@@ -1,23 +1,33 @@
-import { LogOut, Settings, UserIcon } from 'lucide-react';
+import { LogOut, Settings, UserIcon, Wallet } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
+import { useForm } from 'react-hook-form';
 
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
-import { useUser } from '@/hooks';
+import { useCreateBillingPortal, useUser } from '@/hooks';
 import { cn } from '@/utils';
 
 type Props = {
-  id?: string;
-  company?: string;
+  id: string;
+  company: string;
+  tenantId: string;
 };
 
-export const Header = ({ id, company }: Props) => {
+export const Header = ({ id, company, tenantId }: Props) => {
+  const { handleSubmit } = useForm();
   const { data: user, isLoading } = useUser(id);
 
-  const tooltipClass = 'bg-teal-800 text-stone-200 border border-stone-200';
+  const { mutate } = useCreateBillingPortal(tenantId);
+
+  const onSubmit = () => {
+    mutate();
+  };
+
+  const tooltipClass = 'bg-negative text-negative border border-negative';
 
   return (
-    <header className="flex items-center justify-between bg-teal-700 px-8 py-4 text-stone-200">
+    <header className="flex items-center justify-between bg-negative px-8 py-4 text-negative">
       <h1>
         <Link href="/" className="font-serif text-4xl">
           {company}
@@ -32,9 +42,19 @@ export const Header = ({ id, company }: Props) => {
                   <TooltipTrigger asChild>
                     <Link
                       href="/profile"
-                      className="flex items-center gap-1 hover:text-stone-300"
+                      className="flex items-center gap-1 hover:text-negativeOffset"
                     >
-                      <UserIcon />
+                      {user.image ? (
+                        <Image
+                          src={user.image}
+                          alt="Profile"
+                          width={24}
+                          height={24}
+                          className="rounded-full"
+                        />
+                      ) : (
+                        <UserIcon />
+                      )}
                     </Link>
                   </TooltipTrigger>
                   <TooltipContent className={cn(tooltipClass)}>
@@ -42,11 +62,14 @@ export const Header = ({ id, company }: Props) => {
                   </TooltipContent>
                 </Tooltip>
               </li>
-              {user?.role === 'admin' && (
+              {user?.role !== 'user' && (
                 <li>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Link href="/settings" className="hover:text-stone-300">
+                      <Link
+                        href="/settings"
+                        className="hover:text-negativeOffset"
+                      >
                         <Settings />
                       </Link>
                     </TooltipTrigger>
@@ -56,12 +79,33 @@ export const Header = ({ id, company }: Props) => {
                   </Tooltip>
                 </li>
               )}
+              {user?.role === 'tenant' && (
+                <li>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <form onSubmit={handleSubmit(onSubmit)}>
+                        <button className="hover:text-negativeOffset">
+                          <Wallet />
+                        </button>
+                      </form>
+                      {/* <Link
+                        href="/settings"
+                        className="hover:text-negativeOffset"
+                      >
+                      </Link> */}
+                    </TooltipTrigger>
+                    <TooltipContent className={cn(tooltipClass)}>
+                      <p>Billing</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </li>
+              )}
               <li>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <button
                       onClick={() => signOut()}
-                      className="hover:text-stone-300"
+                      className="hover:text-negativeOffset"
                     >
                       <LogOut />
                     </button>

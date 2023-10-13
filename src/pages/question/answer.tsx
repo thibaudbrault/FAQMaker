@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { Answer, Tenant } from '@prisma/client';
-import { dehydrate, QueryClient } from '@tanstack/react-query';
+import { Answer, User } from '@prisma/client';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { ExternalLink, MoveLeft } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
@@ -12,17 +12,22 @@ import { Button, Editor, Loader } from '@/components';
 import { useCreateAnswer, useNode, useUpdateAnswer } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNode, ssrNcHandler } from '@/lib';
-import { ClientUser } from '@/types';
+import { UserWithTenant } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
 
 type Props = {
-  me: ClientUser & { tenant: Tenant };
+  me: UserWithTenant;
   id: string;
 };
 
 function Answer({ me, id }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const { handleSubmit, watch, control } = useForm();
+  const {
+    handleSubmit,
+    watch,
+    control,
+    formState: { isSubmitting },
+  } = useForm();
 
   const router = useRouter();
 
@@ -52,16 +57,20 @@ function Answer({ me, id }: Props) {
   const answerText = watch('text') ?? '';
 
   useEffect(() => {
-    setDisabled(answerText.length === 0 || answerText === node.answer?.text);
+    setDisabled(
+      answerText.length === 0 ||
+        answerText === node.answer?.text ||
+        isSubmitting,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [answerText]);
+  }, [answerText, isSubmitting]);
 
   if (isLoading) {
     return <Loader size="screen" />;
   }
 
   return (
-    <PageLayout id={me.id} company={me.tenant.company}>
+    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
       <section className="mx-auto flex w-3/4 flex-col gap-4">
         <Button
           variant="primaryDark"
@@ -83,7 +92,7 @@ function Answer({ me, id }: Props) {
             Go back
           </Link>
         </Button>
-        <div className="flex flex-col gap-4 rounded-md bg-stone-100 p-4">
+        <div className="flex flex-col gap-4 rounded-md bg-default p-4">
           <h2
             className="text-center font-serif text-4xl font-semibold lowercase"
             style={{ fontVariant: 'small-caps' }}
@@ -94,8 +103,8 @@ function Answer({ me, id }: Props) {
             className="flex flex-col items-center justify-center gap-2"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="w-full">
-              <p className="w-full text-left text-sm">
+            <div className="flex w-full flex-col justify-start">
+              <p className="text-sm">
                 Question: <b>{node.question.text}</b>
               </p>
               <Controller
@@ -110,7 +119,7 @@ function Answer({ me, id }: Props) {
                 )}
               />
               <Link
-                className="flex items-center gap-1 text-sm hover:underline"
+                className="flex w-fit items-baseline gap-1 text-sm hover:underline"
                 href="https://www.markdownguide.org/cheat-sheet/"
                 target="_blank"
               >
@@ -119,8 +128,9 @@ function Answer({ me, id }: Props) {
               </Link>
             </div>
             <Button
-              variant={disabled ? 'disabledDark' : 'primaryDark'}
+              variant={disabled ? 'disabled' : 'primaryDark'}
               type="submit"
+              weight="semibold"
               className="lowercase"
               disabled={disabled}
               style={{ fontVariant: 'small-caps' }}
@@ -143,7 +153,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const { id } = query;
   const callbackMe = async () => await getMe({ req });
-  const me = await ssrNcHandler<ClientUser | null>(req, res, callbackMe);
+  const me = await ssrNcHandler<User | null>(req, res, callbackMe);
 
   if (!me) return Redirects.LOGIN;
 

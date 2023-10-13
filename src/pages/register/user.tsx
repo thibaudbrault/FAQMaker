@@ -1,68 +1,48 @@
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 
-import { MoveRight } from 'lucide-react';
+import { useAtom } from 'jotai';
+import { MoveLeft, MoveRight } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import { Button, Field, Input } from '@/components';
-import { useRegisterState } from '@/contexts';
 import { AuthLayout } from '@/layouts';
+import { registerAtom } from '@/store';
+import { IUserCreateFields } from '@/types';
+import { Routes } from '@/utils';
 
 function Register() {
-  const [state, setState] = useRegisterState();
+  const [state, setState] = useAtom(registerAtom);
+  const [disabled, setDisabled] = useState<boolean>(true);
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { isValid, errors },
+    formState: { isValid, isSubmitting, errors },
   } = useForm({ defaultValues: state });
-  const watchPassword = watch('password');
 
   const saveData = (values) => {
     setState({ ...state, ...values });
-    router.push('/register/confirm');
+    router.push(Routes.SITE.REGISTER.CONFIRM);
   };
 
-  const fields = useMemo(
-    () => [
-      {
-        label: 'First Name',
-        value: 'firstName',
-        type: 'text',
-        error: 'First name is required',
-      },
-      {
-        label: 'Last Name',
-        value: 'lastName',
-        type: 'text',
-        error: 'Last name is required',
-      },
-      {
-        label: 'Email',
-        value: 'email',
-        type: 'email',
-        error: 'Email is required',
-      },
-      {
-        label: 'Password',
-        value: 'password',
-        type: 'password',
-        error: 'Password is required',
-      },
-    ],
-    [],
-  );
+  const field: IUserCreateFields = {
+    label: 'Email',
+    value: 'email',
+    type: 'email',
+    error: 'Email is required',
+  };
 
-  //   if (isError && error instanceof Error) {
-  //     errorToast(error.message);
-  //   }
+  useEffect(() => {
+    setDisabled(!isValid || isSubmitting);
+  }, [isValid, isSubmitting]);
 
   return (
-    <AuthLayout>
+    <AuthLayout hasBackground>
       <form
         onSubmit={handleSubmit(saveData)}
-        className="flex min-w-[500px] flex-col items-center gap-8 rounded-md bg-green-50 p-8"
+        className="flex w-full flex-col gap-4"
       >
         <fieldset className="flex w-full flex-col gap-4">
           <div className="mb-4 flex w-full flex-col gap-2 text-center">
@@ -72,57 +52,55 @@ function Register() {
             >
               User
             </legend>
-            <p className="text-sm">Your profile details</p>
+            <p className="text-sm text-offset">Your connection mail</p>
           </div>
-          {fields.map((field) => (
-            <Field
-              key={field.value}
-              label={field.label}
-              value={field.value}
-              error={errors?.[field.value]}
-            >
-              <Input
-                {...register(field.value, {
-                  required: field.error,
-                })}
-                type={field.type}
-                id={field.value}
-                placeholder={field.label}
-                className="w-full border border-transparent border-b-teal-700 bg-transparent p-1 outline-none placeholder:text-stone-500 focus:rounded-md focus:border-teal-700"
-              />
-            </Field>
-          ))}
           <Field
-            label="Confirm password"
-            value="confirmPassword"
-            error={errors?.confirmPassword}
+            key={field.value}
+            label={field.label}
+            value={field.value}
+            error={errors?.[field.value]?.message}
           >
             <Input
-              {...register('confirmPassword', {
-                required: 'Confirm the password',
-                validate: (value) =>
-                  value === watchPassword || 'The passwords do not match',
+              {...register(field.value, {
+                required: field.error,
               })}
-              type="password"
-              id="confirmPassword"
-              placeholder="Confirm password"
-              className="w-full border border-transparent border-b-teal-700 bg-transparent p-1 outline-none placeholder:text-stone-500 focus:rounded-md focus:border-teal-700"
+              type={field.type}
+              id={field.value}
+              placeholder={field.label}
+              className="w-full border border-transparent border-b-teal-700 bg-transparent p-1 outline-none placeholder:text-stone-500 focus:rounded-md focus:border-secondary"
             />
           </Field>
         </fieldset>
-        <Button
-          variant={!isValid ? 'disabledDark' : 'primaryDark'}
-          size="full"
-          icon="withIcon"
-          font="large"
-          weight="bold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-          disabled={!isValid}
-        >
-          Next
-          <MoveRight />
-        </Button>
+        <div className="flex w-full items-center justify-between gap-4">
+          <Button
+            variant="secondary"
+            size="full"
+            icon="withIcon"
+            font="large"
+            weight="bold"
+            className="lowercase"
+            style={{ fontVariant: 'small-caps' }}
+            type="button"
+            onClick={() => router.push(Routes.SITE.REGISTER.INDEX)}
+          >
+            <MoveLeft />
+            Previous
+          </Button>
+          <Button
+            variant={disabled ? 'disabled' : 'primaryDark'}
+            size="full"
+            icon="withIcon"
+            font="large"
+            weight="bold"
+            className="lowercase"
+            style={{ fontVariant: 'small-caps' }}
+            disabled={disabled}
+            type="submit"
+          >
+            Next
+            <MoveRight />
+          </Button>
+        </div>
       </form>
     </AuthLayout>
   );

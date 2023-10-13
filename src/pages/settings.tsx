@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 
-import { Tenant } from '@prisma/client';
+import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
@@ -17,11 +17,11 @@ import {
   ssrNcHandler,
 } from '@/lib';
 import { General, Tags, Users } from '@/modules';
-import { ClientUser } from '@/types';
+import { UserWithTenant } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
 
 type Props = {
-  me: ClientUser & { tenant: Tenant };
+  me: UserWithTenant;
 };
 
 function Settings({ me }: Props) {
@@ -29,12 +29,7 @@ function Settings({ me }: Props) {
   const { data: nodesCount } = useNodesCount(me.tenantId);
   const { data: usersCount } = useUsersCount(me.tenantId);
   const { data: tenant, isLoading: isTenantLoading } = useTenant(me.tenantId);
-  const {
-    data: tags,
-    isLoading: isTagsLoading,
-    isError: isTagsError,
-    error: tagsError,
-  } = useTags(me.tenantId);
+  const { data: tags, isLoading: isTagsLoading } = useTags(me.tenantId);
 
   const tabs = useMemo(
     () => [
@@ -67,10 +62,10 @@ function Settings({ me }: Props) {
   }, [router.isReady]);
 
   const tabStyle =
-    'data-[state=active]:bg-teal-700 data-[state=active]:text-stone-200 text-xl lowercase font-semibold';
+    'data-[state=active]:bg-negative data-[state=active]:text-negative text-xl lowercase font-semibold';
 
   return (
-    <PageLayout id={me.id} company={me.tenant.company}>
+    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
       <section className="flex flex-col items-center p-4 pb-12">
         <h2
           className="font-serif text-6xl lowercase"
@@ -104,8 +99,6 @@ function Settings({ me }: Props) {
             <Tags
               tags={tags}
               isLoading={isTagsLoading}
-              isError={isTagsError}
-              error={tagsError}
               tenantId={me.tenantId}
             />
           </TabsContent>
@@ -122,11 +115,11 @@ export default Settings;
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const callbackMe = async () => await getMe({ req });
-  const me = await ssrNcHandler<ClientUser | null>(req, res, callbackMe);
+  const me = await ssrNcHandler<User | null>(req, res, callbackMe);
 
   if (!me) return Redirects.LOGIN;
 
-  if (me.role !== 'admin') return Redirects.HOME;
+  if (me.role === 'user') return Redirects.HOME;
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);

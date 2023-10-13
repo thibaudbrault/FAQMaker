@@ -1,6 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { AtSign, UserIcon } from 'lucide-react';
+import { User } from '@prisma/client';
+import { AxiosError } from 'axios';
+import { AtSign } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
 import {
@@ -21,10 +23,9 @@ import {
   errorToast,
 } from '@/components';
 import { useUpdateUser } from '@/hooks';
-import { ClientUser, IUserFields } from '@/types';
 
 type Props = {
-  user: ClientUser;
+  user: User;
   tenantId: string;
 };
 
@@ -38,50 +39,23 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
     formState: { isSubmitting, isDirty },
   } = useForm({
     defaultValues: {
-      firstName: user.firstName,
-      lastName: user.lastName,
       email: user.email,
+      role: user.role,
     },
   });
-  const { mutate, isLoading, isError, error } = useUpdateUser(
-    user.id,
-    tenantId,
-  );
+  const { mutate, isError, error } = useUpdateUser(user.id, tenantId);
 
-  const onSubmit = (values: ClientUser) => {
+  const onSubmit = (values: User) => {
     mutate(values);
   };
-
-  const fields: IUserFields[] = useMemo(
-    () => [
-      {
-        label: 'First Name',
-        value: 'firstName',
-        type: 'text',
-        icon: <UserIcon className="h-5 w-5" />,
-      },
-      {
-        label: 'Last Name',
-        value: 'lastName',
-        type: 'text',
-        icon: <UserIcon className="h-5 w-5" />,
-      },
-      {
-        label: 'Email',
-        value: 'email',
-        type: 'email',
-        icon: <AtSign className="h-5 w-5" />,
-      },
-    ],
-    [],
-  );
 
   useEffect(() => {
     setDisabled(isSubmitting || !isDirty);
   }, [isDirty, isSubmitting]);
 
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
   }
 
   return (
@@ -106,61 +80,58 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
           className="flex flex-col items-center gap-4"
         >
           <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
-            {fields.map((field) => (
-              <div
-                key={field.value}
-                className="flex flex-col gap-1 [&_svg]:focus-within:text-teal-700"
-              >
-                <Label
-                  htmlFor={field.value}
-                  className="lowercase"
-                  style={{ fontVariant: 'small-caps' }}
-                >
-                  {field.label}
-                </Label>
-                <Input
-                  {...register(field.value, { required: true })}
-                  withIcon
-                  defaultValue={user[field.value]}
-                  icon={field.icon}
-                  type={field.type}
-                  id={field.value}
-                  placeholder={field.label}
-                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-teal-700"
-                />
-              </div>
-            ))}
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 [&_svg]:focus-within:text-secondary">
               <Label
-                htmlFor="role"
+                htmlFor="email"
                 className="lowercase"
                 style={{ fontVariant: 'small-caps' }}
               >
-                Role
+                Email
               </Label>
-              <Controller
-                control={control}
-                name="role"
-                rules={{ required: true }}
-                render={({ field: { onChange } }) => (
-                  <Select onValueChange={onChange} defaultValue={user.role}>
-                    <SelectTrigger
-                      id="role"
-                      className="bg-white focus:border-teal-700 focus:ring-0 data-[state=open]:border-teal-700"
-                    >
-                      <SelectValue placeholder="Select a role" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-stone-200">
-                      <SelectItem value="user">User</SelectItem>
-                      <SelectItem value="admin">Admin</SelectItem>
-                    </SelectContent>
-                  </Select>
-                )}
+              <Input
+                {...register('email', { required: true })}
+                withIcon
+                defaultValue={user.email}
+                icon={<AtSign className="h-5 w-5" />}
+                type="email"
+                id="email"
+                placeholder="Email"
+                className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
               />
             </div>
+            {user.role !== 'tenant' && (
+              <div className="flex flex-col gap-1">
+                <Label
+                  htmlFor="role"
+                  className="lowercase"
+                  style={{ fontVariant: 'small-caps' }}
+                >
+                  Role
+                </Label>
+                <Controller
+                  control={control}
+                  name="role"
+                  rules={{ required: true }}
+                  render={({ field: { onChange } }) => (
+                    <Select onValueChange={onChange} defaultValue={user.role}>
+                      <SelectTrigger
+                        id="role"
+                        className="bg-white focus:border-secondary focus:ring-0 data-[state=open]:border-secondary"
+                      >
+                        <SelectValue placeholder="Select a role" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-stone-200">
+                        <SelectItem value="user">User</SelectItem>
+                        <SelectItem value="admin">Admin</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+              </div>
+            )}
           </fieldset>
           <Button
-            variant={disabled ? 'disabledDark' : 'primaryDark'}
+            variant={disabled ? 'disabled' : 'primaryDark'}
             weight="semibold"
             className="lowercase"
             style={{ fontVariant: 'small-caps' }}
@@ -169,12 +140,6 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
             Update
           </Button>
         </form>
-        <DialogFooter>
-          <p className="text-xs">
-            The password will be created automatically and sent to the email
-            entered
-          </p>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

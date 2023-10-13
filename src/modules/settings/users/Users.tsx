@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { ShieldAlert, UserIcon } from 'lucide-react';
 
 import { Button, Loader, errorToast } from '@/components';
@@ -12,9 +13,14 @@ type Props = {
 };
 
 export const Users = ({ meId, tenantId }: Props) => {
-  const { data: users, isLoading, isError, error } = useUsers(tenantId);
+  const { data: users, isLoading } = useUsers(tenantId);
 
-  const { mutate, isLoading: isUserLoading } = useDeleteUser(tenantId);
+  const {
+    mutate,
+    isLoading: isUserLoading,
+    isError,
+    error,
+  } = useDeleteUser(tenantId);
 
   const handleDeleteUser = (id: string) => {
     mutate({ id });
@@ -24,8 +30,9 @@ export const Users = ({ meId, tenantId }: Props) => {
     return <Loader size="page" />;
   }
 
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
   }
 
   const iconStyle = 'w-9 h-9 m-3 inline-flex flex-shrink-0 items-center';
@@ -36,7 +43,7 @@ export const Users = ({ meId, tenantId }: Props) => {
         {users.map((user) => (
           <li
             key={user.id}
-            className="rounded-md border border-stone-200 bg-stone-100 p-6 shadow-sm"
+            className="rounded-md border border-stone-200 bg-default p-6 shadow-sm"
           >
             <div className="flex justify-between">
               <div className="flex w-full justify-between">
@@ -48,18 +55,16 @@ export const Users = ({ meId, tenantId }: Props) => {
                   )}
                   <div className="flex flex-col items-start">
                     <h2 className="text-2xl">
-                      <b>
-                        {user.firstName} {user.lastName}
-                      </b>
+                      <b>{user.name}</b>
                     </h2>
                     <p>{user.email}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <UpdateUser user={user} tenantId={tenantId} />
-                  {(user.role !== 'admin' || user.id !== meId) && (
+                  {(user.role === 'user' || user.id !== meId) && (
                     <Button
-                      variant="secondaryDark"
+                      variant="secondary"
                       size="small"
                       weight="semibold"
                       className="lowercase"
