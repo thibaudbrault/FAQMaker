@@ -23,12 +23,12 @@ export default async function hadndler(
         },
       });
       const returnUrl = process.env.NEXT_PUBLIC_SITE_URL;
-      const portalSession = await stripe.billingPortal.sessions.create({
+      const { url } = await stripe.billingPortal.sessions.create({
         customer: customerId,
         return_url: returnUrl,
       });
-      console.log('🚀 ~ file: index.ts:29 ~ portalSession:', portalSession);
-      return res.redirect(303, portalSession.url);
+      // res.redirect(300, url);
+      return res.status(200).json(url);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

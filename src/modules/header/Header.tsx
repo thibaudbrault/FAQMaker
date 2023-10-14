@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
 import { useCreateBillingPortal, useUser } from '@/hooks';
 import { cn } from '@/utils';
+import { useRouter } from 'next/router';
 
 type Props = {
   id: string;
@@ -16,9 +17,10 @@ type Props = {
 
 export const Header = ({ id, company, tenantId }: Props) => {
   const { handleSubmit } = useForm();
+  const router = useRouter();
   const { data: user, isLoading } = useUser(id);
 
-  const { mutate } = useCreateBillingPortal(tenantId);
+  const { mutate } = useCreateBillingPortal(tenantId, router);
 
   const onSubmit = () => {
     mutate();
@@ -88,11 +90,6 @@ export const Header = ({ id, company, tenantId }: Props) => {
                           <Wallet />
                         </button>
                       </form>
-                      {/* <Link
-                        href="/settings"
-                        className="hover:text-negativeOffset"
-                      >
-                      </Link> */}
                     </TooltipTrigger>
                     <TooltipContent className={cn(tooltipClass)}>
                       <p>Billing</p>
@@ -121,7 +118,8 @@ export const Header = ({ id, company, tenantId }: Props) => {
             variant="primaryLight"
             font="large"
             size="small"
-            className="font-semibold lowercase"
+            weight="semibold"
+            className="lowercase"
             style={{ fontVariant: 'small-caps' }}
             asChild
           >
