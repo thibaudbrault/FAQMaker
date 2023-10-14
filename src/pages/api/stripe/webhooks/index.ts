@@ -38,7 +38,10 @@ export default async function handler(
     'checkout.session.completed',
     'payment_intent.succeeded',
     'payment_intent.payment_failed',
+    'customer.subscription.updated',
   ];
+
+  console.log('first');
 
   if (permittedEvents.includes(event.type)) {
     let data;
@@ -55,6 +58,10 @@ export default async function handler(
               subscriptionId,
             },
           });
+          break;
+        case 'customer.subscription.updated':
+          const customer = event.data.object as Stripe.Subscription;
+          console.log('🚀 ~ file: index.ts:62 ~ customer:', customer);
           break;
         case 'payment_intent.payment_failed':
           data = event.data.object as Stripe.PaymentIntent;
