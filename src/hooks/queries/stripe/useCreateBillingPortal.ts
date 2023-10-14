@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import { NextRouter } from 'next/router';
 
 import { Routes } from '@/utils';
-import { NextRouter } from 'next/router';
 
 const createBillingPortal = async (tenantId: string) => {
   const body = { tenantId };
