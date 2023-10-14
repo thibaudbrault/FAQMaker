@@ -4,6 +4,9 @@ export const Routes = {
     LOGIN: '/login',
     SETTINGS: '/settings',
     PROFILE: '/profile',
+    QUESTION: {
+      NEW: '/question/new',
+    },
     REGISTER: {
       INDEX: '/register',
       USER: '/register/user',
@@ -23,6 +26,7 @@ export const Routes = {
     SEARCH: '/api/search',
     TAGS: '/api/tags',
     TENANT: '/api/tenant',
+    WEBHOOKS: '/api/stripe/webhooks',
   },
 } as const;
 
