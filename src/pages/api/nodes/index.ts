@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { getIdSchemaFn, questionCreateSchema } from '@/lib';
+import { getIdSchemaFn, questionCreateServerSchema } from '@/lib';
 import { nodeModel } from '@/utils';
 import prisma from 'lib/prisma';
 
@@ -42,7 +42,7 @@ export default async function handler(
           .status(404)
           .json({ success: false, message: `Data not provided` });
       }
-      const result = questionCreateSchema.safeParse(req.body);
+      const result = questionCreateServerSchema.safeParse(req.body);
       if (result.success === false) {
         const { errors } = result.error;
         return res.status(400).json({
