@@ -12,30 +12,46 @@ import { useForm } from 'react-hook-form';
 import { Button, Input, Label, Loader, errorToast } from '@/components';
 import { useNode, useTags, useUpdateNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
-import { getMe, getNode, getTags, ssrNcHandler } from '@/lib';
+import {
+  getMe,
+  getNode,
+  getTags,
+  questionUpdateClientSchema,
+  ssrNcHandler,
+} from '@/lib';
 import { TagsList } from '@/modules';
 import { UserWithTenant } from '@/types';
 import { QueryKeys, Redirects, arraysAreEqual } from '@/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
 type Props = {
   me: UserWithTenant;
   id: string;
 };
 
+type Schema = z.infer<typeof questionUpdateClientSchema>;
+
 function Edit({ me, id }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
+  const { data: tags, isLoading: isTagsLoading } = useTags(me.tenantId);
+  const { data: node, isLoading } = useNode(me.tenantId, id as string);
+
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { isSubmitting },
-  } = useForm();
-  const router = useRouter();
+    formState: { isSubmitting, isDirty, isValid },
+  } = useForm<Schema>({
+    resolver: zodResolver(questionUpdateClientSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      text: node.question.text,
+    },
+  });
 
-  const { data: tags, isLoading: isTagsLoading } = useTags(me.tenantId);
-  const { data: node, isLoading } = useNode(me.tenantId, id as string);
+  const router = useRouter();
 
   const { mutate, isError, error } = useUpdateNode(
     id,
@@ -50,18 +66,13 @@ function Edit({ me, id }: Props) {
     mutate(values);
   };
 
-  const questionText = watch('text', '');
   const tagsId = node.tags.map((tag) => tag.id);
 
   useEffect(() => {
     setSelectedTags(node.tags.map((tag) => tag.id));
-    setDisabled(
-      isSubmitting ||
-        questionText.length < 3 ||
-        questionText === node.question.text,
-    );
+    setDisabled(isSubmitting || isValid || !isDirty);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSubmitting, questionText]);
+  }, [isSubmitting]);
 
   if (isLoading) {
     return <Loader size="screen" />;
@@ -115,8 +126,8 @@ function Edit({ me, id }: Props) {
                 Question
               </Label>
               <Input
-                {...register('text', { required: true, min: 3 })}
-                defaultValue={node.question.text}
+                {...register('text')}
+                // defaultValue={node.question.text}
                 withIcon
                 icon={<HelpCircle />}
                 type="text"

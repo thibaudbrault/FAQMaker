@@ -1,29 +1,32 @@
-import { useEffect, useState } from 'react';
-
+import { Button, errorToast, Field, Input, Loader } from '@/components';
+import { useCreateNode, useTags } from '@/hooks';
+import { PageLayout } from '@/layouts';
+import {
+  getMe,
+  getTags,
+  questionCreateClientSchema,
+  ssrNcHandler,
+} from '@/lib';
+import { TagsList } from '@/modules';
+import { UserWithTenant } from '@/types';
+import { cn, QueryKeys, Redirects } from '@/utils';
 import { Question, User } from '@prisma/client';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { HelpCircle, MoveLeft } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-import { Button, Field, Input, Loader, errorToast } from '@/components';
-import { useCreateNode, useTags } from '@/hooks';
-import { PageLayout } from '@/layouts';
-import { getMe, getTags, ssrNcHandler } from '@/lib';
-import { TagsList } from '@/modules';
-import { UserWithTenant } from '@/types';
-import { QueryKeys, Redirects, cn } from '@/utils';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 type Props = {
   me: UserWithTenant;
 };
 
-type FormData = {
-  text: string;
-};
+type Schema = z.infer<typeof questionCreateClientSchema>;
 
 function New({ me }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -33,7 +36,13 @@ function New({ me }: Props) {
     register,
     handleSubmit,
     formState: { isSubmitting, errors, isValid },
-  } = useForm<FormData>();
+  } = useForm<Schema>({
+    resolver: zodResolver(questionCreateClientSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      text: '',
+    },
+  });
   const router = useRouter();
 
   const { data: tags, isLoading } = useTags(me.tenantId);
@@ -89,13 +98,7 @@ function New({ me }: Props) {
                 error={errors?.text?.message}
               >
                 <Input
-                  {...register('text', {
-                    required: 'Enter a question',
-                    minLength: {
-                      value: 3,
-                      message: 'Question must be at least 3 characters long',
-                    },
-                  })}
+                  {...register('text')}
                   withIcon
                   icon={<HelpCircle />}
                   type="text"
