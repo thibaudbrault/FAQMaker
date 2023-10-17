@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { useAtomValue, useSetAtom } from 'jotai';
 import { SearchIcon } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
@@ -7,7 +8,6 @@ import { useForm } from 'react-hook-form';
 import { Input, Label } from '@/components';
 import { locationAtom, searchQueryAtom } from '@/store';
 import { Routes } from '@/utils';
-import { useAtomValue, useSetAtom } from 'jotai';
 
 export const Search = () => {
   const setLoc = useSetAtom(locationAtom);
@@ -55,7 +55,7 @@ export const Search = () => {
     } else if (inputFocused && !isShortcutActivated) {
       router.push('');
     }
-  }, [router, inputFocused, searchQuery]);
+  }, [router, inputFocused, searchQuery, isShortcutActivated]);
 
   const keysClass =
     'rounded-md bg-negative px-2 py-1 font-semibold text-negative drop-shadow-2xl';

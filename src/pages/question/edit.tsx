@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Question, User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -8,6 +9,7 @@ import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import { Button, Input, Label, Loader, errorToast } from '@/components';
 import { useNode, useTags, useUpdateNode } from '@/hooks';
@@ -22,8 +24,6 @@ import {
 import { TagsList } from '@/modules';
 import { UserWithTenant } from '@/types';
 import { QueryKeys, Redirects, arraysAreEqual } from '@/utils';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 
 type Props = {
   me: UserWithTenant;

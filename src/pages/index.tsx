@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { useAtomValue } from 'jotai';
 import { GetServerSideProps } from 'next';
 
 import { useNodes, useSearchNodes } from '@/hooks';
@@ -11,7 +12,6 @@ import { List, Search } from '@/modules';
 import { searchQueryAtom } from '@/store';
 import { ExtendedNode, UserWithTenant } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
-import { useAtomValue } from 'jotai';
 
 type Props = {
   me: UserWithTenant;
