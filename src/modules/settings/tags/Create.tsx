@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Tag } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { PlusCircle, Tag as TagIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import {
   Button,
@@ -17,14 +19,13 @@ import {
   errorToast,
 } from '@/components';
 import { useCreateTag } from '@/hooks';
+import { createTagClientSchema } from '@/lib';
 
 type Props = {
   tenantId: string;
 };
 
-type FormData = {
-  label: string;
-};
+type Schema = z.infer<typeof createTagClientSchema>;
 
 export const CreateTag = ({ tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -33,7 +34,13 @@ export const CreateTag = ({ tenantId }: Props) => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting, isValid },
-  } = useForm<FormData>();
+  } = useForm<Schema>({
+    resolver: zodResolver(createTagClientSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      label: '',
+    },
+  });
 
   const { mutate, isError, error } = useCreateTag(tenantId, reset);
 
@@ -75,15 +82,9 @@ export const CreateTag = ({ tenantId }: Props) => {
           className="flex flex-col items-center gap-2"
         >
           <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-secondary">
-            <Field
-              label={'Label'}
-              value={'label'}
-              error={errors?.label?.message}
-            >
+            <Field label="Label" value="label" error={errors.label?.message}>
               <Input
-                {...register('label', {
-                  required: 'Enter a label',
-                })}
+                {...register('label')}
                 withIcon
                 icon={<TagIcon />}
                 type="label"

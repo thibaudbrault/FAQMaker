@@ -1,42 +1,36 @@
-import { useEffect, useState } from 'react';
-
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useAtom } from 'jotai';
 import { MoveLeft, MoveRight } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import { Button, Field, Input } from '@/components';
 import { AuthLayout } from '@/layouts';
+import { registerUserClientSchema } from '@/lib';
 import { registerAtom } from '@/store';
-import { IUserCreateFields } from '@/types';
 import { Routes } from '@/utils';
+
+type Schema = z.infer<typeof registerUserClientSchema>;
 
 function Register() {
   const [state, setState] = useAtom(registerAtom);
-  const [disabled, setDisabled] = useState<boolean>(true);
   const router = useRouter();
 
   const {
     register,
     handleSubmit,
-    formState: { isValid, isSubmitting, errors },
-  } = useForm({ defaultValues: state });
+    formState: { isValid, errors },
+  } = useForm<Schema>({
+    resolver: zodResolver(registerUserClientSchema),
+    mode: 'onBlur',
+    defaultValues: state,
+  });
 
   const saveData = (values) => {
     setState({ ...state, ...values });
     router.push(Routes.SITE.REGISTER.CONFIRM);
   };
-
-  const field: IUserCreateFields = {
-    label: 'Email',
-    value: 'email',
-    type: 'email',
-    error: 'Email is required',
-  };
-
-  useEffect(() => {
-    setDisabled(!isValid || isSubmitting);
-  }, [isValid, isSubmitting]);
 
   return (
     <AuthLayout hasBackground>
@@ -54,19 +48,12 @@ function Register() {
             </legend>
             <p className="text-sm text-offset">Your connection mail</p>
           </div>
-          <Field
-            key={field.value}
-            label={field.label}
-            value={field.value}
-            error={errors?.[field.value]?.message}
-          >
+          <Field label="Email" value="email" error={errors.email?.message}>
             <Input
-              {...register(field.value, {
-                required: field.error,
-              })}
-              type={field.type}
-              id={field.value}
-              placeholder={field.label}
+              {...register('email')}
+              type="email"
+              id="email"
+              placeholder="Email"
               className="w-full border border-transparent border-b-teal-700 bg-transparent p-1 outline-none placeholder:text-stone-500 focus:rounded-md focus:border-secondary"
             />
           </Field>
@@ -87,14 +74,14 @@ function Register() {
             Previous
           </Button>
           <Button
-            variant={disabled ? 'disabled' : 'primaryDark'}
+            variant={!isValid ? 'disabled' : 'primaryDark'}
             size="full"
             icon="withIcon"
             font="large"
             weight="bold"
             className="lowercase"
             style={{ fontVariant: 'small-caps' }}
-            disabled={disabled}
+            disabled={!isValid}
             type="submit"
           >
             Next

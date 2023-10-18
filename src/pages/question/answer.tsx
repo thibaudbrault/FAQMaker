@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Answer, User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { ExternalLink, MoveLeft } from 'lucide-react';
@@ -7,11 +8,12 @@ import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import { Button, Editor, Loader } from '@/components';
 import { useCreateAnswer, useNode, useUpdateAnswer } from '@/hooks';
 import { PageLayout } from '@/layouts';
-import { getMe, getNode, ssrNcHandler } from '@/lib';
+import { answerClientSchema, getMe, getNode, ssrNcHandler } from '@/lib';
 import { UserWithTenant } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
 
@@ -20,18 +22,26 @@ type Props = {
   id: string;
 };
 
+type Schema = z.infer<typeof answerClientSchema>;
+
 function Answer({ me, id }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const {
-    handleSubmit,
-    watch,
-    control,
-    formState: { isSubmitting },
-  } = useForm();
-
-  const router = useRouter();
 
   const { data: node, isLoading } = useNode(me.tenantId, id as string);
+
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitting, errors, isValid, isDirty },
+  } = useForm<Schema>({
+    resolver: zodResolver(answerClientSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      text: node.answer?.text ?? '',
+    },
+  });
+
+  const router = useRouter();
 
   const { mutate: createAnswer } = useCreateAnswer(
     id,
@@ -54,16 +64,9 @@ function Answer({ me, id }: Props) {
     }
   };
 
-  const answerText = watch('text') ?? '';
-
   useEffect(() => {
-    setDisabled(
-      answerText.length === 0 ||
-        answerText === node.answer?.text ||
-        isSubmitting,
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [answerText, isSubmitting]);
+    setDisabled(isSubmitting || !isValid || !isDirty);
+  }, [isSubmitting, isValid, isDirty]);
 
   if (isLoading) {
     return <Loader size="screen" />;
@@ -111,13 +114,12 @@ function Answer({ me, id }: Props) {
                 control={control}
                 name="text"
                 render={({ field: { onChange, value } }) => (
-                  <Editor
-                    value={value}
-                    onChange={onChange}
-                    prevAnswer={node.answer?.text ?? ''}
-                  />
+                  <Editor value={value} onChange={onChange} />
                 )}
               />
+              {errors.text && (
+                <p className="text-sm text-red-700">{errors.text.message}</p>
+              )}
               <Link
                 className="flex w-fit items-baseline gap-1 text-sm hover:underline"
                 href="https://www.markdownguide.org/cheat-sheet/"

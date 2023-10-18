@@ -8,15 +8,14 @@ const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 type Props = {
   onChange: (...event: any[]) => void;
   value: string;
-  prevAnswer: string;
 };
 
-export const Editor = ({ onChange, value, prevAnswer }: Props) => {
+export const Editor = ({ onChange, value }: Props) => {
   return (
     <div className="w-full">
       <MDEditor
         className="!w-full !rounded-md border border-secondary !bg-white"
-        value={value ?? prevAnswer}
+        value={value}
         onChange={onChange}
         height={300}
         previewOptions={{

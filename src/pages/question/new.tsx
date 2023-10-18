@@ -14,12 +14,7 @@ import { z } from 'zod';
 import { Button, errorToast, Field, Input, Loader } from '@/components';
 import { useCreateNode, useTags } from '@/hooks';
 import { PageLayout } from '@/layouts';
-import {
-  getMe,
-  getTags,
-  questionCreateClientSchema,
-  ssrNcHandler,
-} from '@/lib';
+import { getMe, getTags, questionClientSchema, ssrNcHandler } from '@/lib';
 import { TagsList } from '@/modules';
 import { UserWithTenant } from '@/types';
 import { cn, QueryKeys, Redirects } from '@/utils';
@@ -28,7 +23,7 @@ type Props = {
   me: UserWithTenant;
 };
 
-type Schema = z.infer<typeof questionCreateClientSchema>;
+type Schema = z.infer<typeof questionClientSchema>;
 
 function New({ me }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -39,7 +34,7 @@ function New({ me }: Props) {
     handleSubmit,
     formState: { isSubmitting, errors, isValid },
   } = useForm<Schema>({
-    resolver: zodResolver(questionCreateClientSchema),
+    resolver: zodResolver(questionClientSchema),
     mode: 'onBlur',
     defaultValues: {
       text: '',

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { AtSign, PlusCircle } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import {
   Button,
@@ -23,26 +25,16 @@ import {
   errorToast,
 } from '@/components';
 import { useCreateUser } from '@/hooks';
-import { IUserCreateFields } from '@/types';
+import { createUserClientSchema } from '@/lib';
 
 type Props = {
   tenantId: string;
 };
 
-type FormData = {
-  email: string;
-  role: string;
-};
+type Schema = z.infer<typeof createUserClientSchema>;
 
 export const CreateUser = ({ tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const field: IUserCreateFields = {
-    label: 'Email',
-    value: 'email',
-    type: 'email',
-    icon: <AtSign className="h-5 w-5" />,
-    error: 'Email is required',
-  };
 
   const {
     register,
@@ -50,7 +42,14 @@ export const CreateUser = ({ tenantId }: Props) => {
     control,
     reset,
     formState: { errors, isValid, isSubmitting },
-  } = useForm<FormData>();
+  } = useForm<Schema>({
+    resolver: zodResolver(createUserClientSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      email: '',
+      role: 'user',
+    },
+  });
 
   const { mutate, isError, error } = useCreateUser(tenantId, reset);
 
@@ -92,19 +91,14 @@ export const CreateUser = ({ tenantId }: Props) => {
           className="flex flex-col items-center gap-4"
         >
           <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
-            <Field
-              key={field.value}
-              label={field.label}
-              value={field.value}
-              error={errors?.[field.error]?.message}
-            >
+            <Field label="Email" value="email" error={errors.email?.message}>
               <Input
-                {...register(field.value, { required: field.error })}
+                {...register('email')}
                 withIcon
-                icon={field.icon}
-                type={field.type}
-                id={field.value}
-                placeholder={field.label}
+                icon={<AtSign className="h-5 w-5" />}
+                type="email"
+                id="email"
+                placeholder="Email"
                 className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
               />
             </Field>
@@ -121,7 +115,7 @@ export const CreateUser = ({ tenantId }: Props) => {
                 name="role"
                 rules={{ required: true }}
                 render={({ field: { onChange } }) => (
-                  <Select onValueChange={onChange}>
+                  <Select defaultValue="user" onValueChange={onChange}>
                     <SelectTrigger
                       id="role"
                       className="bg-white focus:border-secondary focus:ring-0 data-[state=open]:border-secondary"
@@ -129,8 +123,12 @@ export const CreateUser = ({ tenantId }: Props) => {
                       <SelectValue placeholder="Select a role" />
                     </SelectTrigger>
                     <SelectContent className="bg-stone-200">
-                      <SelectItem value="user">User</SelectItem>
-                      <SelectItem value="admin">Admin</SelectItem>
+                      <SelectItem value="user" className="pl-8">
+                        User
+                      </SelectItem>
+                      <SelectItem value="admin" className="pl-8">
+                        Admin
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 )}

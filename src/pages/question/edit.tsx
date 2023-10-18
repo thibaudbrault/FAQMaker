@@ -11,14 +11,14 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Input, Label, Loader, errorToast } from '@/components';
+import { Button, Field, Input, Loader, errorToast } from '@/components';
 import { useNode, useTags, useUpdateNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import {
   getMe,
   getNode,
   getTags,
-  questionUpdateClientSchema,
+  questionClientSchema,
   ssrNcHandler,
 } from '@/lib';
 import { TagsList } from '@/modules';
@@ -30,7 +30,7 @@ type Props = {
   id: string;
 };
 
-type Schema = z.infer<typeof questionUpdateClientSchema>;
+type Schema = z.infer<typeof questionClientSchema>;
 
 function Edit({ me, id }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -42,9 +42,9 @@ function Edit({ me, id }: Props) {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, isDirty, isValid },
+    formState: { isSubmitting, isDirty, isValid, errors },
   } = useForm<Schema>({
-    resolver: zodResolver(questionUpdateClientSchema),
+    resolver: zodResolver(questionClientSchema),
     mode: 'onBlur',
     defaultValues: {
       text: node.question.text,
@@ -70,9 +70,9 @@ function Edit({ me, id }: Props) {
 
   useEffect(() => {
     setSelectedTags(node.tags.map((tag) => tag.id));
-    setDisabled(isSubmitting || isValid || !isDirty);
+    setDisabled(isSubmitting || !isValid || !isDirty);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSubmitting]);
+  }, [isSubmitting, isValid, isDirty]);
 
   if (isLoading) {
     return <Loader size="screen" />;
@@ -107,33 +107,33 @@ function Edit({ me, id }: Props) {
           </Link>
         </Button>
         <div className="flex flex-col gap-4 rounded-md bg-default p-4">
-          <h2
-            className="text-center font-serif text-4xl font-semibold lowercase"
-            style={{ fontVariant: 'small-caps' }}
-          >
-            Edit the question
-          </h2>
           <form
             className="flex flex-col items-center justify-center gap-4 "
             onSubmit={handleSubmit(onSubmit)}
           >
             <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-secondary">
-              <Label
-                htmlFor="question"
-                className="lowercase"
-                style={{ fontVariant: 'small-caps' }}
+              <div className="w-full text-center">
+                <legend
+                  className="font-serif text-4xl font-semibold lowercase"
+                  style={{ fontVariant: 'small-caps' }}
+                >
+                  Edit the question
+                </legend>
+              </div>
+              <Field
+                label="Question"
+                value="text"
+                error={errors?.text?.message}
               >
-                Question
-              </Label>
-              <Input
-                {...register('text')}
-                // defaultValue={node.question.text}
-                withIcon
-                icon={<HelpCircle />}
-                type="text"
-                id="question"
-                className="w-full rounded-md border border-stone-200 p-1 outline-none focus:border-secondary "
-              />
+                <Input
+                  {...register('text')}
+                  withIcon
+                  icon={<HelpCircle />}
+                  type="text"
+                  id="question"
+                  className="w-full rounded-md border border-stone-200 p-1 outline-none focus:border-secondary "
+                />
+              </Field>
             </fieldset>
             <TagsList
               isLoading={isTagsLoading}

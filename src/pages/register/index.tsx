@@ -1,15 +1,18 @@
-import { useMemo } from 'react';
-
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useAtom } from 'jotai';
 import { MoveRight } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import { Button, Field, Input } from '@/components';
 import { AuthLayout } from '@/layouts';
+import { registerCompanyClientSchema } from '@/lib';
 import { registerAtom } from '@/store';
 import { ITenantCreateFields } from '@/types';
 import { Routes } from '@/utils';
+
+type Schema = z.infer<typeof registerCompanyClientSchema>;
 
 function Company() {
   const [state, setState] = useAtom(registerAtom);
@@ -19,30 +22,29 @@ function Company() {
     handleSubmit,
     register,
     formState: { errors, isValid },
-  } = useForm({ defaultValues: state });
+  } = useForm<Schema>({
+    resolver: zodResolver(registerCompanyClientSchema),
+    mode: 'onBlur',
+    defaultValues: state,
+  });
 
   const saveData = (values) => {
     setState({ ...state, ...values });
     router.push(Routes.SITE.REGISTER.USER);
   };
 
-  const fields: ITenantCreateFields[] = useMemo(
-    () => [
-      {
-        label: 'Name',
-        value: 'company',
-        type: 'text',
-        error: 'Company name is required',
-      },
-      {
-        label: 'Email',
-        value: 'companyEmail',
-        type: 'email',
-        error: 'Company email is required',
-      },
-    ],
-    [],
-  );
+  const fields: ITenantCreateFields[] = [
+    {
+      label: 'Name',
+      value: 'company',
+      type: 'text',
+    },
+    {
+      label: 'Email',
+      value: 'companyEmail',
+      type: 'email',
+    },
+  ];
 
   return (
     <AuthLayout hasBackground>
@@ -68,9 +70,7 @@ function Company() {
               error={errors?.[field.value]?.message}
             >
               <Input
-                {...register(field.value, {
-                  required: field.error,
-                })}
+                {...register(field.value)}
                 type={field.type}
                 id={field.value}
                 placeholder={field.label}
