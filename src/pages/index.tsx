@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react';
 
 import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { useAtomValue } from 'jotai';
 import { GetServerSideProps } from 'next';
+import { useSearchParams } from 'next/navigation';
 
 import { useNodes, useSearchNodes } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNodes, ssrNcHandler } from '@/lib';
 import { List, Search } from '@/modules';
-import { searchQueryAtom } from '@/store';
 import { ExtendedNode, UserWithTenant } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
 
@@ -18,7 +17,10 @@ type Props = {
 };
 
 function Home({ me }: Props) {
-  const searchQuery = useAtomValue(searchQueryAtom);
+  const search = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState<string>(
+    search.get('search') ?? null,
+  );
   const [isLoading, setIsLoading] = useState<boolean>();
 
   let nodes: ExtendedNode[] = [];
@@ -51,7 +53,7 @@ function Home({ me }: Props) {
 
   return (
     <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
-      <Search />
+      <Search setSearchQuery={setSearchQuery} />
       <List
         nodes={nodes}
         isLoading={isLoading}

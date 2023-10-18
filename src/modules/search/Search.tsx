@@ -1,64 +1,29 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
-import { useAtomValue, useSetAtom } from 'jotai';
 import { SearchIcon } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import { Input, Label } from '@/components';
-import { locationAtom, searchQueryAtom } from '@/store';
-import { Routes } from '@/utils';
 
-export const Search = () => {
-  const setLoc = useSetAtom(locationAtom);
-  const searchQuery = useAtomValue(searchQueryAtom);
-  const [isShortcutActivated, setIsShortcutActivated] = useState(false);
-  const [inputFocused, setInputFocused] = useState<boolean>(false);
+type Props = {
+  setSearchQuery: Dispatch<SetStateAction<string>>;
+};
+
+export const Search = ({ setSearchQuery }: Props) => {
   const router = useRouter();
   const { handleSubmit, register } = useForm();
 
   const onSearch = (values) => {
     const { search } = values;
-    setLoc((prev) => ({
-      ...prev,
-      searchParams: new URLSearchParams([['search', search]]),
-    }));
-  };
-
-  const handleFocus = () => {
-    setInputFocused(true);
-  };
-
-  const handleBlur = () => {
-    setInputFocused(false);
-  };
-
-  useEffect(() => {
-    if (inputFocused) {
-      const handleShortcut = (event: KeyboardEvent) => {
-        if (event.shiftKey && event.key === 'Enter') {
-          setIsShortcutActivated(true);
-          router.push(Routes.SITE.QUESTION.NEW);
-        }
-      };
-      window.addEventListener('keydown', handleShortcut);
-      return () => {
-        window.removeEventListener('keydown', handleShortcut);
-      };
-    }
-  }, [router, inputFocused, searchQuery, isShortcutActivated]);
-
-  useEffect(() => {
-    if (searchQuery && !isShortcutActivated) {
-      const encodedSearch = encodeURI(searchQuery);
+    setSearchQuery(search);
+    if (search) {
+      const encodedSearch = encodeURI(search);
       router.push(`?search=${encodedSearch}`);
-    } else if (inputFocused && !isShortcutActivated) {
+    } else {
       router.push('');
     }
-  }, [router, inputFocused, searchQuery, isShortcutActivated]);
-
-  const keysClass =
-    'rounded-md bg-negative px-2 py-1 font-semibold text-negative drop-shadow-2xl';
+  };
 
   return (
     <section className="flex w-full justify-center">
@@ -79,15 +44,9 @@ export const Search = () => {
           icon={<SearchIcon />}
           type="text"
           id="search"
-          onFocus={handleFocus}
-          onBlur={handleBlur}
           placeholder="Search"
           className="w-full rounded-md border border-default bg-default py-2 outline-none focus:border-secondary "
         />
-        <p className="mt-2 hidden text-right text-xs group-focus-within/search:block">
-          <span className={keysClass}>SHIFT</span> +{' '}
-          <span className={keysClass}>ENTER</span> to create a new question
-        </p>
       </form>
     </section>
   );
