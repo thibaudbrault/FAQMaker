@@ -5,8 +5,8 @@ import { Button, Loader, errorToast } from '@/components';
 import { useDeleteUser, useUsers } from '@/hooks';
 
 import { CreateUser } from './Create';
-import { UpdateUser } from './Update';
 import { FileInput } from './FileInput';
+import { UpdateUser } from './Update';
 
 type Props = {
   meId: string;

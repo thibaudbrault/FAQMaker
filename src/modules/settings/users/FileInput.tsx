@@ -1,7 +1,9 @@
 import { useRef, useState } from 'react';
-import Papa from 'papaparse';
-import { Button } from '@/components';
+
 import { FileUp } from 'lucide-react';
+import Papa from 'papaparse';
+
+import { Button } from '@/components';
 
 export const FileInput = () => {
   const [fileName, setFileName] = useState('');
@@ -51,7 +53,8 @@ export const FileInput = () => {
         </Button>
       </div>
       <small className="text-xs">
-        You need to have a column named 'Email' in the selected CSV file.
+        You need to have a column named &apos;Email&apos; in the selected CSV
+        file.
       </small>
       <input
         type="file"

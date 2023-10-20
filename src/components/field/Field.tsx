@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
 
-import { Label } from '../label';
 import { HelpCircle } from 'lucide-react';
+
+import { Label } from '../label';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip';
 
 type Props = {

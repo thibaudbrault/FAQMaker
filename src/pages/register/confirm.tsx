@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
 import { useAtom } from 'jotai';
 import { MoveLeft } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import { Button, Loader, errorToast } from '@/components';
 import { useCreateCustomer, useCreateTenant } from '@/hooks';
@@ -12,8 +14,6 @@ import { AuthLayout } from '@/layouts';
 import { registerCompleteClientSchema } from '@/lib';
 import { registerAtom } from '@/store';
 import { Routes, cn } from '@/utils';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 
 type Schema = z.infer<typeof registerCompleteClientSchema>;
 
@@ -60,6 +60,7 @@ function Confirm() {
     if (isSuccess) {
       setState({ ...state, customerId });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, customerId]);
 
   useEffect(() => {
