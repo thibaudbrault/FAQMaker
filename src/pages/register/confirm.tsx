@@ -9,18 +9,25 @@ import { useForm } from 'react-hook-form';
 import { Button, Loader, errorToast } from '@/components';
 import { useCreateCustomer, useCreateTenant } from '@/hooks';
 import { AuthLayout } from '@/layouts';
+import { registerCompleteClientSchema } from '@/lib';
 import { registerAtom } from '@/store';
-import { Routes, cn, hasEmptyField } from '@/utils';
+import { Routes, cn } from '@/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+type Schema = z.infer<typeof registerCompleteClientSchema>;
 
 function Confirm() {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [state, setState] = useAtom(registerAtom);
-  const invalidState: boolean = hasEmptyField(state);
   const router = useRouter();
   const {
     handleSubmit,
-    formState: { isSubmitting },
-  } = useForm({ defaultValues: state });
+    formState: { isSubmitting, isValid },
+  } = useForm<Schema>({
+    resolver: zodResolver(registerCompleteClientSchema),
+    defaultValues: state,
+  });
 
   const {
     data: customerId,
@@ -53,13 +60,11 @@ function Confirm() {
     if (isSuccess) {
       setState({ ...state, customerId });
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, customerId]);
 
   useEffect(() => {
-    setDisabled(invalidState || isSubmitting);
-  }, [invalidState, isSubmitting]);
+    setDisabled(!isValid || isSubmitting);
+  }, [isValid, isSubmitting]);
 
   return (
     <AuthLayout hasBackground>
@@ -86,6 +91,16 @@ function Confirm() {
             <div className="grid grid-cols-4 grid-rows-1 gap-4">
               <p className="text-sm">Email</p>
               <p className="col-span-3 font-bold">{state.companyEmail}</p>
+            </div>
+            <div className="grid grid-cols-4 grid-rows-1 gap-4">
+              <p className="text-sm">Domain</p>
+              <p
+                className={`col-span-3 ${
+                  state.domain ? 'font-bold' : 'italic'
+                }`}
+              >
+                {state.domain || 'No domain'}
+              </p>
             </div>
           </div>
           <div>

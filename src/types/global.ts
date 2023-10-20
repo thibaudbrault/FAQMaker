@@ -17,6 +17,7 @@ interface IFields {
   type: string;
   icon?: ReactElement;
   error?: string;
+  info?: string;
 }
 
 export interface IUserCreateFields extends IFields {
@@ -28,7 +29,7 @@ export interface IUserUpdateFields extends IFields {
 }
 
 export interface ITenantCreateFields extends IFields {
-  value: 'company' | 'companyEmail';
+  value: 'company' | 'companyEmail' | 'domain';
 }
 
 export interface ITenantUpdateFields extends IFields {

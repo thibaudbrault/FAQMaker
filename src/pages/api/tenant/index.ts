@@ -13,7 +13,8 @@ export default async function hadndler(
           .status(404)
           .json({ success: false, message: `Information not provided` });
       }
-      const { company, companyEmail, name, email, customerId } = req.body;
+      const { company, companyEmail, name, email, domain, customerId } =
+        req.body;
       const tenantExists = await prisma.tenant.findUnique({
         where: { email: companyEmail },
       });
@@ -28,6 +29,7 @@ export default async function hadndler(
           company,
           email: companyEmail,
           customerId,
+          domain,
         },
       });
       if (!tenant) {

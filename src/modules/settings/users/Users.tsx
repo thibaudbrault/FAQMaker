@@ -6,6 +6,7 @@ import { useDeleteUser, useUsers } from '@/hooks';
 
 import { CreateUser } from './Create';
 import { UpdateUser } from './Update';
+import { FileInput } from './FileInput';
 
 type Props = {
   meId: string;
@@ -80,6 +81,12 @@ export const Users = ({ meId, tenantId }: Props) => {
           </li>
         ))}
         <CreateUser tenantId={tenantId} />
+        <div className="flex items-center gap-4">
+          <div className="h-px flex-grow bg-negative" />
+          <p className="text-center text-xl font-bold uppercase">or</p>
+          <div className="h-px flex-grow bg-negative" />
+        </div>
+        <FileInput />
       </ul>
     </section>
   );

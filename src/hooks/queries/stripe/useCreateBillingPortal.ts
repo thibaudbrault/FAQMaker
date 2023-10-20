@@ -6,12 +6,9 @@ import { Routes } from '@/utils';
 
 const createBillingPortal = async (tenantId: string) => {
   const body = { tenantId };
-  const { data } = await axios.post(Routes.API.BILLING, body, {
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-  });
-  return data;
+  await axios.post(Routes.API.BILLING, body);
+  // const { data } = await axios.post(Routes.API.BILLING, body);
+  // return data;
 };
 
 export const useCreateBillingPortal = (
@@ -20,9 +17,9 @@ export const useCreateBillingPortal = (
 ) => {
   const mutation = useMutation({
     mutationFn: () => createBillingPortal(tenantId),
-    onSuccess: (data) => {
-      router.push(data);
-    },
+    // onSuccess: (data) => {
+    //   router.push(data);
+    // },
   });
   return mutation;
 };

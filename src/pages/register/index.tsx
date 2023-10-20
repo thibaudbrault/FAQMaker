@@ -44,6 +44,12 @@ function Company() {
       value: 'companyEmail',
       type: 'email',
     },
+    {
+      label: 'Domain',
+      value: 'domain',
+      type: 'text',
+      info: `Fill this field if you have a personalised domain name used for your users' email`,
+    },
   ];
 
   return (
@@ -67,6 +73,7 @@ function Company() {
               key={field.value}
               label={field.label}
               value={field.value}
+              info={field.info}
               error={errors?.[field.value]?.message}
             >
               <Input

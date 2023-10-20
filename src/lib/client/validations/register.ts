@@ -7,6 +7,7 @@ export const registerCompanyClientSchema = z.object({
     .trim()
     .min(1, { message: 'Company email is required' })
     .email({ message: 'Invalid email' }),
+  domain: z.string().trim().optional(),
 });
 
 export const registerUserClientSchema = z.object({
@@ -16,3 +17,7 @@ export const registerUserClientSchema = z.object({
     .min(1, { message: 'User email is required' })
     .email({ message: 'Invalid email' }),
 });
+
+export const registerCompleteClientSchema = registerCompanyClientSchema.merge(
+  registerUserClientSchema,
+);
