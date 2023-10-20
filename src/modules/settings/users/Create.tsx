@@ -84,7 +84,7 @@ export const CreateUser = ({ tenantId }: Props) => {
       </DialogTrigger>
       <DialogContent className="bg-stone-200/90">
         <DialogHeader>
-          <DialogTitle className="font-serif text-2xl">New user</DialogTitle>
+          <DialogTitle className="text-2xl">New user</DialogTitle>
         </DialogHeader>
         <form
           onSubmit={handleSubmit(onSubmit)}

@@ -75,7 +75,7 @@ export const CreateTag = ({ tenantId }: Props) => {
       </DialogTrigger>
       <DialogContent className="bg-stone-200/90">
         <DialogHeader>
-          <DialogTitle>New tag</DialogTitle>
+          <DialogTitle className="text-2xl">New tag</DialogTitle>
         </DialogHeader>
         <form
           onSubmit={handleSubmit(onSubmit)}
