@@ -1,4 +1,4 @@
-import { getIdSchemaFn } from '@/lib';
+import { getIdSchemaFn, getUsersCount } from '@/lib';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -48,16 +48,14 @@ export default async function handler(
           .status(409)
           .json({ success: false, message: 'User already exists' });
       }
-      const usersCount = await prisma.user.count({
-        where: { tenantId },
-      });
+      const usersCount = await getUsersCount(tenantId);
       const { plan } = await prisma.tenant.findUnique({
         where: { id: tenantId },
         select: { plan: true },
       });
       if (
-        (plan === 'free' && usersCount === 5) ||
-        (plan === 'business' && usersCount === 100)
+        (plan === 'free' && usersCount >= 5) ||
+        (plan === 'business' && usersCount >= 100)
       ) {
         return res.status(402).json({
           success: false,
