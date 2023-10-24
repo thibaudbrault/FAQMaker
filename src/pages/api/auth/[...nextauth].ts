@@ -28,6 +28,15 @@ export const authOptions: NextAuthOptions = {
         const domain = user.email.split('@')[1];
         const tenant = await prisma.tenant.findUnique({ where: { domain } });
         if (!tenant) return false;
+        const usersCount = await prisma.user.count({
+          where: { tenantId: tenant.id },
+        });
+        if (
+          (tenant.plan === 'free' && usersCount >= 5) ||
+          (tenant.plan === 'business' && usersCount >= 100)
+        ) {
+          return false;
+        }
         const newUser = await prisma.user.create({
           data: {
             name: user.name,
