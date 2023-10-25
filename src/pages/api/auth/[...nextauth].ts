@@ -20,12 +20,12 @@ export const authOptions: NextAuthOptions = {
     error: Routes.SITE.LOGIN,
   },
   callbacks: {
-    async signIn({ user, account }) {
+    async signIn({ profile, account }) {
       const maybeUser = await prisma.user.findUnique({
-        where: { email: user.email },
+        where: { email: profile.email },
       });
       if (!maybeUser) {
-        const domain = user.email.split('@')[1];
+        const domain = profile.email.split('@')[1];
         const tenant = await prisma.tenant.findUnique({ where: { domain } });
         if (!tenant) return false;
         const usersCount = await prisma.user.count({
@@ -39,9 +39,9 @@ export const authOptions: NextAuthOptions = {
         }
         const newUser = await prisma.user.create({
           data: {
-            name: user.name,
-            email: user.email,
-            image: user.image,
+            name: profile.name,
+            email: profile.email,
+            image: profile.picture,
             role: 'user',
             tenant: { connect: { id: tenant.id } },
           },
@@ -51,12 +51,15 @@ export const authOptions: NextAuthOptions = {
         }
         return true;
       }
-      if (account.provider === 'google' && (!user.name || !user.image)) {
+      if (
+        account.provider === 'google' &&
+        (!maybeUser.name || !maybeUser.image)
+      ) {
         await prisma.user.update({
-          where: { id: user.id },
+          where: { id: maybeUser.id },
           data: {
-            name: user.name,
-            image: user.image,
+            name: profile.name,
+            image: profile.picture,
           },
         });
       }
