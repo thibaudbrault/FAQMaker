@@ -18,7 +18,7 @@ type Props = {
 export const Header = ({ id, company, tenantId }: Props) => {
   const { handleSubmit } = useForm();
   const router = useRouter();
-  const { data: user, isLoading } = useUser(id);
+  const { data: user, isPending } = useUser(id);
 
   const { mutate } = useCreateBillingPortal(tenantId, router);
 
@@ -37,7 +37,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
       </h1>
       {user && (
         <div className="flex items-end gap-4">
-          {!isLoading && (
+          {!isPending && (
             <ul className="flex gap-4">
               <li>
                 <Tooltip>

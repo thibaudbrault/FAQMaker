@@ -21,17 +21,17 @@ function Home({ me }: Props) {
   const [searchQuery, setSearchQuery] = useState<string>(
     search.get('search') ?? null,
   );
-  const [isLoading, setIsLoading] = useState<boolean>();
+  const [isPending, setIsLoading] = useState<boolean>();
 
   let nodes: ExtendedNode[] = [];
   let message = 'Ask a question';
   const {
     data: initialNodes,
-    isLoading: isNodesLoading,
+    isPending: isNodesLoading,
     isError,
     error,
   } = useNodes(me.tenantId);
-  const { data: filteredNodes, isInitialLoading } = useSearchNodes(
+  const { data: filteredNodes, isLoading } = useSearchNodes(
     me.tenantId,
     searchQuery,
   );
@@ -48,15 +48,15 @@ function Home({ me }: Props) {
   }
 
   useEffect(() => {
-    setIsLoading(isNodesLoading || isInitialLoading);
-  }, [isNodesLoading, isInitialLoading]);
+    setIsLoading(isNodesLoading || isLoading);
+  }, [isNodesLoading, isLoading]);
 
   return (
     <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
       <Search setSearchQuery={setSearchQuery} />
       <List
         nodes={nodes}
-        isLoading={isLoading}
+        isPending={isPending}
         isError={isError}
         error={error}
         message={message}
@@ -74,10 +74,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   if (!me) return Redirects.LOGIN;
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);
-  await queryClient.prefetchQuery([QueryKeys.NODES, me.tenantId], () =>
-    getNodes(me.tenantId),
-  );
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.ME, me.id],
+    queryFn: () => me,
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.NODES, me.tenantId],
+    queryFn: () => getNodes(me.tenantId),
+  });
 
   return {
     props: {

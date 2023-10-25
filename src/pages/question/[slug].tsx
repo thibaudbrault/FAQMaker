@@ -33,12 +33,12 @@ type Props = {
 function QuestionPage({ me, id }: Props) {
   const {
     data: node,
-    isLoading,
+    isPending,
     isError,
     error,
   } = useNode(me.tenantId, id as string);
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader size="screen" />;
   }
 
@@ -193,10 +193,14 @@ export const getServerSideProps: GetServerSideProps = async ({
   if (!me) return Redirects.LOGIN;
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);
-  await queryClient.prefetchQuery([QueryKeys.NODE, me.tenantId, id], () =>
-    getNode(me.tenantId, id as string),
-  );
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.ME, me.id],
+    queryFn: () => me,
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.NODE, me.tenantId, id],
+    queryFn: () => getNode(me.tenantId, id as string),
+  });
 
   return {
     props: {

@@ -12,11 +12,11 @@ type QuestionWithNodeId = Question & {
 
 type Props = {
   questions: QuestionWithNodeId[];
-  isLoading: boolean;
+  isPending: boolean;
 };
 
-export const UserQuestions = ({ questions, isLoading }: Props) => {
-  if (isLoading) {
+export const UserQuestions = ({ questions, isPending }: Props) => {
+  if (isPending) {
     return <Loader size="page" />;
   }
 

@@ -37,28 +37,9 @@ export const useCreateNode = (
 
   const mutation = useMutation({
     mutationFn: createNodeMutation,
-    onMutate: async (values) => {
-      await queryClient.cancelQueries({
-        queryKey: [QueryKeys.NODES, me.tenantId],
-      });
-      const previousNodes = queryClient.getQueryData([
-        QueryKeys.NODES,
-        me.tenantId,
-      ]);
-      queryClient.setQueryData([QueryKeys.NODES, me.tenantId], (oldNodes) => [
-        oldNodes ?? [],
-        values,
-      ]);
-      return { previousNodes };
-    },
-    onError: (_error, _values, context) => {
-      queryClient.setQueryData(
-        [QueryKeys.NODES, me.tenantId],
-        context.previousNodes,
-      );
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({
+    mutationKey: [QueryKeys.CREATE_NODE],
+    onSettled: async () => {
+      await queryClient.invalidateQueries({
         queryKey: [QueryKeys.NODES, me.tenantId],
       });
       router.push(Routes.SITE.HOME);

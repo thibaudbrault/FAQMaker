@@ -27,7 +27,7 @@ type Schema = z.infer<typeof answerClientSchema>;
 function Answer({ me, id }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
 
-  const { data: node, isLoading } = useNode(me.tenantId, id as string);
+  const { data: node, isPending } = useNode(me.tenantId, id as string);
 
   const {
     handleSubmit,
@@ -68,7 +68,7 @@ function Answer({ me, id }: Props) {
     setDisabled(isSubmitting || !isValid || !isDirty);
   }, [isSubmitting, isValid, isDirty]);
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader size="screen" />;
   }
 
@@ -160,10 +160,14 @@ export const getServerSideProps: GetServerSideProps = async ({
   if (!me) return Redirects.LOGIN;
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);
-  await queryClient.prefetchQuery([QueryKeys.NODE, me.tenantId, id], () =>
-    getNode(me.tenantId, id as string),
-  );
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.ME, me.id],
+    queryFn: () => me,
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.NODE, me.tenantId, id],
+    queryFn: () => getNode(me.tenantId, id as string),
+  });
 
   return {
     props: {

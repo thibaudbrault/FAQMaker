@@ -14,11 +14,11 @@ type Props = {
 };
 
 export const Users = ({ meId, tenantId }: Props) => {
-  const { data: users, isLoading } = useUsers(tenantId);
+  const { data: users, isPending } = useUsers(tenantId);
 
   const {
     mutate,
-    isLoading: isUserLoading,
+    isPending: isUserLoading,
     isError,
     error,
   } = useDeleteUser(tenantId);
@@ -27,7 +27,7 @@ export const Users = ({ meId, tenantId }: Props) => {
     mutate({ id });
   };
 
-  if (isLoading || isUserLoading) {
+  if (isPending || isUserLoading) {
     return <Loader size="page" />;
   }
 

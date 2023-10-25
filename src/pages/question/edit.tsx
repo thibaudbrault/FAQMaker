@@ -36,8 +36,8 @@ function Edit({ me, id }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const { data: tags, isLoading: isTagsLoading } = useTags(me.tenantId);
-  const { data: node, isLoading } = useNode(me.tenantId, id as string);
+  const { data: tags, isPending: isTagsLoading } = useTags(me.tenantId);
+  const { data: node, isPending } = useNode(me.tenantId, id as string);
 
   const {
     register,
@@ -74,7 +74,7 @@ function Edit({ me, id }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitting, isValid, isDirty]);
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader size="screen" />;
   }
 
@@ -136,7 +136,7 @@ function Edit({ me, id }: Props) {
               </Field>
             </fieldset>
             <TagsList
-              isLoading={isTagsLoading}
+              isPending={isTagsLoading}
               tags={tags}
               selectedTags={selectedTags}
               setSelectedTags={setSelectedTags}
@@ -176,13 +176,18 @@ export const getServerSideProps: GetServerSideProps = async ({
   if (!me) return Redirects.LOGIN;
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);
-  await queryClient.prefetchQuery([QueryKeys.NODE, me.tenantId, id], () =>
-    getNode(me.tenantId, id as string),
-  );
-  await queryClient.prefetchQuery([QueryKeys.TAGS, me.tenantId], () =>
-    getTags(me.tenantId),
-  );
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.ME, me.id],
+    queryFn: () => me,
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.NODE, me.tenantId, id],
+    queryFn: () => getNode(me.tenantId, id as string),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.TAGS, me.tenantId],
+    queryFn: () => getTags(me.tenantId),
+  });
 
   return {
     props: {

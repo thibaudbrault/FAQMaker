@@ -42,7 +42,7 @@ function New({ me }: Props) {
   });
   const router = useRouter();
 
-  const { data: tags, isLoading } = useTags(me.tenantId);
+  const { data: tags, isPending } = useTags(me.tenantId);
   const { mutate, isError, error } = useCreateNode(me, router, selectedTags);
 
   const onSubmit = (values: Question) => {
@@ -105,7 +105,7 @@ function New({ me }: Props) {
                 />
               </Field>
               <TagsList
-                isLoading={isLoading}
+                isPending={isPending}
                 tags={tags}
                 selectedTags={selectedTags}
                 setSelectedTags={setSelectedTags}
@@ -153,10 +153,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   if (!me) return Redirects.LOGIN;
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);
-  await queryClient.prefetchQuery([QueryKeys.TAGS, me.tenantId], () =>
-    getTags(me.tenantId),
-  );
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.ME, me.id],
+    queryFn: () => me,
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.TAGS, me.tenantId],
+    queryFn: () => getTags(me.tenantId),
+  });
 
   return {
     props: {

@@ -8,14 +8,14 @@ import { CreateTag } from './Create';
 
 type Props = {
   tags: Tag[];
-  isLoading: boolean;
+  isPending: boolean;
   tenantId: string;
 };
 
-export const Tags = ({ tags, isLoading, tenantId }: Props) => {
+export const Tags = ({ tags, isPending, tenantId }: Props) => {
   const {
     mutate,
-    isLoading: isTagLoading,
+    isPending: isTagLoading,
     isError,
     error,
   } = useDeleteTag(tenantId);
@@ -24,7 +24,7 @@ export const Tags = ({ tags, isLoading, tenantId }: Props) => {
     mutate({ id });
   };
 
-  if (isLoading || isTagLoading) {
+  if (isPending || isTagLoading) {
     return <Loader size="screen" />;
   }
 

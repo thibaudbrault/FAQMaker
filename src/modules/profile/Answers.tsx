@@ -19,11 +19,11 @@ type Props = {
       text: string;
     };
   }[];
-  isLoading: boolean;
+  isPending: boolean;
 };
 
-export const UserAnswers = ({ nodes, isLoading }: Props) => {
-  if (isLoading) {
+export const UserAnswers = ({ nodes, isPending }: Props) => {
+  if (isPending) {
     return <Loader size="page" />;
   }
 

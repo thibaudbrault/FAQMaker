@@ -14,10 +14,10 @@ type Props = {
 };
 
 function Profile({ me }: Props) {
-  const { data: questions, isLoading: isQuestionsLoading } = useUserQuestions(
+  const { data: questions, isPending: isQuestionsLoading } = useUserQuestions(
     me.id,
   );
-  const { data: answers, isLoading: isAnswersLoading } = useUserAnswers(me.id);
+  const { data: answers, isPending: isAnswersLoading } = useUserAnswers(me.id);
 
   return (
     <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
@@ -25,10 +25,10 @@ function Profile({ me }: Props) {
         <UpdateProfile me={me} />
       </section>
       <section className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-default p-4">
-        <UserQuestions questions={questions} isLoading={isQuestionsLoading} />
+        <UserQuestions questions={questions} isPending={isQuestionsLoading} />
       </section>
       <section className="mx-auto flex w-3/4 flex-col gap-4 rounded-md bg-default p-4">
-        <UserAnswers nodes={answers} isLoading={isAnswersLoading} />
+        <UserAnswers nodes={answers} isPending={isAnswersLoading} />
       </section>
     </PageLayout>
   );
@@ -43,13 +43,18 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   if (!me) return Redirects.LOGIN;
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);
-  await queryClient.prefetchQuery([QueryKeys.QUESTIONS, me.id], () =>
-    getUserQuestions(me.id),
-  );
-  await queryClient.prefetchQuery([QueryKeys.ANSWERS, me.id], () =>
-    getUserAnswers(me.id),
-  );
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.ME, me.id],
+    queryFn: () => me,
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.QUESTIONS, me.id],
+    queryFn: () => getUserQuestions(me.id),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.ANSWERS, me.id],
+    queryFn: () => getUserAnswers(me.id),
+  });
 
   return {
     props: {

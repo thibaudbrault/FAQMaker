@@ -8,10 +8,10 @@ import { Button, Input, Label, Loader } from '@/components';
 
 type Props = {
   tenant: Tenant;
-  isLoading: boolean;
+  isPending: boolean;
 };
 
-export const Integrations = ({ tenant, isLoading }: Props) => {
+export const Integrations = ({ tenant, isPending }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const router = useRouter();
   const {
@@ -39,7 +39,7 @@ export const Integrations = ({ tenant, isLoading }: Props) => {
     setDisabled(isSubmitting || !isDirty);
   }, [isDirty, isSubmitting]);
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader size="items" />;
   }
 

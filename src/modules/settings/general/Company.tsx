@@ -10,10 +10,10 @@ import { ITenantUpdateFields } from '@/types';
 
 type Props = {
   tenant: Tenant;
-  isLoading: boolean;
+  isPending: boolean;
 };
 
-export const Company = ({ tenant, isLoading }: Props) => {
+export const Company = ({ tenant, isPending }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const router = useRouter();
   const {
@@ -53,7 +53,7 @@ export const Company = ({ tenant, isLoading }: Props) => {
     setDisabled(isSubmitting || !isDirty);
   }, [isDirty, isSubmitting]);
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader size="items" />;
   }
 
