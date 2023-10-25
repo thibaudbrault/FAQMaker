@@ -19,7 +19,7 @@ export const PageLayout = ({ children, id, company, tenantId }: Props) => {
           <main className="flex h-full min-h-screen flex-col bg-stone-200">
             <Header id={id} company={company} tenantId={tenantId} />
             <div className="my-12 flex-grow">{children}</div>
-            <Footer />
+            <Footer company={company} />
           </main>
         </MeProvider>
       </SuspenseWrapper>
