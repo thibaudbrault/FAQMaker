@@ -1,16 +1,24 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { FileUp } from 'lucide-react';
 import Papa from 'papaparse';
 
-import { Button } from '@/components';
+import { Button, Input } from '@/components';
+import { useForm } from 'react-hook-form';
 
 export const FileInput = () => {
   const [fileName, setFileName] = useState('');
   const [csvData, setCsvData] = useState([]);
   const fileInput = useRef(null);
+  const [disabled, setDisabled] = useState<boolean>(true);
 
-  const handleButtonClick = (e) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, isValid },
+  } = useForm();
+
+  const handleButtonClick = () => {
     fileInput.current.click();
   };
 
@@ -25,44 +33,66 @@ export const FileInput = () => {
     });
   };
 
+  const onSubmit = (values) => {
+    console.log('🚀 ~ file: FileInput.tsx:38 ~ onSubmit ~ values:', values);
+  };
+
+  useEffect(() => {
+    setDisabled(isSubmitting);
+  }, [isSubmitting]);
+
   return (
     <div className="flex flex-col">
-      <div className="grid grid-cols-3 grid-rows-1">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="grid grid-cols-3 grid-rows-1"
+      >
         <Button
           variant="secondary"
           size="full"
           font="large"
           icon="withIcon"
           weight="semibold"
-          className="col-span-2 rounded-r-none border-r-0 lowercase"
+          className="rounded-r-none lowercase"
           style={{ fontVariant: 'small-caps' }}
           onClick={handleButtonClick}
+          type="button"
         >
           <FileUp />
           {fileName ? `${fileName}` : 'Use a CSV'}
         </Button>
+        <input
+          {...register('file', { required: true })}
+          type="file"
+          id="file"
+          accept=".csv"
+          onChange={handleFileUpload}
+          ref={fileInput}
+          className="hidden"
+        />
+        <Input
+          {...register('name', { required: true })}
+          type="text"
+          id="column"
+          placeholder="Column name"
+          className=" border-y border-y-secondary bg-transparent px-1 outline-none"
+        />
         <Button
-          variant="primaryDark"
+          variant={disabled ? 'disabled' : 'primaryDark'}
           size="full"
           font="large"
           weight="semibold"
           className="col-start-3 rounded-l-none lowercase"
           style={{ fontVariant: 'small-caps' }}
+          disabled={disabled}
+          type="submit"
         >
           Confirm
         </Button>
-      </div>
+      </form>
       <small className="text-xs">
-        You need to have a column named &apos;Email&apos; in the selected CSV
-        file.
+        Name of the column containing the users' email. Case sensitive.
       </small>
-      <input
-        type="file"
-        accept=".csv"
-        onChange={handleFileUpload}
-        ref={fileInput}
-        className="hidden"
-      />
     </div>
   );
 };
