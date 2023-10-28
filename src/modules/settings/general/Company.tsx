@@ -4,14 +4,19 @@ import { Tenant } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
-import { Button, Input, Label, Loader } from '@/components';
+import { Button, Field, Input, Loader } from '@/components';
 import { useUpdateTenant } from '@/hooks';
 import { ITenantUpdateFields } from '@/types';
+import { z } from 'zod';
+import { updateTenantClientSchema } from '@/lib';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 type Props = {
   tenant: Tenant;
   isPending: boolean;
 };
+
+type Schema = z.infer<typeof updateTenantClientSchema>;
 
 export const Company = ({ tenant, isPending }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -19,8 +24,10 @@ export const Company = ({ tenant, isPending }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, isDirty },
-  } = useForm({
+    formState: { isSubmitting, isDirty, isValid, errors },
+  } = useForm<Schema>({
+    resolver: zodResolver(updateTenantClientSchema),
+    mode: 'onBlur',
     defaultValues: {
       company: tenant.company,
       email: tenant.email,
@@ -50,8 +57,8 @@ export const Company = ({ tenant, isPending }: Props) => {
   );
 
   useEffect(() => {
-    setDisabled(isSubmitting || !isDirty);
-  }, [isDirty, isSubmitting]);
+    setDisabled(isSubmitting || !isDirty || !isValid);
+  }, [isDirty, isSubmitting, isValid]);
 
   if (isPending) {
     return <Loader size="items" />;
@@ -75,21 +82,20 @@ export const Company = ({ tenant, isPending }: Props) => {
               key={field.value}
               className="flex flex-1 flex-col gap-1 [&_svg]:focus-within:text-secondary"
             >
-              <Label
-                htmlFor={field.value}
-                className="lowercase"
-                style={{ fontVariant: 'small-caps' }}
+              <Field
+                label={field.label}
+                value={field.value}
+                error={errors[field.value]?.message}
               >
-                {field.label}
-              </Label>
-              <Input
-                {...register(field.value, { required: true })}
-                defaultValue={tenant[field.value]}
-                type={field.type}
-                id={field.value}
-                placeholder={field.label}
-                className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
-              />
+                <Input
+                  {...register(field.value, { required: true })}
+                  defaultValue={tenant[field.value]}
+                  type={field.type}
+                  id={field.value}
+                  placeholder={field.label}
+                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
+                />
+              </Field>
             </div>
           ))}
         </fieldset>
