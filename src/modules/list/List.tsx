@@ -36,7 +36,7 @@ export const List = ({ nodes, isPending, isError, error, message }: Props) => {
               key={node.id}
             >
               <details>
-                <summary className="flex cursor-pointer list-none items-center justify-between px-6 py-3">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-6 py-3">
                   <div>
                     <h2 className="text-2xl font-semibold">
                       {node.question.text}
