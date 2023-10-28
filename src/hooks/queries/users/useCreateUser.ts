@@ -22,6 +22,9 @@ export const useCreateUser = (tenantId: string, reset: () => void) => {
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.USERS, tenantId],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.USERS_COUNT, tenantId],
+      });
     },
   });
   return mutation;
