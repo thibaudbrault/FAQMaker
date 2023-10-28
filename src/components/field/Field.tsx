@@ -9,7 +9,7 @@ type Props = {
   children: ReactNode;
   label: string;
   value: string;
-  error: string;
+  error?: string;
   info?: string;
 };
 
