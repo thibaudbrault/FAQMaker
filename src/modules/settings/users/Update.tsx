@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { AtSign } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import {
   Button,
@@ -23,9 +25,7 @@ import {
   errorToast,
 } from '@/components';
 import { useUpdateUser } from '@/hooks';
-import { z } from 'zod';
 import { updateUserClientSchema } from '@/lib';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 type Props = {
   user: User;

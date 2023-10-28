@@ -1,17 +1,17 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { AtSign, UserIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import { Button, Field, Input, errorToast } from '@/components';
 import { useUpdateUser } from '@/hooks';
-import { IUserUpdateFields, UserWithTenant } from '@/types';
 import { updateUserClientSchema } from '@/lib';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { IUserUpdateFields, UserWithTenant } from '@/types';
 
 type Props = {
   me: UserWithTenant;

@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Tenant } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import { Button, Field, Input, Loader } from '@/components';
 import { useUpdateTenant } from '@/hooks';
-import { ITenantUpdateFields } from '@/types';
-import { z } from 'zod';
 import { updateTenantClientSchema } from '@/lib';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { ITenantUpdateFields } from '@/types';
 
 type Props = {
   tenant: Tenant;

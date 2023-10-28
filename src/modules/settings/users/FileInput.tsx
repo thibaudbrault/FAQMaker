@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 
 import { FileUp } from 'lucide-react';
 import Papa from 'papaparse';
+import { useForm } from 'react-hook-form';
 
 import { Button, Input } from '@/components';
-import { useForm } from 'react-hook-form';
 
 export const FileInput = () => {
   const [fileName, setFileName] = useState('');
@@ -91,7 +91,7 @@ export const FileInput = () => {
         </Button>
       </form>
       <small className="text-xs">
-        Name of the column containing the users' email. Case sensitive.
+        Name of the column containing the users&apos; email. Case sensitive.
       </small>
     </div>
   );
