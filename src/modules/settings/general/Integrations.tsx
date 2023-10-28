@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { Tenant } from '@prisma/client';
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
-import { Button, Input, Label, Loader } from '@/components';
+import { Button, Field, Input, Loader } from '@/components';
 
 type Props = {
   tenant: Tenant;
@@ -13,7 +12,6 @@ type Props = {
 
 export const Integrations = ({ tenant, isPending }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -61,21 +59,16 @@ export const Integrations = ({ tenant, isPending }: Props) => {
               key={field.value}
               className="flex flex-1 flex-col gap-1 [&_svg]:focus-within:text-secondary"
             >
-              <Label
-                htmlFor={field.value}
-                className="lowercase"
-                style={{ fontVariant: 'small-caps' }}
-              >
-                {field.label}
-              </Label>
-              <Input
-                {...register(field.value, { required: true })}
-                defaultValue={tenant[field.value] ?? ''}
-                type={field.type}
-                id={field.value}
-                placeholder={field.label}
-                className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
-              />
+              <Field label={field.label} value={field.value}>
+                <Input
+                  {...register(field.value, { required: true })}
+                  defaultValue={tenant[field.value] ?? ''}
+                  type={field.type}
+                  id={field.value}
+                  placeholder={field.label}
+                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
+                />
+              </Field>
             </div>
           ))}
         </fieldset>
