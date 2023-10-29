@@ -1,12 +1,15 @@
-import { Answer } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { NextRouter } from 'next/router';
 
 import { promiseToast } from '@/components';
+import { answerClientSchema } from '@/lib';
 import { QueryKeys, Routes } from '@/utils';
+import { z } from 'zod';
 
-const updateAnswer = async (values: Answer, id: string, userId: string) => {
+type Schema = z.infer<typeof answerClientSchema>;
+
+const updateAnswer = async (values: Schema, userId: string, id?: string) => {
   const body = {
     ...values,
     userId,
@@ -16,14 +19,14 @@ const updateAnswer = async (values: Answer, id: string, userId: string) => {
 };
 
 export const useUpdateAnswer = (
-  id: string,
   userId: string,
   tenantId: string,
   router: NextRouter,
+  id?: string,
 ) => {
   const queryClient = useQueryClient();
-  const updateAnswerMutation = async (values: Answer) => {
-    const promise = updateAnswer(values, id, userId);
+  const updateAnswerMutation = async (values: Schema) => {
+    const promise = updateAnswer(values, userId, id);
     promiseToast(promise, 'Updating answer...');
     return promise;
   };

@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Tag } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { PlusCircle, Tag as TagIcon } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import {
@@ -44,7 +44,7 @@ export const CreateTag = ({ tenantId }: Props) => {
 
   const { mutate, isError, error } = useCreateTag(tenantId, reset);
 
-  const onSubmit = (values: Tag) => {
+  const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
   };
 

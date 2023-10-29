@@ -30,7 +30,9 @@ export default async function handler(
         return res.status(200).json(users);
       }
     } catch (error) {
-      return res.status(404).json({ error: error.message });
+      if (error instanceof Error) {
+        return res.status(404).json({ error: error.message });
+      }
     }
   } else if (req.method === 'POST') {
     try {
@@ -49,6 +51,12 @@ export default async function handler(
           .json({ success: false, message: 'User already exists' });
       }
       const usersCount = await getUsersCount(tenantId);
+      if (!usersCount) {
+        return res.status(404).json({
+          success: false,
+          message: 'Could not find the number of users',
+        });
+      }
       const { plan } = await prisma.tenant.findUnique({
         where: { id: tenantId },
         select: { plan: true },
@@ -71,24 +79,9 @@ export default async function handler(
       });
       return res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      if (error instanceof Error) {
+        return res.status(500).json({ error: error.message });
+      }
     }
   }
-  //   } else if (req.method === "PUT") {
-  //     // update todo
-  //     const id = req.query.todoId as string;
-  //     const data = JSON.parse(req.body);
-  //     const todo = await prisma.todo.update({
-  //       where: { id },
-  //       data,
-  //     });
-
-  //     res.json(todo);
-  //   } else if (req.method === "DELETE") {
-  //     // delete todo
-  //     const id = req.query.todoId as string;
-  //     await prisma.todo.delete({ where: { id } });
-
-  //     res.json({ status: "ok" });
-  //   }
 }

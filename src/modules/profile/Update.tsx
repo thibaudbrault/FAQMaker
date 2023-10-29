@@ -5,7 +5,7 @@ import { User } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { AtSign, UserIcon } from 'lucide-react';
 import Image from 'next/image';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button, Field, Input, errorToast } from '@/components';
@@ -29,14 +29,14 @@ export const UpdateProfile = ({ me }: Props) => {
     resolver: zodResolver(updateUserClientSchema),
     mode: 'onBlur',
     defaultValues: {
-      name: me.name,
+      name: me.name ?? '',
       email: me.email,
     },
   });
 
   const { mutate, isError, error } = useUpdateUser(me.id, me.tenantId);
 
-  const onSubmit = (values: User) => {
+  const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
   };
 
@@ -105,7 +105,7 @@ export const UpdateProfile = ({ me }: Props) => {
               >
                 <Input
                   {...register(field.value)}
-                  defaultValue={me[field.value]}
+                  defaultValue={me[field.value] ?? ''}
                   withIcon
                   icon={field.icon}
                   type={field.type}

@@ -51,7 +51,7 @@ export default async function handler(
         case 'checkout.session.completed':
           const session = event.data.object as Stripe.Checkout.Session;
           const subscriptionId = session.subscription as string;
-          const email = session.customer_details.email;
+          const email = session.customer_details?.email;
           await prisma.tenant.update({
             where: { email },
             data: {
@@ -92,7 +92,9 @@ export default async function handler(
           throw new Error(`Unhandled event: ${event.type}`);
       }
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      if (error instanceof Error) {
+        return res.status(500).json({ error: error.message });
+      }
     }
   }
   return res.status(200).json({ message: 'Received' });

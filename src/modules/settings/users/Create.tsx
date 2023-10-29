@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { AtSign, PlusCircle } from 'lucide-react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import {
@@ -53,7 +53,7 @@ export const CreateUser = ({ tenantId }: Props) => {
 
   const { mutate, isError, error } = useCreateUser(tenantId, reset);
 
-  const onSubmit = (values: User) => {
+  const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
   };
 

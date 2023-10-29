@@ -69,7 +69,9 @@ export default async function handler(
       });
       return res.status(200).json({ message: 'Tag deleted successfully' });
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      if (error instanceof Error) {
+        return res.status(500).json({ error: error.message });
+      }
     }
   }
 }

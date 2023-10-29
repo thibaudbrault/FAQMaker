@@ -8,7 +8,7 @@ import { HelpCircle, MoveLeft } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button, errorToast, Field, Input, Loader } from '@/components';
@@ -45,7 +45,7 @@ function New({ me }: Props) {
   const { data: tags, isPending } = useTags(me.tenantId);
   const { mutate, isError, error } = useCreateNode(me, router, selectedTags);
 
-  const onSubmit = (values: Question) => {
+  const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
   };
 

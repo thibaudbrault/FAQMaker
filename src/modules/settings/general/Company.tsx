@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Tenant } from '@prisma/client';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button, Field, Input, Loader } from '@/components';
@@ -36,7 +36,7 @@ export const Company = ({ tenant, isPending }: Props) => {
 
   const { mutate } = useUpdateTenant(tenant.id, router);
 
-  const onSubmit = (values: Tenant) => {
+  const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
   };
 

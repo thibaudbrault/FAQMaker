@@ -47,115 +47,92 @@ function QuestionPage({ me, id }: Props) {
     errorToast(errorMessage);
   }
 
-  return (
-    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
-      <section className="mx-auto flex w-3/4 flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <Button
-            variant="primaryDark"
-            weight="semibold"
-            icon="withIcon"
-            font="large"
-            asChild
-            className="lowercase"
-            style={{ fontVariant: 'small-caps' }}
-          >
-            <Link href="/">
-              <MoveLeft />
-              Go back
-            </Link>
-          </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              className="w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase text-negative"
+  if (node) {
+    return (
+      <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
+        <section className="mx-auto flex w-3/4 flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <Button
+              variant="primaryDark"
+              weight="semibold"
+              icon="withIcon"
+              font="large"
+              asChild
+              className="lowercase"
               style={{ fontVariant: 'small-caps' }}
             >
-              Edit
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-default">
-              <DropdownMenuItem className="text-base hover:text-secondary">
-                <Link
-                  className="flex items-center justify-start gap-2"
-                  href={{
-                    pathname: '/question/edit',
-                    query: { id: node.id },
-                  }}
-                  as={`/question/edit?id=${node.id}`}
-                >
-                  <HelpCircle className="w-4" />
-                  Question
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="text-base hover:text-secondary">
-                <Link
-                  className="flex items-center justify-start gap-2"
-                  href={{
-                    pathname: '/question/answer',
-                    query: { id: node.id },
-                  }}
-                  as={`/question/answer?id=${node.id}`}
-                >
-                  <PenSquare className="w-4" />
-                  Answer
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-        <div className="rounded-md bg-default p-4">
-          <h2 className="text-2xl font-semibold">{node.question.text}</h2>
-          <ul className="flex gap-2 text-xs">
-            {node.tags.map((tag) => (
-              <li key={tag.id}>
-                <Badge variant="primary" rounded="full" size="small">
-                  {tag.label}
-                </Badge>
-              </li>
-            ))}
-          </ul>
-          <hr className="my-6 border-secondary" />
-          {node.answer ? (
-            <MarkdownPreview
-              className="mx-auto w-11/12 text-left"
-              source={node.answer.text}
-            />
-          ) : (
-            <p className="text-center italic">No answer</p>
-          )}
-          <hr className="my-6 border-secondary" />
-          <div className="flex justify-between">
-            <div className="text-xs">
-              <p>
-                Asked by <b>{node.question.user.name}</b>
-              </p>
-              <p>
-                Asked on{' '}
-                <span>
-                  {new Date(node.question.createdAt).toLocaleDateString(
-                    undefined,
-                    dateOptions,
-                  )}
-                </span>
-              </p>
-              <p>
-                Updated on{' '}
-                <span>
-                  {new Date(node.question.updatedAt).toLocaleDateString(
-                    undefined,
-                    dateOptions,
-                  )}
-                </span>
-              </p>
-            </div>
-            {node.answer && (
+              <Link href="/">
+                <MoveLeft />
+                Go back
+              </Link>
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                className="w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase text-negative"
+                style={{ fontVariant: 'small-caps' }}
+              >
+                Edit
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-default">
+                <DropdownMenuItem className="text-base hover:text-secondary">
+                  <Link
+                    className="flex items-center justify-start gap-2"
+                    href={{
+                      pathname: '/question/edit',
+                      query: { id: node.id },
+                    }}
+                    as={`/question/edit?id=${node.id}`}
+                  >
+                    <HelpCircle className="w-4" />
+                    Question
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="text-base hover:text-secondary">
+                  <Link
+                    className="flex items-center justify-start gap-2"
+                    href={{
+                      pathname: '/question/answer',
+                      query: { id: node.id },
+                    }}
+                    as={`/question/answer?id=${node.id}`}
+                  >
+                    <PenSquare className="w-4" />
+                    Answer
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          <div className="rounded-md bg-default p-4">
+            <h2 className="text-2xl font-semibold">{node.question.text}</h2>
+            <ul className="flex gap-2 text-xs">
+              {node.tags.map((tag) => (
+                <li key={tag.id}>
+                  <Badge variant="primary" rounded="full" size="small">
+                    {tag.label}
+                  </Badge>
+                </li>
+              ))}
+            </ul>
+            <hr className="my-6 border-secondary" />
+            {node.answer ? (
+              <MarkdownPreview
+                className="mx-auto w-11/12 text-left"
+                source={node.answer.text}
+              />
+            ) : (
+              <p className="text-center italic">No answer</p>
+            )}
+            <hr className="my-6 border-secondary" />
+            <div className="flex justify-between">
               <div className="text-xs">
                 <p>
-                  Answered by <b>{node.answer.user.name}</b>
+                  Asked by <b>{node.question.user.name}</b>
                 </p>
                 <p>
-                  Answered on{' '}
+                  Asked on{' '}
                   <span>
-                    {new Date(node.answer.createdAt).toLocaleDateString(
+                    {new Date(node.question.createdAt).toLocaleDateString(
                       undefined,
                       dateOptions,
                     )}
@@ -164,19 +141,44 @@ function QuestionPage({ me, id }: Props) {
                 <p>
                   Updated on{' '}
                   <span>
-                    {new Date(node.answer.updatedAt).toLocaleDateString(
+                    {new Date(node.question.updatedAt).toLocaleDateString(
                       undefined,
                       dateOptions,
                     )}
                   </span>
                 </p>
               </div>
-            )}
+              {node.answer && (
+                <div className="text-xs">
+                  <p>
+                    Answered by <b>{node.answer.user.name}</b>
+                  </p>
+                  <p>
+                    Answered on{' '}
+                    <span>
+                      {new Date(node.answer.createdAt).toLocaleDateString(
+                        undefined,
+                        dateOptions,
+                      )}
+                    </span>
+                  </p>
+                  <p>
+                    Updated on{' '}
+                    <span>
+                      {new Date(node.answer.updatedAt).toLocaleDateString(
+                        undefined,
+                        dateOptions,
+                      )}
+                    </span>
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </section>
-    </PageLayout>
-  );
+        </section>
+      </PageLayout>
+    );
+  }
 }
 
 export default QuestionPage;

@@ -64,7 +64,11 @@ const errors = {
   default: 'Unable to sign in.',
 };
 
-const LoginError = ({ error }) => {
+type ErrorProps = {
+  error: string | string[];
+};
+
+const LoginError = ({ error }: ErrorProps) => {
   const errorMessage = error && (errors[error] ?? errors.default);
   return <div className="text-center text-red-700">{errorMessage}</div>;
 };

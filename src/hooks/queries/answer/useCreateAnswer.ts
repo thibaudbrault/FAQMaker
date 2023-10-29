@@ -1,12 +1,15 @@
-import { Answer } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { NextRouter } from 'next/router';
 
 import { promiseToast } from '@/components';
+import { answerClientSchema } from '@/lib';
 import { QueryKeys, Routes } from '@/utils';
+import { z } from 'zod';
 
-const createAnswer = async (values: Answer, nodeId: string, userId: string) => {
+type Schema = z.infer<typeof answerClientSchema>;
+
+const createAnswer = async (values: Schema, nodeId: string, userId: string) => {
   const body = {
     ...values,
     nodeId,
@@ -23,7 +26,7 @@ export const useCreateAnswer = (
   router: NextRouter,
 ) => {
   const queryClient = useQueryClient();
-  const createAnswerMutation = async (values: Answer) => {
+  const createAnswerMutation = async (values: Schema) => {
     const promise = createAnswer(values, nodeId, userId);
     promiseToast(promise, 'Creating answer...');
     return promise;

@@ -4,8 +4,12 @@ import axios from 'axios';
 
 import { successToast } from '@/components';
 import { QueryKeys, Routes } from '@/utils';
+import { z } from 'zod';
+import { createTagClientSchema } from '@/lib';
 
-const createTag = async (values: Tag, tenantId: string) => {
+type Schema = z.infer<typeof createTagClientSchema>;
+
+const createTag = async (values: Schema, tenantId: string) => {
   const body = {
     ...values,
     tenantId,
@@ -18,7 +22,7 @@ export const useCreateTag = (tenantId: string, reset: () => void) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (values: Tag) => createTag(values, tenantId),
+    mutationFn: (values: Schema) => createTag(values, tenantId),
     onSuccess: (data) => {
       successToast(data.message);
       reset();

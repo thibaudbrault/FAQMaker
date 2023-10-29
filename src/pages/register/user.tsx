@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAtom } from 'jotai';
 import { MoveLeft, MoveRight } from 'lucide-react';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button, Field, Input } from '@/components';
@@ -27,7 +27,7 @@ function Register() {
     defaultValues: state,
   });
 
-  const saveData = (values) => {
+  const saveData: SubmitHandler<Schema> = (values) => {
     setState({ ...state, ...values });
     router.push(Routes.SITE.REGISTER.CONFIRM);
   };

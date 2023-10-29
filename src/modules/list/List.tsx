@@ -11,14 +11,14 @@ const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
 
 type Props = {
   nodes: ExtendedNode[];
-  isPending: boolean;
+  isLoading: boolean;
   isError: boolean;
   error: AxiosError;
   message: string;
 };
 
-export const List = ({ nodes, isPending, isError, error, message }: Props) => {
-  if (isPending) {
+export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
+  if (isLoading) {
     return <Loader size="screen" color="border-secondary" />;
   }
 

@@ -10,7 +10,7 @@ const getUserAnswers = async (userId: string) => {
   return data;
 };
 
-type NodeWithQuestionAndAnswer = {
+export type NodeWithQuestionAndAnswer = {
   id: string;
   answer: {
     text: string;

@@ -1,11 +1,14 @@
-import { User } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
 import { successToast } from '@/components';
+import { updateUserClientSchema } from '@/lib';
 import { QueryKeys, Routes } from '@/utils';
+import { z } from 'zod';
 
-const updateUser = async (values: User, id: string, tenantId: string) => {
+type Schema = z.infer<typeof updateUserClientSchema>;
+
+const updateUser = async (values: Schema, id: string, tenantId: string) => {
   const body = {
     ...values,
     tenantId,
@@ -17,7 +20,7 @@ const updateUser = async (values: User, id: string, tenantId: string) => {
 export const useUpdateUser = (id: string, tenantId: string) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (values: User) => updateUser(values, id, tenantId),
+    mutationFn: (values: Schema) => updateUser(values, id, tenantId),
     onSuccess: (data) => {
       successToast(data.message);
       queryClient.invalidateQueries({

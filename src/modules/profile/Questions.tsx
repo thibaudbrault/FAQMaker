@@ -11,7 +11,7 @@ type QuestionWithNodeId = Question & {
 };
 
 type Props = {
-  questions: QuestionWithNodeId[];
+  questions?: QuestionWithNodeId[];
   isPending: boolean;
 };
 
@@ -28,9 +28,9 @@ export const UserQuestions = ({ questions, isPending }: Props) => {
       >
         Questions
       </h2>
-      {questions.length > 0 ? (
+      {questions && questions.length > 0 ? (
         <ul className="flex flex-col gap-2">
-          {questions.map((question) => (
+          {questions?.map((question) => (
             <li
               className="flex items-center justify-between rounded-md bg-white px-3 py-2 shadow-sm"
               key={question.id}

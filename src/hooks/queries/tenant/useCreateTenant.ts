@@ -4,8 +4,15 @@ import { NextRouter } from 'next/router';
 
 import { successToast } from '@/components';
 import { Routes } from '@/utils';
+import { z } from 'zod';
+import { registerCompleteClientSchema } from '@/lib';
 
-const createTenant = async (values) => {
+type Schema = z.infer<typeof registerCompleteClientSchema>;
+type ExtendedSchema = Schema & {
+  customerId: string;
+};
+
+const createTenant = async (values: ExtendedSchema) => {
   const body = {
     ...values,
   };
@@ -15,7 +22,7 @@ const createTenant = async (values) => {
 
 export const useCreateTenant = (router: NextRouter) => {
   const mutation = useMutation({
-    mutationFn: (values) => createTenant(values),
+    mutationFn: (values: ExtendedSchema) => createTenant(values),
     onSuccess: (data) => {
       successToast(data.message);
       router.push(Routes.SITE.REGISTER.PLAN);

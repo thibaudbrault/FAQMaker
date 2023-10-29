@@ -38,29 +38,10 @@ export default async function handler(
         return res.status(200).json(tenant);
       }
     } catch (error) {
-      return res.status(404).json({ error: error.message });
+      if (error instanceof Error) {
+        return res.status(404).json({ error: error.message });
+      }
     }
-    //   } else if (req.method === 'POST') {
-    //     try {
-    //       if (!req.body) {
-    //         return res
-    //           .status(404)
-    //           .json({ success: false, message: `Form data not provided` });
-    //       }
-    //       const { firstName, lastName, email, role, tenantId } = req.body;
-    //       await prisma.user.create({
-    //         data: {
-    //           firstName,
-    //           lastName,
-    //           email,
-    //           role,
-    //           tenantId,
-    //         },
-    //       });
-    //       return res.status(201).json({ message: 'User created successfully' });
-    //     } catch (error) {
-    //       return res.status(500).json({ error: error.message });
-    //     }
   } else if (req.method === 'PUT') {
     try {
       const id = req.query.id as string;
@@ -71,7 +52,9 @@ export default async function handler(
       });
       return res.status(201).json({ message: 'Tenant updated successfully' });
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      if (error instanceof Error) {
+        return res.status(500).json({ error: error.message });
+      }
     }
   }
 }

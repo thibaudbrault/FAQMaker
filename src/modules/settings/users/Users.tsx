@@ -41,7 +41,7 @@ export const Users = ({ meId, tenantId }: Props) => {
   return (
     <section className="mx-auto w-3/4">
       <ul className="flex flex-col gap-4">
-        {users.map((user) => (
+        {users?.map((user) => (
           <li
             key={user.id}
             className="rounded-md border border-stone-200 bg-default p-6 shadow-sm"

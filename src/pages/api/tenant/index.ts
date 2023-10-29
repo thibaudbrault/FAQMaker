@@ -53,7 +53,9 @@ export default async function hadndler(
       }
       return res.status(201).json({ message: 'Account created successfully' });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      if (error instanceof Error) {
+        return res.status(500).json({ error: error.message });
+      }
     }
   }
 }

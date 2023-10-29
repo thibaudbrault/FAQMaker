@@ -21,17 +21,17 @@ function Home({ me }: Props) {
   const [searchQuery, setSearchQuery] = useState<string>(
     search.get('search') ?? null,
   );
-  const [isPending, setIsLoading] = useState<boolean>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   let nodes: ExtendedNode[] = [];
   let message = 'Ask a question';
   const {
     data: initialNodes,
-    isPending: isNodesLoading,
+    isPending,
     isError,
     error,
   } = useNodes(me.tenantId);
-  const { data: filteredNodes, isLoading } = useSearchNodes(
+  const { data: filteredNodes, isLoading: isSearchloading } = useSearchNodes(
     me.tenantId,
     searchQuery,
   );
@@ -48,15 +48,15 @@ function Home({ me }: Props) {
   }
 
   useEffect(() => {
-    setIsLoading(isNodesLoading || isLoading);
-  }, [isNodesLoading, isLoading]);
+    setIsLoading(isPending || isSearchloading);
+  }, [isPending, isSearchloading]);
 
   return (
     <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
       <Search setSearchQuery={setSearchQuery} />
       <List
         nodes={nodes}
-        isPending={isPending}
+        isLoading={isLoading}
         isError={isError}
         error={error}
         message={message}

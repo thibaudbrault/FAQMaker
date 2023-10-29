@@ -11,7 +11,7 @@ const createCheckout = async (data: DataObject, customerId: string) => {
     customerId,
   };
   const checkoutSession = await axios.post(Routes.API.CHECKOUT, body);
-  const result = await stripe.redirectToCheckout({
+  const result = await stripe?.redirectToCheckout({
     sessionId: checkoutSession.data.id,
   });
   return result;

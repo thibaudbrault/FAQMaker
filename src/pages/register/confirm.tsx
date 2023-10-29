@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 import { useAtom } from 'jotai';
 import { MoveLeft } from 'lucide-react';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button, Loader, errorToast } from '@/components';
@@ -42,7 +42,7 @@ function Confirm() {
     error: tenantError,
   } = useCreateTenant(router);
 
-  const onSubmit = async (values) => {
+  const onSubmit: SubmitHandler<Schema> = async (values) => {
     const customerId = await mutateCustomer(values);
     await mutateTenant({ ...values, customerId });
   };

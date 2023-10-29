@@ -2,8 +2,12 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
 import { Routes } from '@/utils';
+import { registerCompleteClientSchema } from '@/lib';
+import { z } from 'zod';
 
-const createCustomer = async (values) => {
+type Schema = z.infer<typeof registerCompleteClientSchema>;
+
+const createCustomer = async (values: Schema) => {
   const body = {
     ...values,
   };
@@ -14,7 +18,7 @@ const createCustomer = async (values) => {
 
 export const useCreateCustomer = () => {
   const mutation = useMutation({
-    mutationFn: (values) => createCustomer(values),
+    mutationFn: (values: Schema) => createCustomer(values),
   });
   return mutation;
 };

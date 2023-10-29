@@ -30,7 +30,9 @@ export default async function hadndler(
       res.redirect(300, url);
       // return res.status(200).json(url);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      if (error instanceof Error) {
+        res.status(500).json({ error: error.message });
+      }
     }
   }
 }

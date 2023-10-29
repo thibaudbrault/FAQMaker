@@ -3,22 +3,14 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import { Button, Loader } from '@/components';
+import { ExtendedNode } from '@/types';
+import { NodeWithQuestionAndAnswer } from '@/hooks';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
 
 type Props = {
-  nodes: {
-    id: string;
-    answer: {
-      text: string;
-    };
-    question: {
-      id: string;
-      slug: string;
-      text: string;
-    };
-  }[];
+  nodes?: NodeWithQuestionAndAnswer[];
   isPending: boolean;
 };
 
@@ -35,7 +27,7 @@ export const UserAnswers = ({ nodes, isPending }: Props) => {
       >
         Answers
       </h2>
-      {nodes.length > 0 ? (
+      {nodes && nodes.length > 0 ? (
         <ul className="flex flex-col gap-2 ">
           {nodes.map((node, index) => (
             <li
