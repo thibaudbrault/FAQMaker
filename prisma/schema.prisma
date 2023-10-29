@@ -134,7 +134,7 @@ model Source {
 
 model Tag {
   id       String  @id @default(cuid())
-  label    String?
+  label    String
   nodes    Node[]
   tenant   Tenant  @relation(fields: [tenantId], references: [id])
   tenantId String
