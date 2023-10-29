@@ -1,11 +1,11 @@
 import { Tag } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { z } from 'zod';
 
 import { successToast } from '@/components';
-import { QueryKeys, Routes } from '@/utils';
-import { z } from 'zod';
 import { createTagClientSchema } from '@/lib';
+import { QueryKeys, Routes } from '@/utils';
 
 type Schema = z.infer<typeof createTagClientSchema>;
 

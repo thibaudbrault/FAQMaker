@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { NextRouter } from 'next/router';
+import { z } from 'zod';
 
 import { successToast } from '@/components';
 import { updateTenantClientSchema } from '@/lib';
 import { QueryKeys, Routes } from '@/utils';
-import { z } from 'zod';
 
 type Schema = z.infer<typeof updateTenantClientSchema>;
 

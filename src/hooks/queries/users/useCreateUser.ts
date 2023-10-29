@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { z } from 'zod';
 
 import { successToast } from '@/components';
 import { createUserClientSchema } from '@/lib';
 import { QueryKeys, Routes } from '@/utils';
-import { z } from 'zod';
 
 type Schema = z.infer<typeof createUserClientSchema>;
 

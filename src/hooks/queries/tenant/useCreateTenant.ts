@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { NextRouter } from 'next/router';
+import { z } from 'zod';
 
 import { successToast } from '@/components';
-import { Routes } from '@/utils';
-import { z } from 'zod';
 import { registerCompleteClientSchema } from '@/lib';
+import { Routes } from '@/utils';
 
 type Schema = z.infer<typeof registerCompleteClientSchema>;
 type ExtendedSchema = Schema & {

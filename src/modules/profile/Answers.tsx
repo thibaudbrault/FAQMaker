@@ -3,8 +3,8 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import { Button, Loader } from '@/components';
-import { ExtendedNode } from '@/types';
 import { NodeWithQuestionAndAnswer } from '@/hooks';
+import { ExtendedNode } from '@/types';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });

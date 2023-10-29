@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-
-import { Routes } from '@/utils';
-import { registerCompleteClientSchema } from '@/lib';
 import { z } from 'zod';
+
+import { registerCompleteClientSchema } from '@/lib';
+import { Routes } from '@/utils';
 
 type Schema = z.infer<typeof registerCompleteClientSchema>;
 
