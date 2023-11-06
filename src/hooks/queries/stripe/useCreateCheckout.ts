@@ -2,8 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
 import { IPlan } from '@/types';
-import { Routes } from '@/utils';
-import getStripe from '@/utils/stripe';
+import { Routes, getStripe } from '@/utils';
 
 const createCheckout = async (data: DataObject, customerId: string) => {
   const stripe = await getStripe();
@@ -12,7 +11,7 @@ const createCheckout = async (data: DataObject, customerId: string) => {
     customerId,
   };
   const checkoutSession = await axios.post(Routes.API.CHECKOUT, body);
-  const result = await stripe.redirectToCheckout({
+  const result = await stripe?.redirectToCheckout({
     sessionId: checkoutSession.data.id,
   });
   return result;

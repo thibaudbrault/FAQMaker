@@ -1,6 +1,7 @@
 import { LogOut, Settings, UserIcon, Wallet } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { signOut } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
@@ -16,9 +17,10 @@ type Props = {
 
 export const Header = ({ id, company, tenantId }: Props) => {
   const { handleSubmit } = useForm();
-  const { data: user, isLoading } = useUser(id);
+  const router = useRouter();
+  const { data: user, isPending } = useUser(id);
 
-  const { mutate } = useCreateBillingPortal(tenantId);
+  const { mutate } = useCreateBillingPortal(tenantId, router);
 
   const onSubmit = () => {
     mutate();
@@ -35,7 +37,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
       </h1>
       {user && (
         <div className="flex items-end gap-4">
-          {!isLoading && (
+          {!isPending && (
             <ul className="flex gap-4">
               <li>
                 <Tooltip>
@@ -88,11 +90,6 @@ export const Header = ({ id, company, tenantId }: Props) => {
                           <Wallet />
                         </button>
                       </form>
-                      {/* <Link
-                        href="/settings"
-                        className="hover:text-negativeOffset"
-                      >
-                      </Link> */}
                     </TooltipTrigger>
                     <TooltipContent className={cn(tooltipClass)}>
                       <p>Billing</p>
@@ -121,7 +118,8 @@ export const Header = ({ id, company, tenantId }: Props) => {
             variant="primaryLight"
             font="large"
             size="small"
-            className="font-semibold lowercase"
+            weight="semibold"
+            className="lowercase"
             style={{ fontVariant: 'small-caps' }}
             asChild
           >

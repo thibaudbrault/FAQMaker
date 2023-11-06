@@ -11,12 +11,12 @@ type QuestionWithNodeId = Question & {
 };
 
 type Props = {
-  questions: QuestionWithNodeId[];
-  isLoading: boolean;
+  questions?: QuestionWithNodeId[];
+  isPending: boolean;
 };
 
-export const UserQuestions = ({ questions, isLoading }: Props) => {
-  if (isLoading) {
+export const UserQuestions = ({ questions, isPending }: Props) => {
+  if (isPending) {
     return <Loader size="page" />;
   }
 
@@ -28,9 +28,9 @@ export const UserQuestions = ({ questions, isLoading }: Props) => {
       >
         Questions
       </h2>
-      {questions.length > 0 ? (
+      {questions && questions.length > 0 ? (
         <ul className="flex flex-col gap-2">
-          {questions.map((question) => (
+          {questions?.map((question) => (
             <li
               className="flex items-center justify-between rounded-md bg-white px-3 py-2 shadow-sm"
               key={question.id}

@@ -13,6 +13,7 @@ model Tenant {
   email          String        @unique
   plan           Plan          @default(free)
   company        String
+  domain         String?       @unique
   customerId     String?       @unique
   isActive       Boolean       @default(false)
   subscriptionId String?
@@ -36,14 +37,12 @@ model Node {
   id         String   @id @default(cuid())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  question   Question @relation(fields: [questionId], references: [id])
-  questionId String   @unique
+  question   Question?
   answer     Answer?
   tags       Tag[]
   tenant     Tenant   @relation(fields: [tenantId], references: [id])
   tenantId   String
 
-  @@index([questionId])
   @@index([tenantId])
 }
 
@@ -97,10 +96,12 @@ model Question {
   updatedAt DateTime @updatedAt
   text      String
   slug      String
-  node      Node?
+  node      Node @relation(fields: [nodeId], references: [id])
+  nodeId    String @unique
   user      User     @relation(fields: [userId], references: [id])
   userId    String
 
+  @@index([nodeId])
   @@index([userId])
 }
 
@@ -133,7 +134,7 @@ model Source {
 
 model Tag {
   id       String  @id @default(cuid())
-  label    String?
+  label    String
   nodes    Node[]
   tenant   Tenant  @relation(fields: [tenantId], references: [id])
   tenantId String

@@ -3,27 +3,19 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import { Button, Loader } from '@/components';
+import { NodeWithQuestionAndAnswer } from '@/hooks';
+import { ExtendedNode } from '@/types';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
 
 type Props = {
-  nodes: {
-    id: string;
-    answer: {
-      text: string;
-    };
-    question: {
-      id: string;
-      slug: string;
-      text: string;
-    };
-  }[];
-  isLoading: boolean;
+  nodes?: NodeWithQuestionAndAnswer[];
+  isPending: boolean;
 };
 
-export const UserAnswers = ({ nodes, isLoading }: Props) => {
-  if (isLoading) {
+export const UserAnswers = ({ nodes, isPending }: Props) => {
+  if (isPending) {
     return <Loader size="page" />;
   }
 
@@ -35,7 +27,7 @@ export const UserAnswers = ({ nodes, isLoading }: Props) => {
       >
         Answers
       </h2>
-      {nodes.length > 0 ? (
+      {nodes && nodes.length > 0 ? (
         <ul className="flex flex-col gap-2 ">
           {nodes.map((node, index) => (
             <li

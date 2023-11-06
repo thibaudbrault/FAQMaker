@@ -8,10 +8,10 @@ export const questionGetSchema = z.object({
   slug: z.string(),
 });
 
-export const questionCreateSchema = z.object({
+export const questionCreateServerSchema = z.object({
   text: z.string().min(3),
   slug: z.string(),
-  tenantId: z.string(),
-  userId: z.string(),
+  tenantId: z.string().cuid2(),
+  userId: z.string().cuid2(),
   tags: z.array(z.string().cuid2()),
 });

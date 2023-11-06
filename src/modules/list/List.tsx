@@ -29,14 +29,14 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
   return (
     <section className="mt-6">
       {nodes.length > 0 ? (
-        <ul className="mx-auto flex w-3/4 flex-col gap-6">
+        <ul className="mx-auto flex w-3/4 flex-col gap-2">
           {nodes.map((node) => (
             <li
-              className="relative rounded-md border border-secondary bg-default"
+              className="relative rounded-md bg-default transition-all duration-300 hover:-translate-y-[2px] hover:shadow-md"
               key={node.id}
             >
               <details>
-                <summary className="flex cursor-pointer list-none items-center justify-between px-6 py-3">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-6 py-3">
                   <div>
                     <h2 className="text-2xl font-semibold">
                       {node.question.text}
@@ -68,12 +68,12 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                 </div>
               </details>
               <Button
-                variant="secondary"
+                variant="primaryLight"
                 size="full"
                 font="large"
                 weight="bold"
                 rounded="bottom"
-                className="block border-t border-transparent border-t-teal-700 text-center lowercase"
+                className="block border-t border-transparent border-t-default text-center lowercase"
                 style={{ fontVariant: 'small-caps' }}
                 asChild
               >

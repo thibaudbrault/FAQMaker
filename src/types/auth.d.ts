@@ -6,4 +6,8 @@ declare module 'next-auth' {
       id?: string;
     };
   }
+
+  interface Profile {
+    picture?: string;
+  }
 }

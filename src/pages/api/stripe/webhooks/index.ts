@@ -38,7 +38,10 @@ export default async function handler(
     'checkout.session.completed',
     'payment_intent.succeeded',
     'payment_intent.payment_failed',
+    'customer.subscription.updated',
   ];
+
+  console.log('first');
 
   if (permittedEvents.includes(event.type)) {
     let data;
@@ -48,13 +51,17 @@ export default async function handler(
         case 'checkout.session.completed':
           const session = event.data.object as Stripe.Checkout.Session;
           const subscriptionId = session.subscription as string;
-          const email = session.customer_details.email;
+          const email = session.customer_details?.email;
           await prisma.tenant.update({
             where: { email },
             data: {
               subscriptionId,
             },
           });
+          break;
+        case 'customer.subscription.updated':
+          const customer = event.data.object as Stripe.Subscription;
+          console.log('🚀 ~ file: index.ts:62 ~ customer:', customer);
           break;
         case 'payment_intent.payment_failed':
           data = event.data.object as Stripe.PaymentIntent;
@@ -85,7 +92,9 @@ export default async function handler(
           throw new Error(`Unhandled event: ${event.type}`);
       }
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      if (error instanceof Error) {
+        return res.status(500).json({ error: error.message });
+      }
     }
   }
   return res.status(200).json({ message: 'Received' });

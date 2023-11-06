@@ -19,7 +19,9 @@ export default async function hadndler(
       });
       return res.status(200).json(tags);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      if (error instanceof Error) {
+        return res.status(400).json({ error: error.message });
+      }
     }
   } else if (req.method === 'POST') {
     try {
@@ -37,7 +39,9 @@ export default async function hadndler(
       });
       return res.status(201).json({ message: 'Tag created successfully' });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      if (error instanceof Error) {
+        return res.status(500).json({ error: error.message });
+      }
     }
   }
 }

@@ -18,6 +18,8 @@ const button = cva('button', {
         'bg-default',
         'text-default',
         'border-transparent',
+        'transition-all',
+        'duration-300',
         'hover:bg-offset',
       ],
       secondary: [

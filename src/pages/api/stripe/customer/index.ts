@@ -29,7 +29,9 @@ export default async function hadndler(
       });
       return res.status(201).json({ customerId: customer.id });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      if (error instanceof Error) {
+        res.status(500).json({ error: error.message });
+      }
     }
   }
 }

@@ -39,8 +39,10 @@ export default async function handler(
       //   },
       // });
       return res.json({ id: session.id });
-    } catch (err) {
-      return res.status(err.statusCode || 500).json(err.message);
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(500).json(error.message);
+      }
     }
   } else {
     res.setHeader('Allow', 'POST');

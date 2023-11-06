@@ -5,14 +5,14 @@ import { Tag } from '@prisma/client';
 import { Button, Loader } from '@/components';
 
 type Props = {
-  isLoading: boolean;
+  isPending: boolean;
   tags: Tag[];
   selectedTags: string[];
   setSelectedTags: Dispatch<SetStateAction<string[]>>;
 };
 
 export const TagsList = ({
-  isLoading,
+  isPending,
   tags,
   selectedTags,
   setSelectedTags,
@@ -25,7 +25,7 @@ export const TagsList = ({
     }
   };
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader size="items" />;
   } else if (tags.length > 0) {
     return (

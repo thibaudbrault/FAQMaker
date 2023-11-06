@@ -1,11 +1,15 @@
 import { Tag } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { z } from 'zod';
 
 import { successToast } from '@/components';
+import { createTagClientSchema } from '@/lib';
 import { QueryKeys, Routes } from '@/utils';
 
-const createTag = async (values: Tag, tenantId: string) => {
+type Schema = z.infer<typeof createTagClientSchema>;
+
+const createTag = async (values: Schema, tenantId: string) => {
   const body = {
     ...values,
     tenantId,
@@ -18,7 +22,7 @@ export const useCreateTag = (tenantId: string, reset: () => void) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (values: Tag) => createTag(values, tenantId),
+    mutationFn: (values: Schema) => createTag(values, tenantId),
     onSuccess: (data) => {
       successToast(data.message);
       reset();

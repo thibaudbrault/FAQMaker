@@ -1,12 +1,15 @@
-import { Answer } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { NextRouter } from 'next/router';
+import { z } from 'zod';
 
 import { promiseToast } from '@/components';
+import { answerClientSchema } from '@/lib';
 import { QueryKeys, Routes } from '@/utils';
 
-const createAnswer = async (values: Answer, nodeId: string, userId: string) => {
+type Schema = z.infer<typeof answerClientSchema>;
+
+const createAnswer = async (values: Schema, nodeId: string, userId: string) => {
   const body = {
     ...values,
     nodeId,
@@ -23,7 +26,7 @@ export const useCreateAnswer = (
   router: NextRouter,
 ) => {
   const queryClient = useQueryClient();
-  const createAnswerMutation = async (values: Answer) => {
+  const createAnswerMutation = async (values: Schema) => {
     const promise = createAnswer(values, nodeId, userId);
     promiseToast(promise, 'Creating answer...');
     return promise;
@@ -31,28 +34,8 @@ export const useCreateAnswer = (
 
   const mutation = useMutation({
     mutationFn: createAnswerMutation,
-    onMutate: async (values) => {
-      await queryClient.cancelQueries({
-        queryKey: [QueryKeys.NODES, tenantId],
-      });
-      const previousNodes = queryClient.getQueryData([
-        QueryKeys.NODES,
-        tenantId,
-      ]);
-      queryClient.setQueryData([QueryKeys.NODES, tenantId], (oldNodes) => [
-        oldNodes ?? [],
-        values,
-      ]);
-      return { previousNodes };
-    },
-    onError: (_error, _values, context) => {
-      queryClient.setQueryData(
-        [QueryKeys.NODES, tenantId],
-        context.previousNodes,
-      );
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({
+    onSettled: async () => {
+      await queryClient.invalidateQueries({
         queryKey: [QueryKeys.NODES, tenantId],
       });
       router.push(Routes.SITE.HOME);

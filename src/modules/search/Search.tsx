@@ -1,4 +1,4 @@
-import { Dispatch, FormEvent, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 import { SearchIcon } from 'lucide-react';
 import { useRouter } from 'next/router';
@@ -7,11 +7,10 @@ import { useForm } from 'react-hook-form';
 import { Input, Label } from '@/components';
 
 type Props = {
-  searchQuery: string;
   setSearchQuery: Dispatch<SetStateAction<string>>;
 };
 
-export const Search = ({ searchQuery, setSearchQuery }: Props) => {
+export const Search = ({ setSearchQuery }: Props) => {
   const router = useRouter();
   const { handleSubmit, register } = useForm();
 
@@ -30,7 +29,7 @@ export const Search = ({ searchQuery, setSearchQuery }: Props) => {
     <section className="flex w-full justify-center">
       <form
         onSubmit={handleSubmit(onSearch)}
-        className="flex w-fit flex-col gap-1 [&_svg]:focus-within:text-secondary"
+        className="group/search flex w-3/4 flex-col gap-1 [&_svg]:focus-within:text-secondary"
       >
         <Label
           htmlFor="search"
@@ -46,7 +45,7 @@ export const Search = ({ searchQuery, setSearchQuery }: Props) => {
           type="text"
           id="search"
           placeholder="Search"
-          className="w-80 rounded-md border border-stone-200 bg-default py-1 outline-none focus:border-secondary "
+          className="w-full rounded-md border border-default bg-default py-2 outline-none focus:border-secondary "
         />
       </form>
     </section>

@@ -1,17 +1,17 @@
-import { Question, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { NextRouter } from 'next/router';
 import slugify from 'slugify';
+import { z } from 'zod';
 
 import { promiseToast } from '@/components';
+import { questionClientSchema } from '@/lib';
 import { QueryKeys, Routes } from '@/utils';
 
-const createNode = async (
-  values: Question,
-  me: User,
-  selectedTags: string[],
-) => {
+type Schema = z.infer<typeof questionClientSchema>;
+
+const createNode = async (values: Schema, me: User, selectedTags: string[]) => {
   const body = {
     ...values,
     slug: slugify(values.text),
@@ -29,7 +29,7 @@ export const useCreateNode = (
   selectedTags: string[],
 ) => {
   const queryClient = useQueryClient();
-  const createNodeMutation = async (values: Question) => {
+  const createNodeMutation = async (values: Schema) => {
     const promise = createNode(values, me, selectedTags);
     promiseToast(promise, 'Creating question...');
     return promise;
@@ -37,28 +37,8 @@ export const useCreateNode = (
 
   const mutation = useMutation({
     mutationFn: createNodeMutation,
-    onMutate: async (values) => {
-      await queryClient.cancelQueries({
-        queryKey: [QueryKeys.NODES, me.tenantId],
-      });
-      const previousNodes = queryClient.getQueryData([
-        QueryKeys.NODES,
-        me.tenantId,
-      ]);
-      queryClient.setQueryData([QueryKeys.NODES, me.tenantId], (oldNodes) => [
-        oldNodes ?? [],
-        values,
-      ]);
-      return { previousNodes };
-    },
-    onError: (_error, _values, context) => {
-      queryClient.setQueryData(
-        [QueryKeys.NODES, me.tenantId],
-        context.previousNodes,
-      );
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({
+    onSettled: async () => {
+      await queryClient.invalidateQueries({
         queryKey: [QueryKeys.NODES, me.tenantId],
       });
       router.push(Routes.SITE.HOME);

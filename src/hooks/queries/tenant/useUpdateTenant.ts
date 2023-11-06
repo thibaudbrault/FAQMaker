@@ -1,12 +1,15 @@
-import { Tenant } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { NextRouter } from 'next/router';
+import { z } from 'zod';
 
 import { successToast } from '@/components';
+import { updateTenantClientSchema } from '@/lib';
 import { QueryKeys, Routes } from '@/utils';
 
-const updateTenant = async (values: Tenant, id: string) => {
+type Schema = z.infer<typeof updateTenantClientSchema>;
+
+const updateTenant = async (values: Schema, id: string) => {
   const body = {
     ...values,
   };
@@ -17,7 +20,7 @@ const updateTenant = async (values: Tenant, id: string) => {
 export const useUpdateTenant = (id: string, router: NextRouter) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (values: Tenant) => updateTenant(values, id),
+    mutationFn: (values: Schema) => updateTenant(values, id),
     onSuccess: (data) => {
       successToast(data.message);
       queryClient.invalidateQueries({

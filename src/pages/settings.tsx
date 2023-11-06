@@ -1,9 +1,8 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
 import { useNodesCount, useTags, useTenant, useUsersCount } from '@/hooks';
@@ -25,11 +24,10 @@ type Props = {
 };
 
 function Settings({ me }: Props) {
-  const router = useRouter();
   const { data: nodesCount } = useNodesCount(me.tenantId);
   const { data: usersCount } = useUsersCount(me.tenantId);
-  const { data: tenant, isLoading: isTenantLoading } = useTenant(me.tenantId);
-  const { data: tags, isLoading: isTagsLoading } = useTags(me.tenantId);
+  const { data: tenant, isPending: isTenantLoading } = useTenant(me.tenantId);
+  const { data: tags, isPending: isTagsLoading } = useTags(me.tenantId);
 
   const tabs = useMemo(
     () => [
@@ -48,18 +46,6 @@ function Settings({ me }: Props) {
     ],
     [],
   );
-
-  const handleTabRouter = (value: string) => {
-    router.replace({
-      query: { ...router.query, tab: value },
-    });
-  };
-
-  useEffect(() => {
-    router.query.tab = 'general';
-    router.push(router);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.isReady]);
 
   const tabStyle =
     'data-[state=active]:bg-negative data-[state=active]:text-negative text-xl lowercase font-semibold';
@@ -81,7 +67,6 @@ function Settings({ me }: Props) {
                 value={tab.value}
                 className={tabStyle}
                 style={{ fontVariant: 'small-caps' }}
-                onClick={() => handleTabRouter(tab.value)}
               >
                 {tab.label}
               </TabsTrigger>
@@ -98,7 +83,7 @@ function Settings({ me }: Props) {
           <TabsContent value="tags">
             <Tags
               tags={tags}
-              isLoading={isTagsLoading}
+              isPending={isTagsLoading}
               tenantId={me.tenantId}
             />
           </TabsContent>
@@ -122,19 +107,26 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   if (me.role === 'user') return Redirects.HOME;
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);
-  await queryClient.prefetchQuery([QueryKeys.NODES_COUNT, me.tenantId], () =>
-    getNodesCount(me.tenantId),
-  );
-  await queryClient.prefetchQuery([QueryKeys.USERS_COUNT, me.tenantId], () =>
-    getUsersCount(me.tenantId),
-  );
-  await queryClient.prefetchQuery([QueryKeys.TENANT, me.tenantId], () =>
-    getTenant(me.tenantId),
-  );
-  await queryClient.prefetchQuery([QueryKeys.TAGS, me.tenantId], () =>
-    getTags(me.tenantId),
-  );
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.ME, me.id],
+    queryFn: () => me,
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.NODES_COUNT, me.tenantId],
+    queryFn: () => getNodesCount(me.tenantId),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.USERS_COUNT, me.tenantId],
+    queryFn: () => getUsersCount(me.tenantId),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.TENANT, me.tenantId],
+    queryFn: () => getTenant(me.tenantId),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.TAGS, me.tenantId],
+    queryFn: () => getTags(me.tenantId),
+  });
 
   return {
     props: {

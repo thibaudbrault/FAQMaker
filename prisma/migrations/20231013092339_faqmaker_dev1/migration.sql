@@ -11,7 +11,7 @@ CREATE TABLE "Tenant" (
     "email" TEXT NOT NULL,
     "plan" "Plan" NOT NULL DEFAULT 'free',
     "company" TEXT NOT NULL,
-    "stripeCustomerId" TEXT,
+    "customerId" TEXT,
     "isActive" BOOLEAN NOT NULL DEFAULT false,
     "subscriptionId" TEXT,
 
@@ -70,8 +70,9 @@ CREATE TABLE "Session" (
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "name" TEXT NOT NULL,
+    "name" TEXT,
     "email" TEXT NOT NULL,
+    "image" TEXT,
     "role" "Role" NOT NULL DEFAULT 'user',
     "tenantId" TEXT NOT NULL,
 
@@ -143,7 +144,7 @@ CREATE TABLE "_NodeToTag" (
 CREATE UNIQUE INDEX "Tenant_email_key" ON "Tenant"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Tenant_stripeCustomerId_key" ON "Tenant"("stripeCustomerId");
+CREATE UNIQUE INDEX "Tenant_customerId_key" ON "Tenant"("customerId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Integrations_tenantId_key" ON "Integrations"("tenantId");

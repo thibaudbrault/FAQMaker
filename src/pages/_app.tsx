@@ -2,7 +2,7 @@ import '@/styles/globals.css';
 import { useState } from 'react';
 
 import {
-  Hydrate,
+  HydrationBoundary,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
@@ -29,8 +29,8 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            cacheTime: Infinity,
-            staleTime: Infinity,
+            gcTime: 60 * 1000,
+            staleTime: 60 * 1000,
             retry: false,
           },
         },
@@ -40,7 +40,7 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
+        <HydrationBoundary state={pageProps.dehydratedState}>
           <Toaster
             closeButton
             richColors
@@ -56,7 +56,7 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
               <Component {...pageProps} />
             </div>
           </TooltipProvider>
-        </Hydrate>
+        </HydrationBoundary>
       </QueryClientProvider>
     </SessionProvider>
   );

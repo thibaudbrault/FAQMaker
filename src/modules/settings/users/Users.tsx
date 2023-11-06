@@ -5,6 +5,7 @@ import { Button, Loader, errorToast } from '@/components';
 import { useDeleteUser, useUsers } from '@/hooks';
 
 import { CreateUser } from './Create';
+import { FileInput } from './FileInput';
 import { UpdateUser } from './Update';
 
 type Props = {
@@ -13,11 +14,11 @@ type Props = {
 };
 
 export const Users = ({ meId, tenantId }: Props) => {
-  const { data: users, isLoading } = useUsers(tenantId);
+  const { data: users, isPending } = useUsers(tenantId);
 
   const {
     mutate,
-    isLoading: isUserLoading,
+    isPending: isUserLoading,
     isError,
     error,
   } = useDeleteUser(tenantId);
@@ -26,7 +27,7 @@ export const Users = ({ meId, tenantId }: Props) => {
     mutate({ id });
   };
 
-  if (isLoading || isUserLoading) {
+  if (isPending || isUserLoading) {
     return <Loader size="page" />;
   }
 
@@ -40,7 +41,7 @@ export const Users = ({ meId, tenantId }: Props) => {
   return (
     <section className="mx-auto w-3/4">
       <ul className="flex flex-col gap-4">
-        {users.map((user) => (
+        {users?.map((user) => (
           <li
             key={user.id}
             className="rounded-md border border-stone-200 bg-default p-6 shadow-sm"
@@ -80,6 +81,12 @@ export const Users = ({ meId, tenantId }: Props) => {
           </li>
         ))}
         <CreateUser tenantId={tenantId} />
+        <div className="flex items-center gap-4">
+          <div className="h-px flex-grow bg-negative" />
+          <p className="text-center text-xl font-bold uppercase">or</p>
+          <div className="h-px flex-grow bg-negative" />
+        </div>
+        <FileInput />
       </ul>
     </section>
   );

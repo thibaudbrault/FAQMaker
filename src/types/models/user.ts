@@ -7,6 +7,7 @@ export type UserWithTenant = User & {
 export type RegisterInfo = {
   company: string;
   companyEmail: string;
+  domain?: string;
   email: string;
   customerId?: string;
   plan: 'free' | 'business' | 'enterprise';

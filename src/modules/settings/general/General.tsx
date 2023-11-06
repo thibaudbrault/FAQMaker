@@ -26,11 +26,11 @@ export const General = ({
         </section>
       )}
       <section className="relative">
-        <Company tenant={tenant} isLoading={isTenantLoading} />
+        <Company tenant={tenant} isPending={isTenantLoading} />
       </section>
       {tenant.plan !== 'free' && (
         <section className="relative">
-          <Integrations tenant={tenant} isLoading={isTenantLoading} />
+          <Integrations tenant={tenant} isPending={isTenantLoading} />
         </section>
       )}
       <section className="relative">

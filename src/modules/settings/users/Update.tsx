@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { AtSign } from 'lucide-react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import {
   Button,
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  Field,
   Input,
   Label,
   Select,
@@ -23,11 +25,14 @@ import {
   errorToast,
 } from '@/components';
 import { useUpdateUser } from '@/hooks';
+import { updateUserClientSchema } from '@/lib';
 
 type Props = {
   user: User;
   tenantId: string;
 };
+
+type Schema = z.infer<typeof updateUserClientSchema>;
 
 export const UpdateUser = ({ user, tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -36,8 +41,10 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
     register,
     handleSubmit,
     control,
-    formState: { isSubmitting, isDirty },
-  } = useForm({
+    formState: { isSubmitting, isDirty, isValid, errors },
+  } = useForm<Schema>({
+    resolver: zodResolver(updateUserClientSchema),
+    mode: 'onBlur',
     defaultValues: {
       email: user.email,
       role: user.role,
@@ -45,13 +52,13 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
   });
   const { mutate, isError, error } = useUpdateUser(user.id, tenantId);
 
-  const onSubmit = (values: User) => {
+  const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
   };
 
   useEffect(() => {
-    setDisabled(isSubmitting || !isDirty);
-  }, [isDirty, isSubmitting]);
+    setDisabled(isSubmitting || !isDirty || !isValid);
+  }, [isDirty, isSubmitting, isValid]);
 
   if (isError && error instanceof AxiosError) {
     const errorMessage = error.response?.data.message || 'An error occurred';
@@ -81,23 +88,22 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
         >
           <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
             <div className="flex flex-col gap-1 [&_svg]:focus-within:text-secondary">
-              <Label
-                htmlFor="email"
-                className="lowercase"
-                style={{ fontVariant: 'small-caps' }}
+              <Field
+                label={'Email'}
+                value={'email'}
+                error={errors.email?.message}
               >
-                Email
-              </Label>
-              <Input
-                {...register('email', { required: true })}
-                withIcon
-                defaultValue={user.email}
-                icon={<AtSign className="h-5 w-5" />}
-                type="email"
-                id="email"
-                placeholder="Email"
-                className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
-              />
+                <Input
+                  {...register('email', { required: true })}
+                  withIcon
+                  defaultValue={user.email}
+                  icon={<AtSign className="h-5 w-5" />}
+                  type="email"
+                  id="email"
+                  placeholder="Email"
+                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
+                />
+              </Field>
             </div>
             {user.role !== 'tenant' && (
               <div className="flex flex-col gap-1">

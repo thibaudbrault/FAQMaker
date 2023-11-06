@@ -1,29 +1,29 @@
 import { useEffect, useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Question, User } from '@prisma/client';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { HelpCircle, MoveLeft } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { Button, Field, Input, Loader, errorToast } from '@/components';
+import { Button, errorToast, Field, Input, Loader } from '@/components';
 import { useCreateNode, useTags } from '@/hooks';
 import { PageLayout } from '@/layouts';
-import { getMe, getTags, ssrNcHandler } from '@/lib';
+import { getMe, getTags, questionClientSchema, ssrNcHandler } from '@/lib';
 import { TagsList } from '@/modules';
 import { UserWithTenant } from '@/types';
-import { QueryKeys, Redirects, cn } from '@/utils';
+import { cn, QueryKeys, Redirects } from '@/utils';
 
 type Props = {
   me: UserWithTenant;
 };
 
-type FormData = {
-  text: string;
-};
+type Schema = z.infer<typeof questionClientSchema>;
 
 function New({ me }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -33,13 +33,19 @@ function New({ me }: Props) {
     register,
     handleSubmit,
     formState: { isSubmitting, errors, isValid },
-  } = useForm<FormData>();
+  } = useForm<Schema>({
+    resolver: zodResolver(questionClientSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      text: '',
+    },
+  });
   const router = useRouter();
 
-  const { data: tags, isLoading } = useTags(me.tenantId);
+  const { data: tags, isPending } = useTags(me.tenantId);
   const { mutate, isError, error } = useCreateNode(me, router, selectedTags);
 
-  const onSubmit = (values: Question) => {
+  const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
   };
 
@@ -89,13 +95,7 @@ function New({ me }: Props) {
                 error={errors?.text?.message}
               >
                 <Input
-                  {...register('text', {
-                    required: 'Enter a question',
-                    minLength: {
-                      value: 3,
-                      message: 'Question must be at least 3 characters long',
-                    },
-                  })}
+                  {...register('text')}
                   withIcon
                   icon={<HelpCircle />}
                   type="text"
@@ -105,7 +105,7 @@ function New({ me }: Props) {
                 />
               </Field>
               <TagsList
-                isLoading={isLoading}
+                isPending={isPending}
                 tags={tags}
                 selectedTags={selectedTags}
                 setSelectedTags={setSelectedTags}
@@ -153,10 +153,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   if (!me) return Redirects.LOGIN;
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery([QueryKeys.ME, me.id], () => me);
-  await queryClient.prefetchQuery([QueryKeys.TAGS, me.tenantId], () =>
-    getTags(me.tenantId),
-  );
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.ME, me.id],
+    queryFn: () => me,
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.TAGS, me.tenantId],
+    queryFn: () => getTags(me.tenantId),
+  });
 
   return {
     props: {
