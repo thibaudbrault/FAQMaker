@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { User } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { AtSign, UserIcon } from 'lucide-react';
 import Image from 'next/image';
