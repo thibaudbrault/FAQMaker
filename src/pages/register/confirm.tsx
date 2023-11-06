@@ -47,12 +47,10 @@ function Confirm() {
     await mutateTenant({ ...values, customerId });
   };
 
-  if (
-    (tenantIsError && tenantError instanceof AxiosError) ||
-    (customerIsError && customerError instanceof AxiosError)
-  ) {
-    const error = tenantError ?? customerError;
-    const errorMessage = error?.response?.data.message || 'An error occurred';
+  const error = tenantError ?? customerError ?? '';
+  const isError = tenantIsError ?? customerIsError;
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
     errorToast(errorMessage);
   }
 

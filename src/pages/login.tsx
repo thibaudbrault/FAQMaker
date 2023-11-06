@@ -8,7 +8,7 @@ import { AuthLayout } from '@/layouts';
 
 function Login() {
   const router = useRouter();
-  const { error } = router.query;
+  const error = router.query.error as string;
 
   return (
     <AuthLayout hasBackground>
@@ -65,7 +65,7 @@ const errors = {
 };
 
 type ErrorProps = {
-  error: string | string[];
+  error: string;
 };
 
 const LoginError = ({ error }: ErrorProps) => {
