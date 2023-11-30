@@ -36,6 +36,10 @@ export interface ITenantUpdateFields extends IFields {
   value: 'company' | 'email';
 }
 
+export interface IIntegrations extends IFields {
+  value: 'slack';
+}
+
 export interface IPlan {
   label: 'Free' | 'Business' | 'Enterprise';
   value: 'free' | 'business' | 'enterprise';

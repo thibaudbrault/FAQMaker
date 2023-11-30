@@ -27,6 +27,7 @@ export const Routes = {
     TAGS: '/api/tags',
     TENANT: '/api/tenant',
     WEBHOOKS: '/api/stripe/webhooks',
+    INTEGRATIONS: '/api/integrations',
   },
 } as const;
 
