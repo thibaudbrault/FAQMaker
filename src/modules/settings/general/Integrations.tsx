@@ -1,37 +1,41 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Tenant } from '@prisma/client';
+import { Integrations as IntegrationsType, Tenant } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button, Field, Input, Loader, errorToast } from '@/components';
-import { useUpsertIntegrations } from '@/hooks';
+import { useIntegration, useUpsertIntegrations } from '@/hooks';
 import { integrationsClientSchema } from '@/lib';
 import { IIntegrations } from '@/types';
 
 type Props = {
-  tenant: Tenant;
-  isPending: boolean;
+  tenantId: string;
 };
 
 type Schema = z.infer<typeof integrationsClientSchema>;
 
-export const Integrations = ({ tenant, isPending }: Props) => {
+export const Integrations = ({ tenantId }: Props) => {
+  const { data: integrations, isPending } = useIntegration(tenantId);
+
   const [disabled, setDisabled] = useState<boolean>(true);
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors, isSubmitting, isDirty, isValid },
   } = useForm<Schema>({
     resolver: zodResolver(integrationsClientSchema),
     mode: 'onBlur',
+    defaultValues: {
+      slack: integrations.slack ?? '',
+    },
   });
 
-  const { mutate, isError, error } = useUpsertIntegrations(tenant.id);
+  const { mutate, isError, error } = useUpsertIntegrations(tenantId);
 
-  const onSubmit = (values: Tenant) => {
+  const onSubmit = (values: IntegrationsType) => {
     mutate(values);
   };
 
@@ -47,8 +51,8 @@ export const Integrations = ({ tenant, isPending }: Props) => {
   );
 
   useEffect(() => {
-    setDisabled(isSubmitting || !isDirty);
-  }, [isDirty, isSubmitting]);
+    setDisabled(isSubmitting || !isDirty || !isValid);
+  }, [isDirty, isSubmitting, isValid]);
 
   if (isPending) {
     return <Loader size="items" />;
@@ -84,7 +88,6 @@ export const Integrations = ({ tenant, isPending }: Props) => {
               >
                 <Input
                   {...register(field.value)}
-                  defaultValue={tenant[field.value] ?? ''}
                   type={field.type}
                   id={field.value}
                   placeholder={field.label}

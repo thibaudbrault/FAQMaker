@@ -3,10 +3,10 @@ import axios from 'axios';
 import { z } from 'zod';
 
 import { successToast } from '@/components';
-import { createUserClientSchema } from '@/lib';
+import { integrationsClientSchema } from '@/lib';
 import { Routes } from '@/utils';
 
-type Schema = z.infer<typeof createUserClientSchema>;
+type Schema = z.infer<typeof integrationsClientSchema>;
 
 const upsertIntegrations = async (values: Schema, tenantId: string) => {
   const body = { ...values, tenantId };
