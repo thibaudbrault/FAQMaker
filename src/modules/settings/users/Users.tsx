@@ -9,11 +9,11 @@ import { FileInput } from './FileInput';
 import { UpdateUser } from './Update';
 
 type Props = {
-  meId: string;
+  userId: string;
   tenantId: string;
 };
 
-export const Users = ({ meId, tenantId }: Props) => {
+export const Users = ({ userId, tenantId }: Props) => {
   const { data: users, isPending } = useUsers(tenantId);
 
   const {
@@ -63,7 +63,7 @@ export const Users = ({ meId, tenantId }: Props) => {
                 </div>
                 <div className="flex items-center gap-2">
                   <UpdateUser user={user} tenantId={tenantId} />
-                  {(user.role === 'user' || user.id !== meId) && (
+                  {(user.role === 'user' || user.id !== userId) && (
                     <Button
                       variant="secondary"
                       size="small"

@@ -2,13 +2,16 @@ import { useMemo } from 'react';
 
 import { HelpCircle, UserIcon, Wallet } from 'lucide-react';
 
+import { useNodesCount, useUsersCount } from '@/hooks';
+
 type Props = {
-  nodesCount: number;
-  usersCount: number;
+  tenantId: string;
   plan: string;
 };
 
-export const Data = ({ nodesCount, usersCount, plan }: Props) => {
+export const Data = ({ tenantId, plan }: Props) => {
+  const { data: nodesCount } = useNodesCount(tenantId);
+  const { data: usersCount } = useUsersCount(tenantId);
   const cards = useMemo(
     () => [
       {

@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
 import { useNodesCount, useTags, useTenant, useUsersCount } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import {
+  getIntegration,
   getMe,
   getNodesCount,
   getTags,
@@ -24,10 +25,7 @@ type Props = {
 };
 
 function Settings({ me }: Props) {
-  const { data: nodesCount } = useNodesCount(me.tenantId);
-  const { data: usersCount } = useUsersCount(me.tenantId);
-  const { data: tenant, isPending: isTenantLoading } = useTenant(me.tenantId);
-  const { data: tags, isPending: isTagsLoading } = useTags(me.tenantId);
+  const { data: tenant, isPending } = useTenant(me.tenantId);
 
   const tabs = useMemo(
     () => [
@@ -74,21 +72,16 @@ function Settings({ me }: Props) {
           </TabsList>
           <TabsContent value="general">
             <General
-              nodesCount={nodesCount}
-              usersCount={usersCount}
+              tenantId={me.tenantId}
               tenant={tenant}
-              isTenantLoading={isTenantLoading}
+              isPending={isPending}
             />
           </TabsContent>
           <TabsContent value="tags">
-            <Tags
-              tags={tags}
-              isPending={isTagsLoading}
-              tenantId={me.tenantId}
-            />
+            <Tags tenantId={me.tenantId} />
           </TabsContent>
           <TabsContent value="users">
-            <Users meId={me.id} tenantId={me.tenantId} />
+            <Users userId={me.id} tenantId={me.tenantId} />
           </TabsContent>
         </Tabs>
       </section>
@@ -122,6 +115,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   await queryClient.prefetchQuery({
     queryKey: [QueryKeys.TENANT, me.tenantId],
     queryFn: () => getTenant(me.tenantId),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.INTEGRATION, me.tenantId],
+    queryFn: () => getIntegration(me.tenantId),
   });
   await queryClient.prefetchQuery({
     queryKey: [QueryKeys.TAGS, me.tenantId],

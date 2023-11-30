@@ -6,18 +6,12 @@ import { Data } from './Data';
 import { Integrations } from './Integrations';
 
 type Props = {
-  nodesCount: number;
-  usersCount: number;
+  tenantId: string;
   tenant: Tenant;
-  isTenantLoading: boolean;
+  isPending: boolean;
 };
 
-export const General = ({
-  nodesCount,
-  usersCount,
-  tenant,
-  isTenantLoading,
-}: Props) => {
+export const General = ({ tenantId, tenant, isPending }: Props) => {
   return (
     <>
       {tenant.plan !== 'free' && (
@@ -26,19 +20,15 @@ export const General = ({
         </section>
       )}
       <section className="relative">
-        <Company tenant={tenant} isPending={isTenantLoading} />
+        <Company tenant={tenant} isPending={isPending} />
       </section>
       {tenant.plan !== 'free' && (
         <section className="relative">
-          <Integrations tenant={tenant} isPending={isTenantLoading} />
+          <Integrations tenantId={tenantId} />
         </section>
       )}
       <section className="relative">
-        <Data
-          nodesCount={nodesCount}
-          usersCount={usersCount}
-          plan={tenant.plan}
-        />
+        <Data tenantId={tenantId} plan={tenant.plan} />
       </section>
     </>
   );

@@ -1,18 +1,16 @@
-import { Tag } from '@prisma/client';
 import { AxiosError } from 'axios';
 
 import { Button, Loader, errorToast } from '@/components';
-import { useDeleteTag } from '@/hooks';
+import { useDeleteTag, useTags } from '@/hooks';
 
 import { CreateTag } from './Create';
 
 type Props = {
-  tags: Tag[];
-  isPending: boolean;
   tenantId: string;
 };
 
-export const Tags = ({ tags, isPending, tenantId }: Props) => {
+export const Tags = ({ tenantId }: Props) => {
+  const { data: tags, isPending } = useTags(tenantId);
   const {
     mutate,
     isPending: isTagLoading,
