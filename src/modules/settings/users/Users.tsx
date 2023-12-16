@@ -86,7 +86,7 @@ export const Users = ({ userId, tenantId }: Props) => {
           <p className="text-center text-xl font-bold uppercase">or</p>
           <div className="h-px flex-grow bg-negative" />
         </div>
-        <FileInput />
+        <FileInput tenantId={tenantId} />
       </ul>
     </section>
   );

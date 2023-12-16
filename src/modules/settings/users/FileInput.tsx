@@ -1,12 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FileUp } from 'lucide-react';
 import Papa from 'papaparse';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import { Button, Input } from '@/components';
+import { useCreateUsers } from '@/hooks';
+import { csvUploadClientSchema } from '@/lib';
 
-export const FileInput = () => {
+type Props = {
+  tenantId: string;
+};
+
+type Schema = z.infer<typeof csvUploadClientSchema>;
+
+export const FileInput = ({ tenantId }: Props) => {
   const [fileName, setFileName] = useState('');
   const [csvData, setCsvData] = useState([]);
   const fileInput = useRef(null);
@@ -16,7 +26,12 @@ export const FileInput = () => {
     register,
     handleSubmit,
     formState: { isSubmitting, isValid },
-  } = useForm();
+  } = useForm<Schema>({
+    resolver: zodResolver(csvUploadClientSchema),
+    defaultValues: {
+      name: '',
+    },
+  });
 
   const handleButtonClick = () => {
     fileInput.current.click();
@@ -33,8 +48,10 @@ export const FileInput = () => {
     });
   };
 
-  const onSubmit = (values) => {
-    console.log('🚀 ~ file: FileInput.tsx:38 ~ onSubmit ~ values:', values);
+  const { mutate, isError, error } = useCreateUsers(tenantId, csvData);
+
+  const onSubmit: SubmitHandler<Schema> = (values) => {
+    mutate(values);
   };
 
   useEffect(() => {
@@ -62,7 +79,6 @@ export const FileInput = () => {
           {fileName ? `${fileName}` : 'Use a CSV'}
         </Button>
         <input
-          {...register('file', { required: true })}
           type="file"
           id="file"
           accept=".csv"
