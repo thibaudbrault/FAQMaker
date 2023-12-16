@@ -41,8 +41,6 @@ export default async function handler(
     'customer.subscription.updated',
   ];
 
-  console.log('first');
-
   if (permittedEvents.includes(event.type)) {
     let data;
 
