@@ -95,6 +95,9 @@ dependencies:
   react-hook-form:
     specifier: ^7.45.4
     version: 7.45.4(react@18.2.0)
+  react-paginate:
+    specifier: ^8.2.0
+    version: 8.2.0(react@18.2.0)
   rehype-sanitize:
     specifier: ^6.0.0
     version: 6.0.0
@@ -5708,6 +5711,15 @@ packages:
       vfile: 5.3.7
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /react-paginate@8.2.0(react@18.2.0):
+    resolution: {integrity: sha512-sJCz1PW+9PNIjUSn919nlcRVuleN2YPoFBOvL+6TPgrH/3lwphqiSOgdrLafLdyLDxsgK+oSgviqacF4hxsDIw==}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
     dev: false
 
   /react-remove-scroll-bar@2.3.4(@types/react@18.0.27)(react@18.2.0):

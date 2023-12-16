@@ -5,6 +5,7 @@ import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSideProps } from 'next';
 import { useSearchParams } from 'next/navigation';
 
+import { Pagination } from '@/components';
 import { useNodes, useSearchNodes } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNodes, ssrNcHandler } from '@/lib';
@@ -22,6 +23,7 @@ function Home({ me }: Props) {
     search.get('search') ?? null,
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(0);
 
   let nodes: ExtendedNode[] = [];
   let message = 'Ask a question';
@@ -30,7 +32,7 @@ function Home({ me }: Props) {
     isPending,
     isError,
     error,
-  } = useNodes(me.tenantId);
+  } = useNodes(me.tenantId, page);
   const { data: filteredNodes, isLoading: isSearchloading } = useSearchNodes(
     me.tenantId,
     searchQuery,
@@ -61,6 +63,7 @@ function Home({ me }: Props) {
         error={error}
         message={message}
       />
+      <Pagination nodesLength={nodes.length} setPage={setPage} />
     </PageLayout>
   );
 }

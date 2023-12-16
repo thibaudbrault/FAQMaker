@@ -8,6 +8,7 @@ export * from './field';
 export * from './input';
 export * from './label';
 export * from './loader';
+export * from './pagination';
 export * from './select';
 export * from './tabs';
 export * from './toast';
