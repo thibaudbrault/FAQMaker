@@ -12,9 +12,15 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button, errorToast, Field, Input, Loader } from '@/components';
-import { useCreateNode, useTags } from '@/hooks';
+import { useCreateNode, useIntegration, useTags } from '@/hooks';
 import { PageLayout } from '@/layouts';
-import { getMe, getTags, questionClientSchema, ssrNcHandler } from '@/lib';
+import {
+  getIntegration,
+  getMe,
+  getTags,
+  questionClientSchema,
+  ssrNcHandler,
+} from '@/lib';
 import { TagsList } from '@/modules';
 import { UserWithTenant } from '@/types';
 import { cn, QueryKeys, Redirects } from '@/utils';
@@ -43,7 +49,13 @@ function New({ me }: Props) {
   const router = useRouter();
 
   const { data: tags, isPending } = useTags(me.tenantId);
-  const { mutate, isError, error } = useCreateNode(me, router, selectedTags);
+  const { data: integrations } = useIntegration(me.tenantId);
+  const { mutate, isError, error } = useCreateNode(
+    me,
+    router,
+    selectedTags,
+    integrations,
+  );
 
   const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
@@ -160,6 +172,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   await queryClient.prefetchQuery({
     queryKey: [QueryKeys.TAGS, me.tenantId],
     queryFn: () => getTags(me.tenantId),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.INTEGRATION, me.tenantId],
+    queryFn: () => getIntegration(me.tenantId),
   });
 
   return {

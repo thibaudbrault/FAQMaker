@@ -90,7 +90,7 @@ export const Integrations = ({ tenantId }: Props) => {
                   {...register(field.value)}
                   type={field.type}
                   id={field.value}
-                  placeholder={field.label}
+                  placeholder="https://hooks.slack.com/services/"
                   className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
                 />
               </Field>
