@@ -5,7 +5,9 @@ import { ExtendedNode } from '@/types';
 import { QueryKeys, Routes } from '@/utils';
 
 const getNodes = async (tenantId: string) => {
-  const { data } = await axios.get(Routes.API.NODES, { params: { tenantId } });
+  const { data } = await axios.get(Routes.API.NODES, {
+    params: { tenantId },
+  });
   return data;
 };
 

@@ -32,7 +32,7 @@ function Home({ me }: Props) {
     isPending,
     isError,
     error,
-  } = useNodes(me.tenantId, page);
+  } = useNodes(me.tenantId);
   const { data: filteredNodes, isLoading: isSearchloading } = useSearchNodes(
     me.tenantId,
     searchQuery,
