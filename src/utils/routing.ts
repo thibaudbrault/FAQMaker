@@ -27,10 +27,7 @@ export const Routes = {
     TAGS: '/api/tags',
     TENANT: '/api/tenant',
     WEBHOOKS: '/api/stripe/webhooks',
-    INTEGRATIONS: {
-      INDEX: '/api/integrations',
-      SLACK: '/api/integrations/slack',
-    },
+    INTEGRATIONS: '/api/integrations',
   },
 } as const;
 

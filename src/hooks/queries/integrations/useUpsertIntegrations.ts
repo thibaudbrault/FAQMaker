@@ -10,7 +10,7 @@ type Schema = z.infer<typeof integrationsClientSchema>;
 
 const upsertIntegrations = async (values: Schema, tenantId: string) => {
   const body = { ...values, tenantId };
-  const { data } = await axios.post(Routes.API.INTEGRATIONS.INDEX, body);
+  const { data } = await axios.post(Routes.API.INTEGRATIONS, body);
   return data;
 };
 

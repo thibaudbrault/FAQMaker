@@ -1,4 +1,5 @@
 import { Integrations, User } from '@prisma/client';
+import { IncomingWebhook } from '@slack/webhook';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { NextRouter } from 'next/router';
@@ -28,10 +29,9 @@ const createNode = async (
   if (integrations) {
     if (integrations.slack) {
       try {
-        const slackBody = {
-          text: values.text,
-        };
-        await axios.post(integrations.slack, slackBody);
+        const url = integrations.slack;
+        const webhook = new IncomingWebhook(url);
+        await webhook.send({ text: values.text });
       } catch (error) {
         console.error('Error sending Slack webhook: ', error.message);
       }
