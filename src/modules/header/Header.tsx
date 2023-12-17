@@ -1,7 +1,6 @@
 import { LogOut, Settings, UserIcon, Wallet } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { signOut } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
@@ -17,10 +16,9 @@ type Props = {
 
 export const Header = ({ id, company, tenantId }: Props) => {
   const { handleSubmit } = useForm();
-  const router = useRouter();
   const { data: user, isPending } = useUser(id);
 
-  const { mutate } = useCreateBillingPortal(tenantId, router);
+  const { mutate } = useCreateBillingPortal(tenantId);
 
   const onSubmit = () => {
     mutate();
