@@ -2,6 +2,8 @@ import { Dispatch, SetStateAction } from 'react';
 
 import ReactPaginate from 'react-paginate';
 
+import { OFFSET } from '@/utils';
+
 type Props = {
   setPage: Dispatch<SetStateAction<number>>;
   nodesLength: number;
@@ -27,7 +29,7 @@ export const Pagination = ({ setPage, nodesLength }: Props) => {
         nextLabel="Next →"
         pageRangeDisplayed={3}
         marginPagesDisplayed={2}
-        pageCount={Math.ceil(nodesLength / 10)}
+        pageCount={Math.ceil(nodesLength / OFFSET)}
         previousLabel="← Previous"
         renderOnZeroPageCount={() => null}
       />

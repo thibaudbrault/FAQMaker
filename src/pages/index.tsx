@@ -6,9 +6,9 @@ import { GetServerSideProps } from 'next';
 import { useSearchParams } from 'next/navigation';
 
 import { Pagination } from '@/components';
-import { useNodes, useSearchNodes } from '@/hooks';
+import { useNodes, useNodesCount, useSearchNodes } from '@/hooks';
 import { PageLayout } from '@/layouts';
-import { getMe, getNodes, ssrNcHandler } from '@/lib';
+import { getMe, getNodes, getNodesCount, ssrNcHandler } from '@/lib';
 import { List, Search } from '@/modules';
 import { ExtendedNode, UserWithTenant } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
@@ -32,11 +32,12 @@ function Home({ me }: Props) {
     isPending,
     isError,
     error,
-  } = useNodes(me.tenantId);
+  } = useNodes(me.tenantId, page);
   const { data: filteredNodes, isLoading: isSearchloading } = useSearchNodes(
     me.tenantId,
     searchQuery,
   );
+  const { data: nodesCount } = useNodesCount(me.tenantId);
 
   if (searchQuery) {
     if (filteredNodes && filteredNodes.length > 0) {
@@ -63,7 +64,7 @@ function Home({ me }: Props) {
         error={error}
         message={message}
       />
-      <Pagination nodesLength={nodes.length} setPage={setPage} />
+      <Pagination nodesLength={nodesCount} setPage={setPage} />
     </PageLayout>
   );
 }
@@ -84,6 +85,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   await queryClient.prefetchQuery({
     queryKey: [QueryKeys.NODES, me.tenantId],
     queryFn: () => getNodes(me.tenantId),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [QueryKeys.NODES_COUNT, me.tenantId],
+    queryFn: () => getNodesCount(me.tenantId),
   });
 
   return {
