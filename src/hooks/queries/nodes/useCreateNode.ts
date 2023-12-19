@@ -1,12 +1,11 @@
 import { Integrations, User } from '@prisma/client';
-import { IncomingWebhook } from '@slack/webhook';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { NextRouter } from 'next/router';
 import slugify from 'slugify';
 import { z } from 'zod';
 
-import { promiseToast } from '@/components';
+import { errorToast, promiseToast } from '@/components';
 import { questionClientSchema } from '@/lib';
 import { QueryKeys, Routes } from '@/utils';
 
@@ -29,11 +28,17 @@ const createNode = async (
   if (integrations) {
     if (integrations.slack) {
       try {
-        const url = integrations.slack;
-        const webhook = new IncomingWebhook(url);
-        await webhook.send({ text: values.text });
+        const slackBody = {
+          text: values.text,
+          url: integrations.slack,
+        };
+        const { data } = await axios.post(
+          Routes.API.INTEGRATIONS.SLACK,
+          slackBody,
+        );
+        return data;
       } catch (error) {
-        console.error('Error sending Slack webhook: ', error.message);
+        errorToast('Error sending Slack webhook: ' + error.message);
       }
     }
   }
