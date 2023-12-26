@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAtom } from 'jotai';
 import { MoveLeft, MoveRight } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -88,6 +89,15 @@ function Register() {
             <MoveRight />
           </Button>
         </div>
+        <p className="text-center text-xs">
+          Already an account ?{' '}
+          <Link
+            className="font-semibold hover:underline"
+            href={Routes.SITE.LOGIN}
+          >
+            Login
+          </Link>
+        </p>
       </form>
     </AuthLayout>
   );
