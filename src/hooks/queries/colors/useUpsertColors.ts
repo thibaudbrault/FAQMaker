@@ -8,15 +8,15 @@ import { Routes } from '@/utils';
 
 type Schema = z.infer<typeof colorsClientSchema>;
 
-const createColors = async (values: Schema, tenantId: string) => {
+const upsertColors = async (values: Schema, tenantId: string) => {
   const body = { ...values, tenantId };
   const { data } = await axios.post(Routes.API.COLORS, body);
   return data;
 };
 
-export const useCreateColors = (tenantId: string) => {
+export const useUpsertColors = (tenantId: string) => {
   const mutation = useMutation({
-    mutationFn: (values: Schema) => createColors(values, tenantId),
+    mutationFn: (values: Schema) => upsertColors(values, tenantId),
     onSuccess: (data) => {
       successToast(data.message);
     },

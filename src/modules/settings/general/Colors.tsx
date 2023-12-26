@@ -1,26 +1,39 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Color } from '@prisma/client';
 import Sketch from '@uiw/react-color-sketch';
+import { AxiosError } from 'axios';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { hex, score } from 'wcag-contrast';
 import { z } from 'zod';
 
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
-import { useCreateColors } from '@/hooks';
+import {
+  Button,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  errorToast,
+} from '@/components';
+import { useUpsertColors } from '@/hooks';
 import { colorsClientSchema } from '@/lib';
 
 type Schema = z.infer<typeof colorsClientSchema>;
 
 type Props = {
+  colors: Color;
   tenantId: string;
 };
 
-export const Colors = ({ tenantId }: Props) => {
+export const Colors = ({ colors, tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
 
-  const [hexForeground, setHexForeground] = useState('#0f766e');
-  const [hexBackground, setHexBackground] = useState('#e7e5e4');
+  const [hexForeground, setHexForeground] = useState<string>(
+    colors.foreground || '#0f766e',
+  );
+  const [hexBackground, setHexBackground] = useState<string>(
+    colors.background || '#e7e5e4',
+  );
   const ratio: number = hex(hexForeground, hexBackground);
   const wcag: string = score(ratio);
 
@@ -32,7 +45,7 @@ export const Colors = ({ tenantId }: Props) => {
     resolver: zodResolver(colorsClientSchema),
   });
 
-  const { mutate, isError, error } = useCreateColors(tenantId);
+  const { mutate, isError, error } = useUpsertColors(tenantId);
 
   const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
@@ -52,6 +65,11 @@ export const Colors = ({ tenantId }: Props) => {
     setDisabled(isSubmitting || !isDirty);
   }, [isSubmitting, isDirty]);
 
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
+  }
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -67,7 +85,6 @@ export const Colors = ({ tenantId }: Props) => {
         <Controller
           control={control}
           name="foreground"
-          rules={{ required: true }}
           render={({ field: { onChange } }) => (
             <Sketch
               style={{ boxShadow: 'none' }}
@@ -81,7 +98,6 @@ export const Colors = ({ tenantId }: Props) => {
         <Controller
           control={control}
           name="background"
-          rules={{ required: true }}
           render={({ field: { onChange } }) => (
             <Sketch
               style={{ boxShadow: 'none' }}
