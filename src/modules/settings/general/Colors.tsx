@@ -1,18 +1,62 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import Sketch from '@uiw/react-color-sketch';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { hex, score } from 'wcag-contrast';
+import { z } from 'zod';
 
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components';
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
+import { useCreateColors } from '@/hooks';
+import { colorsClientSchema } from '@/lib';
 
-export const Colors = () => {
+type Schema = z.infer<typeof colorsClientSchema>;
+
+type Props = {
+  tenantId: string;
+};
+
+export const Colors = ({ tenantId }: Props) => {
+  const [disabled, setDisabled] = useState<boolean>(true);
+
   const [hexForeground, setHexForeground] = useState('#0f766e');
   const [hexBackground, setHexBackground] = useState('#e7e5e4');
   const ratio: number = hex(hexForeground, hexBackground);
   const wcag: string = score(ratio);
 
+  const {
+    handleSubmit,
+    control,
+    formState: { isDirty, isSubmitting },
+  } = useForm<Schema>({
+    resolver: zodResolver(colorsClientSchema),
+  });
+
+  const { mutate, isError, error } = useCreateColors(tenantId);
+
+  const onSubmit: SubmitHandler<Schema> = (values) => {
+    mutate(values);
+  };
+
+  const handleForegroundChange = (onChange, color) => {
+    onChange(color.hex);
+    setHexForeground(color.hex);
+  };
+
+  const handleBackgroundChange = (onChange, color) => {
+    onChange(color.hex);
+    setHexBackground(color.hex);
+  };
+
+  useEffect(() => {
+    setDisabled(isSubmitting || !isDirty);
+  }, [isSubmitting, isDirty]);
+
   return (
-    <div className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-default p-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-default p-4"
+    >
       <h2
         className="text-center font-serif text-4xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
@@ -20,23 +64,33 @@ export const Colors = () => {
         Colors
       </h2>
       <div className="mb-2 flex items-center justify-evenly">
-        <Sketch
-          style={{ boxShadow: 'none' }}
-          color={hexForeground}
-          presetColors={false}
-          disableAlpha={true}
-          onChange={(color) => {
-            setHexForeground(color.hex);
-          }}
+        <Controller
+          control={control}
+          name="foreground"
+          rules={{ required: true }}
+          render={({ field: { onChange } }) => (
+            <Sketch
+              style={{ boxShadow: 'none' }}
+              color={hexForeground}
+              presetColors={false}
+              disableAlpha={true}
+              onChange={(color) => handleForegroundChange(onChange, color)}
+            />
+          )}
         />
-        <Sketch
-          style={{ boxShadow: 'none' }}
-          color={hexBackground}
-          presetColors={false}
-          disableAlpha={true}
-          onChange={(color) => {
-            setHexBackground(color.hex);
-          }}
+        <Controller
+          control={control}
+          name="background"
+          rules={{ required: true }}
+          render={({ field: { onChange } }) => (
+            <Sketch
+              style={{ boxShadow: 'none' }}
+              color={hexBackground}
+              presetColors={false}
+              disableAlpha={true}
+              onChange={(color) => handleBackgroundChange(onChange, color)}
+            />
+          )}
         />
       </div>
       <div className="flex items-center justify-center gap-8">
@@ -73,6 +127,17 @@ export const Colors = () => {
           </Tooltip>
         </div>
       </div>
-    </div>
+      <div className="flex items-center justify-center">
+        <Button
+          variant={disabled ? 'disabled' : 'primaryDark'}
+          weight="semibold"
+          className="lowercase"
+          style={{ fontVariant: 'small-caps' }}
+          disabled={disabled}
+        >
+          Update
+        </Button>
+      </div>
+    </form>
   );
 };

@@ -16,7 +16,7 @@ export const General = ({ tenantId, tenant, isPending }: Props) => {
     <>
       {tenant.plan !== 'free' && (
         <section className="relative">
-          <Colors />
+          <Colors tenantId={tenantId} />
         </section>
       )}
       <section className="relative">

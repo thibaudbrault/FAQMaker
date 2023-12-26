@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { User } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { AtSign, PlusCircle } from 'lucide-react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';

@@ -144,8 +144,8 @@ model Tag {
 
 model Color {
   id        String @id @default(cuid())
-  primary   String
-  secondary String
+  foreground   String
+  background String
   tenant    Tenant @relation(fields: [tenantId], references: [id])
   tenantId  String @unique
 

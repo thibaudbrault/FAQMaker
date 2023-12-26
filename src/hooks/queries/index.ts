@@ -1,5 +1,6 @@
 export * from './answer';
 export * from './auth';
+export * from './colors';
 export * from './integrations';
 export * from './nodes';
 export * from './search';
