@@ -5,7 +5,7 @@ import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSideProps } from 'next';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
-import { useNodesCount, useTags, useTenant, useUsersCount } from '@/hooks';
+import { useTenant } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import {
   getIntegration,
