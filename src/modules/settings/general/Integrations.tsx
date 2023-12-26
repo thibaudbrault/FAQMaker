@@ -104,7 +104,7 @@ export const Integrations = ({ tenantId }: Props) => {
           style={{ fontVariant: 'small-caps' }}
           disabled={disabled}
         >
-          Add
+          Update
         </Button>
       </form>
     </div>
