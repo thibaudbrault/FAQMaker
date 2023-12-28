@@ -59,13 +59,28 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                   <ChevronDown />
                 </summary>
                 <hr className="mx-auto my-6 h-px w-3/4 border-none bg-negative" />
-                <div className="mb-6 px-6">
-                  {node.answer ? (
+                {node.answer ? (
+                  <div className="mb-6 px-6">
                     <MarkdownPreview source={node.answer.text} />
-                  ) : (
-                    <p className="text-center italic">No answer</p>
-                  )}
-                </div>
+                  </div>
+                ) : (
+                  <div className='flex justify-center items-center mb-6'>
+                    <Button
+                      variant='primaryDark'
+                      size='medium'
+                      font="large"
+                      weight="bold"
+                      className="lowercase"
+                      style={{ fontVariant: 'small-caps' }}
+                      asChild
+                    >
+                      <Link href={{
+                      pathname: '/question/answer',
+                      query: { id: node.id },
+                    }} as={`/question/answer?id=${node.id}`}>Answer</Link>
+                    </Button>
+                  </div>
+                )}
               </details>
               <Button
                 variant="primaryLight"
