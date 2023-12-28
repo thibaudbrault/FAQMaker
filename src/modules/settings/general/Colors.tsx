@@ -29,10 +29,10 @@ export const Colors = ({ colors, tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
 
   const [hexForeground, setHexForeground] = useState<string>(
-    colors.foreground || '#0f766e',
+    colors?.foreground ?? '#0f766e',
   );
   const [hexBackground, setHexBackground] = useState<string>(
-    colors.background || '#e7e5e4',
+    colors?.background ?? '#e7e5e4',
   );
   const ratio: number = hex(hexForeground, hexBackground);
   const wcag: string = score(ratio);
@@ -143,7 +143,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
           </Tooltip>
         </div>
       </div>
-      <div className="flex items-center justify-center">
+      <div className="flex flex-col gap-2 items-center justify-center">
         <Button
           variant={disabled ? 'disabled' : 'primaryDark'}
           weight="semibold"
@@ -153,6 +153,12 @@ export const Colors = ({ colors, tenantId }: Props) => {
         >
           Update
         </Button>
+        {wcag === 'Fail' && (
+          <p className='text-sm text-red-700'><span className='font-semibold'>Bad contrast!</span> Do not use this palette</p>
+        )}
+        {wcag === 'AAA' && (
+          <p className='text-sm text-green-700'><span className='font-semibold'>Good contrast!</span> Use this palette</p>
+        )}
       </div>
     </form>
   );

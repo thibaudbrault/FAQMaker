@@ -29,7 +29,7 @@ export const Integrations = ({ tenantId }: Props) => {
     resolver: zodResolver(integrationsClientSchema),
     mode: 'onBlur',
     defaultValues: {
-      slack: integrations.slack ?? '',
+      slack: integrations?.slack ?? '',
     },
   });
 
