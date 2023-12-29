@@ -11,7 +11,7 @@ import { PageLayout } from '@/layouts';
 import { getMe, getNodes, getNodesCount, ssrNcHandler } from '@/lib';
 import { List, Search } from '@/modules';
 import { ExtendedNode, UserWithTenant } from '@/types';
-import { QueryKeys, Redirects } from '@/utils';
+import { OFFSET, QueryKeys, Redirects } from '@/utils';
 
 type Props = {
   me: UserWithTenant;
@@ -64,7 +64,9 @@ function Home({ me }: Props) {
         error={error}
         message={message}
       />
-      <Pagination nodesLength={nodesCount} setPage={setPage} />
+      {nodesCount > OFFSET && (
+        <Pagination nodesLength={nodesCount} setPage={setPage} />
+      )}
     </PageLayout>
   );
 }
