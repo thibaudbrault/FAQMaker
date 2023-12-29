@@ -12,7 +12,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button, errorToast, Field, Input, Loader } from '@/components';
-import { useCreateNode, useIntegration, useTags } from '@/hooks';
+import { useCreateNode, useIntegration, useMediaQuery, useTags } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import {
   getIntegration,
@@ -34,6 +34,7 @@ type Schema = z.infer<typeof questionClientSchema>;
 function New({ me }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const isDesktop = useMediaQuery('(min-width: 640px)');
 
   const {
     register,
@@ -72,7 +73,7 @@ function New({ me }: Props) {
 
   return (
     <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
-      <section className="mx-auto flex w-3/4 flex-col gap-4">
+      <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
         <Button
           variant="primaryDark"
           weight="semibold"
@@ -95,7 +96,7 @@ function New({ me }: Props) {
             <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-secondary">
               <div className="w-full text-center">
                 <legend
-                  className="font-serif text-4xl font-semibold lowercase"
+                  className="font-serif text-3xl font-semibold lowercase md:text-4xl"
                   style={{ fontVariant: 'small-caps' }}
                 >
                   Ask a question
@@ -108,7 +109,7 @@ function New({ me }: Props) {
               >
                 <Input
                   {...register('text')}
-                  withIcon
+                  withIcon={isDesktop}
                   icon={<HelpCircle />}
                   type="text"
                   id="question"

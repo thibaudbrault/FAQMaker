@@ -64,9 +64,9 @@ export const Integrations = ({ tenantId }: Props) => {
   }
 
   return (
-    <div className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-default p-4">
+    <div className="flex flex-col gap-4">
       <h2
-        className="text-center font-serif text-4xl font-semibold lowercase"
+        className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
         style={{ fontVariant: 'small-caps' }}
       >
         Integrations
@@ -79,7 +79,7 @@ export const Integrations = ({ tenantId }: Props) => {
           {fields.map((field) => (
             <div
               key={field.value}
-              className="flex flex-1 flex-col gap-1 [&_svg]:focus-within:text-secondary"
+              className="flex flex-1 flex-col [&_svg]:focus-within:text-secondary"
             >
               <Field
                 label={field.label}

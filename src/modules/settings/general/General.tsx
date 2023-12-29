@@ -15,19 +15,19 @@ export const General = ({ tenantId, tenant, isPending }: Props) => {
   return (
     <>
       {tenant.plan !== 'free' && (
-        <section className="relative">
+        <section className="w-full rounded-md bg-default p-4">
           <Colors colors={tenant.color} tenantId={tenantId} />
         </section>
       )}
-      <section className="relative">
+      <section className="w-full rounded-md bg-default p-4">
         <Company tenant={tenant} isPending={isPending} />
       </section>
       {tenant.plan !== 'free' && (
-        <section className="relative">
+        <section className="w-full rounded-md bg-default p-4">
           <Integrations tenantId={tenantId} />
         </section>
       )}
-      <section className="relative">
+      <section className="w-full">
         <Data tenantId={tenantId} plan={tenant.plan} />
       </section>
     </>

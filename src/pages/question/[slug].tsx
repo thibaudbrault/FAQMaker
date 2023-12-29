@@ -50,7 +50,7 @@ function QuestionPage({ me, id }: Props) {
   if (node) {
     return (
       <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
-        <section className="mx-auto flex w-3/4 flex-col gap-4">
+        <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <div className="flex items-center justify-between">
             <Button
               variant="primaryDark"

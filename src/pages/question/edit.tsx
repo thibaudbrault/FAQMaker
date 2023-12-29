@@ -12,7 +12,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button, Field, Input, Loader, errorToast } from '@/components';
-import { useNode, useTags, useUpdateNode } from '@/hooks';
+import { useMediaQuery, useNode, useTags, useUpdateNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import {
   getMe,
@@ -35,6 +35,7 @@ type Schema = z.infer<typeof questionClientSchema>;
 function Edit({ me, id }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const isDesktop = useMediaQuery('(min-width: 640px)');
 
   const { data: tags, isPending: isTagsLoading } = useTags(me.tenantId);
   const { data: node, isPending } = useNode(me.tenantId, id as string);
@@ -86,7 +87,7 @@ function Edit({ me, id }: Props) {
   if (node) {
     return (
       <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
-        <section className="mx-auto flex w-3/4 flex-col gap-4">
+        <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <Button
             variant="primaryDark"
             weight="semibold"
@@ -112,10 +113,10 @@ function Edit({ me, id }: Props) {
               className="flex flex-col items-center justify-center gap-4 "
               onSubmit={handleSubmit(onSubmit)}
             >
-              <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-secondary">
+              <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-secondary">
                 <div className="w-full text-center">
                   <legend
-                    className="font-serif text-4xl font-semibold lowercase"
+                    className="font-serif text-3xl font-semibold lowercase md:text-4xl"
                     style={{ fontVariant: 'small-caps' }}
                   >
                     Edit the question
@@ -128,7 +129,7 @@ function Edit({ me, id }: Props) {
                 >
                   <Input
                     {...register('text')}
-                    withIcon
+                    withIcon={isDesktop}
                     icon={<HelpCircle />}
                     type="text"
                     id="question"

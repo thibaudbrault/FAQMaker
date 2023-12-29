@@ -4,7 +4,15 @@ import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
-import { Button, Drawer, DrawerContent, DrawerTrigger, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
+import {
+  Button,
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components';
 import { useCreateBillingPortal, useMediaQuery, useUser } from '@/hooks';
 import { cn } from '@/utils';
 
@@ -34,114 +42,113 @@ export const Header = ({ id, company, tenantId }: Props) => {
           {company}
         </Link>
       </h1>
-      {isDesktop ? (
-        user && (
-          <div className="flex items-end gap-4">
-            {!isPending && (
-              <ul className="flex gap-4">
-                <li>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Link
-                        href="/profile"
-                        className="flex items-center gap-1 hover:text-negativeOffset"
-                      >
-                        {user.image ? (
-                          <Image
-                            src={user.image}
-                            alt="Profile"
-                            width={24}
-                            height={24}
-                            className="rounded-full"
-                          />
-                        ) : (
-                          <UserIcon />
-                        )}
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent className={cn(tooltipClass)}>
-                      <p>Profile</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </li>
-                {user?.role !== 'user' && (
+      {isDesktop
+        ? user && (
+            <div className="flex items-end gap-4">
+              {!isPending && (
+                <ul className="flex gap-4">
                   <li>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Link
-                          href="/settings"
-                          className="hover:text-negativeOffset"
+                          href="/profile"
+                          className="flex items-center gap-1 hover:text-negativeOffset"
                         >
-                          <Settings />
+                          {user.image ? (
+                            <Image
+                              src={user.image}
+                              alt="Profile"
+                              width={24}
+                              height={24}
+                              className="rounded-full"
+                            />
+                          ) : (
+                            <UserIcon />
+                          )}
                         </Link>
                       </TooltipTrigger>
                       <TooltipContent className={cn(tooltipClass)}>
-                        <p>Settings</p>
+                        <p>Profile</p>
                       </TooltipContent>
                     </Tooltip>
                   </li>
-                )}
-                {user?.role === 'tenant' && (
+                  {user?.role !== 'user' && (
+                    <li>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Link
+                            href="/settings"
+                            className="hover:text-negativeOffset"
+                          >
+                            <Settings />
+                          </Link>
+                        </TooltipTrigger>
+                        <TooltipContent className={cn(tooltipClass)}>
+                          <p>Settings</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </li>
+                  )}
+                  {user?.role === 'tenant' && (
+                    <li>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <form onSubmit={handleSubmit(onSubmit)}>
+                            <button className="hover:text-negativeOffset">
+                              <Wallet />
+                            </button>
+                          </form>
+                        </TooltipTrigger>
+                        <TooltipContent className={cn(tooltipClass)}>
+                          <p>Billing</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </li>
+                  )}
                   <li>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                          <button className="hover:text-negativeOffset">
-                            <Wallet />
-                          </button>
-                        </form>
+                        <button
+                          onClick={() => signOut()}
+                          className="hover:text-negativeOffset"
+                        >
+                          <LogOut />
+                        </button>
                       </TooltipTrigger>
                       <TooltipContent className={cn(tooltipClass)}>
-                        <p>Billing</p>
+                        <p>Logout</p>
                       </TooltipContent>
                     </Tooltip>
                   </li>
-                )}
-                <li>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <button
-                        onClick={() => signOut()}
-                        className="hover:text-negativeOffset"
-                      >
-                        <LogOut />
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent className={cn(tooltipClass)}>
-                      <p>Logout</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </li>
-              </ul>
-            )}
-            <Button
-              variant="primaryLight"
-              font="large"
-              size="small"
-              weight="semibold"
-              className="lowercase"
-              style={{ fontVariant: 'small-caps' }}
-              asChild
-            >
-              <Link href="/question/new">New Question</Link>
-            </Button>
-          </div>
-        )
-      ) : (
-        user && (
-          <Drawer>
-            <DrawerTrigger><AlignJustify /></DrawerTrigger>
+                </ul>
+              )}
+              <Button
+                variant="primaryLight"
+                font="large"
+                size="small"
+                weight="semibold"
+                className="lowercase"
+                style={{ fontVariant: 'small-caps' }}
+                asChild
+              >
+                <Link href="/question/new">New Question</Link>
+              </Button>
+            </div>
+          )
+        : user && (
+            <Drawer>
+              <DrawerTrigger>
+                <AlignJustify />
+              </DrawerTrigger>
               <DrawerContent>
-                <div className='flex flex-col items-center gap-2 mt-5 text-xl font-semibold mb-10'>
+                <div className="mb-10 mt-5 flex flex-col items-center gap-2 text-xl font-semibold">
                   <Link href="/profile">Profile</Link>
                   {user.role !== 'user' && (
                     <Link href="/settings">Settings</Link>
                   )}
                   {user.role === 'tenant' && (
                     <form onSubmit={handleSubmit(onSubmit)}>
-                      <button>
-                        Billing
-                      </button>
+                      <button>Billing</button>
                     </form>
                   )}
                   <button onClick={() => signOut()}>Logout</button>
@@ -149,9 +156,8 @@ export const Header = ({ id, company, tenantId }: Props) => {
                   <Link href="/question/new">New Question</Link>
                 </div>
               </DrawerContent>
-          </Drawer>
-        )
-      )}
+            </Drawer>
+          )}
     </header>
   );
 };

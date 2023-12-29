@@ -71,17 +71,14 @@ export const Colors = ({ colors, tenantId }: Props) => {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-default p-4"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <h2
         className="text-center font-serif text-4xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
       >
         Colors
       </h2>
-      <div className="mb-2 flex items-center justify-evenly">
+      <div className="mb-2 flex flex-col items-center justify-evenly gap-2 sm:flex-row">
         <Controller
           control={control}
           name="foreground"
@@ -143,7 +140,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
           </Tooltip>
         </div>
       </div>
-      <div className="flex flex-col gap-2 items-center justify-center">
+      <div className="flex flex-col items-center justify-center gap-2">
         <Button
           variant={disabled ? 'disabled' : 'primaryDark'}
           weight="semibold"
@@ -154,10 +151,16 @@ export const Colors = ({ colors, tenantId }: Props) => {
           Update
         </Button>
         {wcag === 'Fail' && (
-          <p className='text-sm text-red-700'><span className='font-semibold'>Bad contrast!</span> Do not use this palette</p>
+          <p className="text-sm text-red-700">
+            <span className="font-semibold">Bad contrast!</span> Do not use this
+            palette
+          </p>
         )}
         {wcag === 'AAA' && (
-          <p className='text-sm text-green-700'><span className='font-semibold'>Good contrast!</span> Use this palette</p>
+          <p className="text-sm text-green-700">
+            <span className="font-semibold">Good contrast!</span> Use this
+            palette
+          </p>
         )}
       </div>
     </form>

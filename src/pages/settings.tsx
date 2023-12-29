@@ -50,9 +50,9 @@ function Settings({ me }: Props) {
 
   return (
     <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
-      <section className="flex flex-col items-center p-4 pb-12">
+      <section className="mx-auto flex w-11/12 flex-col items-center pb-12 md:w-3/4">
         <h2
-          className="font-serif text-6xl lowercase"
+          className="font-serif text-5xl lowercase md:text-6xl"
           style={{ fontVariant: 'small-caps' }}
         >
           Settings
@@ -70,7 +70,7 @@ function Settings({ me }: Props) {
               </TabsTrigger>
             ))}
           </TabsList>
-          <TabsContent value="general">
+          <TabsContent value="general" className="flex flex-col gap-4">
             <General
               tenantId={me.tenantId}
               tenant={tenant}

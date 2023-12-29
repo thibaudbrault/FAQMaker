@@ -32,7 +32,7 @@ export const Tags = ({ tenantId }: Props) => {
   }
 
   return (
-    <section className="mx-auto w-3/4">
+    <section className="mx-auto w-11/12 md:w-3/4">
       {tags.length > 0 ? (
         <ul className="my-6 flex flex-wrap gap-4">
           {tags.map((tag) => (

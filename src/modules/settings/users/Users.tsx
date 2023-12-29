@@ -39,43 +39,41 @@ export const Users = ({ userId, tenantId }: Props) => {
   const iconStyle = 'w-9 h-9 m-3 inline-flex flex-shrink-0 items-center';
 
   return (
-    <section className="mx-auto w-3/4">
+    <section className="mx-auto w-11/12 md:w-3/4">
       <ul className="flex flex-col gap-4">
         {users?.map((user) => (
           <li
             key={user.id}
             className="rounded-md border border-stone-200 bg-default p-6 shadow-sm"
           >
-            <div className="flex justify-between">
-              <div className="flex w-full justify-between">
-                <div className="flex justify-start">
-                  {user.role === 'user' ? (
-                    <UserIcon className={iconStyle} />
-                  ) : (
-                    <ShieldAlert className={iconStyle} />
-                  )}
-                  <div className="flex flex-col items-start">
-                    <h2 className="text-2xl">
-                      <b>{user.name}</b>
-                    </h2>
-                    <p>{user.email}</p>
-                  </div>
+            <div className="flex w-full flex-col justify-between gap-2 md:flex-row md:gap-0">
+              <div className="flex items-center justify-start">
+                {user.role === 'user' ? (
+                  <UserIcon className={iconStyle} />
+                ) : (
+                  <ShieldAlert className={iconStyle} />
+                )}
+                <div className="flex flex-col items-start">
+                  <h2 className="text-2xl">
+                    <b>{user.name}</b>
+                  </h2>
+                  <p>{user.email}</p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <UpdateUser user={user} tenantId={tenantId} />
-                  {(user.role === 'user' || user.id !== userId) && (
-                    <Button
-                      variant="secondary"
-                      size="small"
-                      weight="semibold"
-                      className="lowercase"
-                      style={{ fontVariant: 'small-caps' }}
-                      onClick={() => handleDeleteUser(user.id)}
-                    >
-                      Delete
-                    </Button>
-                  )}
-                </div>
+              </div>
+              <div className="flex items-center justify-center gap-2">
+                <UpdateUser user={user} tenantId={tenantId} />
+                {(user.role === 'user' || user.id !== userId) && (
+                  <Button
+                    variant="secondary"
+                    size="small"
+                    weight="semibold"
+                    className="lowercase"
+                    style={{ fontVariant: 'small-caps' }}
+                    onClick={() => handleDeleteUser(user.id)}
+                  >
+                    Delete
+                  </Button>
+                )}
               </div>
             </div>
           </li>
