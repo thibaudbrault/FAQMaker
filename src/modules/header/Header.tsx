@@ -5,7 +5,7 @@ import { signOut } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
-import { useCreateBillingPortal, useUser } from '@/hooks';
+import { useCreateBillingPortal, useMediaQuery, useUser } from '@/hooks';
 import { cn } from '@/utils';
 
 type Props = {
@@ -17,6 +17,8 @@ type Props = {
 export const Header = ({ id, company, tenantId }: Props) => {
   const { handleSubmit } = useForm();
   const { data: user, isPending } = useUser(id);
+  const desktop = useMediaQuery('(min-width: 640px)');
+  console.log(desktop)
 
   const { mutate } = useCreateBillingPortal(tenantId);
 
@@ -33,97 +35,101 @@ export const Header = ({ id, company, tenantId }: Props) => {
           {company}
         </Link>
       </h1>
-      {user && (
-        <div className="flex items-end gap-4">
-          {!isPending && (
-            <ul className="flex gap-4">
-              <li>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Link
-                      href="/profile"
-                      className="flex items-center gap-1 hover:text-negativeOffset"
-                    >
-                      {user.image ? (
-                        <Image
-                          src={user.image}
-                          alt="Profile"
-                          width={24}
-                          height={24}
-                          className="rounded-full"
-                        />
-                      ) : (
-                        <UserIcon />
-                      )}
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent className={cn(tooltipClass)}>
-                    <p>Profile</p>
-                  </TooltipContent>
-                </Tooltip>
-              </li>
-              {user?.role !== 'user' && (
+      {desktop ? (
+        user && (
+          <div className="flex items-end gap-4">
+            {!isPending && (
+              <ul className="flex gap-4">
                 <li>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Link
-                        href="/settings"
-                        className="hover:text-negativeOffset"
+                        href="/profile"
+                        className="flex items-center gap-1 hover:text-negativeOffset"
                       >
-                        <Settings />
+                        {user.image ? (
+                          <Image
+                            src={user.image}
+                            alt="Profile"
+                            width={24}
+                            height={24}
+                            className="rounded-full"
+                          />
+                        ) : (
+                          <UserIcon />
+                        )}
                       </Link>
                     </TooltipTrigger>
                     <TooltipContent className={cn(tooltipClass)}>
-                      <p>Settings</p>
+                      <p>Profile</p>
                     </TooltipContent>
                   </Tooltip>
                 </li>
-              )}
-              {user?.role === 'tenant' && (
+                {user?.role !== 'user' && (
+                  <li>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link
+                          href="/settings"
+                          className="hover:text-negativeOffset"
+                        >
+                          <Settings />
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent className={cn(tooltipClass)}>
+                        <p>Settings</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </li>
+                )}
+                {user?.role === 'tenant' && (
+                  <li>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                          <button className="hover:text-negativeOffset">
+                            <Wallet />
+                          </button>
+                        </form>
+                      </TooltipTrigger>
+                      <TooltipContent className={cn(tooltipClass)}>
+                        <p>Billing</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </li>
+                )}
                 <li>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <form onSubmit={handleSubmit(onSubmit)}>
-                        <button className="hover:text-negativeOffset">
-                          <Wallet />
-                        </button>
-                      </form>
+                      <button
+                        onClick={() => signOut()}
+                        className="hover:text-negativeOffset"
+                      >
+                        <LogOut />
+                      </button>
                     </TooltipTrigger>
                     <TooltipContent className={cn(tooltipClass)}>
-                      <p>Billing</p>
+                      <p>Logout</p>
                     </TooltipContent>
                   </Tooltip>
                 </li>
-              )}
-              <li>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <button
-                      onClick={() => signOut()}
-                      className="hover:text-negativeOffset"
-                    >
-                      <LogOut />
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent className={cn(tooltipClass)}>
-                    <p>Logout</p>
-                  </TooltipContent>
-                </Tooltip>
-              </li>
-            </ul>
-          )}
-          <Button
-            variant="primaryLight"
-            font="large"
-            size="small"
-            weight="semibold"
-            className="lowercase"
-            style={{ fontVariant: 'small-caps' }}
-            asChild
-          >
-            <Link href="/question/new">New Question</Link>
-          </Button>
-        </div>
+              </ul>
+            )}
+            <Button
+              variant="primaryLight"
+              font="large"
+              size="small"
+              weight="semibold"
+              className="lowercase"
+              style={{ fontVariant: 'small-caps' }}
+              asChild
+            >
+              <Link href="/question/new">New Question</Link>
+            </Button>
+          </div>
+        )
+      ) : (
+        <p>hello</p>
       )}
     </header>
   );
