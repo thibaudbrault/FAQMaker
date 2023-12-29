@@ -1,10 +1,10 @@
-import { LogOut, Settings, UserIcon, Wallet } from 'lucide-react';
+import { AlignJustify, LogOut, Settings, UserIcon, Wallet } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
+import { Button, Drawer, DrawerContent, DrawerTrigger, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
 import { useCreateBillingPortal, useMediaQuery, useUser } from '@/hooks';
 import { cn } from '@/utils';
 
@@ -17,8 +17,7 @@ type Props = {
 export const Header = ({ id, company, tenantId }: Props) => {
   const { handleSubmit } = useForm();
   const { data: user, isPending } = useUser(id);
-  const desktop = useMediaQuery('(min-width: 640px)');
-  console.log(desktop)
+  const isDesktop = useMediaQuery('(min-width: 640px)');
 
   const { mutate } = useCreateBillingPortal(tenantId);
 
@@ -35,7 +34,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
           {company}
         </Link>
       </h1>
-      {desktop ? (
+      {isDesktop ? (
         user && (
           <div className="flex items-end gap-4">
             {!isPending && (
@@ -129,7 +128,29 @@ export const Header = ({ id, company, tenantId }: Props) => {
           </div>
         )
       ) : (
-        <p>hello</p>
+        user && (
+          <Drawer>
+            <DrawerTrigger><AlignJustify /></DrawerTrigger>
+              <DrawerContent>
+                <div className='flex flex-col items-center gap-2 mt-5 text-xl font-semibold mb-10'>
+                  <Link href="/profile">Profile</Link>
+                  {user.role !== 'user' && (
+                    <Link href="/settings">Settings</Link>
+                  )}
+                  {user.role === 'tenant' && (
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <button>
+                        Billing
+                      </button>
+                    </form>
+                  )}
+                  <button onClick={() => signOut()}>Logout</button>
+                  <hr className="mx-auto my-2 h-px w-3/4 border-none bg-negative" />
+                  <Link href="/question/new">New Question</Link>
+                </div>
+              </DrawerContent>
+          </Drawer>
+        )
       )}
     </header>
   );
