@@ -21,11 +21,11 @@ function Plan() {
 
   const { mutate } = useCreateCheckout(state.customerId);
 
-  const saveData = (value: IPlan['value'], priceId: string) => {
+  const saveData = (value: IPlan['value'], lookup_key: string) => {
     if (value === 'free') {
       return router.push(Routes.SITE.LOGIN);
     } else {
-      return mutate(priceId);
+      return mutate(lookup_key);
     }
   };
 
@@ -35,7 +35,7 @@ function Plan() {
         label: 'Free',
         value: 'free',
         price: 0,
-        priceId: '',
+        lookup_key: 'free_monthly',
         message: 'Perfect to try out',
         benefits: ['5 users', 'Unlimited questions'],
         drawbacks: ['Slack integration', 'Theme personalization'],
@@ -43,8 +43,8 @@ function Plan() {
       {
         label: 'Startup',
         value: 'startup',
-        price: 29,
-        priceId: process.env.NEXT_PUBLIC_PRICE_STARTUP,
+        price: 19,
+        lookup_key: 'startup_monthly',
         message: 'Perfect for startups',
         benefits: [
           '100 users',
@@ -56,8 +56,8 @@ function Plan() {
       {
         label: 'Enterprise',
         value: 'enterprise',
-        price: 49,
-        priceId: process.env.NEXT_PUBLIC_PRICE_ENTERPRISE,
+        price: 29,
+        lookup_key: 'enterprise_monthly',
         message: 'Perfect for big companies',
         benefits: [
           'Unlimited users',
@@ -98,7 +98,9 @@ function Plan() {
         <section className="grid grid-cols-1 justify-evenly gap-8 md:grid-cols-2 lg:grid-cols-3">
           {plans.map((plan, index) => (
             <form
-              onSubmit={handleSubmit(() => saveData(plan.value, plan.priceId))}
+              onSubmit={handleSubmit(() =>
+                saveData(plan.value, plan.lookup_key),
+              )}
               key={index}
               className="w-full transform overflow-hidden rounded-md bg-default p-4 text-center transition duration-200 ease-in hover:scale-[1.02] hover:shadow-2xl"
             >

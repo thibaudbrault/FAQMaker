@@ -44,7 +44,7 @@ export interface IPlan {
   label: 'Free' | 'Startup' | 'Enterprise';
   value: 'free' | 'startup' | 'enterprise';
   price: number;
-  priceId: string;
+  lookup_key: string;
   icon?: ReactElement;
   message: string;
   benefits: string[];

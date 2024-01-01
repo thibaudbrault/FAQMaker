@@ -59,9 +59,9 @@ export default async function handler(
           const subscription = event.data.object as Stripe.Subscription;
           const subscriptionCustomer = subscription.customer as string;
           let subscriptionPlan: IPlan['value'] = 'free';
-          if (subscription.items.data[0].plan.amount === 2900) {
+          if (subscription.items.data[0].plan.amount === 1900) {
             subscriptionPlan = 'startup';
-          } else if (subscription.items.data[0].plan.amount === 4900) {
+          } else if (subscription.items.data[0].plan.amount === 2900) {
             subscriptionPlan = 'enterprise';
           }
           await prisma.tenant.update({

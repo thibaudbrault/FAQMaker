@@ -3,10 +3,10 @@ import axios from 'axios';
 
 import { Routes, getStripe } from '@/utils';
 
-const createCheckout = async (priceId, customerId: string) => {
+const createCheckout = async (lookup_key: string, customerId: string) => {
   const stripe = await getStripe();
   const body = {
-    priceId,
+    lookup_key,
     customerId,
   };
   const checkoutSession = await axios.post(Routes.API.CHECKOUT, body);
@@ -18,7 +18,7 @@ const createCheckout = async (priceId, customerId: string) => {
 
 export const useCreateCheckout = (customerId: string) => {
   const mutation = useMutation({
-    mutationFn: (priceId: string) => createCheckout(priceId, customerId),
+    mutationFn: (lookup_key: string) => createCheckout(lookup_key, customerId),
   });
   return mutation;
 };
