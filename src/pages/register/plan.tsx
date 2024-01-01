@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { Check, Minus, MoveRight, Wallet } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
@@ -25,9 +25,7 @@ function Plan() {
     if (value === 'free') {
       return router.push(Routes.SITE.LOGIN);
     } else {
-      const email = state.companyEmail;
-      const data = { value, priceId, email };
-      return mutate(data);
+      return mutate(priceId);
     }
   };
 
@@ -46,7 +44,7 @@ function Plan() {
         label: 'Business',
         value: 'business',
         price: 29,
-        priceId: 'price_1NsiZpDrot5aQrVBMkNYEvHY',
+        priceId: process.env.NEXT_PUBLIC_PRICE_BUSINESS,
         message: 'Perfect for startups',
         benefits: [
           '100 users',
@@ -59,7 +57,7 @@ function Plan() {
         label: 'Enterprise',
         value: 'enterprise',
         price: 49,
-        priceId: 'price_1NsiaSDrot5aQrVBVUb9xzTw',
+        priceId: process.env.NEXT_PUBLIC_PRICE_ENTERPRISE,
         message: 'Perfect for big companies',
         benefits: [
           'Unlimited users',

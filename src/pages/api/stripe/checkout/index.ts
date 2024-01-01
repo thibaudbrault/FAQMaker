@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
 
-import prisma from 'lib/prisma';
+import { Routes } from '@/utils';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16',
@@ -18,7 +18,7 @@ export default async function handler(
           .status(404)
           .json({ success: false, message: `Information not provided` });
       }
-      const { value, email, priceId, customerId } = req.body;
+      const { priceId, customerId } = req.body;
       const session = await stripe.checkout.sessions.create({
         line_items: [
           {
@@ -31,16 +31,10 @@ export default async function handler(
           address: 'auto',
         },
         mode: 'subscription',
-        success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/login`,
+        success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/${Routes.SITE.LOGIN}`,
         cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/register/plan?status=cancel`,
         automatic_tax: { enabled: true },
       });
-      // await prisma.tenant.update({
-      //   where: { email },
-      //   data: {
-      //     plan: value,
-      //   },
-      // });
       return res.json({ id: session.id });
     } catch (error) {
       if (error instanceof Error) {
