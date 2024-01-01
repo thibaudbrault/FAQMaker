@@ -90,7 +90,7 @@ function Register() {
           </Button>
         </div>
         <p className="text-center text-xs">
-          Already an account ?{' '}
+          Already have an account ?{' '}
           <Link
             className="font-semibold hover:underline"
             href={Routes.SITE.LOGIN}
