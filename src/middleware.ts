@@ -25,8 +25,7 @@ export default withAuth({
       )
         return true;
       if (
-        pathname ===
-        `${process.env.NEXT_PUBLIC_SITE_URL}/api/stripe/checkout/webhooks`
+        pathname === `${process.env.NEXT_PUBLIC_SITE_URL}/api/stripe/webhooks`
       )
         return true;
       if (
