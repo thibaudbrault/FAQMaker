@@ -10,5 +10,5 @@ export type RegisterInfo = {
   domain?: string;
   email: string;
   customerId?: string;
-  plan: 'free' | 'business' | 'enterprise';
+  plan: 'free' | 'startup' | 'enterprise';
 };

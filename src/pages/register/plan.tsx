@@ -41,10 +41,10 @@ function Plan() {
         drawbacks: ['Slack integration', 'Theme personalization'],
       },
       {
-        label: 'Business',
-        value: 'business',
+        label: 'Startup',
+        value: 'startup',
         price: 29,
-        priceId: process.env.NEXT_PUBLIC_PRICE_BUSINESS,
+        priceId: process.env.NEXT_PUBLIC_PRICE_STARTUP,
         message: 'Perfect for startups',
         benefits: [
           '100 users',

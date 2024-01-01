@@ -154,7 +154,7 @@ model Color {
 
 enum Plan {
   free
-  business
+  startup
   enterprise
 }
 

@@ -60,7 +60,7 @@ export default async function handler(
           const subscriptionCustomer = subscription.customer as string;
           let subscriptionPlan: IPlan['value'] = 'free';
           if (subscription.items.data[0].plan.amount === 2900) {
-            subscriptionPlan = 'business';
+            subscriptionPlan = 'startup';
           } else if (subscription.items.data[0].plan.amount === 4900) {
             subscriptionPlan = 'enterprise';
           }
@@ -80,7 +80,7 @@ export default async function handler(
           const paymentCustomer = payment.customer as string;
           let paymentPlan: IPlan['value'] = 'free';
           if (payment.amount === 2900) {
-            paymentPlan = 'business';
+            paymentPlan = 'startup';
           } else if (payment.amount === 4900) {
             paymentPlan = 'enterprise';
           }

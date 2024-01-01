@@ -41,8 +41,8 @@ export interface IIntegrations extends IFields {
 }
 
 export interface IPlan {
-  label: 'Free' | 'Business' | 'Enterprise';
-  value: 'free' | 'business' | 'enterprise';
+  label: 'Free' | 'Startup' | 'Enterprise';
+  value: 'free' | 'startup' | 'enterprise';
   price: number;
   priceId: string;
   icon?: ReactElement;

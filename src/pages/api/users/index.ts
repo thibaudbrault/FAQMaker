@@ -64,7 +64,7 @@ export default async function handler(
         });
         if (
           (plan === 'free' && usersCount >= 5) ||
-          (plan === 'business' && usersCount >= 100)
+          (plan === 'startup' && usersCount >= 100)
         ) {
           return res.status(402).json({
             success: false,
@@ -114,7 +114,7 @@ export default async function handler(
           });
           if (
             (plan === 'free' && usersCount >= 5) ||
-            (plan === 'business' && usersCount >= 100)
+            (plan === 'startup' && usersCount >= 100)
           ) {
             errors.push({
               email: userEmail,

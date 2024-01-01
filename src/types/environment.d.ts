@@ -14,7 +14,7 @@ declare global {
       NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: string;
       STRIPE_SECRET_KEY: string;
       STRIPE_WEBHOOK_SECRET: string;
-      NEXT_PUBLIC_PRICE_BUSINESS: string;
+      NEXT_PUBLIC_PRICE_STARTUP: string;
       NEXT_PUBLIC_PRICE_ENTERPRISE: string;
     }
   }
