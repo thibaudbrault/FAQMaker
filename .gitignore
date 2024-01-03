@@ -11,6 +11,7 @@ tsconfig.tsbuildinfo
 
 # testing
 /coverage
+/playwright
 
 # next.js
 /.next/
