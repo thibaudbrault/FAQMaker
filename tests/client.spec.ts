@@ -47,7 +47,7 @@ import prisma from '../lib/prisma';
 test('Can ask a question', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole("heading", {name: "Login"})).toBeVisible();
-  
+  await page.pause()
 });
 
 // test.afterAll(async () => {
