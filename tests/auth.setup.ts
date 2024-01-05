@@ -1,4 +1,4 @@
-import { test as setup, expect } from '@playwright/test';
+import { test as setup } from '@playwright/test';
 
 const authFile = 'playwright/.auth/user.json';
 
@@ -12,6 +12,5 @@ setup('authenticate', async ({ page }) => {
   await page.getByLabel('Enter your password').click();
   await page.getByLabel("Enter your password").fill(process.env.TEST_PASSWORD!);
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.pause()
   await page.context().storageState({ path: authFile });
 });
