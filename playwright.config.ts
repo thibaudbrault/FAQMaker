@@ -1,6 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 require("dotenv").config({ path: "./.env" });
 
+export const STORAGE_STATE = 'playwright/.auth/user.json';
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -19,12 +21,18 @@ export default defineConfig({
       use: {
         ...devices['Desktop Firefox'],
       },
-      testMatch: /.*\.setup\.ts/ },
+      testMatch: /.*\.setup\.ts/,
+      teardown: 'cleanup db'
+    },
+    {
+      name: 'cleanup db',
+      testMatch: /.*\.teardown\.ts/,
+    },
     {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/user.json',
+        storageState: STORAGE_STATE,
       },
       dependencies: ['setup'],
     },
@@ -33,16 +41,9 @@ export default defineConfig({
       name: 'firefox',
       use: {
         ...devices['Desktop Firefox'],
-        storageState: 'playwright/.auth/user.json',
+        storageState: STORAGE_STATE,
       },
       dependencies: ['setup'],
     },
   ],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
 });
