@@ -1,28 +1,5 @@
 import { expect, test } from '@playwright/test';
-import prisma from '../lib/prisma';
 
-// const createTenant = async () => {
-//   const res = await prisma.tenant.create({
-//     data: {
-//       email: 'tenant@test.com',
-//       plan: 'enterprise',
-//       company: 'TenantTest',
-//     },
-//   });
-//   return res;
-// };
-
-// const createUser = async (tenantId: string) => {
-//   const res = await prisma.user.create({
-//     data: {
-//       email: 'user@test.com',
-//       name: 'Test User',
-//       role: 'tenant',
-//       tenantId,
-//     },
-//   });
-//   return res;
-// };
 
 // const deleteTenant = async (id: string) => {
 //   await prisma.tenant.delete({
@@ -36,13 +13,7 @@ import prisma from '../lib/prisma';
 //   });
 // };
 
-// let tenant;
-// let user;
 
-// test.beforeEach(async () => {
-//   tenant = await createTenant();
-//   user = await createUser(tenant.id);
-// });
 
 test('Can ask a question', async ({ page }) => {
   await page.goto('/');
