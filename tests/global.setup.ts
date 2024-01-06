@@ -40,10 +40,10 @@ setup('authenticate', async ({ page }) => {
   await page.getByLabel('Email or phone').click();
   await page.getByLabel('Email or phone').fill(process.env.TEST_EMAIL!);
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForTimeout(1000)
+  await page.waitForTimeout(1000);
   await page.getByLabel('Enter your password').click();
-  await page.getByLabel("Enter your password").fill(process.env.TEST_PASSWORD!);
+  await page.getByLabel('Enter your password').fill(process.env.TEST_PASSWORD!);
   await page.getByRole('button', { name: 'Next' }).click();
-  await page.waitForURL('/')
+  await page.waitForURL('/');
   await page.context().storageState({ path: STORAGE_STATE });
 });
