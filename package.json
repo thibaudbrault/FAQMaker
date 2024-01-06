@@ -10,6 +10,7 @@
     "start": "next start --port ${PORT-3000}",
     "test": "pnpm exec playwright test",
     "test:headed": "pnpm exec playwright test --headed",
+    "install:playwright": "pnpm exec playwright install --with-deps",
     "migrate:dev": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
     "migrate:status": "prisma migrate status",
