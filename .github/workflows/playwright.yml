@@ -16,7 +16,9 @@ jobs:
         with:
           version: 8
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install && pnpm install:playwright
+      - name: Migrate database
+        run: pnpm push
       - name: Run your tests
         run: pnpm test
         env:
