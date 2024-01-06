@@ -8,7 +8,7 @@
     "compose": "docker compose up -d",
     "build": "pnpm migrate:deploy && next build",
     "start": "next start --port ${PORT-3000}",
-    "test": "pnpm dlx playwright test",
+    "test": "pnpm exec playwright test",
     "test:headed": "pnpm exec playwright test --headed",
     "migrate:dev": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
@@ -73,7 +73,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
-    "@playwright/test": "^1.39.0",
+    "@playwright/test": "^1.40.1",
     "@swc-jotai/react-refresh": "^0.1.0",
     "@types/node": "^20.5.6",
     "@types/react": "^18.0.27",
