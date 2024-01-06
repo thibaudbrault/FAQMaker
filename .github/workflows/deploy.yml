@@ -9,7 +9,6 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    name: Deploy
     runs-on: ubuntu-latest
 
     steps:
