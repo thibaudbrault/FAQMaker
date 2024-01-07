@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
 import { AxiosError } from 'axios';
-import { AtSign } from 'lucide-react';
+import { AtSign, UserIcon } from 'lucide-react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -107,6 +107,7 @@ const Form = ({ user, tenantId }: Props) => {
     resolver: zodResolver(updateUserClientSchema),
     mode: 'onBlur',
     defaultValues: {
+      name: user.name,
       email: user.email,
       role: user.role,
     },
@@ -131,6 +132,20 @@ const Form = ({ user, tenantId }: Props) => {
       className="flex flex-col items-center gap-4"
     >
       <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
+        <div className="flex flex-col gap-1 [&_svg]:focus-within:text-secondary">
+          <Field label={'Name'} value={'name'} error={errors.name?.message}>
+            <Input
+              {...register('name', { required: true })}
+              withIcon
+              defaultValue={user.name}
+              icon={<UserIcon className="h-5 w-5" />}
+              type="name"
+              id="name"
+              placeholder="Name"
+              className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
+            />
+          </Field>
+        </div>
         <div className="flex flex-col gap-1 [&_svg]:focus-within:text-secondary">
           <Field label={'Email'} value={'email'} error={errors.email?.message}>
             <Input
@@ -167,8 +182,12 @@ const Form = ({ user, tenantId }: Props) => {
                     <SelectValue placeholder="Select a role" />
                   </SelectTrigger>
                   <SelectContent className="bg-stone-200">
-                    <SelectItem value="user">User</SelectItem>
-                    <SelectItem value="admin">Admin</SelectItem>
+                    <SelectItem value="user" className="pl-8">
+                      User
+                    </SelectItem>
+                    <SelectItem value="admin" className="pl-8">
+                      Admin
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               )}
