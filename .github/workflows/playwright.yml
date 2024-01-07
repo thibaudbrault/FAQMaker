@@ -32,9 +32,9 @@ jobs:
         run: pnpm install && pnpm install:playwright
 
       - name: Migrate database
-        run: pnpm migrate:deploy
+        run: pnpm push
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: postgresql://faqmakerUser:faqmakerPw@localhost:5432/faqmakerDb?schema=public
 
       - name: Run Playwright tests
         run: pnpm test
