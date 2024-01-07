@@ -17,6 +17,9 @@ const getUser = async () => {
 };
 
 const deleteTenant = async () => {
+  await prisma.tag.deleteMany({
+    where: { tenantId: tenant?.id },
+  });
   await prisma.tenant.delete({
     where: { id: tenant?.id },
   });
