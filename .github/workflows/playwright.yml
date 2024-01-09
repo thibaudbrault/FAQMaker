@@ -21,6 +21,7 @@ jobs:
         env:
           POSTGRES_USER: faqmakerUser
           POSTGRES_PASSWORD: faqmakerPwd
+          POSTGRES_DB: faqmakerDb
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -49,6 +50,9 @@ jobs:
 
       - name: Build application
         run: pnpm build:ci
+
+      - name: Start application
+        run: pnpm start &
 
       - name: Migrate database
         run: pnpm push
