@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: main
 
-env:
-  DATABASE_URL: postgresql://faqmakerUser:faqmakerPw@localhost:5432/faqmakerDb?schema=public
-
 jobs:
   test:
     env:
@@ -19,9 +16,8 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: faqmakerUser
-          POSTGRES_PASSWORD: faqmakerPwd
-          POSTGRES_DB: faqmakerDb
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -54,11 +50,10 @@ jobs:
       - name: Start application
         run: pnpm start &
 
-      - name: Start Docker
-        run: pnpm compose
-
       - name: Migrate database
         run: pnpm push
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
 
       - name: Run Playwright tests
         run: pnpm test
