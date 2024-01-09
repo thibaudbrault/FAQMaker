@@ -29,8 +29,8 @@ export default async function handler(
           include: {
             color: {
               select: {
-                primary: true,
-                secondary: true,
+                foreground: true,
+                background: true,
               },
             },
           },

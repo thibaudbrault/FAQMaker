@@ -19,6 +19,7 @@ export const Routes = {
     USERS: '/api/users',
     NODES: '/api/nodes',
     CHECKOUT: '/api/stripe/checkout',
+    COLORS: '/api/colors',
     CUSTOMER: '/api/stripe/customer',
     BILLING: '/api/stripe/billing',
     ANSWERS: '/api/answers',
@@ -27,6 +28,10 @@ export const Routes = {
     TAGS: '/api/tags',
     TENANT: '/api/tenant',
     WEBHOOKS: '/api/stripe/webhooks',
+    INTEGRATIONS: {
+      INDEX: '/api/integrations',
+      SLACK: '/api/integrations/slack',
+    },
   },
 } as const;
 

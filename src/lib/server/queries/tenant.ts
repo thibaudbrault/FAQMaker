@@ -6,8 +6,8 @@ export const getTenant = async (tenantId: string) => {
     include: {
       color: {
         select: {
-          primary: true,
-          secondary: true,
+          foreground: true,
+          background: true,
         },
       },
     },

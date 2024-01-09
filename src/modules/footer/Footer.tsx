@@ -12,7 +12,7 @@ export const Footer = ({ company }: Props) => {
       <p>© {year} FAQMaker</p>
       <p className="text-sm font-bold">{company}</p>
       <a href="mailto:contact@faqmaker.co" className="hover:underline">
-        contact@faqmaker.co
+        Contact
       </a>
     </footer>
   );

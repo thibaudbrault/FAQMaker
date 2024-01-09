@@ -1,13 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
-import { IPlan } from '@/types';
 import { Routes, getStripe } from '@/utils';
 
-const createCheckout = async (data: DataObject, customerId: string) => {
+const createCheckout = async (lookup_key: string, customerId: string) => {
   const stripe = await getStripe();
   const body = {
-    ...data,
+    lookup_key,
     customerId,
   };
   const checkoutSession = await axios.post(Routes.API.CHECKOUT, body);
@@ -17,15 +16,9 @@ const createCheckout = async (data: DataObject, customerId: string) => {
   return result;
 };
 
-type DataObject = {
-  value: Exclude<IPlan['value'], 'free'>;
-  priceId: string;
-  email: string;
-};
-
 export const useCreateCheckout = (customerId: string) => {
   const mutation = useMutation({
-    mutationFn: (data: DataObject) => createCheckout(data, customerId),
+    mutationFn: (lookup_key: string) => createCheckout(lookup_key, customerId),
   });
   return mutation;
 };

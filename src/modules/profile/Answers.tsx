@@ -22,7 +22,7 @@ export const UserAnswers = ({ nodes, isPending }: Props) => {
   return (
     <>
       <h2
-        className="text-center font-serif text-4xl font-semibold lowercase"
+        className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
         style={{ fontVariant: 'small-caps' }}
       >
         Answers

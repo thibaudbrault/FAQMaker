@@ -29,7 +29,7 @@ export const Search = ({ setSearchQuery }: Props) => {
     <section className="flex w-full justify-center">
       <form
         onSubmit={handleSubmit(onSearch)}
-        className="group/search flex w-3/4 flex-col gap-1 [&_svg]:focus-within:text-secondary"
+        className="group/search flex w-11/12 flex-col gap-1 md:w-3/4 [&_svg]:focus-within:text-secondary"
       >
         <Label
           htmlFor="search"

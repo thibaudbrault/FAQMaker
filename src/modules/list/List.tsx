@@ -29,7 +29,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
   return (
     <section className="mt-6">
       {nodes.length > 0 ? (
-        <ul className="mx-auto flex w-3/4 flex-col gap-2">
+        <ul className="mx-auto flex w-11/12 flex-col gap-2 md:w-3/4">
           {nodes.map((node) => (
             <li
               className="relative rounded-md bg-default transition-all duration-300 hover:-translate-y-[2px] hover:shadow-md"
@@ -59,13 +59,33 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                   <ChevronDown />
                 </summary>
                 <hr className="mx-auto my-6 h-px w-3/4 border-none bg-negative" />
-                <div className="mb-6 px-6">
-                  {node.answer ? (
+                {node.answer ? (
+                  <div className="mb-6 px-6">
                     <MarkdownPreview source={node.answer.text} />
-                  ) : (
-                    <p className="text-center italic">No answer</p>
-                  )}
-                </div>
+                  </div>
+                ) : (
+                  <div className="mb-6 flex items-center justify-center">
+                    <Button
+                      variant="primaryDark"
+                      size="medium"
+                      font="large"
+                      weight="bold"
+                      className="lowercase"
+                      style={{ fontVariant: 'small-caps' }}
+                      asChild
+                    >
+                      <Link
+                        href={{
+                          pathname: '/question/answer',
+                          query: { id: node.id },
+                        }}
+                        as={`/question/answer?id=${node.id}`}
+                      >
+                        Answer
+                      </Link>
+                    </Button>
+                  </div>
+                )}
               </details>
               <Button
                 variant="primaryLight"

@@ -11,4 +11,5 @@ export const QueryKeys = {
   TAGS: 'tags',
   TENANT: 'tenant',
   SEARCH: 'search',
+  INTEGRATION: 'integration',
 } as const;

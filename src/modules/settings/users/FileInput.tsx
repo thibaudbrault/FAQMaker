@@ -1,12 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FileUp } from 'lucide-react';
 import Papa from 'papaparse';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import { Button, Input } from '@/components';
+import { useCreateUsers } from '@/hooks';
+import { csvUploadClientSchema } from '@/lib';
 
-export const FileInput = () => {
+type Props = {
+  tenantId: string;
+};
+
+type Schema = z.infer<typeof csvUploadClientSchema>;
+
+export const FileInput = ({ tenantId }: Props) => {
   const [fileName, setFileName] = useState('');
   const [csvData, setCsvData] = useState([]);
   const fileInput = useRef(null);
@@ -16,7 +26,12 @@ export const FileInput = () => {
     register,
     handleSubmit,
     formState: { isSubmitting, isValid },
-  } = useForm();
+  } = useForm<Schema>({
+    resolver: zodResolver(csvUploadClientSchema),
+    defaultValues: {
+      name: '',
+    },
+  });
 
   const handleButtonClick = () => {
     fileInput.current.click();
@@ -33,8 +48,10 @@ export const FileInput = () => {
     });
   };
 
-  const onSubmit = (values) => {
-    console.log('🚀 ~ file: FileInput.tsx:38 ~ onSubmit ~ values:', values);
+  const { mutate, isError, error } = useCreateUsers(tenantId, csvData);
+
+  const onSubmit: SubmitHandler<Schema> = (values) => {
+    mutate(values);
   };
 
   useEffect(() => {
@@ -45,7 +62,7 @@ export const FileInput = () => {
     <div className="flex flex-col">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="grid grid-cols-3 grid-rows-1"
+        className="grid grid-cols-2 grid-rows-1 md:grid-cols-3"
       >
         <Button
           variant="secondary"
@@ -53,7 +70,7 @@ export const FileInput = () => {
           font="large"
           icon="withIcon"
           weight="semibold"
-          className="rounded-r-none lowercase"
+          className="rounded-none rounded-tl-md lowercase md:rounded-l-md"
           style={{ fontVariant: 'small-caps' }}
           onClick={handleButtonClick}
           type="button"
@@ -62,7 +79,6 @@ export const FileInput = () => {
           {fileName ? `${fileName}` : 'Use a CSV'}
         </Button>
         <input
-          {...register('file', { required: true })}
           type="file"
           id="file"
           accept=".csv"
@@ -75,14 +91,14 @@ export const FileInput = () => {
           type="text"
           id="column"
           placeholder="Column name"
-          className=" border-y border-y-secondary bg-transparent px-1 outline-none"
+          className="rounded-tr-md border border-secondary bg-transparent px-1 outline-none md:rounded-none md:border-x-0 md:border-y md:border-y-secondary"
         />
         <Button
           variant={disabled ? 'disabled' : 'primaryDark'}
           size="full"
           font="large"
           weight="semibold"
-          className="col-start-3 rounded-l-none lowercase"
+          className="col-span-2 rounded-none rounded-b-md lowercase md:col-start-3 md:rounded-l-none md:rounded-r-md"
           style={{ fontVariant: 'small-caps' }}
           disabled={disabled}
           type="submit"

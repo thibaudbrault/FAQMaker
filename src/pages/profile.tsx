@@ -19,22 +19,34 @@ function Profile({ me }: Props) {
   );
   const { data: answers, isPending: isAnswersLoading } = useUserAnswers(me.id);
 
+  const sections = [
+    { component: <UpdateProfile me={me} /> },
+    {
+      component: (
+        <UserQuestions questions={questions} isPending={isQuestionsLoading} />
+      ),
+    },
+    { component: <UserAnswers nodes={answers} isPending={isAnswersLoading} /> },
+  ];
+
   return (
     <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
-      <section className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-default p-4">
-        <UpdateProfile me={me} />
-      </section>
-      <section className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-default p-4">
-        <UserQuestions questions={questions} isPending={isQuestionsLoading} />
-      </section>
-      <section className="mx-auto flex w-3/4 flex-col gap-4 rounded-md bg-default p-4">
-        <UserAnswers nodes={answers} isPending={isAnswersLoading} />
-      </section>
+      <div className="flex flex-col gap-4">
+        {sections.map((section, index) => (
+          <Section key={index}>{section.component}</Section>
+        ))}
+      </div>
     </PageLayout>
   );
 }
 
 export default Profile;
+
+const Section = ({ children }) => (
+  <section className="mx-auto flex w-11/12 flex-col gap-4 rounded-md bg-default p-4 md:w-3/4">
+    {children}
+  </section>
+);
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const callbackMe = async () => await getMe({ req });

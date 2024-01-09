@@ -33,7 +33,7 @@ export const authOptions: NextAuthOptions = {
         });
         if (
           (tenant.plan === 'free' && usersCount >= 5) ||
-          (tenant.plan === 'business' && usersCount >= 100)
+          (tenant.plan === 'startup' && usersCount >= 100)
         ) {
           return false;
         }

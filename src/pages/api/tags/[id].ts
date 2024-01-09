@@ -14,7 +14,7 @@ export default async function handler(
           .json({ success: false, message: `Tag not found` });
       }
       const id = req.query.id as string;
-      const tenantId = req.body as string;
+      const tenantId = req.body.tenantId as string;
       await prisma.tag.delete({
         where: { id, tenantId },
       });
