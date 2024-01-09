@@ -54,6 +54,9 @@ jobs:
       - name: Start application
         run: pnpm start &
 
+      - name: Start Docker
+        run: pnpm compose
+
       - name: Migrate database
         run: pnpm push
 
