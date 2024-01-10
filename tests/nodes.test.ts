@@ -29,7 +29,11 @@ test('Can answer a question', async ({ page }) => {
 
 test('Can edit a question', async ({ page }) => {
   await page.goto('/');
-  await page.locator('li').filter({ hasText: 'This is a questionThis is an' }).getByRole('link').click();
+  await page
+    .locator('li')
+    .filter({ hasText: 'This is a questionThis is an' })
+    .getByRole('link')
+    .click();
   await page.getByRole('button', { name: 'Edit' }).click();
   await page.getByRole('link', { name: 'Question' }).click();
   await page.waitForURL(/\/question\/edit/);
@@ -45,8 +49,9 @@ test('Can edit a question', async ({ page }) => {
 test('Can edit an answer', async ({ page }) => {
   await page.goto('/');
   await page
-    .getByRole('heading', { name: 'This is a modified question', exact: true }).click();
-  await expect(page.getByText('This is an answer')).toBeVisible()
+    .getByRole('heading', { name: 'This is a modified question', exact: true })
+    .click();
+  await expect(page.getByText('This is an answer')).toBeVisible();
   await page
     .locator('li')
     .filter({ hasText: 'This is a modified question' })
@@ -63,4 +68,17 @@ test('Can edit an answer', async ({ page }) => {
     .getByRole('heading', { name: 'This is a modified question' })
     .click();
   await expect(page.getByText('This is a modified answer')).toBeVisible();
+});
+
+test('Can return search results', async ({ page }) => {
+  await page.goto('/');
+  await page.getByPlaceholder('Search').click();
+  await page.getByPlaceholder('Search').fill('tag');
+  await page.getByPlaceholder('Search').press('Enter');
+  await expect(
+    page.getByRole('heading', { name: 'This is a question with a tag' }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'This is a modified question' }),
+  ).toBeHidden();
 });
