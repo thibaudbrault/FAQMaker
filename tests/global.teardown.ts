@@ -31,7 +31,7 @@ const deleteUser = async () => {
   });
 };
 
-const deleteNode = async () => {
+const deleteData = async () => {
   await prisma.answer.deleteMany({
     where: { userId: user?.id },
   });
@@ -39,6 +39,9 @@ const deleteNode = async () => {
     where: { userId: user?.id },
   });
   await prisma.node.deleteMany({
+    where: { tenantId: tenant?.id },
+  });
+  await prisma.integrations.deleteMany({
     where: { tenantId: tenant?.id },
   });
 };
@@ -52,7 +55,7 @@ teardown.beforeEach(async () => {
 });
 
 teardown('Empty db', async () => {
-  await deleteNode();
+  await deleteData();
   await deleteUser();
   await deleteTenant();
 });
