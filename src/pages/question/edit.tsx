@@ -89,7 +89,7 @@ function Edit({ me, id }: Props) {
       <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <Button
-            variant="primaryDark"
+            variant="primary"
             weight="semibold"
             icon="withIcon"
             font="large"
@@ -147,7 +147,7 @@ function Edit({ me, id }: Props) {
                 variant={
                   disabled && arraysAreEqual(tagsId, selectedTags)
                     ? 'disabled'
-                    : 'primaryDark'
+                    : 'primary'
                 }
                 type="submit"
                 weight="semibold"

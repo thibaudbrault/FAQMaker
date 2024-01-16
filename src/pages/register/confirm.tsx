@@ -126,7 +126,7 @@ function Confirm() {
             Previous
           </Button>
           <Button
-            variant={disabled ? 'disabled' : 'primaryDark'}
+            variant={disabled ? 'disabled' : 'primary'}
             size="full"
             font="large"
             weight="bold"

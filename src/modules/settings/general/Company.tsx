@@ -100,7 +100,7 @@ export const Company = ({ tenant, isPending }: Props) => {
           ))}
         </fieldset>
         <Button
-          variant={disabled ? 'disabled' : 'primaryDark'}
+          variant={disabled ? 'disabled' : 'primary'}
           weight="semibold"
           className="lowercase"
           style={{ fontVariant: 'small-caps' }}

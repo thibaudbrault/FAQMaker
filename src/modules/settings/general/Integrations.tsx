@@ -98,7 +98,7 @@ export const Integrations = ({ tenantId }: Props) => {
           ))}
         </fieldset>
         <Button
-          variant={disabled ? 'disabled' : 'primaryDark'}
+          variant={disabled ? 'disabled' : 'primary'}
           weight="semibold"
           className="lowercase"
           style={{ fontVariant: 'small-caps' }}

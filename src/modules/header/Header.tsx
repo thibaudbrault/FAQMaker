@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
 } from '@/components';
 import { useCreateBillingPortal, useMediaQuery, useUser } from '@/hooks';
-import { cn } from '@/utils';
+import { Routes, cn } from '@/utils';
 
 type Props = {
   id: string;
@@ -46,7 +46,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
         ? user && (
             <div className="flex items-end gap-4">
               {!isPending && (
-                <ul className="flex gap-4">
+                <ul className="flex gap-4 list-none">
                   <li>
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -123,7 +123,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
                 </ul>
               )}
               <Button
-                variant="primaryLight"
+                variant="ghost"
                 font="large"
                 size="small"
                 weight="semibold"
@@ -131,7 +131,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
                 style={{ fontVariant: 'small-caps' }}
                 asChild
               >
-                <Link href="/question/new">New Question</Link>
+                <Link href={Routes.SITE.QUESTION.NEW}>New Question</Link>
               </Button>
             </div>
           )
@@ -153,7 +153,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
                   )}
                   <button onClick={() => signOut()}>Logout</button>
                   <hr className="mx-auto my-2 h-px w-3/4 border-none bg-negative" />
-                  <Link href="/question/new">New Question</Link>
+                  <Link href={Routes.SITE.QUESTION.NEW}>New Question</Link>
                 </div>
               </DrawerContent>
             </Drawer>

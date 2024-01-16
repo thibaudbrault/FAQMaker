@@ -78,7 +78,7 @@ function Answer({ me, id }: Props) {
       <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <Button
-            variant="primaryDark"
+            variant="primary"
             weight="semibold"
             icon="withIcon"
             font="large"
@@ -132,7 +132,7 @@ function Answer({ me, id }: Props) {
                 </Link>
               </div>
               <Button
-                variant={disabled ? 'disabled' : 'primaryDark'}
+                variant={disabled ? 'disabled' : 'primary'}
                 type="submit"
                 weight="semibold"
                 className="lowercase"

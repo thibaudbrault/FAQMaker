@@ -40,7 +40,7 @@ export const CreateTag = ({ tenantId }: Props) => {
       <Dialog>
         <DialogTrigger asChild>
           <Button
-            variant="primaryDark"
+            variant="primary"
             icon="withIcon"
             font="large"
             size="full"
@@ -66,7 +66,7 @@ export const CreateTag = ({ tenantId }: Props) => {
     <Drawer>
       <DrawerTrigger asChild>
         <Button
-          variant="primaryDark"
+          variant="primary"
           icon="withIcon"
           font="large"
           size="full"
@@ -139,7 +139,7 @@ const Form = ({ tenantId }: Props) => {
         </Field>
       </fieldset>
       <Button
-        variant={disabled ? 'disabled' : 'primaryDark'}
+        variant={disabled ? 'disabled' : 'primary'}
         weight="semibold"
         className="lowercase"
         style={{ fontVariant: 'small-caps' }}

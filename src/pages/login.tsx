@@ -25,7 +25,7 @@ function Login() {
           <p className="text-sm text-offset">Use your associated account</p>
         </div>
         <Button
-          variant="primaryDark"
+          variant="primary"
           size="full"
           icon="withIcon"
           font="large"

@@ -45,7 +45,7 @@ export const CreateUser = ({ tenantId }: Props) => {
       <Dialog>
         <DialogTrigger asChild>
           <Button
-            variant="primaryDark"
+            variant="primary"
             size="full"
             font="large"
             icon="withIcon"
@@ -71,7 +71,7 @@ export const CreateUser = ({ tenantId }: Props) => {
     <Drawer>
       <DrawerTrigger asChild>
         <Button
-          variant="primaryDark"
+          variant="primary"
           size="full"
           font="large"
           icon="withIcon"
@@ -179,7 +179,7 @@ const Form = ({ tenantId }: Props) => {
         </div>
       </fieldset>
       <Button
-        variant={disabled ? 'disabled' : 'primaryDark'}
+        variant={disabled ? 'disabled' : 'primary'}
         weight="semibold"
         className="lowercase"
         style={{ fontVariant: 'small-caps' }}

@@ -137,7 +137,7 @@ function Plan() {
                   <div className="mt-10 w-full">
                     {plan.value === 'free' ? (
                       <Button
-                        variant="primaryDark"
+                        variant="primary"
                         size="full"
                         icon="withIcon"
                         font="large"
@@ -151,7 +151,7 @@ function Plan() {
                       </Button>
                     ) : (
                       <Button
-                        variant="primaryDark"
+                        variant="primary"
                         size="full"
                         icon="withIcon"
                         font="large"

@@ -4,8 +4,10 @@ export const Routes = {
     LOGIN: '/login',
     SETTINGS: '/settings',
     PROFILE: '/profile',
+    ANSWER: '/question/answer',
     QUESTION: {
       NEW: '/question/new',
+      EDIT: '/question/edit'
     },
     REGISTER: {
       INDEX: '/register',

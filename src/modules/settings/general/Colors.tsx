@@ -142,7 +142,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
       </div>
       <div className="flex flex-col items-center justify-center gap-2">
         <Button
-          variant={disabled ? 'disabled' : 'primaryDark'}
+          variant={disabled ? 'disabled' : 'primary'}
           weight="semibold"
           className="lowercase"
           style={{ fontVariant: 'small-caps' }}

@@ -24,6 +24,7 @@ module.exports = {
       },
       borderColor: {
         default: "var(--color-border)",
+        ghost: "var(--color-border-ghost)",
         secondary: "var(--color-border-secondary)",
         negative: "var(--color-border-negative)",
       },

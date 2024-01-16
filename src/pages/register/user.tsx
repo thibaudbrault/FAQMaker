@@ -75,7 +75,7 @@ function Register() {
             Previous
           </Button>
           <Button
-            variant={!isValid ? 'disabled' : 'primaryDark'}
+            variant={!isValid ? 'disabled' : 'primary'}
             size="full"
             icon="withIcon"
             font="large"

@@ -42,7 +42,7 @@ export const Tags = ({ tenantId }: Props) => {
             >
               <p className="px-2">{tag.label}</p>
               <Button
-                variant="primaryDark"
+                variant="primary"
                 size="small"
                 font="small"
                 weight="semibold"

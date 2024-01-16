@@ -94,7 +94,7 @@ export const FileInput = ({ tenantId }: Props) => {
           className="rounded-tr-md border border-secondary bg-transparent px-1 outline-none md:rounded-none md:border-x-0 md:border-y md:border-y-secondary"
         />
         <Button
-          variant={disabled ? 'disabled' : 'primaryDark'}
+          variant={disabled ? 'disabled' : 'primary'}
           size="full"
           font="large"
           weight="semibold"

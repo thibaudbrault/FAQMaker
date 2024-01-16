@@ -34,7 +34,7 @@ export const TagsList = ({
           <li key={tag.id}>
             <Button
               variant={
-                selectedTags.includes(tag.id) ? 'primaryDark' : 'disabled'
+                selectedTags.includes(tag.id) ? 'primary' : 'disabled'
               }
               rounded="base"
               font="small"

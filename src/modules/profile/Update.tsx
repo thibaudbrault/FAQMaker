@@ -93,7 +93,7 @@ export const UpdateProfile = ({ me }: Props) => {
         ) : (
           <UserIcon className="row-start-2 h-20 w-20 self-center justify-self-center rounded-md sm:h-32 sm:w-32" />
         )}
-        <ul className="col-span-3 row-start-2 flex flex-col gap-2">
+        <ul className="col-span-3 row-start-2 flex flex-col gap-2 list-none">
           {fields.map((field) => (
             <li
               key={field.value}
@@ -126,7 +126,7 @@ export const UpdateProfile = ({ me }: Props) => {
         </ul>
       </fieldset>
       <Button
-        variant={disabled ? 'disabled' : 'primaryDark'}
+        variant={disabled ? 'disabled' : 'primary'}
         weight="semibold"
         className="lowercase"
         style={{ fontVariant: 'small-caps' }}
