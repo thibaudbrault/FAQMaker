@@ -55,8 +55,8 @@ export default async function handler(
           error: { message: 'Invalid request', errors },
         });
       } else {
-        const { text, slug, tenantId, userId, tags } = result.data;
-        await prisma.node.create({
+        const { text, slug, tenantId, userId, tags, withAnswer } = result.data;
+        const node = await prisma.node.create({
           data: {
             tenant: { connect: { id: tenantId } },
             question: {
@@ -67,6 +67,9 @@ export default async function handler(
             },
           },
         });
+        if (withAnswer) {
+          return res.status(201).json({node, message: 'Question created successfully'})
+        }
         return res
           .status(201)
           .json({ message: 'Question created successfully' });
