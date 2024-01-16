@@ -7,6 +7,12 @@
     font-family: Inter, sans-serif;
   }
 
+  ul,
+  ol {
+    list-style: revert;
+  }
+  
+
   details {
     user-select: none;
   }
@@ -31,7 +37,8 @@
   --color-background-negative: theme('colors.neutral.900');
   --color-background-negative-offset: theme('colors.neutral.800');
   --color-background-disabled: theme('colors.neutral.600');
-  --color-border: theme('colors.neutral.900' / 10%);
+  --color-border: theme('colors.neutral.900');
+  --color-border-ghost: theme('colors.neutral.900' / 10%);
   --color-border-secondary: theme('colors.teal.700');
   --color-border-negative: theme('colors.neutral.100');
 }
