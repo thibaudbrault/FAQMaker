@@ -26,7 +26,10 @@ export const Routes = {
     BILLING: '/api/stripe/billing',
     ANSWERS: '/api/answers',
     QUESTIONS: '/api/questions',
-    SEARCH: '/api/search',
+    SEARCH: {
+      INDEX: '/api/search',
+      TAGS: '/api/search/tags'
+    },
     TAGS: '/api/tags',
     TENANT: '/api/tenant',
     WEBHOOKS: '/api/stripe/webhooks',
