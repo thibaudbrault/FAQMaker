@@ -15,7 +15,6 @@ export default async function handler(
           .json({ success: false, message: `Tenant not found` });
       }
       const { tenantId, searchTag } = req.query;
-      console.log(searchTag)
       const nodes = await prisma.node.findMany({
         where: {
           tenantId: tenantId as string,
@@ -28,7 +27,6 @@ export default async function handler(
         orderBy: { createdAt: 'desc' },
         include: nodeModel,
       });
-    //   console.log(nodes.map(node => node.tags))
       return res.status(200).json(nodes);
     } catch (error) {
       if (error instanceof Error) {
