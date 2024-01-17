@@ -8,11 +8,7 @@ import { cn } from '@/utils';
 const button = cva('button', {
   variants: {
     variant: {
-      primary: [
-        'bg-negative',
-        'text-negative',
-        'hover:bg-negativeOffset',
-      ],
+      primary: ['bg-negative', 'text-negative', 'hover:bg-negativeOffset'],
       negative: [
         'bg-default',
         'text-default',

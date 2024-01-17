@@ -1,16 +1,23 @@
 import { Dispatch, MouseEvent, SetStateAction } from 'react';
 
+import { Tag } from '@prisma/client';
 import { SearchIcon, TagIcon } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, Input, Label } from '@/components';
-import { Tag } from '@prisma/client';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  Input,
+  Label,
+} from '@/components';
 
 type Props = {
   tags: Tag[];
   setSearchQuery: Dispatch<SetStateAction<string>>;
-  setSearchTag: Dispatch<SetStateAction<string>>
+  setSearchTag: Dispatch<SetStateAction<string>>;
 };
 
 export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
@@ -29,14 +36,14 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
   };
 
   const handleTagSearch = (label: string) => {
-    setSearchTag(label)
-  }
+    setSearchTag(label);
+  };
 
   return (
-    <section className="flex mx-auto items-end justify-center w-11/12 md:w-3/4 gap-8">
+    <section className="mx-auto flex w-11/12 items-end justify-center gap-8 md:w-3/4">
       <form
         onSubmit={handleSubmit(onSearch)}
-        className="group/search w-full flex flex-col [&_svg]:focus-within:text-secondary"
+        className="group/search flex w-full flex-col [&_svg]:focus-within:text-secondary"
       >
         <Label
           htmlFor="search"
@@ -64,15 +71,28 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
             <TagIcon />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="bg-default">
-            {tags.map(tag => (
-              <DropdownMenuItem className="font-semibold hover:bg-offset cursor-pointer" key={tag.id}>
-                <button className='w-full h-full text-start' onClick={(e: MouseEvent<HTMLButtonElement>) => handleTagSearch(e.currentTarget.innerHTML)}>
+            {tags.map((tag) => (
+              <DropdownMenuItem
+                className="cursor-pointer font-semibold hover:bg-offset"
+                key={tag.id}
+              >
+                <button
+                  className="h-full w-full text-start"
+                  onClick={(e: MouseEvent<HTMLButtonElement>) =>
+                    handleTagSearch(e.currentTarget.innerHTML)
+                  }
+                >
                   {tag.label}
                 </button>
               </DropdownMenuItem>
             ))}
-            <DropdownMenuItem className="font-semibold bg-negative text-negative cursor-pointer hover:bg-negativeOffset">
-              <button className='w-full h-full text-center' onClick={() => setSearchTag(null)}>x</button>
+            <DropdownMenuItem className="cursor-pointer bg-negative font-semibold text-negative hover:bg-negativeOffset">
+              <button
+                className="h-full w-full text-center"
+                onClick={() => setSearchTag(null)}
+              >
+                x
+              </button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

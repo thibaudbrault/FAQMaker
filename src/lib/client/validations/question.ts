@@ -5,5 +5,5 @@ export const questionClientSchema = z.object({
     .string()
     .trim()
     .min(3, { message: 'Question must be at least 3 characters long' }),
-  withAnswer: z.boolean().optional()
+  withAnswer: z.boolean().optional(),
 });

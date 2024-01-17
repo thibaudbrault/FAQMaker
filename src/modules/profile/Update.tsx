@@ -93,7 +93,7 @@ export const UpdateProfile = ({ me }: Props) => {
         ) : (
           <UserIcon className="row-start-2 h-20 w-20 self-center justify-self-center rounded-md sm:h-32 sm:w-32" />
         )}
-        <ul className="list-none col-span-3 row-start-2 flex flex-col gap-2 list-none">
+        <ul className="col-span-3 row-start-2 flex list-none list-none flex-col gap-2">
           {fields.map((field) => (
             <li
               key={field.value}

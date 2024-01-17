@@ -46,7 +46,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
         ? user && (
             <div className="flex items-end gap-4">
               {!isPending && (
-                <ul className="flex gap-4 list-none">
+                <ul className="flex list-none gap-4">
                   <li>
                     <Tooltip>
                       <TooltipTrigger asChild>

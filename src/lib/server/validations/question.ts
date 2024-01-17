@@ -14,5 +14,5 @@ export const questionCreateServerSchema = z.object({
   tenantId: z.string().cuid2(),
   userId: z.string().cuid2(),
   tags: z.array(z.string().cuid2()),
-  withAnswer: z.boolean().optional()
+  withAnswer: z.boolean().optional(),
 });

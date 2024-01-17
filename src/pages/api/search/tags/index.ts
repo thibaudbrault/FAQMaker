@@ -20,8 +20,8 @@ export default async function handler(
           tenantId: tenantId as string,
           tags: {
             some: {
-                label: { contains: searchTag as string, mode: 'insensitive' },
-            }
+              label: { contains: searchTag as string, mode: 'insensitive' },
+            },
           },
         },
         orderBy: { createdAt: 'desc' },

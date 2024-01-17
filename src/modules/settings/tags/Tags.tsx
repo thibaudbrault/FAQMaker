@@ -34,7 +34,7 @@ export const Tags = ({ tenantId }: Props) => {
   return (
     <section className="mx-auto w-11/12 md:w-3/4">
       {tags.length > 0 ? (
-        <ul className="list-none my-6 flex flex-wrap gap-4">
+        <ul className="my-6 flex list-none flex-wrap gap-4">
           {tags.map((tag) => (
             <li
               key={tag.id}

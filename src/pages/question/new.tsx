@@ -35,7 +35,7 @@ function New({ me }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const isDesktop = useMediaQuery('(min-width: 640px)');
-  const withAnswer = true
+  const withAnswer = true;
 
   const {
     register,
@@ -64,7 +64,7 @@ function New({ me }: Props) {
   };
 
   const onSubmitWithAnswer: SubmitHandler<Schema> = (data) => {
-    const values = {...data, withAnswer}
+    const values = { ...data, withAnswer };
     mutate(values);
   };
 
@@ -95,9 +95,7 @@ function New({ me }: Props) {
           </Link>
         </Button>
         <div className="flex flex-col gap-4 rounded-md bg-default p-4">
-          <form
-            className="flex flex-col items-center gap-4"
-          >
+          <form className="flex flex-col items-center gap-4">
             <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-secondary">
               <div className="w-full text-center">
                 <legend
@@ -129,7 +127,7 @@ function New({ me }: Props) {
                 setSelectedTags={setSelectedTags}
               />
             </fieldset>
-            <div className='flex items-center justify-center gap-4'>
+            <div className="flex items-center justify-center gap-4">
               <Button
                 variant={disabled ? 'disabled' : 'primary'}
                 weight="semibold"

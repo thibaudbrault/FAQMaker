@@ -68,7 +68,9 @@ export default async function handler(
           },
         });
         if (withAnswer) {
-          return res.status(201).json({node, message: 'Question created successfully'})
+          return res
+            .status(201)
+            .json({ node, message: 'Question created successfully' });
         }
         return res
           .status(201)

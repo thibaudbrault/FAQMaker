@@ -6,7 +6,13 @@ import { GetServerSideProps } from 'next';
 import { useSearchParams } from 'next/navigation';
 
 import { Pagination } from '@/components';
-import { useNodes, useNodesCount, useSearchNodes, useSearchTags, useTags } from '@/hooks';
+import {
+  useNodes,
+  useNodesCount,
+  useSearchNodes,
+  useSearchTags,
+  useTags,
+} from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNodes, getNodesCount, getTags, ssrNcHandler } from '@/lib';
 import { List, Search } from '@/modules';
@@ -22,7 +28,7 @@ function Home({ me }: Props) {
   const [searchQuery, setSearchQuery] = useState<string>(
     search.get('search') ?? null,
   );
-  const [searchTag, setSearchTag] = useState<string>(null)
+  const [searchTag, setSearchTag] = useState<string>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(0);
 
@@ -38,7 +44,10 @@ function Home({ me }: Props) {
     me.tenantId,
     searchQuery,
   );
-  const {data: filteredTags, isLoading: isTagsLoading} = useSearchTags(me.tenantId, searchTag)
+  const { data: filteredTags, isLoading: isTagsLoading } = useSearchTags(
+    me.tenantId,
+    searchTag,
+  );
   const { data: nodesCount } = useNodesCount(me.tenantId);
   const { data: tags } = useTags(me.tenantId);
 
@@ -51,10 +60,10 @@ function Home({ me }: Props) {
     }
   } else if (searchTag) {
     if (filteredTags && filteredTags.length > 0) {
-      nodes = filteredTags
+      nodes = filteredTags;
     } else {
-      nodes = []
-      message = 'No results'
+      nodes = [];
+      message = 'No results';
     }
   } else {
     nodes = initialNodes ?? [];
@@ -64,10 +73,13 @@ function Home({ me }: Props) {
     setIsLoading(isPending || isSearchLoading);
   }, [isPending, isSearchLoading]);
 
-
   return (
     <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
-      <Search tags={tags} setSearchQuery={setSearchQuery} setSearchTag={setSearchTag} />
+      <Search
+        tags={tags}
+        setSearchQuery={setSearchQuery}
+        setSearchTag={setSearchTag}
+      />
       <List
         nodes={nodes}
         isLoading={isLoading}

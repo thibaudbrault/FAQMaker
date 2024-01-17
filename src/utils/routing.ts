@@ -7,7 +7,7 @@ export const Routes = {
     ANSWER: '/question/answer',
     QUESTION: {
       NEW: '/question/new',
-      EDIT: '/question/edit'
+      EDIT: '/question/edit',
     },
     REGISTER: {
       INDEX: '/register',
@@ -28,7 +28,7 @@ export const Routes = {
     QUESTIONS: '/api/questions',
     SEARCH: {
       INDEX: '/api/search',
-      TAGS: '/api/search/tags'
+      TAGS: '/api/search/tags',
     },
     TAGS: '/api/tags',
     TENANT: '/api/tenant',
