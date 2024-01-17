@@ -105,7 +105,7 @@ function QuestionPage({ me, id }: Props) {
           </div>
           <div className="rounded-md bg-default p-4">
             <h2 className="text-2xl font-semibold">{node.question.text}</h2>
-            <ul className="flex gap-2 text-xs">
+            <ul className="list-none flex gap-2 text-xs">
               {node.tags.map((tag) => (
                 <li key={tag.id}>
                   <Badge variant="primary" rounded="full" size="small">

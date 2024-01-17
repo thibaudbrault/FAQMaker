@@ -117,7 +117,7 @@ function Plan() {
                   </p>
                 </div>
                 <div className="mb-10 text-lg">
-                  <ul className="text-right">
+                  <ul className="list-none text-right">
                     {plan.benefits.map((benefit, index) => (
                       <li key={index} className="flex gap-2">
                         <Check className="text-secondary" />

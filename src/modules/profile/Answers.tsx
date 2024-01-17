@@ -28,7 +28,7 @@ export const UserAnswers = ({ nodes, isPending }: Props) => {
         Answers
       </h2>
       {nodes && nodes.length > 0 ? (
-        <ul className="flex flex-col gap-2 ">
+        <ul className="list-none flex flex-col gap-2 ">
           {nodes.map((node, index) => (
             <li
               className="flex items-center justify-between rounded-md bg-white px-3 py-2 shadow-sm"

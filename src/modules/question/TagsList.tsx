@@ -29,7 +29,7 @@ export const TagsList = ({
     return <Loader size="items" />;
   } else if (tags.length > 0) {
     return (
-      <ul className="flex flex-wrap justify-start gap-4">
+      <ul className="list-none flex flex-wrap justify-start gap-4">
         {tags.map((tag) => (
           <li key={tag.id}>
             <Button

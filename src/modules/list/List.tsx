@@ -30,7 +30,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
   return (
     <section className="mt-6">
       {nodes.length > 0 ? (
-        <ul className="mx-auto flex w-11/12 flex-col gap-2 md:w-3/4">
+        <ul className="list-none mx-auto flex w-11/12 flex-col gap-2 md:w-3/4">
           {nodes?.map((node) => (
             <li
               className="relative rounded-md bg-default transition-all duration-300 hover:shadow-lg"
@@ -42,7 +42,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                     <h2 className="text-2xl font-semibold">
                       {node.question.text}
                     </h2>
-                    <ul className="flex gap-4 text-xs">
+                    <ul className="list-none flex gap-4 text-xs">
                       {node.tags.map((tag) => (
                         <li key={tag.id}>
                           <Badge
