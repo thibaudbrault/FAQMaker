@@ -49,6 +49,9 @@ export const useUpdateNode = (
     mutationFn: updateNodeMutation,
     onSettled: async () => {
       await queryClient.invalidateQueries({
+        queryKey: [QueryKeys.NODES, tenantId],
+      });
+      await queryClient.invalidateQueries({
         queryKey: [QueryKeys.NODE, tenantId, id],
       });
       router.push(Routes.SITE.HOME);
