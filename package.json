@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:railway": "railway run pnpm dev",
-    "compose": "docker compose up -d",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
     "build": "pnpm migrate:deploy && next build",
     "build:ci": "next build",
     "start": "next start --port ${PORT-3000}",
@@ -26,9 +26,6 @@
     "prettier:check": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --check",
     "prettier:write": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --write",
     "postinstall": "prisma generate && husky install"
-  },
-  "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
