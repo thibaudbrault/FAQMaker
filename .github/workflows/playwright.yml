@@ -51,6 +51,13 @@ jobs:
       - name: Start application
         run: pnpm start &
 
+      - name: Start Docker
+        run: pnpm docker:up
+
+      - name: Sleep for 30 seconds
+        run: sleep 30s
+        shell: bash
+
       - name: Migrate database
         run: pnpm push
         env:
