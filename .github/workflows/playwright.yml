@@ -54,7 +54,7 @@ jobs:
       - name: Migrate database
         run: pnpm push
         env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres
+          DATABASE_URL: postgresql://postgres:postgres@postgres:5433/postgres
 
       - name: Run Playwright tests
         run: pnpm test
