@@ -6,11 +6,11 @@ services:
     image: postgres:14
     restart: always
     ports:
-      - '5432:5432'
+      - '5433:5432'
     environment:
-      - POSTGRES_USER=faqmakerUser
-      - POSTGRES_PASSWORD=faqmakerPw
-      - POSTGRES_DB=faqmakerDb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
     volumes:
       - postgres_db:/var/lib/postgresql/data
 
