@@ -52,7 +52,7 @@ jobs:
         run: pnpm start &
 
       - name: Start Docker
-        run: pnpm docker:up
+        run: docker-compose -f "docker-compose.yml" up -d --build
 
       - name: Sleep for 30 seconds
         run: sleep 30s
