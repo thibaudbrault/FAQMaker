@@ -11,7 +11,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     services:
       postgres:
         image: postgres
@@ -42,6 +42,9 @@ jobs:
           node-version: lts/*
           cache: 'pnpm'
 
+      - name: Start Docker
+        run: docker-compose -f "docker-compose.yml" up -d --build
+
       - name: Install dependencies
         run: pnpm install && pnpm install:playwright
 
@@ -50,9 +53,6 @@ jobs:
 
       - name: Start application
         run: pnpm start &
-
-      - name: Start Docker
-        run: docker-compose -f "docker-compose.yml" up -d --build
 
       - name: Sleep for 30 seconds
         run: sleep 30s
