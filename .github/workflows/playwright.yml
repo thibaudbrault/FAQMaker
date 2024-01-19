@@ -25,10 +25,13 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5433:5432
+          - 5432:5432
 
     container:
       image: mcr.microsoft.com/playwright:v1.40.0-jammy
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/db
 
     steps:
       - uses: actions/checkout@v4
@@ -42,9 +45,6 @@ jobs:
           node-version: lts/*
           cache: 'pnpm'
 
-      - name: Start Docker
-        run: docker-compose -f "docker-compose.yml" up -d --build
-
       - name: Install dependencies
         run: pnpm install && pnpm install:playwright
 
@@ -54,14 +54,8 @@ jobs:
       - name: Start application
         run: pnpm start &
 
-      - name: Sleep for 30 seconds
-        run: sleep 30s
-        shell: bash
-
       - name: Migrate database
         run: pnpm push
-        env:
-          DATABASE_URL: postgresql://postgres:postgres@postgres:5433/postgres
 
       - name: Run Playwright tests
         run: pnpm test

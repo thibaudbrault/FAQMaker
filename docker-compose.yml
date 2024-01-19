@@ -6,7 +6,7 @@ services:
     image: postgres:14
     restart: always
     ports:
-      - '5433:5432'
+      - '5432:5432'
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
@@ -16,4 +16,3 @@ services:
 
 volumes:
   postgres:
-    driver: local
