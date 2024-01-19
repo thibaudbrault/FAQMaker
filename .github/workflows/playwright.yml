@@ -9,6 +9,7 @@ on:
 jobs:
   test:
     env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/db
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     runs-on: ubuntu-22.04
@@ -29,9 +30,6 @@ jobs:
 
     container:
       image: mcr.microsoft.com/playwright:v1.40.0-jammy
-
-    env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/db
 
     steps:
       - uses: actions/checkout@v4
