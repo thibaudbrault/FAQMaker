@@ -60,14 +60,18 @@ export const useCreateNode = (
 
   const mutation = useMutation({
     mutationFn: createNodeMutation,
-    onSettled: async (data) => {
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: [QueryKeys.NODES, me.tenantId],
       });
-      router.push({
-        pathname: Routes.SITE.ANSWER,
-        query: { id: data.node.id },
-      });
+      if (data.node) {
+        router.push({
+          pathname: Routes.SITE.ANSWER,
+          query: { id: data.node.id },
+        });
+      } else {
+        router.push(Routes.SITE.HOME);
+      }
     },
   });
   return mutation;
