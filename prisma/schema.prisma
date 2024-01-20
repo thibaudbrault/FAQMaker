@@ -13,7 +13,7 @@ model Tenant {
   email          String        @unique
   plan           Plan          @default(free)
   company        String
-  domain         String?       @unique
+  domain         String?       
   customerId     String?       @unique
   isActive       Boolean       @default(false)
   subscriptionId String?
