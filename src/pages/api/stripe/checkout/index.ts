@@ -20,7 +20,7 @@ export default async function handler(
       }
       const { lookup_key, customerId } = req.body;
       const prices = await stripe.prices.list({
-        lookup_keys: lookup_key,
+        lookup_keys: [lookup_key],
       });
       const session = await stripe.checkout.sessions.create({
         line_items: [
