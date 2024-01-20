@@ -83,9 +83,6 @@ dependencies:
   next-remove-imports:
     specifier: ^1.0.12
     version: 1.0.12(webpack@5.89.0)
-  papaparse:
-    specifier: ^5.4.1
-    version: 5.4.1
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -101,6 +98,9 @@ dependencies:
   react-paginate:
     specifier: ^8.2.0
     version: 8.2.0(react@18.2.0)
+  react-papaparse:
+    specifier: ^4.4.0
+    version: 4.4.0
   rehype-sanitize:
     specifier: ^6.0.0
     version: 6.0.0
@@ -1718,6 +1718,12 @@ packages:
   /@types/normalize-package-data@2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: true
+
+  /@types/papaparse@5.3.14:
+    resolution: {integrity: sha512-LxJ4iEFcpqc6METwp9f6BV6VVc43m6MfH0VqFosHvrUgfXiFe6ww7R3itkOQ+TCK6Y+Iv/+RnnvtRZnkc5Kc9g==}
+    dependencies:
+      '@types/node': 20.10.6
+    dev: false
 
   /@types/prismjs@1.26.0:
     resolution: {integrity: sha512-ZTaqn/qSqUuAq1YwvOFQfVW1AR/oQJlLSZVustdjwI+GZ8kr0MSHBj0tsXPW1EqHubx50gtBEjbPGsdZwQwCjQ==}
@@ -6067,6 +6073,14 @@ packages:
     dependencies:
       prop-types: 15.8.1
       react: 18.2.0
+    dev: false
+
+  /react-papaparse@4.4.0:
+    resolution: {integrity: sha512-xTEwHZYJ+1dh9mQDQjjwJXmWyX20DdZ52u+ddw75V+Xm5qsjXSvWmC7c8K82vRwMjKAOH2S9uFyGpHEyEztkUQ==}
+    engines: {node: '>=8', npm: '>=5'}
+    dependencies:
+      '@types/papaparse': 5.3.14
+      papaparse: 5.4.1
     dev: false
 
   /react-remove-scroll-bar@2.3.4(@types/react@18.0.27)(react@18.2.0):
