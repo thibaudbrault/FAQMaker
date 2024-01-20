@@ -33,7 +33,7 @@ export const useUpdateAnswer = (
 
   const mutation = useMutation({
     mutationFn: updateAnswerMutation,
-    onSettled: async () => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QueryKeys.NODES, tenantId],
       });

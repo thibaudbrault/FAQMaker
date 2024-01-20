@@ -47,7 +47,7 @@ export const useUpdateNode = (
 
   const mutation = useMutation({
     mutationFn: updateNodeMutation,
-    onSettled: async () => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QueryKeys.NODES, tenantId],
       });
