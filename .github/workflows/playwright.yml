@@ -49,6 +49,9 @@ jobs:
       - name: Build application
         run: pnpm build:ci
 
+      - name: Start Docker
+        run: pnpm docker:up
+
       - name: Start application
         run: pnpm start &
 
