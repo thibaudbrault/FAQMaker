@@ -53,7 +53,7 @@ jobs:
         run: pnpm build:ci
 
       - name: Start Docker
-        run: pnpm docker:up
+        run: docker-compose -f "docker-compose.yml" up -d --build
 
       - name: Start application
         run: pnpm start &
