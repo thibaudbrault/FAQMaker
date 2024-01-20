@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 import { Button, Loader } from '@/components';
 import { NodeWithQuestionAndAnswer } from '@/hooks';
-import { ExtendedNode } from '@/types';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
