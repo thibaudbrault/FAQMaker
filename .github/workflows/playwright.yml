@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/db
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/db
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     runs-on: ubuntu-22.04
@@ -17,7 +17,7 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_DB: postgres
+          POSTGRES_DB: db
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         options: >-
@@ -43,22 +43,16 @@ jobs:
           node-version: lts/*
           cache: 'pnpm'
 
-      - name: Setup docker-compose
-        uses: KengoTODA/actions-setup-docker-compose@v1.2.1
-
       - name: Install dependencies
         run: pnpm install && pnpm install:playwright
 
       - name: Build application
         run: pnpm build:ci
 
-      - name: Start Docker
-        run: docker-compose -f "docker-compose.yml" up -d --build
-
       - name: Start application
         run: pnpm start &
 
-      - name: Migrate database
+      - name: Push database
         run: pnpm push
 
       - name: Run Playwright tests
