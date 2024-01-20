@@ -57,6 +57,13 @@ jobs:
 
       - name: Run Playwright tests
         run: pnpm test
+        env:
+          TEST_EMAIL: ${{secrets.TEST_EMAIL}}
+          TEST_PASSWORD: ${{secrets.TEST_PASSWORD}}
+          GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
+          GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
+          NEXTAUTH_URL: ${{secrets.NEXTAUTH_URL}}
+          NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
 
       - uses: actions/upload-artifact@v3
         if: always()
