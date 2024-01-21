@@ -58,6 +58,7 @@ jobs:
       - name: Run Playwright tests
         run: pnpm test
         env:
+          HOME: /root
           TEST_EMAIL: ${{secrets.TEST_EMAIL}}
           TEST_PASSWORD: ${{secrets.TEST_PASSWORD}}
           GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
