@@ -41,7 +41,7 @@ export default async function handler(
           .status(404)
           .json({ success: false, message: `Form data not provided` });
       }
-      const { email, role, name, csvData, tenantId } = req.body;
+      const { email, role, name, newArray, tenantId } = req.body;
       if (role) {
         const userExists = await prisma.user.findUnique({
           where: { email, tenantId },
@@ -81,8 +81,8 @@ export default async function handler(
         return res.status(201).json({ message: 'User created successfully' });
       } else {
         const errors = [];
-        for (const element of csvData) {
-          const userEmail = element[name];
+        for (const element of newArray) {
+          const userEmail = element;
           if (!userEmail) {
             errors.push({
               email: userEmail,

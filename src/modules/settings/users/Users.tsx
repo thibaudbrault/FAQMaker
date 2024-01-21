@@ -1,3 +1,4 @@
+import { $Enums } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { ShieldAlert, UserIcon } from 'lucide-react';
 
@@ -11,9 +12,10 @@ import { UpdateUser } from './Update';
 type Props = {
   userId: string;
   tenantId: string;
+  plan: $Enums.Plan;
 };
 
-export const Users = ({ userId, tenantId }: Props) => {
+export const Users = ({ userId, tenantId, plan }: Props) => {
   const { data: users, isPending } = useUsers(tenantId);
 
   const {
@@ -84,7 +86,7 @@ export const Users = ({ userId, tenantId }: Props) => {
           <p className="text-center text-xl font-bold uppercase">or</p>
           <div className="h-px flex-grow bg-negative" />
         </div>
-        <FileInput tenantId={tenantId} users={users} />
+        <FileInput tenantId={tenantId} users={users} plan={plan} />
       </ul>
     </section>
   );

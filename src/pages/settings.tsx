@@ -81,7 +81,7 @@ function Settings({ me }: Props) {
             <Tags tenantId={me.tenantId} />
           </TabsContent>
           <TabsContent value="users">
-            <Users userId={me.id} tenantId={me.tenantId} />
+            <Users userId={me.id} tenantId={me.tenantId} plan={tenant.plan} />
           </TabsContent>
         </Tabs>
       </section>
