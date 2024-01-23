@@ -33,7 +33,7 @@ export interface ITenantCreateFields extends IFields {
 }
 
 export interface ITenantUpdateFields extends IFields {
-  value: 'company' | 'email';
+  value: 'company' | 'email' | 'domain';
 }
 
 export interface IIntegrations extends IFields {
