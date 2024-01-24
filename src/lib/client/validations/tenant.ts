@@ -7,5 +7,5 @@ export const updateTenantClientSchema = z.object({
     .trim()
     .min(1, { message: 'Company email is required' })
     .email({ message: 'Invalid email' }),
-  domain: z.string().trim().optional()
+  domain: z.string().trim().nullable()
 });

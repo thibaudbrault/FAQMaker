@@ -5,7 +5,7 @@ import { RegisterInfo } from '@/types';
 export const registerAtom = atom<RegisterInfo>({
   company: '',
   companyEmail: '',
-  domain: '',
+  domain: null,
   email: '',
   plan: 'free',
 });
