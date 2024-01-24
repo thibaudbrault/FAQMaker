@@ -29,8 +29,8 @@ function Confirm() {
     defaultValues: state,
   });
 
-  const { data: customerId, mutateAsync: mutateCustomer } = useCreateCustomer();
-  const { mutateAsync: mutateTenant, isSuccess } = useCreateTenant(router);
+  const { data: customerId, mutateAsync: mutateCustomer, isSuccess: customerIsSuccess } = useCreateCustomer();
+  const { mutateAsync: mutateTenant, isSuccess: tenantIsSuccess } = useCreateTenant(router);
 
   const onSubmit: SubmitHandler<Schema> = async (values) => {
     try {
@@ -42,11 +42,12 @@ function Confirm() {
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    if (tenantIsSuccess && customerIsSuccess) {
       setState({ ...state, customerId });
+      router.push(Routes.SITE.REGISTER.PLAN);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess, customerId]);
+  }, [tenantIsSuccess, customerIsSuccess, customerId]);
 
   useEffect(() => {
     setDisabled(!isValid || isSubmitting);

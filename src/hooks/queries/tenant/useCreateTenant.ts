@@ -25,9 +25,6 @@ export const useCreateTenant = (router: NextRouter) => {
   };
   const mutation = useMutation({
     mutationFn: createTenantMutation,
-    onSuccess: async () => {
-      router.push(Routes.SITE.REGISTER.PLAN);
-    },
   });
   return mutation;
 };
