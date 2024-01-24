@@ -37,7 +37,7 @@ function Confirm() {
       await mutateTenant(values);
       await mutateCustomer(values);
     } catch (error) {
-      console.error('Something went wrong');
+      console.error(`Something went wrong: ${error}`);
     }
   };
 
