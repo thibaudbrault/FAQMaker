@@ -33,14 +33,18 @@ export interface ITenantCreateFields extends IFields {
 }
 
 export interface ITenantUpdateFields extends IFields {
-  value: 'company' | 'email';
+  value: 'company' | 'email' | 'domain';
+}
+
+export interface IIntegrations extends IFields {
+  value: 'slack';
 }
 
 export interface IPlan {
-  label: 'Free' | 'Business' | 'Enterprise';
-  value: 'free' | 'business' | 'enterprise';
+  label: 'Free' | 'Startup' | 'Enterprise';
+  value: 'free' | 'startup' | 'enterprise';
   price: number;
-  priceId: string;
+  lookup_key: string;
   icon?: ReactElement;
   message: string;
   benefits: string[];

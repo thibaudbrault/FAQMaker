@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { getIdSchemaFn, questionCreateServerSchema } from '@/lib';
-import { nodeModel } from '@/utils';
+import { getNodesServerSchema, questionCreateServerSchema } from '@/lib';
+import { OFFSET, nodeModel } from '@/utils';
 import prisma from 'lib/prisma';
 
 export default async function handler(
@@ -15,7 +15,7 @@ export default async function handler(
           .status(404)
           .json({ success: false, message: `Tenant not found` });
       }
-      const getTenantIdSchema = getIdSchemaFn('tenantId');
+      const getTenantIdSchema = getNodesServerSchema();
       const result = getTenantIdSchema.safeParse(req.query);
       if (result.success === false) {
         const { errors } = result.error;
@@ -24,10 +24,13 @@ export default async function handler(
           error: { message: 'Invalid request', errors },
         });
       } else {
-        const { tenantId } = result.data;
+        const { tenantId, page } = result.data;
+        const pageInt = Number(page);
         const nodes = await prisma.node.findMany({
           where: { tenantId: tenantId as string },
           orderBy: { createdAt: 'desc' },
+          skip: pageInt * OFFSET,
+          take: OFFSET,
           include: nodeModel,
         });
         return res.status(200).json(nodes);
@@ -52,8 +55,8 @@ export default async function handler(
           error: { message: 'Invalid request', errors },
         });
       } else {
-        const { text, slug, tenantId, userId, tags } = result.data;
-        await prisma.node.create({
+        const { text, slug, tenantId, userId, tags, withAnswer } = result.data;
+        const node = await prisma.node.create({
           data: {
             tenant: { connect: { id: tenantId } },
             question: {
@@ -64,6 +67,11 @@ export default async function handler(
             },
           },
         });
+        if (withAnswer) {
+          return res
+            .status(201)
+            .json({ node, message: 'Question created successfully' });
+        }
         return res
           .status(201)
           .json({ message: 'Question created successfully' });

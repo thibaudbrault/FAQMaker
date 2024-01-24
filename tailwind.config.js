@@ -18,12 +18,14 @@ module.exports = {
       backgroundColor: {
         default: "var(--color-background)",
         offset: "var(--color-background-offset)",
+        secondary: "var(--color-background-secondary)",
         negative: "var(--color-background-negative)",
         negativeOffset: "var(--color-background-negative-offset)",
         disabled: "var(--color-background-disabled)"
       },
       borderColor: {
         default: "var(--color-border)",
+        ghost: "var(--color-border-ghost)",
         secondary: "var(--color-border-secondary)",
         negative: "var(--color-border-negative)",
       },

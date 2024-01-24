@@ -1,10 +1,12 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 
 import googleIcon from '@/assets/google.svg';
 import { Button } from '@/components';
 import { AuthLayout } from '@/layouts';
+import { Routes } from '@/utils';
 
 function Login() {
   const router = useRouter();
@@ -23,7 +25,7 @@ function Login() {
           <p className="text-sm text-offset">Use your associated account</p>
         </div>
         <Button
-          variant="primaryDark"
+          variant="primary"
           size="full"
           icon="withIcon"
           font="large"
@@ -33,7 +35,7 @@ function Login() {
           style={{ fontVariant: 'small-caps' }}
           onClick={() =>
             signIn(`google`, {
-              callbackUrl: `http://localhost:3000`,
+              callbackUrl: process.env.NEXT_PUBLIC_SITE_URL,
             })
           }
         >
@@ -41,6 +43,15 @@ function Login() {
           Sign In with Google
         </Button>
         {error && <LoginError error={error} />}
+        <p className="text-center text-xs">
+          No client account ?{' '}
+          <Link
+            className="font-semibold hover:underline"
+            href={Routes.SITE.REGISTER.INDEX}
+          >
+            Register
+          </Link>
+        </p>
       </div>
     </AuthLayout>
   );

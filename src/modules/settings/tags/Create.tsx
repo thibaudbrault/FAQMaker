@@ -14,11 +14,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
   Field,
   Input,
   errorToast,
 } from '@/components';
-import { useCreateTag } from '@/hooks';
+import { useCreateTag, useMediaQuery } from '@/hooks';
 import { createTagClientSchema } from '@/lib';
 
 type Props = {
@@ -28,7 +33,66 @@ type Props = {
 type Schema = z.infer<typeof createTagClientSchema>;
 
 export const CreateTag = ({ tenantId }: Props) => {
+  const isDesktop = useMediaQuery('(min-width: 640px)');
+
+  if (isDesktop) {
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button
+            variant="primary"
+            icon="withIcon"
+            font="large"
+            size="full"
+            weight="bold"
+            className="lowercase"
+            style={{ fontVariant: 'small-caps' }}
+          >
+            <PlusCircle />
+            New tag
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="bg-stone-200/90">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">New tag</DialogTitle>
+          </DialogHeader>
+          <Form tenantId={tenantId} />
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button
+          variant="primary"
+          icon="withIcon"
+          font="large"
+          size="full"
+          weight="bold"
+          className="lowercase"
+          style={{ fontVariant: 'small-caps' }}
+        >
+          <PlusCircle />
+          New tag
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <div className="mb-10 mt-5">
+          <DrawerHeader>
+            <DrawerTitle>New tag</DrawerTitle>
+          </DrawerHeader>
+          <Form tenantId={tenantId} />
+        </div>
+      </DrawerContent>
+    </Drawer>
+  );
+};
+
+const Form = ({ tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
+
   const {
     register,
     handleSubmit,
@@ -56,55 +120,33 @@ export const CreateTag = ({ tenantId }: Props) => {
     const errorMessage = error.response?.data.message || 'An error occurred';
     errorToast(errorMessage);
   }
-
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          variant="primaryDark"
-          icon="withIcon"
-          font="large"
-          size="full"
-          weight="bold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-        >
-          <PlusCircle />
-          New tag
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="bg-stone-200/90">
-        <DialogHeader>
-          <DialogTitle className="text-2xl">New tag</DialogTitle>
-        </DialogHeader>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-center gap-2"
-        >
-          <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-secondary">
-            <Field label="Label" value="label" error={errors.label?.message}>
-              <Input
-                {...register('label')}
-                withIcon
-                icon={<TagIcon />}
-                type="label"
-                id="label"
-                placeholder="Tag label"
-                className="w-full rounded-md border border-transparent py-1 outline-none focus:border-secondary"
-              />
-            </Field>
-          </fieldset>
-          <Button
-            variant={disabled ? 'disabled' : 'primaryDark'}
-            weight="semibold"
-            className="lowercase"
-            style={{ fontVariant: 'small-caps' }}
-            disabled={disabled}
-          >
-            Add
-          </Button>
-        </form>
-      </DialogContent>
-    </Dialog>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col items-center gap-2"
+    >
+      <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-secondary">
+        <Field label="Label" value="label" error={errors.label?.message}>
+          <Input
+            {...register('label')}
+            withIcon
+            icon={<TagIcon />}
+            type="label"
+            id="label"
+            placeholder="Tag label"
+            className="w-full rounded-md border border-transparent py-1 outline-none focus:border-secondary"
+          />
+        </Field>
+      </fieldset>
+      <Button
+        variant={disabled ? 'disabled' : 'primary'}
+        weight="semibold"
+        className="lowercase"
+        style={{ fontVariant: 'small-caps' }}
+        disabled={disabled}
+      >
+        Add
+      </Button>
+    </form>
   );
 };

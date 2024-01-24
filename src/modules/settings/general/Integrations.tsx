@@ -1,28 +1,45 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { Tenant } from '@prisma/client';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Integrations as IntegrationsType, Tenant } from '@prisma/client';
+import { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { Button, Field, Input, Loader } from '@/components';
+import { Button, Field, Input, Loader, errorToast } from '@/components';
+import { useIntegration, useUpsertIntegrations } from '@/hooks';
+import { integrationsClientSchema } from '@/lib';
+import { IIntegrations } from '@/types';
 
 type Props = {
-  tenant: Tenant;
-  isPending: boolean;
+  tenantId: string;
 };
 
-export const Integrations = ({ tenant, isPending }: Props) => {
+type Schema = z.infer<typeof integrationsClientSchema>;
+
+export const Integrations = ({ tenantId }: Props) => {
+  const { data: integrations, isPending } = useIntegration(tenantId);
+
   const [disabled, setDisabled] = useState<boolean>(true);
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, isDirty },
-  } = useForm();
+    formState: { errors, isSubmitting, isDirty, isValid },
+  } = useForm<Schema>({
+    resolver: zodResolver(integrationsClientSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      slack: integrations?.slack ?? '',
+    },
+  });
 
-  const onSubmit = (values: Tenant) => {
-    console.log('🚀 ~ file: Integrations.tsx:25 ~ onSubmit ~ values:', values);
+  const { mutate, isError, error } = useUpsertIntegrations(tenantId);
+
+  const onSubmit = (values: IntegrationsType) => {
+    mutate(values);
   };
 
-  const fields = useMemo(
+  const fields: IIntegrations[] = useMemo(
     () => [
       {
         label: 'Slack',
@@ -34,17 +51,22 @@ export const Integrations = ({ tenant, isPending }: Props) => {
   );
 
   useEffect(() => {
-    setDisabled(isSubmitting || !isDirty);
-  }, [isDirty, isSubmitting]);
+    setDisabled(isSubmitting || !isDirty || !isValid);
+  }, [isDirty, isSubmitting, isValid]);
 
   if (isPending) {
     return <Loader size="items" />;
   }
 
+  if (isError && error instanceof AxiosError) {
+    const errorMessage = error.response?.data.message || 'An error occurred';
+    errorToast(errorMessage);
+  }
+
   return (
-    <div className="mx-auto mb-4 flex w-3/4 flex-col gap-4 rounded-md bg-default p-4">
+    <div className="flex flex-col gap-4">
       <h2
-        className="text-center font-serif text-4xl font-semibold lowercase"
+        className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
         style={{ fontVariant: 'small-caps' }}
       >
         Integrations
@@ -57,15 +79,18 @@ export const Integrations = ({ tenant, isPending }: Props) => {
           {fields.map((field) => (
             <div
               key={field.value}
-              className="flex flex-1 flex-col gap-1 [&_svg]:focus-within:text-secondary"
+              className="flex flex-1 flex-col [&_svg]:focus-within:text-secondary"
             >
-              <Field label={field.label} value={field.value}>
+              <Field
+                label={field.label}
+                value={field.value}
+                error={errors[field.value]?.message}
+              >
                 <Input
-                  {...register(field.value, { required: true })}
-                  defaultValue={tenant[field.value] ?? ''}
+                  {...register(field.value)}
                   type={field.type}
                   id={field.value}
-                  placeholder={field.label}
+                  placeholder="https://hooks.slack.com/services/"
                   className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
                 />
               </Field>
@@ -73,13 +98,13 @@ export const Integrations = ({ tenant, isPending }: Props) => {
           ))}
         </fieldset>
         <Button
-          variant={disabled ? 'disabled' : 'primaryDark'}
+          variant={disabled ? 'disabled' : 'primary'}
           weight="semibold"
           className="lowercase"
           style={{ fontVariant: 'small-caps' }}
           disabled={disabled}
         >
-          Add
+          Update
         </Button>
       </form>
     </div>

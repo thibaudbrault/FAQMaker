@@ -7,7 +7,7 @@ export const registerCompanyClientSchema = z.object({
     .trim()
     .min(1, { message: 'Company email is required' })
     .email({ message: 'Invalid email' }),
-  domain: z.string().trim().optional(),
+  domain: z.string().trim().nullable(),
 });
 
 export const registerUserClientSchema = z.object({

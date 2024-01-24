@@ -76,9 +76,9 @@ function Answer({ me, id }: Props) {
   if (node) {
     return (
       <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
-        <section className="mx-auto flex w-3/4 flex-col gap-4">
+        <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <Button
-            variant="primaryDark"
+            variant="primary"
             weight="semibold"
             icon="withIcon"
             font="large"
@@ -99,7 +99,7 @@ function Answer({ me, id }: Props) {
           </Button>
           <div className="flex flex-col gap-4 rounded-md bg-default p-4">
             <h2
-              className="text-center font-serif text-4xl font-semibold lowercase"
+              className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
               style={{ fontVariant: 'small-caps' }}
             >
               {node.answer ? 'Edit the answer' : 'Answer'}
@@ -132,7 +132,7 @@ function Answer({ me, id }: Props) {
                 </Link>
               </div>
               <Button
-                variant={disabled ? 'disabled' : 'primaryDark'}
+                variant={disabled ? 'disabled' : 'primary'}
                 type="submit"
                 weight="semibold"
                 className="lowercase"

@@ -3,16 +3,13 @@ import axios from 'axios';
 import { NextRouter } from 'next/router';
 import { z } from 'zod';
 
-import { successToast } from '@/components';
+import { promiseToast } from '@/components';
 import { registerCompleteClientSchema } from '@/lib';
 import { Routes } from '@/utils';
 
 type Schema = z.infer<typeof registerCompleteClientSchema>;
-type ExtendedSchema = Schema & {
-  customerId: string;
-};
 
-const createTenant = async (values: ExtendedSchema) => {
+const createTenant = async (values: Schema) => {
   const body = {
     ...values,
   };
@@ -21,12 +18,13 @@ const createTenant = async (values: ExtendedSchema) => {
 };
 
 export const useCreateTenant = (router: NextRouter) => {
+  const createTenantMutation = async (values: Schema) => {
+    const promise = createTenant(values);
+    promiseToast(promise, 'Creating account...');
+    return promise;
+  };
   const mutation = useMutation({
-    mutationFn: (values: ExtendedSchema) => createTenant(values),
-    onSuccess: (data) => {
-      successToast(data.message);
-      router.push(Routes.SITE.REGISTER.PLAN);
-    },
+    mutationFn: createTenantMutation,
   });
   return mutation;
 };

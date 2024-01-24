@@ -4,8 +4,10 @@ export const Routes = {
     LOGIN: '/login',
     SETTINGS: '/settings',
     PROFILE: '/profile',
+    ANSWER: '/question/answer',
     QUESTION: {
       NEW: '/question/new',
+      EDIT: '/question/edit',
     },
     REGISTER: {
       INDEX: '/register',
@@ -19,14 +21,22 @@ export const Routes = {
     USERS: '/api/users',
     NODES: '/api/nodes',
     CHECKOUT: '/api/stripe/checkout',
+    COLORS: '/api/colors',
     CUSTOMER: '/api/stripe/customer',
     BILLING: '/api/stripe/billing',
     ANSWERS: '/api/answers',
     QUESTIONS: '/api/questions',
-    SEARCH: '/api/search',
+    SEARCH: {
+      INDEX: '/api/search',
+      TAGS: '/api/search/tags',
+    },
     TAGS: '/api/tags',
     TENANT: '/api/tenant',
     WEBHOOKS: '/api/stripe/webhooks',
+    INTEGRATIONS: {
+      INDEX: '/api/integrations',
+      SLACK: '/api/integrations/slack',
+    },
   },
 } as const;
 

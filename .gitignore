@@ -11,6 +11,7 @@ tsconfig.tsbuildinfo
 
 # testing
 /coverage
+/playwright
 
 # next.js
 /.next/
@@ -37,3 +38,7 @@ yarn-error.log*
 # vercel
 .vercel
 .next
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

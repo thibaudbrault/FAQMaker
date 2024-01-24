@@ -2,7 +2,7 @@ import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function hadndler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
@@ -13,8 +13,7 @@ export default async function hadndler(
           .status(404)
           .json({ success: false, message: `Information not provided` });
       }
-      const { company, companyEmail, name, email, domain, customerId } =
-        req.body;
+      const { company, companyEmail, name, email, domain } = req.body;
       const tenantExists = await prisma.tenant.findUnique({
         where: { email: companyEmail },
       });
@@ -24,11 +23,19 @@ export default async function hadndler(
           message: 'An account with the same company email already exists',
         });
       }
+      const userExists = await prisma.user.findUnique({
+        where: { email },
+      });
+      if (userExists) {
+        return res.status(409).json({
+          success: false,
+          message: 'A user with the same email already exists',
+        });
+      }
       const tenant = await prisma.tenant.create({
         data: {
           company,
           email: companyEmail,
-          customerId,
           domain,
         },
       });

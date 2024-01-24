@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 import { Badge, Button, Loader, errorToast } from '@/components';
 import { ExtendedNode } from '@/types';
+import { Routes } from '@/utils';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
@@ -29,10 +30,10 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
   return (
     <section className="mt-6">
       {nodes.length > 0 ? (
-        <ul className="mx-auto flex w-3/4 flex-col gap-2">
-          {nodes.map((node) => (
+        <ul className="mx-auto flex w-11/12 list-none flex-col gap-2 md:w-3/4">
+          {nodes?.map((node) => (
             <li
-              className="relative rounded-md bg-default transition-all duration-300 hover:-translate-y-[2px] hover:shadow-md"
+              className="relative rounded-md bg-default transition-all duration-300 hover:shadow-lg"
               key={node.id}
             >
               <details>
@@ -41,7 +42,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                     <h2 className="text-2xl font-semibold">
                       {node.question.text}
                     </h2>
-                    <ul className="flex gap-4 text-xs">
+                    <ul className="flex list-none gap-4 text-xs">
                       {node.tags.map((tag) => (
                         <li key={tag.id}>
                           <Badge
@@ -59,16 +60,36 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                   <ChevronDown />
                 </summary>
                 <hr className="mx-auto my-6 h-px w-3/4 border-none bg-negative" />
-                <div className="mb-6 px-6">
-                  {node.answer ? (
+                {node.answer ? (
+                  <div className="mb-6 px-6">
                     <MarkdownPreview source={node.answer.text} />
-                  ) : (
-                    <p className="text-center italic">No answer</p>
-                  )}
-                </div>
+                  </div>
+                ) : (
+                  <div className="mb-6 flex items-center justify-center">
+                    <Button
+                      variant="primary"
+                      size="medium"
+                      font="large"
+                      weight="bold"
+                      className="lowercase"
+                      style={{ fontVariant: 'small-caps' }}
+                      asChild
+                    >
+                      <Link
+                        href={{
+                          pathname: Routes.SITE.ANSWER,
+                          query: { id: node.id },
+                        }}
+                        as={`/question/answer?id=${node.id}`}
+                      >
+                        Answer
+                      </Link>
+                    </Button>
+                  </div>
+                )}
               </details>
               <Button
-                variant="primaryLight"
+                variant="ghost"
                 size="full"
                 font="large"
                 weight="bold"

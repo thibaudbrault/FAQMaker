@@ -20,7 +20,7 @@ export const promiseToast = (
       return `${data.message}`;
     },
     error: (data) => {
-      return `Something went wrong: ${data.response.data.message}`;
+      return `${data.response.data.message}`;
     },
   });
 };

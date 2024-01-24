@@ -8,16 +8,19 @@ import { cn } from '@/utils';
 const button = cva('button', {
   variants: {
     variant: {
-      primaryDark: [
-        'bg-negative',
-        'text-negative',
-        'border-transparent',
-        'hover:bg-negativeOffset',
-      ],
-      primaryLight: [
+      primary: ['bg-negative', 'text-negative', 'hover:bg-negativeOffset'],
+      negative: [
         'bg-default',
         'text-default',
-        'border-transparent',
+        'border',
+        'border-default',
+        'transition-all',
+        'duration-300',
+        'hover:bg-offset',
+      ],
+      ghost: [
+        'bg-default',
+        'text-default',
         'transition-all',
         'duration-300',
         'hover:bg-offset',

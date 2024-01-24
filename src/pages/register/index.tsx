@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAtom } from 'jotai';
 import { MoveRight } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -48,7 +49,7 @@ function Company() {
       label: 'Domain',
       value: 'domain',
       type: 'text',
-      info: `Fill this field if you have a personalised domain name used for your users' email`,
+      info: `Fill this field if you have a personalized domain name used for your users' email`,
     },
   ];
 
@@ -87,7 +88,7 @@ function Company() {
           ))}
         </fieldset>
         <Button
-          variant={!isValid ? 'disabled' : 'primaryDark'}
+          variant={!isValid ? 'disabled' : 'primary'}
           size="full"
           icon="withIcon"
           font="large"
@@ -99,6 +100,15 @@ function Company() {
           Next
           <MoveRight />
         </Button>
+        <p className="text-center text-xs">
+          Already have an account ?{' '}
+          <Link
+            className="font-semibold hover:underline"
+            href={Routes.SITE.LOGIN}
+          >
+            Login
+          </Link>
+        </p>
       </form>
     </AuthLayout>
   );

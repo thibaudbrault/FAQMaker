@@ -1,39 +1,35 @@
----
-title: NextJS Prisma
-description: A NextJS app using Prisma with a PostgreSQL database
-tags:
-  - next
-  - prisma
-  - postgresql
-  - typescript
----
+# FAQMaker
 
-# NextJS Prisma Example
+FAQMaker is a multi-tenant SaaS that streamlines internal knowledge management for businesses. It enables employees to ask questions and share answers, fostering internal communication and knowledge-sharing within the company.
 
-This example is a [NextJS](https://nextjs.org/) todo app that uses
-[Prisma](https://www.prisma.io/) to store todos in Postgres.
+## Table of Contents
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/HRZqTF)
+- [Roadmap](#roadmap)
+- [Technologies](#technologies)
+- [License](#license)
 
-## ✨ Features
+## Roadmap
 
+Explore the exciting features and functionalities available in FAQMaker.
+
+- Create and manage knowledge bases
+- Ask and answer questions within the company
+- Foster collaboration through knowledge sharing
+- User-friendly interface for seamless navigation
+
+## Technologies
+
+FAQMaker is built using a stack of cutting-edge technologies.
+
+- React
+- Next.js
+- Typescript
+- Tailwind CSS
 - Prisma
-- NextJS
-- Postgres
-- TypeScript
+- Railway
+- Stripe
+- Github Actions
 
-## 💁‍♀️ How to use
+## License
 
-- [Provision a Postgres container on Railway](https://dev.new)
-- Connect to your Railway project with `railway link`
-- Migrate the database `railway run yarn migrate:dev`
-- Run the NextJS app `railway run yarn dev`
-
-## 📝 Notes
-
-This app is a simple todo list where the data is persisted to Postgres. [Prisma
-migrations](https://www.prisma.io/docs/concepts/components/prisma-migrate#prisma-migrate)
-can be created with `railway run yarn migrate:dev` and deployed with `railway run yarn migrate:deploy`. The Prisma client can be regenerated with
-`yarn generate`.
-
-[swr](https://swr.vercel.app/) is used to fetch data on the client and perform optimistic updates.
+FAQMaker is licensed under [GNU General Public License v3.0](LICENSE). Feel free to explore, modify, and distribute the software in accordance with the terms of this license.

@@ -20,7 +20,7 @@ import { useNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { getMe, getNode, ssrNcHandler } from '@/lib';
 import { UserWithTenant } from '@/types';
-import { QueryKeys, Redirects, dateOptions } from '@/utils';
+import { QueryKeys, Redirects, Routes, dateOptions } from '@/utils';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
@@ -50,10 +50,10 @@ function QuestionPage({ me, id }: Props) {
   if (node) {
     return (
       <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
-        <section className="mx-auto flex w-3/4 flex-col gap-4">
+        <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <div className="flex items-center justify-between">
             <Button
-              variant="primaryDark"
+              variant="primary"
               weight="semibold"
               icon="withIcon"
               font="large"
@@ -78,7 +78,7 @@ function QuestionPage({ me, id }: Props) {
                   <Link
                     className="flex items-center justify-start gap-2"
                     href={{
-                      pathname: '/question/edit',
+                      pathname: Routes.SITE.QUESTION.EDIT,
                       query: { id: node.id },
                     }}
                     as={`/question/edit?id=${node.id}`}
@@ -91,7 +91,7 @@ function QuestionPage({ me, id }: Props) {
                   <Link
                     className="flex items-center justify-start gap-2"
                     href={{
-                      pathname: '/question/answer',
+                      pathname: Routes.SITE.ANSWER,
                       query: { id: node.id },
                     }}
                     as={`/question/answer?id=${node.id}`}
@@ -105,7 +105,7 @@ function QuestionPage({ me, id }: Props) {
           </div>
           <div className="rounded-md bg-default p-4">
             <h2 className="text-2xl font-semibold">{node.question.text}</h2>
-            <ul className="flex gap-2 text-xs">
+            <ul className="flex list-none gap-2 text-xs">
               {node.tags.map((tag) => (
                 <li key={tag.id}>
                   <Badge variant="primary" rounded="full" size="small">

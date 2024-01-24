@@ -19,3 +19,9 @@ export const nodeGetSchema = z.object({
   tenant: tenantGetSchema,
   tenantId: z.string().cuid2(),
 });
+
+export const getNodesServerSchema = () =>
+  z.object({
+    tenantId: z.string(),
+    page: z.string(),
+  });

@@ -29,37 +29,25 @@ function Confirm() {
     defaultValues: state,
   });
 
-  const {
-    data: customerId,
-    mutateAsync: mutateCustomer,
-    isSuccess,
-    isError: customerIsError,
-    error: customerError,
-  } = useCreateCustomer();
-  const {
-    mutateAsync: mutateTenant,
-    isError: tenantIsError,
-    error: tenantError,
-  } = useCreateTenant(router);
+  const { data: customerId, mutateAsync: mutateCustomer, isSuccess: customerIsSuccess } = useCreateCustomer();
+  const { mutateAsync: mutateTenant, isSuccess: tenantIsSuccess } = useCreateTenant(router);
 
   const onSubmit: SubmitHandler<Schema> = async (values) => {
-    const customerId = await mutateCustomer(values);
-    await mutateTenant({ ...values, customerId });
+    try {
+      await mutateTenant(values);
+      await mutateCustomer(values);
+    } catch (error) {
+      console.error(`Something went wrong: ${error}`);
+    }
   };
 
-  const error = tenantError ?? customerError ?? '';
-  const isError = tenantIsError ?? customerIsError;
-  if (isError && error instanceof AxiosError) {
-    const errorMessage = error.response?.data.message || 'An error occurred';
-    errorToast(errorMessage);
-  }
-
   useEffect(() => {
-    if (isSuccess) {
+    if (tenantIsSuccess && customerIsSuccess) {
       setState({ ...state, customerId });
+      router.push(Routes.SITE.REGISTER.PLAN);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess, customerId]);
+  }, [tenantIsSuccess, customerIsSuccess, customerId]);
 
   useEffect(() => {
     setDisabled(!isValid || isSubmitting);
@@ -126,25 +114,15 @@ function Confirm() {
             Previous
           </Button>
           <Button
-            variant={disabled ? 'disabled' : 'primaryDark'}
+            variant={disabled ? 'disabled' : 'primary'}
             size="full"
             font="large"
             weight="bold"
-            className={cn(
-              'lowercase',
-              `${isSubmitting && 'flex items-center justify-center gap-2'}`,
-            )}
+            className="lowercase"
             style={{ fontVariant: 'small-caps' }}
             disabled={disabled}
           >
-            {isSubmitting ? (
-              <>
-                <Loader size="items" border="thin" color="border-negative" />
-                <p>Submitting</p>
-              </>
-            ) : (
-              'Submit'
-            )}
+            Submit
           </Button>
         </div>
       </form>

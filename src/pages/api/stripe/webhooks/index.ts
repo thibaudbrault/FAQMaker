@@ -1,12 +1,14 @@
+import { buffer } from 'micro';
 import { NextApiRequest, NextApiResponse } from 'next';
-import getRawBody from 'raw-body';
+import { Stripe } from 'stripe';
 
 import { IPlan } from '@/types';
 import prisma from 'lib/prisma';
 
-import type { Stripe } from 'stripe';
-
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2023-10-16',
+});
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 const STRIPE_SIGNATURE_HEADER = 'stripe-signature';
 
 export const config = {
@@ -19,17 +21,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const body = await getRawBody(req);
+  const body = await buffer(req);
   const signature = req.headers[STRIPE_SIGNATURE_HEADER];
 
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET as string,
-    );
+    event = stripe.webhooks.constructEvent(body, signature!, webhookSecret);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -40,8 +38,6 @@ export default async function handler(
     'payment_intent.payment_failed',
     'customer.subscription.updated',
   ];
-
-  console.log('first');
 
   if (permittedEvents.includes(event.type)) {
     let data;
@@ -60,8 +56,20 @@ export default async function handler(
           });
           break;
         case 'customer.subscription.updated':
-          const customer = event.data.object as Stripe.Subscription;
-          console.log('🚀 ~ file: index.ts:62 ~ customer:', customer);
+          const subscription = event.data.object as Stripe.Subscription;
+          const subscriptionCustomer = subscription.customer as string;
+          let subscriptionPlan: IPlan['value'] = 'free';
+          if (subscription.items.data[0].plan.amount === 1900) {
+            subscriptionPlan = 'startup';
+          } else if (subscription.items.data[0].plan.amount === 2900) {
+            subscriptionPlan = 'enterprise';
+          }
+          await prisma.tenant.update({
+            where: { customerId: subscriptionCustomer },
+            data: {
+              plan: subscriptionPlan,
+            },
+          });
           break;
         case 'payment_intent.payment_failed':
           data = event.data.object as Stripe.PaymentIntent;
@@ -69,21 +77,21 @@ export default async function handler(
           break;
         case 'payment_intent.succeeded':
           const payment = event.data.object as Stripe.PaymentIntent;
-          const customerId = payment.customer as string;
-          let plan: IPlan['value'] = 'free';
+          const paymentCustomer = payment.customer as string;
+          let paymentPlan: IPlan['value'] = 'free';
           if (payment.amount === 2900) {
-            plan = 'business';
+            paymentPlan = 'startup';
           } else if (payment.amount === 4900) {
-            plan = 'enterprise';
+            paymentPlan = 'enterprise';
           }
           let isActive: boolean = false;
           if (payment.status === 'succeeded') {
             isActive = true;
           }
           await prisma.tenant.update({
-            where: { customerId },
+            where: { customerId: paymentCustomer },
             data: {
-              plan,
+              plan: paymentPlan,
               isActive,
             },
           });

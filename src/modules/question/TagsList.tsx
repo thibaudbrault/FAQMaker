@@ -29,13 +29,11 @@ export const TagsList = ({
     return <Loader size="items" />;
   } else if (tags.length > 0) {
     return (
-      <ul className="flex flex-wrap justify-start gap-4">
+      <ul className="flex list-none flex-wrap justify-start gap-4">
         {tags.map((tag) => (
           <li key={tag.id}>
             <Button
-              variant={
-                selectedTags.includes(tag.id) ? 'primaryDark' : 'disabled'
-              }
+              variant={selectedTags.includes(tag.id) ? 'primary' : 'disabled'}
               rounded="base"
               font="small"
               size="small"

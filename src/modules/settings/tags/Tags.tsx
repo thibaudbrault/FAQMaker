@@ -1,18 +1,16 @@
-import { Tag } from '@prisma/client';
 import { AxiosError } from 'axios';
 
 import { Button, Loader, errorToast } from '@/components';
-import { useDeleteTag } from '@/hooks';
+import { useDeleteTag, useTags } from '@/hooks';
 
 import { CreateTag } from './Create';
 
 type Props = {
-  tags: Tag[];
-  isPending: boolean;
   tenantId: string;
 };
 
-export const Tags = ({ tags, isPending, tenantId }: Props) => {
+export const Tags = ({ tenantId }: Props) => {
+  const { data: tags, isPending } = useTags(tenantId);
   const {
     mutate,
     isPending: isTagLoading,
@@ -34,9 +32,9 @@ export const Tags = ({ tags, isPending, tenantId }: Props) => {
   }
 
   return (
-    <section className="mx-auto w-3/4">
+    <section className="mx-auto w-11/12 md:w-3/4">
       {tags.length > 0 ? (
-        <ul className="my-6 flex flex-wrap gap-4">
+        <ul className="my-6 flex list-none flex-wrap gap-4">
           {tags.map((tag) => (
             <li
               key={tag.id}
@@ -44,7 +42,7 @@ export const Tags = ({ tags, isPending, tenantId }: Props) => {
             >
               <p className="px-2">{tag.label}</p>
               <Button
-                variant="primaryDark"
+                variant="primary"
                 size="small"
                 font="small"
                 weight="semibold"

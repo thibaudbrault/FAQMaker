@@ -1,4 +1,4 @@
-import { Tenant } from '@prisma/client';
+import { ExtendedTenant } from '@/types';
 
 import { Colors } from './Colors';
 import { Company } from './Company';
@@ -6,39 +6,29 @@ import { Data } from './Data';
 import { Integrations } from './Integrations';
 
 type Props = {
-  nodesCount: number;
-  usersCount: number;
-  tenant: Tenant;
-  isTenantLoading: boolean;
+  tenantId: string;
+  tenant: ExtendedTenant;
+  isPending: boolean;
 };
 
-export const General = ({
-  nodesCount,
-  usersCount,
-  tenant,
-  isTenantLoading,
-}: Props) => {
+export const General = ({ tenantId, tenant, isPending }: Props) => {
   return (
     <>
       {tenant.plan !== 'free' && (
-        <section className="relative">
-          <Colors />
+        <section className="w-full rounded-md bg-default p-4">
+          <Colors colors={tenant.color} tenantId={tenantId} />
         </section>
       )}
-      <section className="relative">
-        <Company tenant={tenant} isPending={isTenantLoading} />
+      <section className="w-full rounded-md bg-default p-4">
+        <Company tenant={tenant} isPending={isPending} />
       </section>
       {tenant.plan !== 'free' && (
-        <section className="relative">
-          <Integrations tenant={tenant} isPending={isTenantLoading} />
+        <section className="w-full rounded-md bg-default p-4">
+          <Integrations tenantId={tenantId} />
         </section>
       )}
-      <section className="relative">
-        <Data
-          nodesCount={nodesCount}
-          usersCount={usersCount}
-          plan={tenant.plan}
-        />
+      <section className="w-full">
+        <Data tenantId={tenantId} plan={tenant.plan} />
       </section>
     </>
   );

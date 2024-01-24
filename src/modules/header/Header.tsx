@@ -1,13 +1,20 @@
-import { LogOut, Settings, UserIcon, Wallet } from 'lucide-react';
+import { AlignJustify, LogOut, Settings, UserIcon, Wallet } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { signOut } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/components';
-import { useCreateBillingPortal, useUser } from '@/hooks';
-import { cn } from '@/utils';
+import {
+  Button,
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components';
+import { useCreateBillingPortal, useMediaQuery, useUser } from '@/hooks';
+import { Routes, cn } from '@/utils';
 
 type Props = {
   id: string;
@@ -17,10 +24,10 @@ type Props = {
 
 export const Header = ({ id, company, tenantId }: Props) => {
   const { handleSubmit } = useForm();
-  const router = useRouter();
   const { data: user, isPending } = useUser(id);
+  const isDesktop = useMediaQuery('(min-width: 640px)');
 
-  const { mutate } = useCreateBillingPortal(tenantId, router);
+  const { mutate } = useCreateBillingPortal(tenantId);
 
   const onSubmit = () => {
     mutate();
@@ -35,98 +42,122 @@ export const Header = ({ id, company, tenantId }: Props) => {
           {company}
         </Link>
       </h1>
-      {user && (
-        <div className="flex items-end gap-4">
-          {!isPending && (
-            <ul className="flex gap-4">
-              <li>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Link
-                      href="/profile"
-                      className="flex items-center gap-1 hover:text-negativeOffset"
-                    >
-                      {user.image ? (
-                        <Image
-                          src={user.image}
-                          alt="Profile"
-                          width={24}
-                          height={24}
-                          className="rounded-full"
-                        />
-                      ) : (
-                        <UserIcon />
-                      )}
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent className={cn(tooltipClass)}>
-                    <p>Profile</p>
-                  </TooltipContent>
-                </Tooltip>
-              </li>
-              {user?.role !== 'user' && (
-                <li>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Link
-                        href="/settings"
-                        className="hover:text-negativeOffset"
-                      >
-                        <Settings />
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent className={cn(tooltipClass)}>
-                      <p>Settings</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </li>
-              )}
-              {user?.role === 'tenant' && (
-                <li>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <form onSubmit={handleSubmit(onSubmit)}>
-                        <button className="hover:text-negativeOffset">
-                          <Wallet />
+      {isDesktop
+        ? user && (
+            <div className="flex items-end gap-4">
+              {!isPending && (
+                <ul className="flex list-none gap-4">
+                  <li>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link
+                          href="/profile"
+                          className="flex items-center gap-1 hover:text-negativeOffset"
+                        >
+                          {user.image ? (
+                            <Image
+                              src={user.image}
+                              alt="Profile"
+                              width={24}
+                              height={24}
+                              className="rounded-full"
+                            />
+                          ) : (
+                            <UserIcon />
+                          )}
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent className={cn(tooltipClass)}>
+                        <p>Profile</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </li>
+                  {user?.role !== 'user' && (
+                    <li>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Link
+                            href="/settings"
+                            className="hover:text-negativeOffset"
+                          >
+                            <Settings />
+                          </Link>
+                        </TooltipTrigger>
+                        <TooltipContent className={cn(tooltipClass)}>
+                          <p>Settings</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </li>
+                  )}
+                  {user?.role === 'tenant' && (
+                    <li>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <form onSubmit={handleSubmit(onSubmit)}>
+                            <button className="hover:text-negativeOffset">
+                              <Wallet />
+                            </button>
+                          </form>
+                        </TooltipTrigger>
+                        <TooltipContent className={cn(tooltipClass)}>
+                          <p>Billing</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </li>
+                  )}
+                  <li>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() => signOut()}
+                          className="hover:text-negativeOffset"
+                        >
+                          <LogOut />
                         </button>
-                      </form>
-                    </TooltipTrigger>
-                    <TooltipContent className={cn(tooltipClass)}>
-                      <p>Billing</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </li>
+                      </TooltipTrigger>
+                      <TooltipContent className={cn(tooltipClass)}>
+                        <p>Logout</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </li>
+                </ul>
               )}
-              <li>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <button
-                      onClick={() => signOut()}
-                      className="hover:text-negativeOffset"
-                    >
-                      <LogOut />
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent className={cn(tooltipClass)}>
-                    <p>Logout</p>
-                  </TooltipContent>
-                </Tooltip>
-              </li>
-            </ul>
+              <Button
+                variant="ghost"
+                font="large"
+                size="small"
+                weight="semibold"
+                className="lowercase"
+                style={{ fontVariant: 'small-caps' }}
+                asChild
+              >
+                <Link href={Routes.SITE.QUESTION.NEW}>New Question</Link>
+              </Button>
+            </div>
+          )
+        : user && (
+            <Drawer>
+              <DrawerTrigger>
+                <AlignJustify />
+              </DrawerTrigger>
+              <DrawerContent>
+                <div className="mb-10 mt-5 flex flex-col items-center gap-2 text-xl font-semibold">
+                  <Link href="/profile">Profile</Link>
+                  {user.role !== 'user' && (
+                    <Link href="/settings">Settings</Link>
+                  )}
+                  {user.role === 'tenant' && (
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <button>Billing</button>
+                    </form>
+                  )}
+                  <button onClick={() => signOut()}>Logout</button>
+                  <hr className="mx-auto my-2 h-px w-3/4 border-none bg-negative" />
+                  <Link href={Routes.SITE.QUESTION.NEW}>New Question</Link>
+                </div>
+              </DrawerContent>
+            </Drawer>
           )}
-          <Button
-            variant="primaryLight"
-            font="large"
-            size="small"
-            weight="semibold"
-            className="lowercase"
-            style={{ fontVariant: 'small-caps' }}
-            asChild
-          >
-            <Link href="/question/new">New Question</Link>
-          </Button>
-        </div>
-      )}
     </header>
   );
 };

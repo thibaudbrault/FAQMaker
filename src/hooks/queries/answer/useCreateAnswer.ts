@@ -34,7 +34,7 @@ export const useCreateAnswer = (
 
   const mutation = useMutation({
     mutationFn: createAnswerMutation,
-    onSettled: async () => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QueryKeys.NODES, tenantId],
       });

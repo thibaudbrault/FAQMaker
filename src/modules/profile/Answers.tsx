@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 import { Button, Loader } from '@/components';
 import { NodeWithQuestionAndAnswer } from '@/hooks';
-import { ExtendedNode } from '@/types';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
@@ -22,13 +21,13 @@ export const UserAnswers = ({ nodes, isPending }: Props) => {
   return (
     <>
       <h2
-        className="text-center font-serif text-4xl font-semibold lowercase"
+        className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
         style={{ fontVariant: 'small-caps' }}
       >
         Answers
       </h2>
       {nodes && nodes.length > 0 ? (
-        <ul className="flex flex-col gap-2 ">
+        <ul className="flex list-none flex-col gap-2 ">
           {nodes.map((node, index) => (
             <li
               className="flex items-center justify-between rounded-md bg-white px-3 py-2 shadow-sm"

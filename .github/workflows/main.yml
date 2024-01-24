@@ -1,4 +1,4 @@
-name: Check PR
+name: Run Type Check & Linters
 
 on: [pull_request]
 
@@ -7,7 +7,6 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    name: Run Type Check & Linters
     runs-on: ubuntu-latest
 
     steps:
@@ -30,3 +29,6 @@ jobs:
 
       - name: Check linting
         run: pnpm lint
+
+      - name: Check prettier
+        run: pnpm prettier
