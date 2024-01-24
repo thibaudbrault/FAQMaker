@@ -49,7 +49,7 @@ function Company() {
       label: 'Domain',
       value: 'domain',
       type: 'text',
-      info: `Fill this field if you have a personalised domain name used for your users' email`,
+      info: `Fill this field if you have a personalized domain name used for your users' email`,
     },
   ];
 
