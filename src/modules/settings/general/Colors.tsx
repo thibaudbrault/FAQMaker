@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Color } from '@prisma/client';
 import Sketch from '@uiw/react-color-sketch';
 import { AxiosError } from 'axios';
+import { useRouter } from 'next/router';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { hex, score } from 'wcag-contrast';
 import { z } from 'zod';
@@ -17,7 +18,6 @@ import {
 } from '@/components';
 import { useUpsertColors } from '@/hooks';
 import { colorsClientSchema } from '@/lib';
-import { useRouter } from 'next/router';
 
 type Schema = z.infer<typeof colorsClientSchema>;
 
@@ -28,7 +28,7 @@ type Props = {
 
 export const Colors = ({ colors, tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const router = useRouter()
+  const router = useRouter();
 
   const [hexForeground, setHexForeground] = useState<string>(
     colors?.foreground ?? '#0f766e',
@@ -47,8 +47,8 @@ export const Colors = ({ colors, tenantId }: Props) => {
     resolver: zodResolver(colorsClientSchema),
     defaultValues: {
       foreground: colors.foreground,
-      background: colors.background
-    }
+      background: colors.background,
+    },
   });
 
   const { mutate, isError, error } = useUpsertColors(tenantId, router);
@@ -86,7 +86,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
       </h2>
       <div className="mb-2 flex flex-col items-center justify-evenly gap-2 sm:flex-row">
         <div>
-          <p className='text-center font-semibold'>Foreground</p>
+          <p className="text-center font-semibold">Foreground</p>
           <Controller
             control={control}
             name="foreground"
@@ -97,13 +97,13 @@ export const Colors = ({ colors, tenantId }: Props) => {
                 presetColors={false}
                 disableAlpha={true}
                 onChange={(color) => handleForegroundChange(onChange, color)}
-                className='border border-ghost'
+                className="border border-ghost"
               />
             )}
           />
         </div>
         <div>
-          <p className='text-center font-semibold'>Background</p>
+          <p className="text-center font-semibold">Background</p>
           <Controller
             control={control}
             name="background"
@@ -114,7 +114,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
                 presetColors={false}
                 disableAlpha={true}
                 onChange={(color) => handleBackgroundChange(onChange, color)}
-                className='border border-ghost'
+                className="border border-ghost"
               />
             )}
           />
@@ -122,7 +122,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
       </div>
       <div className="flex items-center justify-center gap-8">
         <p
-          className="w-fit rounded-md px-2 py-1 text-center font-semibold border border-ghost"
+          className="w-fit rounded-md border border-ghost px-2 py-1 text-center font-semibold"
           style={{ backgroundColor: hexBackground, color: hexForeground }}
         >
           Test the colors

@@ -29,8 +29,13 @@ function Confirm() {
     defaultValues: state,
   });
 
-  const { data: customerId, mutateAsync: mutateCustomer, isSuccess: customerIsSuccess } = useCreateCustomer();
-  const { mutateAsync: mutateTenant, isSuccess: tenantIsSuccess } = useCreateTenant(router);
+  const {
+    data: customerId,
+    mutateAsync: mutateCustomer,
+    isSuccess: customerIsSuccess,
+  } = useCreateCustomer();
+  const { mutateAsync: mutateTenant, isSuccess: tenantIsSuccess } =
+    useCreateTenant(router);
 
   const onSubmit: SubmitHandler<Schema> = async (values) => {
     try {

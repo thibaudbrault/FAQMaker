@@ -2,7 +2,7 @@ import { Color, Tenant, User } from '@prisma/client';
 
 type TenantWithColor = Tenant & {
   color: Color;
-}
+};
 
 export type UserWithTenant = User & {
   tenant: TenantWithColor;

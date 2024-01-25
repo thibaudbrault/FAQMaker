@@ -1,17 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { NextRouter } from 'next/router';
 import { z } from 'zod';
 
 import { successToast } from '@/components';
 import { colorsClientSchema } from '@/lib';
 import { QueryKeys, Routes } from '@/utils';
-import { NextRouter } from 'next/router';
 
 type Schema = z.infer<typeof colorsClientSchema>;
 
 const upsertColors = async (values: Schema, tenantId: string) => {
   const body = { ...values, tenantId };
-  console.log(body)
+  console.log(body);
   const { data } = await axios.post(Routes.API.COLORS, body);
   return data;
 };

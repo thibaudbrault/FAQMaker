@@ -31,7 +31,7 @@ export const Company = ({ tenant, isPending }: Props) => {
     defaultValues: {
       company: tenant.company,
       email: tenant.email,
-      domain: tenant.domain
+      domain: tenant.domain,
     },
   });
 
@@ -56,8 +56,8 @@ export const Company = ({ tenant, isPending }: Props) => {
       {
         label: 'Domain',
         value: 'domain',
-        type: 'text'
-      }
+        type: 'text',
+      },
     ],
     [],
   );
@@ -82,7 +82,7 @@ export const Company = ({ tenant, isPending }: Props) => {
         className="flex flex-col items-center gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <fieldset className="w-full flex flex-col gap-2 md:flex-row">
+        <fieldset className="flex w-full flex-col gap-2 md:flex-row">
           {fields.map((field) => (
             <div
               key={field.value}

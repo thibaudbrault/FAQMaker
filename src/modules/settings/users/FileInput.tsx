@@ -117,6 +117,7 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
     } else if (plan === 'enterprise') {
       setLimit(Infinity);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitting, file]);
 
   return (

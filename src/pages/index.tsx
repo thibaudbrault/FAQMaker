@@ -77,10 +77,17 @@ function Home({ me }: Props) {
 
   useEffect(() => {
     if (me.tenant.color) {
-      document.documentElement.style.setProperty('--color-text', userPreferences.textColor);
-      document.documentElement.style.setProperty('--color-background', userPreferences.backgroundColor);
+      document.documentElement.style.setProperty(
+        '--color-text',
+        userPreferences.textColor,
+      );
+      document.documentElement.style.setProperty(
+        '--color-background',
+        userPreferences.backgroundColor,
+      );
       // document.documentElement.style.setProperty('--color-border', userPreferences.borderColor);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userPreferences]);
 
   useEffect(() => {
