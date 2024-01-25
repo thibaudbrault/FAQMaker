@@ -11,7 +11,6 @@ type Schema = z.infer<typeof colorsClientSchema>;
 
 const upsertColors = async (values: Schema, tenantId: string) => {
   const body = { ...values, tenantId };
-  console.log(body);
   const { data } = await axios.post(Routes.API.COLORS, body);
   return data;
 };

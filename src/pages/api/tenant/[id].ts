@@ -31,6 +31,7 @@ export default async function handler(
               select: {
                 foreground: true,
                 background: true,
+                border: true
               },
             },
           },

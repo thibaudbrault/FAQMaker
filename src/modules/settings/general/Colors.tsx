@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Color } from '@prisma/client';
 import Sketch from '@uiw/react-color-sketch';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { hex, score } from 'wcag-contrast';
@@ -11,6 +11,11 @@ import { z } from 'zod';
 
 import {
   Button,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -18,6 +23,7 @@ import {
 } from '@/components';
 import { useUpsertColors } from '@/hooks';
 import { colorsClientSchema } from '@/lib';
+import { HelpCircle } from 'lucide-react';
 
 type Schema = z.infer<typeof colorsClientSchema>;
 
@@ -36,6 +42,9 @@ export const Colors = ({ colors, tenantId }: Props) => {
   const [hexBackground, setHexBackground] = useState<string>(
     colors?.background ?? '#e7e5e4',
   );
+  const [hexBorder, setHexBorder] = useState<string>(
+    colors?.border ?? '#0a0a0a',
+  );
   const ratio: number = hex(hexForeground, hexBackground);
   const wcag: string = score(ratio);
 
@@ -48,13 +57,21 @@ export const Colors = ({ colors, tenantId }: Props) => {
     defaultValues: {
       foreground: colors.foreground,
       background: colors.background,
+      border: colors.border
     },
   });
 
   const { mutate, isError, error } = useUpsertColors(tenantId, router);
 
+  const [test, setTest] = useState('#d45e54')
+  const testFn = async () => {
+    const {data} = await axios.get(`https://www.thecolorapi.com/scheme?hex=${hexBackground.slice(1)}&mode=monochrome&count=11`)
+    setTest(data.colors[2].hex.value)
+  }
+
   const onSubmit: SubmitHandler<Schema> = (values) => {
-    mutate(values);
+    testFn()
+    // mutate(values);
   };
 
   const handleForegroundChange = (onChange, color) => {
@@ -67,6 +84,11 @@ export const Colors = ({ colors, tenantId }: Props) => {
     setHexBackground(color.hex);
   };
 
+  const handleBorderChange = (onChange, color) => {
+    onChange(color.hex);
+    setHexBorder(color.hex);
+  };
+
   useEffect(() => {
     setDisabled(isSubmitting || !isDirty);
   }, [isSubmitting, isDirty]);
@@ -77,14 +99,14 @@ export const Colors = ({ colors, tenantId }: Props) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 relative">
       <h2
         className="text-center font-serif text-4xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
       >
         Colors
       </h2>
-      <div className="mb-2 flex flex-col items-center justify-evenly gap-2 sm:flex-row">
+      <fieldset className="mb-2 flex flex-wrap items-center justify-evenly gap-2">
         <div>
           <p className="text-center font-semibold">Foreground</p>
           <Controller
@@ -119,7 +141,24 @@ export const Colors = ({ colors, tenantId }: Props) => {
             )}
           />
         </div>
-      </div>
+        <div>
+          <p className="text-center font-semibold">Border</p>
+          <Controller
+            control={control}
+            name="border"
+            render={({ field: { onChange } }) => (
+              <Sketch
+                style={{ boxShadow: 'none' }}
+                color={hexBorder}
+                presetColors={false}
+                disableAlpha={true}
+                onChange={(color) => handleBorderChange(onChange, color)}
+                className="border border-ghost"
+              />
+            )}
+          />
+        </div>
+      </fieldset>
       <div className="flex items-center justify-center gap-8">
         <p
           className="w-fit rounded-md border border-ghost px-2 py-1 text-center font-semibold"
@@ -132,7 +171,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
             <TooltipTrigger asChild>
               <p>{ratio.toFixed(2)}:1</p>
             </TooltipTrigger>
-            <TooltipContent className="border-none bg-default text-default">
+            <TooltipContent>
               <p>WCAG ratio</p>
             </TooltipContent>
           </Tooltip>
@@ -148,7 +187,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
                 {wcag}
               </p>
             </TooltipTrigger>
-            <TooltipContent className="border-none bg-default text-default">
+            <TooltipContent>
               <p>WCAG score</p>
             </TooltipContent>
           </Tooltip>
@@ -177,6 +216,34 @@ export const Colors = ({ colors, tenantId }: Props) => {
           </p>
         )}
       </div>
+      <Dialog>
+        <DialogTrigger className='absolute bottom-1 right-1 font-semibold'>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <HelpCircle />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Help</p>
+            </TooltipContent>
+          </Tooltip>
+        </DialogTrigger>
+        <DialogContent className="bg-stone-200/90">
+          <DialogHeader>
+            <DialogTitle className='text-2xl'>How to build a good palette ?</DialogTitle>
+          </DialogHeader>
+          <div>
+            <p>There are 3 different colors to choose:</p>
+            <ul className='list-disc pl-6'>
+              <li><span className='font-semibold'>Foreground</span>: used for text (default is white)</li>
+              <li><span className='font-semibold'>Background</span>: used for background (default is black)</li>
+              <li><span className='font-semibold'>Border</span>: used for border</li>
+            </ul>
+          </div>
+          <p>
+            Other colors will be created to have a complete palette with offsets and negative of the chosen colors. 
+          </p>
+        </DialogContent>
+      </Dialog>
     </form>
   );
 };

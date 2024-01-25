@@ -13,13 +13,14 @@ export default async function handler(
           .status(404)
           .json({ success: false, message: `Form data not provided` });
       }
-      const { foreground, background, tenantId } = req.body;
+      const { foreground, background, border, tenantId } = req.body;
       await prisma.color.upsert({
         where: { tenantId },
-        update: { foreground, background },
+        update: { foreground, background, border },
         create: {
           foreground,
           background,
+          border,
           tenantId,
         },
       });
