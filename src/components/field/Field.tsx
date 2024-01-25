@@ -32,7 +32,7 @@ export const Field = ({ children, label, value, error, info }: Props) => {
             <TooltipTrigger asChild>
               <HelpCircle className="h-3 w-3" />
             </TooltipTrigger>
-            <TooltipContent className="border-none bg-default text-default">
+            <TooltipContent>
               <p>{info}</p>
             </TooltipContent>
           </Tooltip>

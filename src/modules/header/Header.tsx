@@ -33,8 +33,6 @@ export const Header = ({ id, company, tenantId }: Props) => {
     mutate();
   };
 
-  const tooltipClass = 'bg-negative text-negative border border-negative';
-
   return (
     <header className="flex items-center justify-between bg-negative px-8 py-4 text-negative">
       <h1>
@@ -67,7 +65,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
                           )}
                         </Link>
                       </TooltipTrigger>
-                      <TooltipContent className={cn(tooltipClass)}>
+                      <TooltipContent>
                         <p>Profile</p>
                       </TooltipContent>
                     </Tooltip>
@@ -83,7 +81,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
                             <Settings />
                           </Link>
                         </TooltipTrigger>
-                        <TooltipContent className={cn(tooltipClass)}>
+                        <TooltipContent>
                           <p>Settings</p>
                         </TooltipContent>
                       </Tooltip>
@@ -99,7 +97,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
                             </button>
                           </form>
                         </TooltipTrigger>
-                        <TooltipContent className={cn(tooltipClass)}>
+                        <TooltipContent>
                           <p>Billing</p>
                         </TooltipContent>
                       </Tooltip>
@@ -115,7 +113,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
                           <LogOut />
                         </button>
                       </TooltipTrigger>
-                      <TooltipContent className={cn(tooltipClass)}>
+                      <TooltipContent>
                         <p>Logout</p>
                       </TooltipContent>
                     </Tooltip>
