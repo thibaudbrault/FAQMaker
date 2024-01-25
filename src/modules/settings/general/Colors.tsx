@@ -17,6 +17,7 @@ import {
 } from '@/components';
 import { useUpsertColors } from '@/hooks';
 import { colorsClientSchema } from '@/lib';
+import { useRouter } from 'next/router';
 
 type Schema = z.infer<typeof colorsClientSchema>;
 
@@ -27,6 +28,7 @@ type Props = {
 
 export const Colors = ({ colors, tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
+  const router = useRouter()
 
   const [hexForeground, setHexForeground] = useState<string>(
     colors?.foreground ?? '#0f766e',
@@ -43,9 +45,13 @@ export const Colors = ({ colors, tenantId }: Props) => {
     formState: { isDirty, isSubmitting },
   } = useForm<Schema>({
     resolver: zodResolver(colorsClientSchema),
+    defaultValues: {
+      foreground: colors.foreground,
+      background: colors.background
+    }
   });
 
-  const { mutate, isError, error } = useUpsertColors(tenantId);
+  const { mutate, isError, error } = useUpsertColors(tenantId, router);
 
   const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
@@ -79,36 +85,44 @@ export const Colors = ({ colors, tenantId }: Props) => {
         Colors
       </h2>
       <div className="mb-2 flex flex-col items-center justify-evenly gap-2 sm:flex-row">
-        <Controller
-          control={control}
-          name="foreground"
-          render={({ field: { onChange } }) => (
-            <Sketch
-              style={{ boxShadow: 'none' }}
-              color={hexForeground}
-              presetColors={false}
-              disableAlpha={true}
-              onChange={(color) => handleForegroundChange(onChange, color)}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="background"
-          render={({ field: { onChange } }) => (
-            <Sketch
-              style={{ boxShadow: 'none' }}
-              color={hexBackground}
-              presetColors={false}
-              disableAlpha={true}
-              onChange={(color) => handleBackgroundChange(onChange, color)}
-            />
-          )}
-        />
+        <div>
+          <p className='text-center font-semibold'>Foreground</p>
+          <Controller
+            control={control}
+            name="foreground"
+            render={({ field: { onChange } }) => (
+              <Sketch
+                style={{ boxShadow: 'none' }}
+                color={hexForeground}
+                presetColors={false}
+                disableAlpha={true}
+                onChange={(color) => handleForegroundChange(onChange, color)}
+                className='border border-ghost'
+              />
+            )}
+          />
+        </div>
+        <div>
+          <p className='text-center font-semibold'>Background</p>
+          <Controller
+            control={control}
+            name="background"
+            render={({ field: { onChange } }) => (
+              <Sketch
+                style={{ boxShadow: 'none' }}
+                color={hexBackground}
+                presetColors={false}
+                disableAlpha={true}
+                onChange={(color) => handleBackgroundChange(onChange, color)}
+                className='border border-ghost'
+              />
+            )}
+          />
+        </div>
       </div>
       <div className="flex items-center justify-center gap-8">
         <p
-          className="w-fit rounded-md px-2 py-1 text-center font-semibold"
+          className="w-fit rounded-md px-2 py-1 text-center font-semibold border border-ghost"
           style={{ backgroundColor: hexBackground, color: hexForeground }}
         >
           Test the colors

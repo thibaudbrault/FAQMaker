@@ -1,7 +1,11 @@
-import { Tenant, User } from '@prisma/client';
+import { Color, Tenant, User } from '@prisma/client';
+
+type TenantWithColor = Tenant & {
+  color: Color;
+}
 
 export type UserWithTenant = User & {
-  tenant: Tenant;
+  tenant: TenantWithColor;
 };
 
 export type RegisterInfo = {

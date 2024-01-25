@@ -69,6 +69,20 @@ function Home({ me }: Props) {
     nodes = initialNodes ?? [];
   }
 
+  const userPreferences = {
+    textColor: me.tenant.color.foreground ?? '',
+    backgroundColor: me.tenant.color.background ?? '',
+    // borderColor: '#0000ff',
+  };
+
+  useEffect(() => {
+    if (me.tenant.color) {
+      document.documentElement.style.setProperty('--color-text', userPreferences.textColor);
+      document.documentElement.style.setProperty('--color-background', userPreferences.backgroundColor);
+      // document.documentElement.style.setProperty('--color-border', userPreferences.borderColor);
+    }
+  }, [userPreferences]);
+
   useEffect(() => {
     setIsLoading(isPending || isSearchLoading);
   }, [isPending, isSearchLoading]);

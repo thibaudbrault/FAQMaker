@@ -11,7 +11,7 @@ export const getMe = async (params: GetSessionParams): Promise<User | null> => {
 
   const me = await prisma.user.findUnique({
     where: { id },
-    include: { tenant: { select: { company: true } } },
+    include: { tenant: { select: { company: true, color: true } } },
   });
 
   if (!me) return null;
