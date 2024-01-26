@@ -12,6 +12,7 @@ export default defineConfig({
   reporter: 'html',
   use: {
     trace: 'on-first-retry',
+    video: 'retain-on-failure',
     baseURL: 'http://localhost:3000',
   },
 
