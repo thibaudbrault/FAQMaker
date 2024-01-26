@@ -85,7 +85,10 @@ function Home({ me }: Props) {
         '--color-background',
         userPreferences.backgroundColor,
       );
-      document.documentElement.style.setProperty('--color-border', userPreferences.borderColor);
+      document.documentElement.style.setProperty(
+        '--color-border',
+        userPreferences.borderColor,
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userPreferences]);
