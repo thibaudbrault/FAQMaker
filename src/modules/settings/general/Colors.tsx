@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Color } from '@prisma/client';
 import Sketch from '@uiw/react-color-sketch';
 import axios, { AxiosError } from 'axios';
+import { HelpCircle } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { hex, score } from 'wcag-contrast';
@@ -23,7 +24,6 @@ import {
 } from '@/components';
 import { useUpsertColors } from '@/hooks';
 import { colorsClientSchema } from '@/lib';
-import { HelpCircle } from 'lucide-react';
 
 type Schema = z.infer<typeof colorsClientSchema>;
 
@@ -57,20 +57,24 @@ export const Colors = ({ colors, tenantId }: Props) => {
     defaultValues: {
       foreground: colors.foreground,
       background: colors.background,
-      border: colors.border
+      border: colors.border,
     },
   });
 
   const { mutate, isError, error } = useUpsertColors(tenantId, router);
 
-  const [test, setTest] = useState('#d45e54')
+  const [test, setTest] = useState('#d45e54');
   const testFn = async () => {
-    const {data} = await axios.get(`https://www.thecolorapi.com/scheme?hex=${hexBackground.slice(1)}&mode=monochrome&count=11`)
-    setTest(data.colors[2].hex.value)
-  }
+    const { data } = await axios.get(
+      `https://www.thecolorapi.com/scheme?hex=${hexBackground.slice(
+        1,
+      )}&mode=monochrome&count=11`,
+    );
+    setTest(data.colors[2].hex.value);
+  };
 
   const onSubmit: SubmitHandler<Schema> = (values) => {
-    testFn()
+    testFn();
     // mutate(values);
   };
 
@@ -99,7 +103,10 @@ export const Colors = ({ colors, tenantId }: Props) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 relative">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="relative flex flex-col gap-4"
+    >
       <h2
         className="text-center font-serif text-4xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
@@ -217,7 +224,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
         )}
       </div>
       <Dialog>
-        <DialogTrigger className='absolute bottom-1 right-1 font-semibold'>
+        <DialogTrigger className="absolute bottom-1 right-1 font-semibold">
           <Tooltip>
             <TooltipTrigger asChild>
               <HelpCircle />
@@ -229,18 +236,29 @@ export const Colors = ({ colors, tenantId }: Props) => {
         </DialogTrigger>
         <DialogContent className="bg-stone-200/90">
           <DialogHeader>
-            <DialogTitle className='text-2xl'>How to build a good palette ?</DialogTitle>
+            <DialogTitle className="text-2xl">
+              How to build a good palette ?
+            </DialogTitle>
           </DialogHeader>
           <div>
             <p>There are 3 different colors to choose:</p>
-            <ul className='list-disc pl-6'>
-              <li><span className='font-semibold'>Foreground</span>: used for text (default is white)</li>
-              <li><span className='font-semibold'>Background</span>: used for background (default is black)</li>
-              <li><span className='font-semibold'>Border</span>: used for border</li>
+            <ul className="list-disc pl-6">
+              <li>
+                <span className="font-semibold">Foreground</span>: used for text
+                (default is white)
+              </li>
+              <li>
+                <span className="font-semibold">Background</span>: used for
+                background (default is black)
+              </li>
+              <li>
+                <span className="font-semibold">Border</span>: used for border
+              </li>
             </ul>
           </div>
           <p>
-            Other colors will be created to have a complete palette with offsets and negative of the chosen colors. 
+            Other colors will be created to have a complete palette with offsets
+            and negative of the chosen colors.
           </p>
         </DialogContent>
       </Dialog>

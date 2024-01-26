@@ -8,7 +8,7 @@ export const getTenant = async (tenantId: string) => {
         select: {
           foreground: true,
           background: true,
-          border: true
+          border: true,
         },
       },
     },
