@@ -70,9 +70,9 @@ function Home({ me }: Props) {
   }
 
   const userPreferences = {
-    textColor: me.tenant.color.foreground ?? '',
-    backgroundColor: me.tenant.color.background ?? '',
-    // borderColor: '#0000ff',
+    textColor: me.tenant.color?.foreground ?? '',
+    backgroundColor: me.tenant.color?.background ?? '',
+    borderColor: me.tenant.color?.border ?? '',
   };
 
   useEffect(() => {
@@ -85,7 +85,7 @@ function Home({ me }: Props) {
         '--color-background',
         userPreferences.backgroundColor,
       );
-      // document.documentElement.style.setProperty('--color-border', userPreferences.borderColor);
+      document.documentElement.style.setProperty('--color-border', userPreferences.borderColor);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userPreferences]);
