@@ -55,9 +55,9 @@ export const Colors = ({ colors, tenantId }: Props) => {
   } = useForm<Schema>({
     resolver: zodResolver(colorsClientSchema),
     defaultValues: {
-      foreground: colors.foreground,
-      background: colors.background,
-      border: colors.border,
+      foreground: colors?.foreground,
+      background: colors?.background,
+      border: colors?.border,
     },
   });
 
