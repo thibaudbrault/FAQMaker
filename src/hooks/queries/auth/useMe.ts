@@ -1,6 +1,7 @@
 import { User } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
+import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
 import { QueryKeys, Routes } from '@/utils';
@@ -12,7 +13,13 @@ const getUser = async (id: string | undefined) => {
 };
 
 export const useMe = () => {
-  const { data: session, status } = useSession();
+  const router = useRouter();
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push('/login');
+    },
+  });
   const id: string = session?.user?.id;
   const query = useQuery<User | null, AxiosError>({
     queryKey: [QueryKeys.ME, id],
