@@ -38,6 +38,7 @@ export default async function handler(
     'payment_intent.succeeded',
     'payment_intent.payment_failed',
     'customer.subscription.updated',
+    'customer.updated',
   ];
 
   if (permittedEvents.includes(event.type)) {
@@ -72,6 +73,16 @@ export default async function handler(
             },
           });
           break;
+        case 'customer.updated':
+          const customer = event.data.object as Stripe.Customer;
+          const customerId = customer.id;
+          await prisma.tenant.update({
+            where: { customerId },
+            data: {
+              company: customer.name,
+              email: customer.email,
+            },
+          });
         case 'payment_intent.payment_failed':
           data = event.data.object as Stripe.PaymentIntent;
           console.log(`❌ Payment failed: ${data.last_payment_error?.message}`);
