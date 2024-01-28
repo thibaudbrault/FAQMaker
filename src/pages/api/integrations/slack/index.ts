@@ -1,5 +1,7 @@
 import { IncomingWebhook } from '@slack/webhook';
 
+import { dateOptions, timeOptions } from '@/utils';
+
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -17,6 +19,29 @@ export default async function handler(
       const webhook = new IncomingWebhook(url);
       await webhook.send({
         text,
+        blocks: [
+          {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: `*${text}*`,
+            },
+          },
+          {
+            type: 'divider',
+            block_id: 'divider1',
+          },
+          {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: `Asked on ${new Date().toLocaleDateString(
+                undefined,
+                dateOptions,
+              )} at ${new Date().toLocaleTimeString(undefined, timeOptions)}`,
+            },
+          },
+        ],
       });
       return res.status(200).json({ message: 'Question created successfully' });
     } catch (error) {
