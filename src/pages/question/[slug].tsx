@@ -43,8 +43,7 @@ function QuestionPage({ me, id }: Props) {
   }
 
   if (isError && error instanceof AxiosError) {
-    const errorMessage = error.message || 'An error occurred';
-    errorToast(errorMessage);
+    console.error(`Something went wrong: ${error.response}`);
   }
 
   if (node) {
