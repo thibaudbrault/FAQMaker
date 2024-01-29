@@ -22,7 +22,7 @@ const updateNode = async (
     ...values,
     tenantId,
     questionId,
-    slug: slugify(values.text),
+    slug: slugify(values.text).toLowerCase(),
     userId,
     tags,
   };

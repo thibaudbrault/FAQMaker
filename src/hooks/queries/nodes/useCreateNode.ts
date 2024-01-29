@@ -19,7 +19,7 @@ const createNode = async (
 ) => {
   const body = {
     ...values,
-    slug: slugify(values.text),
+    slug: slugify(values.text).toLowerCase(),
     tenantId: me.tenantId,
     userId: me.id,
     tags: selectedTags,
