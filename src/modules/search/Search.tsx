@@ -1,4 +1,4 @@
-import { Dispatch, MouseEvent, SetStateAction } from 'react';
+import { Dispatch, MouseEvent, SetStateAction, useState } from 'react';
 
 import { Tag } from '@prisma/client';
 import { SearchIcon, TagIcon } from 'lucide-react';
@@ -23,6 +23,7 @@ type Props = {
 export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
   const router = useRouter();
   const { handleSubmit, register } = useForm();
+  const [tagActive, setTagActive] = useState<string | null>(null)
 
   const onSearch = (values) => {
     const { search } = values;
@@ -36,8 +37,14 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
   };
 
   const handleTagSearch = (label: string) => {
+    setTagActive(label)
     setSearchTag(label);
   };
+
+  const handleResetTag = () => {
+    setTagActive(null)
+    setSearchTag(null)
+  }
 
   return (
     <section className="mx-auto flex w-11/12 items-end justify-center gap-8 md:w-3/4">
@@ -70,10 +77,10 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
           >
             <TagIcon />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-default">
+          <DropdownMenuContent className="bg-default gap-1 flex flex-col">
             {tags.map((tag) => (
               <DropdownMenuItem
-                className="cursor-pointer font-semibold hover:bg-offset"
+                className={`cursor-pointer rounded-md font-semibold hover:bg-offset ${tagActive === tag.label ? 'bg-offset' : 'bg-default'}`}
                 key={tag.id}
               >
                 <button
@@ -84,16 +91,11 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
                 >
                   {tag.label}
                 </button>
+                {tagActive === tag.label && (
+                  <button onClick={handleResetTag}>x</button>
+                )}
               </DropdownMenuItem>
             ))}
-            <DropdownMenuItem className="cursor-pointer bg-negative font-semibold text-negative hover:bg-negativeOffset">
-              <button
-                className="h-full w-full text-center"
-                onClick={() => setSearchTag(null)}
-              >
-                x
-              </button>
-            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )}
