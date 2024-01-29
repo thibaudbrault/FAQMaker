@@ -1,11 +1,26 @@
 import { AxiosError } from 'axios';
-import { ChevronDown } from 'lucide-react';
+import {
+  BadgeAlert,
+  BadgeCheck,
+  BadgeHelp,
+  BadgeInfo,
+  ChevronDown,
+  PenSquare,
+} from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import { Badge, Button, Loader, errorToast } from '@/components';
+import {
+  Badge,
+  Button,
+  Loader,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  errorToast,
+} from '@/components';
 import { ExtendedNode } from '@/types';
-import { Routes } from '@/utils';
+import { Routes, dateOptions, timeOptions } from '@/utils';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
@@ -19,15 +34,6 @@ type Props = {
 };
 
 export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
-  const isNew = (createdAt: Date) => {
-    const createTime = new Date(createdAt);
-    const currentTime = new Date();
-    // @ts-ignore
-    const timeDifference = currentTime - createTime;
-    const hoursDifference = timeDifference / (1000 * 60 * 60);
-    return hoursDifference < 24;
-  };
-
   if (isLoading) {
     return <Loader size="screen" color="border-secondary" />;
   }
@@ -36,10 +42,12 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
     errorToast(error.message);
   }
 
+  console.log(nodes);
+
   return (
     <section className="mt-6">
       {nodes.length > 0 ? (
-        <ul className="mx-auto flex w-11/12 list-none flex-col gap-2 md:w-3/4">
+        <ul className="mx-auto flex w-11/12 list-none flex-col gap-4 md:w-3/4">
           {nodes?.map((node) => (
             <li
               className="relative rounded-md bg-default transition-all duration-300 hover:shadow-lg"
@@ -48,16 +56,6 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
               <details>
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-6 py-3">
                   <div>
-                    <div className="flex items-center gap-2">
-                      <h2 className="text-2xl font-semibold">
-                        {node.question.text}
-                      </h2>
-                      {isNew(node.createdAt) && (
-                        <p className="rounded-full bg-secondaryGhost px-2 text-xs font-semibold uppercase">
-                          New
-                        </p>
-                      )}
-                    </div>
                     <ul className="flex list-none gap-4 text-xs">
                       {node.tags.map((tag) => (
                         <li key={tag.id}>
@@ -72,6 +70,67 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                         </li>
                       ))}
                     </ul>
+                    <h2 className="text-2xl font-semibold transition-all duration-300 hover:underline">
+                      <Link
+                        href={{
+                          pathname: '/question/[slug]',
+                          query: { slug: node.question.slug, id: node.id },
+                        }}
+                        as={`/question/${node.question.slug}`}
+                      >
+                        {node.question.text}
+                      </Link>
+                    </h2>
+                    <div className="flex items-center gap-2">
+                      {!node.answer && (
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <BadgeHelp className="h-4 w-4 text-secondary" />
+                          </TooltipTrigger>
+                          <TooltipContent>Unanswered</TooltipContent>
+                        </Tooltip>
+                      )}
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <BadgeInfo className="h-4 w-4 text-secondary" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Asked by {node.question.user.name}</p>
+                          <p>
+                            Asked on{' '}
+                            {new Date(node.createdAt).toLocaleDateString(
+                              undefined,
+                              dateOptions,
+                            )}{' '}
+                            at{' '}
+                            {new Date(node.createdAt).toLocaleTimeString(
+                              undefined,
+                              timeOptions,
+                            )}
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                      {node.answer && (
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <BadgeCheck className="h-4 w-4 text-secondary" />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Answered by {node.answer.user.name}</p>
+                            <p>
+                              Answered on{' '}
+                              {new Date(
+                                node.answer.updatedAt,
+                              ).toLocaleDateString(undefined, dateOptions)}{' '}
+                              at{' '}
+                              {new Date(
+                                node.answer.updatedAt,
+                              ).toLocaleTimeString(undefined, timeOptions)}
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      )}
+                    </div>
                   </div>
                   <ChevronDown />
                 </summary>
@@ -104,7 +163,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                   </div>
                 )}
               </details>
-              <Button
+              {/* <Button
                 variant="ghost"
                 size="full"
                 font="large"
@@ -123,7 +182,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                 >
                   Modify
                 </Link>
-              </Button>
+              </Button> */}
             </li>
           ))}
         </ul>
