@@ -35,7 +35,11 @@ export default async function handler(
       const id = req.query.id as string;
       const { tenantId, questionId, text, slug, userId, tags } = req.body;
       const duplicateQuestion = await prisma.node.findFirst({
-        where: { tenantId, question: { text: text }, tags: { every: { id: { in: tags }, tenantId}, some: {}} },
+        where: {
+          tenantId,
+          question: { text: text },
+          tags: { every: { id: { in: tags }, tenantId }, some: {} },
+        },
       });
       if (duplicateQuestion) {
         return res.status(409).json({

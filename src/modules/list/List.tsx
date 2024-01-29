@@ -19,14 +19,14 @@ type Props = {
 };
 
 export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
-
   const isNew = (createdAt: Date) => {
-    const createTime = new Date(createdAt)
-    const currentTime = new Date()
-    const timeDifference = currentTime - createTime
+    const createTime = new Date(createdAt);
+    const currentTime = new Date();
+    // @ts-ignore
+    const timeDifference = currentTime - createTime;
     const hoursDifference = timeDifference / (1000 * 60 * 60);
     return hoursDifference < 24;
-  }
+  };
 
   if (isLoading) {
     return <Loader size="screen" color="border-secondary" />;
@@ -48,12 +48,14 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
               <details>
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-6 py-3">
                   <div>
-                    <div className='flex gap-2 items-center'>
+                    <div className="flex items-center gap-2">
                       <h2 className="text-2xl font-semibold">
                         {node.question.text}
                       </h2>
                       {isNew(node.createdAt) && (
-                        <p className='bg-secondaryGhost rounded-full text-xs px-2 font-semibold uppercase'>New</p>
+                        <p className="rounded-full bg-secondaryGhost px-2 text-xs font-semibold uppercase">
+                          New
+                        </p>
                       )}
                     </div>
                     <ul className="flex list-none gap-4 text-xs">
