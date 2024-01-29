@@ -91,7 +91,7 @@ function Answer({ me, id }: Props) {
                 pathname: '/question/[slug]',
                 query: { slug: node.question.slug, id: node.id },
               }}
-              as={`/question/${node.question.slug}?id=${node.id}`}
+              as={`/question/${node.question.slug}`}
             >
               <MoveLeft />
               Go back

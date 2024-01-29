@@ -40,7 +40,7 @@ export const UserAnswers = ({ nodes, isPending }: Props) => {
                     pathname: '/question/[slug]',
                     query: { slug: node.question.slug, id: node.id },
                   }}
-                  as={`/question/${node.question.slug}?id=${node.id}`}
+                  as={`/question/${node.question.slug}`}
                 >
                   <MoveRight />
                 </Link>

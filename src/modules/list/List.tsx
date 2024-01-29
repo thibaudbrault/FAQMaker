@@ -103,7 +103,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                     pathname: '/question/[slug]',
                     query: { slug: node.question.slug, id: node.id },
                   }}
-                  as={`/question/${node.question.slug}?id=${node.id}`}
+                  as={`/question/${node.question.slug}`}
                 >
                   Modify
                 </Link>

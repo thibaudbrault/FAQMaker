@@ -80,8 +80,7 @@ function Edit({ me, id }: Props) {
   }
 
   if (isError && error instanceof AxiosError) {
-    const errorMessage = error.response?.data.message || 'An error occurred';
-    errorToast(errorMessage);
+    console.error(`Something went wrong: ${error.response}`);
   }
 
   if (node) {
@@ -102,7 +101,7 @@ function Edit({ me, id }: Props) {
                 pathname: '/question/[slug]',
                 query: { slug: node.question.slug, id: node.id },
               }}
-              as={`/question/${node.question.slug}?id=${node.id}`}
+              as={`/question/${node.question.slug}`}
             >
               <MoveLeft />
               Go back
