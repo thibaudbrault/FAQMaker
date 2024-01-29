@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/utils';
 
-const badge = cva('badge', {
+const badge = cva('text-xs font-semibold', {
   variants: {
     variant: {
       primary: ['bg-negative', 'text-negative', 'text-center'],
@@ -14,7 +14,7 @@ const badge = cva('badge', {
       full: ['rounded-full'],
     },
     size: {
-      small: ['px-2', 'py-1', 'min-w-[40px]'],
+      small: ['px-2', 'min-w-[40px]'],
     },
   },
 });
