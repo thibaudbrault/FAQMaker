@@ -56,6 +56,15 @@ export default async function handler(
         });
       } else {
         const { text, slug, tenantId, userId, tags, withAnswer } = result.data;
+        const duplicateQuestion = await prisma.node.findFirst({
+          where: { tenantId, question: { text: text } },
+        });
+        if (duplicateQuestion) {
+          return res.status(409).json({
+            success: false,
+            message: 'This question already exists',
+          });
+        }
         const node = await prisma.node.create({
           data: {
             tenant: { connect: { id: tenantId } },

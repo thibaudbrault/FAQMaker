@@ -34,6 +34,16 @@ export default async function handler(
       }
       const id = req.query.id as string;
       const { tenantId, questionId, text, slug, userId, tags } = req.body;
+      const duplicateQuestion = await prisma.node.findFirst({
+        where: { tenantId, question: { text: text } },
+      });
+      console.log(duplicateQuestion);
+      if (duplicateQuestion) {
+        return res.status(409).json({
+          success: false,
+          message: 'This question already exists',
+        });
+      }
       await prisma.node.update({
         where: { id, tenantId: tenantId as string },
         data: {
