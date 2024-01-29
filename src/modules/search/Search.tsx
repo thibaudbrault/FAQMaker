@@ -23,7 +23,7 @@ type Props = {
 export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
   const router = useRouter();
   const { handleSubmit, register } = useForm();
-  const [tagActive, setTagActive] = useState<string | null>(null)
+  const [tagActive, setTagActive] = useState<string | null>(null);
 
   const onSearch = (values) => {
     const { search } = values;
@@ -37,14 +37,14 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
   };
 
   const handleTagSearch = (label: string) => {
-    setTagActive(label)
+    setTagActive(label);
     setSearchTag(label);
   };
 
   const handleResetTag = () => {
-    setTagActive(null)
-    setSearchTag(null)
-  }
+    setTagActive(null);
+    setSearchTag(null);
+  };
 
   return (
     <section className="mx-auto flex w-11/12 items-end justify-center gap-8 md:w-3/4">
@@ -77,10 +77,12 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
           >
             <TagIcon />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-default gap-1 flex flex-col">
+          <DropdownMenuContent className="flex flex-col gap-1 bg-default">
             {tags.map((tag) => (
               <DropdownMenuItem
-                className={`cursor-pointer rounded-md font-semibold hover:bg-offset ${tagActive === tag.label ? 'bg-offset' : 'bg-default'}`}
+                className={`cursor-pointer rounded-md font-semibold hover:bg-offset ${
+                  tagActive === tag.label ? 'bg-offset' : 'bg-default'
+                }`}
                 key={tag.id}
               >
                 <button
