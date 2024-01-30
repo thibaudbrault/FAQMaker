@@ -1,20 +1,19 @@
 import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { HelpCircle, MoveLeft, PenSquare } from 'lucide-react';
+import { HelpCircle, PenSquare } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import {
+  BackButton,
   Badge,
-  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
   Loader,
-  errorToast,
 } from '@/components';
 import { useNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
@@ -51,20 +50,7 @@ function QuestionPage({ me, id }: Props) {
       <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <div className="flex items-center justify-between">
-            <Button
-              variant="primary"
-              weight="semibold"
-              icon="withIcon"
-              font="large"
-              asChild
-              className="lowercase"
-              style={{ fontVariant: 'small-caps' }}
-            >
-              <Link href="/">
-                <MoveLeft />
-                Go back
-              </Link>
-            </Button>
+            <BackButton />
             <DropdownMenu>
               <DropdownMenuTrigger
                 className="w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase text-negative"

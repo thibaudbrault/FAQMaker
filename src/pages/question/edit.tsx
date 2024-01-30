@@ -4,14 +4,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { HelpCircle, MoveLeft } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 import { GetServerSideProps } from 'next';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Field, Input, Loader, errorToast } from '@/components';
+import { BackButton, Button, Field, Input, Loader } from '@/components';
 import { useMediaQuery, useNode, useTags, useUpdateNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import {
@@ -87,26 +86,7 @@ function Edit({ me, id }: Props) {
     return (
       <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
-          <Button
-            variant="primary"
-            weight="semibold"
-            icon="withIcon"
-            font="large"
-            asChild
-            className="lowercase"
-            style={{ fontVariant: 'small-caps' }}
-          >
-            <Link
-              href={{
-                pathname: '/question/[slug]',
-                query: { slug: node.question.slug, id: node.id },
-              }}
-              as={`/question/${node.question.slug}`}
-            >
-              <MoveLeft />
-              Go back
-            </Link>
-          </Button>
+          <BackButton />
           <div className="flex flex-col gap-4 rounded-md bg-default p-4">
             <form
               className="flex flex-col items-center justify-center gap-4 "

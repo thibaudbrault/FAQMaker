@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Question, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { HelpCircle, MoveLeft, MoveRight } from 'lucide-react';
+import { HelpCircle, MoveRight } from 'lucide-react';
 import { GetServerSideProps } from 'next';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, errorToast, Field, Input, Loader } from '@/components';
+import { BackButton, Button, Field, Input } from '@/components';
 import { useCreateNode, useIntegration, useMediaQuery, useTags } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import {
@@ -23,7 +22,7 @@ import {
 } from '@/lib';
 import { TagsList } from '@/modules';
 import { UserWithTenant } from '@/types';
-import { cn, QueryKeys, Redirects } from '@/utils';
+import { QueryKeys, Redirects } from '@/utils';
 
 type Props = {
   me: UserWithTenant;
@@ -79,20 +78,7 @@ function New({ me }: Props) {
   return (
     <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
       <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
-        <Button
-          variant="primary"
-          weight="semibold"
-          icon="withIcon"
-          font="large"
-          asChild
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-        >
-          <Link href="/">
-            <MoveLeft />
-            Go back
-          </Link>
-        </Button>
+        <BackButton />
         <div className="flex flex-col gap-4 rounded-md bg-default p-4">
           <form className="flex flex-col items-center gap-4">
             <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-secondary">

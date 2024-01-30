@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { ExternalLink, MoveLeft } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Editor, Loader } from '@/components';
+import { BackButton, Button, Editor, Loader } from '@/components';
 import { useCreateAnswer, useNode, useUpdateAnswer } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { answerClientSchema, getMe, getNode, ssrNcHandler } from '@/lib';
@@ -77,26 +77,7 @@ function Answer({ me, id }: Props) {
     return (
       <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
-          <Button
-            variant="primary"
-            weight="semibold"
-            icon="withIcon"
-            font="large"
-            asChild
-            className="lowercase"
-            style={{ fontVariant: 'small-caps' }}
-          >
-            <Link
-              href={{
-                pathname: '/question/[slug]',
-                query: { slug: node.question.slug, id: node.id },
-              }}
-              as={`/question/${node.question.slug}`}
-            >
-              <MoveLeft />
-              Go back
-            </Link>
-          </Button>
+          <BackButton />
           <div className="flex flex-col gap-4 rounded-md bg-default p-4">
             <h2
               className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
