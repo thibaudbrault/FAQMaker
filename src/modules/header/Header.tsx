@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
 } from '@/components';
 import { useCreateBillingPortal, useMediaQuery, useUser } from '@/hooks';
-import { Routes, cn } from '@/utils';
+import { Routes } from '@/utils';
 
 type Props = {
   id: string;
@@ -140,18 +140,29 @@ export const Header = ({ id, company, tenantId }: Props) => {
               </DrawerTrigger>
               <DrawerContent>
                 <div className="mb-10 mt-5 flex flex-col items-center gap-2 text-xl font-semibold">
-                  <Link href="/profile">Profile</Link>
+                  <Link href="/profile" className="hover:underline">
+                    Profile
+                  </Link>
                   {user.role !== 'user' && (
-                    <Link href="/settings">Settings</Link>
+                    <Link href="/settings" className="hover:underline">
+                      Settings
+                    </Link>
                   )}
                   {user.role === 'tenant' && (
                     <form onSubmit={handleSubmit(onSubmit)}>
-                      <button>Billing</button>
+                      <button className="hover:underline">Billing</button>
                     </form>
                   )}
-                  <button onClick={() => signOut()}>Logout</button>
+                  <button onClick={() => signOut()} className="hover:underline">
+                    Logout
+                  </button>
                   <hr className="mx-auto my-2 h-px w-3/4 border-none bg-negative" />
-                  <Link href={Routes.SITE.QUESTION.NEW}>New Question</Link>
+                  <Link
+                    className="rounded-md bg-negative px-2 py-1 text-negative  hover:bg-negativeOffset"
+                    href={Routes.SITE.QUESTION.NEW}
+                  >
+                    New Question
+                  </Link>
                 </div>
               </DrawerContent>
             </Drawer>
