@@ -187,7 +187,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
             <TooltipTrigger asChild>
               <p
                 className={`font-semibold ${
-                  wcag === 'Fail' ? 'text-red-700' : ''
+                  wcag === 'Fail' ? 'text-error' : ''
                 } ${wcag === 'AAA' ? 'text-green-700' : ''}`}
               >
                 {wcag}
@@ -210,7 +210,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
           Update
         </Button>
         {wcag === 'Fail' && (
-          <p className="text-sm text-red-700">
+          <p className="text-sm text-error">
             <span className="font-semibold">Bad contrast!</span> Do not use this
             palette
           </p>

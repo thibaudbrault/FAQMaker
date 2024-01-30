@@ -22,7 +22,7 @@ export const Field = ({ children, label, value, error, info }: Props) => {
       <div className="flex items-center gap-1">
         <Label
           htmlFor={value}
-          className="lowercase"
+          className={`lowercase ${error && 'text-error'}`}
           style={{ fontVariant: 'small-caps' }}
         >
           {label}
@@ -39,7 +39,7 @@ export const Field = ({ children, label, value, error, info }: Props) => {
         )}
       </div>
       {children}
-      {error && <small className="text-sm text-red-700">{error}</small>}
+      {error && <small className="text-xs text-error">{error}</small>}
     </div>
   );
 };

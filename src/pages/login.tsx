@@ -81,5 +81,5 @@ type ErrorProps = {
 
 const LoginError = ({ error }: ErrorProps) => {
   const errorMessage = error && (errors[error] ?? errors.default);
-  return <div className="text-center text-red-700">{errorMessage}</div>;
+  return <div className="text-center text-error">{errorMessage}</div>;
 };

@@ -120,7 +120,7 @@ function Answer({ me, id }: Props) {
                   )}
                 />
                 {errors.text && (
-                  <p className="text-sm text-red-700">{errors.text.message}</p>
+                  <p className="text-sm text-error">{errors.text.message}</p>
                 )}
                 <Link
                   className="flex w-fit items-baseline gap-1 text-sm hover:underline"

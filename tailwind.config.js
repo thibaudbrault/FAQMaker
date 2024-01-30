@@ -13,7 +13,8 @@ module.exports = {
         offset: "var(--color-text-offset)",
         secondary: "var(--color-text-secondary)",
         negative: "var(--color-text-negative)",
-        negativeOffset: "var(--color-text-negative-offset)"
+        negativeOffset: "var(--color-text-negative-offset)",
+        error: "var(--color-text-error)"
       },
       backgroundColor: {
         default: "var(--color-background)",
