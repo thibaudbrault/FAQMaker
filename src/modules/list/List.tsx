@@ -42,8 +42,6 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
     errorToast(error.message);
   }
 
-  console.log(nodes);
-
   return (
     <section className="mt-6">
       {nodes.length > 0 ? (
@@ -70,7 +68,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                         </li>
                       ))}
                     </ul>
-                    <h2 className="text-2xl font-semibold transition-all duration-300 hover:underline">
+                    <h2 className="mb-2 text-2xl font-semibold transition-all duration-300 hover:underline">
                       <Link
                         href={{
                           pathname: '/question/[slug]',
