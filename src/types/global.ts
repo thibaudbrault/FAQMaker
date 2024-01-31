@@ -50,3 +50,8 @@ export interface IPlan {
   benefits: string[];
   drawbacks?: string[];
 }
+
+export type TSteps = {
+  id: number;
+  label: string;
+}

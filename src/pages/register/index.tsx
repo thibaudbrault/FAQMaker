@@ -54,7 +54,7 @@ function Company() {
   ];
 
   return (
-    <AuthLayout hasBackground>
+    <AuthLayout hasBackground currentStep={1}>
       <form
         onSubmit={handleSubmit(saveData)}
         className="flex w-full flex-col gap-4"

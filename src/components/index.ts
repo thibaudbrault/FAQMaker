@@ -11,6 +11,7 @@ export * from './label';
 export * from './loader';
 export * from './pagination';
 export * from './select';
+export * from './stepper';
 export * from './tabs';
 export * from './toast';
 export * from './tooltip';

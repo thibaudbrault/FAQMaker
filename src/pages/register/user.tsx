@@ -34,7 +34,7 @@ function Register() {
   };
 
   return (
-    <AuthLayout hasBackground>
+    <AuthLayout hasBackground currentStep={2}>
       <form
         onSubmit={handleSubmit(saveData)}
         className="flex w-full flex-col gap-4"
