@@ -50,10 +50,17 @@ export default async function handler(
           const session = event.data.object as Stripe.Checkout.Session;
           const subscriptionId = session.subscription as string;
           const email = session.customer_details?.email;
+          let checkoutPlan: IPlan['value'] = 'free';
+          if (session.amount_total === 2900) {
+            checkoutPlan = 'startup';
+          } else if (session.amount_total === 4900) {
+            checkoutPlan = 'enterprise';
+          }
           await prisma.tenant.update({
             where: { email },
             data: {
               subscriptionId,
+              plan: checkoutPlan
             },
           });
           break;
@@ -90,12 +97,12 @@ export default async function handler(
         case 'payment_intent.succeeded':
           const payment = event.data.object as Stripe.PaymentIntent;
           const paymentCustomer = payment.customer as string;
-          let paymentPlan: IPlan['value'] = 'free';
-          if (payment.amount === 2900) {
-            paymentPlan = 'startup';
-          } else if (payment.amount === 4900) {
-            paymentPlan = 'enterprise';
-          }
+          // let paymentPlan: IPlan['value'] = 'free';
+          // if (payment.amount === 2900) {
+          //   paymentPlan = 'startup';
+          // } else if (payment.amount === 4900) {
+          //   paymentPlan = 'enterprise';
+          // }
           let isActive: boolean = false;
           if (payment.status === 'succeeded') {
             isActive = true;
@@ -103,7 +110,7 @@ export default async function handler(
           await prisma.tenant.update({
             where: { customerId: paymentCustomer },
             data: {
-              plan: paymentPlan,
+              // plan: paymentPlan,
               isActive,
             },
           });
