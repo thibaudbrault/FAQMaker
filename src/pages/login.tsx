@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react';
 
 import googleIcon from '@/assets/google.svg';
 import { Button } from '@/components';
-import { AuthLayout } from '@/layouts';
+import { LoginLayout } from '@/layouts';
 import { Routes } from '@/utils';
 
 function Login() {
@@ -13,7 +13,7 @@ function Login() {
   const error = router.query.error as string;
 
   return (
-    <AuthLayout hasBackground>
+    <LoginLayout>
       <div className="flex w-full flex-col gap-4">
         <div className="mb-4 flex w-full flex-col gap-2 text-center">
           <h2
@@ -53,7 +53,7 @@ function Login() {
           </Link>
         </p>
       </div>
-    </AuthLayout>
+    </LoginLayout>
   );
 }
 
