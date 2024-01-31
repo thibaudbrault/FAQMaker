@@ -54,4 +54,4 @@ export interface IPlan {
 export type TSteps = {
   id: number;
   label: string;
-}
+};
