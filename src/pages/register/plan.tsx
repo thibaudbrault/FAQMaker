@@ -14,6 +14,7 @@ import { Routes } from '@/utils';
 
 function Plan() {
   const state = useAtomValue(registerAtom);
+  console.log(state);
 
   const { handleSubmit } = useForm();
   const router = useRouter();
@@ -82,8 +83,8 @@ function Plan() {
   }, [status, router.isReady]);
 
   return (
-    <AuthLayout currentStep={4}>
-      <div className="flex min-h-screen w-full flex-col items-center justify-center gap-8 rounded-md p-8">
+    <AuthLayout noStepper>
+      <div className="flex w-full flex-col items-center justify-center gap-8 rounded-md p-8">
         <div className="mb-4 flex w-full flex-col gap-2 text-center">
           <h2
             className="font-serif text-5xl font-bold lowercase text-negative"
