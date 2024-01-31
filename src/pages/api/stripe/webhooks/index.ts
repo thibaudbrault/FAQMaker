@@ -60,7 +60,7 @@ export default async function handler(
             where: { email },
             data: {
               subscriptionId,
-              plan: checkoutPlan
+              plan: checkoutPlan,
             },
           });
           break;
@@ -97,12 +97,6 @@ export default async function handler(
         case 'payment_intent.succeeded':
           const payment = event.data.object as Stripe.PaymentIntent;
           const paymentCustomer = payment.customer as string;
-          // let paymentPlan: IPlan['value'] = 'free';
-          // if (payment.amount === 2900) {
-          //   paymentPlan = 'startup';
-          // } else if (payment.amount === 4900) {
-          //   paymentPlan = 'enterprise';
-          // }
           let isActive: boolean = false;
           if (payment.status === 'succeeded') {
             isActive = true;
@@ -110,7 +104,6 @@ export default async function handler(
           await prisma.tenant.update({
             where: { customerId: paymentCustomer },
             data: {
-              // plan: paymentPlan,
               isActive,
             },
           });
