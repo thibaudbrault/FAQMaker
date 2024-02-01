@@ -1,18 +1,17 @@
 import { z } from 'zod';
 
-import { sourceGetSchema } from './source';
-
-export const answerGetSchema = z.object({
-  id: z.string().cuid2(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
-  text: z.string(),
-  sources: z.array(sourceGetSchema),
+export const createAnswerServerSchema = z.object({
+  text: z.string().trim().min(1, { message: 'Answer is required' }),
   nodeId: z.string().cuid2(),
+  userId: z.string().cuid2(),
 });
 
-export const answerCreateSchema = z.object({
-  text: z.string().min(3),
-  nodeId: z.string(),
-  userId: z.string(),
-});
+export const updateAnswerServerSchema = z.object({
+  body: z.object({
+    text: z.string().trim().min(1, {message: "Answer is required"}),
+    userId: z.string().cuid2()
+  }),
+  query: z.object({
+    id: z.string().cuid2()
+  })
+})

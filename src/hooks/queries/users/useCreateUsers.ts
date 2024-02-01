@@ -4,16 +4,16 @@ import axios from 'axios';
 import { promiseToast } from '@/components';
 import { QueryKeys, Routes } from '@/utils';
 
-const createUsers = async (newArray: string[], tenantId: string) => {
-  const body = { newArray, tenantId };
+const createUsers = async (newUsersArray: string[], tenantId: string) => {
+  const body = { newUsersArray, tenantId };
   const { data } = await axios.post(Routes.API.USERS, body);
   return data;
 };
 
-export const useCreateUsers = (tenantId: string, newArray: string[]) => {
+export const useCreateUsers = (tenantId: string, newUsersArray: string[]) => {
   const queryClient = useQueryClient();
   const createUsersMutation = async () => {
-    const promise = createUsers(newArray, tenantId);
+    const promise = createUsers(newUsersArray, tenantId);
     promiseToast(promise, 'Creating users ...');
     return promise;
   };

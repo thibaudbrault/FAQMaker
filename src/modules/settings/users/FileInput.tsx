@@ -46,13 +46,13 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
   const fileInput = useRef(null);
   const { readRemoteFile } = usePapaParse();
   const emails = users.map((user) => user.email);
-  const newArray = newUsers
+  const newUsersArray = newUsers
     ?.filter((user) => !emails.includes(user))
     .splice(0, limit);
-  const removedArray = newUsers
+  const removedUsersArray = newUsers
     ?.filter((user) => !emails.includes(user))
     .slice(limit);
-  const existingArray =
+  const existingUsersArray =
     newUsers?.filter((user) => !!emails.includes(user)) ?? [];
 
   const {
@@ -100,7 +100,7 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
     });
   };
 
-  const { mutate } = useCreateUsers(tenantId, newArray);
+  const { mutate } = useCreateUsers(tenantId, newUsersArray);
 
   const onFileSubmit: SubmitHandler<Schema> = (values) => {
     handleFileSubmit(values.name);
@@ -179,24 +179,24 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                   <DialogHeader>
                     <DialogTitle className="text-2xl">New users</DialogTitle>
                   </DialogHeader>
-                  {existingArray.length > 0 && (
+                  {existingUsersArray.length > 0 && (
                     <div className="rounded-md bg-red-600/30 p-2">
                       <p className="pb-2 font-semibold">Already exists</p>
                       <ul className="list-none text-sm italic">
-                        {existingArray &&
-                          existingArray.map((user, index) => (
+                        {existingUsersArray &&
+                          existingUsersArray.map((user, index) => (
                             <li key={index}>{user}</li>
                           ))}
                       </ul>
                     </div>
                   )}
                   <div className="rounded-md bg-green-600/30 p-2">
-                    {newArray.length > 0 ? (
+                    {newUsersArray.length > 0 ? (
                       <>
                         <p className="pb-2 font-semibold">New</p>
                         <ul className="flex list-none flex-col gap-1 text-sm italic">
-                          {newArray &&
-                            newArray.map((user, index) => (
+                          {newUsersArray &&
+                            newUsersArray.map((user, index) => (
                               <li key={index}>{user}</li>
                             ))}
                         </ul>
@@ -209,8 +209,8 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                     <div className="rounded-md bg-neutral-600/30 p-2">
                       <p className="pb-2 font-semibold">Not added</p>
                       <ul className="flex list-none flex-col gap-1 text-sm italic line-through">
-                        {removedArray &&
-                          removedArray.map((user, index) => (
+                        {removedUsersArray &&
+                          removedUsersArray.map((user, index) => (
                             <li key={index}>{user}</li>
                           ))}
                       </ul>
@@ -218,13 +218,13 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                   )}
                   <div className="flex justify-center">
                     <Button
-                      variant={newArray.length === 0 ? 'disabled' : 'primary'}
+                      variant={newUsersArray.length === 0 ? 'disabled' : 'primary'}
                       weight="semibold"
                       style={{ fontVariant: 'small-caps' }}
                       className="lowercase"
                       type="button"
                       onClick={onSubmit}
-                      disabled={newArray.length === 0}
+                      disabled={newUsersArray.length === 0}
                     >
                       Submit
                     </Button>
@@ -265,24 +265,24 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                       <DrawerTitle className="text-2xl">New users</DrawerTitle>
                     </DrawerHeader>
                     <div className="flex flex-col gap-2 px-2">
-                      {existingArray.length > 0 && (
+                      {existingUsersArray.length > 0 && (
                         <div className="rounded-md bg-red-600/30 p-2">
                           <p className="pb-2 font-semibold">Already exists</p>
                           <ul className="list-none text-sm italic">
-                            {existingArray &&
-                              existingArray.map((user, index) => (
+                            {existingUsersArray &&
+                              existingUsersArray.map((user, index) => (
                                 <li key={index}>{user}</li>
                               ))}
                           </ul>
                         </div>
                       )}
                       <div className="rounded-md bg-green-600/30 p-2">
-                        {newArray.length > 0 ? (
+                        {newUsersArray.length > 0 ? (
                           <>
                             <p className="pb-2 font-semibold">New</p>
                             <ul className="flex list-none flex-col gap-1 text-sm italic">
-                              {newArray &&
-                                newArray.map((user, index) => (
+                              {newUsersArray &&
+                                newUsersArray.map((user, index) => (
                                   <li key={index}>{user}</li>
                                 ))}
                             </ul>
@@ -295,8 +295,8 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                         <div className="rounded-md bg-neutral-600/30 p-2">
                           <p className="pb-2 font-semibold">Not added</p>
                           <ul className="flex list-none flex-col gap-1 text-sm italic line-through">
-                            {removedArray &&
-                              removedArray.map((user, index) => (
+                            {removedUsersArray &&
+                              removedUsersArray.map((user, index) => (
                                 <li key={index}>{user}</li>
                               ))}
                           </ul>
@@ -305,14 +305,14 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                       <div className="flex justify-center">
                         <Button
                           variant={
-                            newArray.length === 0 ? 'disabled' : 'primary'
+                            newUsersArray.length === 0 ? 'disabled' : 'primary'
                           }
                           weight="semibold"
                           style={{ fontVariant: 'small-caps' }}
                           className="lowercase"
                           type="button"
                           onClick={onSubmit}
-                          disabled={newArray.length === 0}
+                          disabled={newUsersArray.length === 0}
                         >
                           Submit
                         </Button>

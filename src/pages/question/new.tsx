@@ -68,7 +68,7 @@ function New({ me }: Props) {
   };
 
   if (isError && error instanceof AxiosError) {
-    console.error(`Something went wrong: ${error.response.data.message}`);
+    console.error(`${error.response.data.error.message}`);
   }
 
   useEffect(() => {
