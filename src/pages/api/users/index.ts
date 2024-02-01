@@ -1,4 +1,4 @@
-import { getIdSchemaFn, getTenantIdSchema, getUsersCount, createUserServerSchema } from '@/lib';
+import { createUserServerSchema, getTenantIdSchema, getUsersCount } from '@/lib';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';

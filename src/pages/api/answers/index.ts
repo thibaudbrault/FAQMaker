@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { createAnswerServerSchema, getIdSchemaFn } from '@/lib';
+import { createAnswerServerSchema, getUserIdSchema } from '@/lib';
 import prisma from 'lib/prisma';
 import { getToken } from 'next-auth/jwt';
 
@@ -15,7 +15,6 @@ export default async function handler(
           .status(404)
           .json({ success: false, error: { message: `User not found` } });
       }
-      const getUserIdSchema = getIdSchemaFn('userId');
       const result = getUserIdSchema.safeParse(req.query);
       if (result.success === false) {
         const errors = result.error.formErrors.fieldErrors;
