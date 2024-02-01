@@ -98,7 +98,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
   }, [isSubmitting, isDirty]);
 
   if (isError && error instanceof AxiosError) {
-    console.error(`Something went wrong: ${error.response}`);
+    console.error(`Something went wrong: ${error.response.data.message}`);
   }
 
   return (

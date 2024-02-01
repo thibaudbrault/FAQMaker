@@ -34,7 +34,7 @@ export const Users = ({ userId, tenantId, plan }: Props) => {
   }
 
   if (isError && error instanceof AxiosError) {
-    console.error(`Something went wrong: ${error.response}`);
+    console.error(`Something went wrong: ${error.response.data.message}`);
   }
 
   const iconStyle = 'w-9 h-9 m-3 inline-flex flex-shrink-0 items-center';

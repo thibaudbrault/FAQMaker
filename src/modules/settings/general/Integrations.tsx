@@ -59,7 +59,7 @@ export const Integrations = ({ tenantId }: Props) => {
   }
 
   if (isError && error instanceof AxiosError) {
-    console.error(`Something went wrong: ${error.response}`);
+    console.error(`Something went wrong: ${error.response.data.message}`);
   }
 
   return (
