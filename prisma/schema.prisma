@@ -110,7 +110,6 @@ model Answer {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   text      String
-  sources   Source[]
   node      Node     @relation(fields: [nodeId], references: [id])
   nodeId    String   @unique
   user      User     @relation(fields: [userId], references: [id])
@@ -118,18 +117,6 @@ model Answer {
 
   @@index([nodeId])
   @@index([userId])
-}
-
-model Source {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  label     String
-  link      String
-  answer    Answer   @relation(fields: [answerId], references: [id])
-  answerId  String
-
-  @@index([answerId])
 }
 
 model Tag {
