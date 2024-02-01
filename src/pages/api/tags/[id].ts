@@ -1,8 +1,9 @@
+import { getToken } from 'next-auth/jwt';
+
 import { deleteTagServerSchema } from '@/lib';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getToken } from 'next-auth/jwt';
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,11 +14,14 @@ export default async function handler(
       if (!req.query) {
         return res
           .status(404)
-          .json({ success: false, error: {message: `Tag not found`} });
+          .json({ success: false, error: { message: `Tag not found` } });
       }
       const token = await getToken({ req });
       if (token) {
-        const result = deleteTagServerSchema.safeParse({body:req.body, query: req.query});
+        const result = deleteTagServerSchema.safeParse({
+          body: req.body,
+          query: req.query,
+        });
         if (result.success === false) {
           const errors = result.error.formErrors.fieldErrors;
           return res.status(422).json({
@@ -25,12 +29,14 @@ export default async function handler(
             error: { message: 'Invalid request', errors },
           });
         } else {
-          const {id} = result.data.query
-          const {tenantId} = result.data.body
+          const { id } = result.data.query;
+          const { tenantId } = result.data.body;
           await prisma.tag.delete({
             where: { id, tenantId },
           });
-          return res.status(200).json({success: true, message: 'Tag deleted successfully' });
+          return res
+            .status(200)
+            .json({ success: true, message: 'Tag deleted successfully' });
         }
       } else {
         return res

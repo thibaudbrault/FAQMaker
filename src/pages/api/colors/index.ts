@@ -1,8 +1,9 @@
+import { getToken } from 'next-auth/jwt';
+
 import { createColorsServerSchema } from '@/lib';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getToken } from 'next-auth/jwt';
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,12 +12,10 @@ export default async function handler(
   if (req.method === 'POST') {
     try {
       if (!req.body) {
-        return res
-          .status(404)
-          .json({
-            success: false,
-            error: { message: `Form data not provided` },
-          });
+        return res.status(404).json({
+          success: false,
+          error: { message: `Form data not provided` },
+        });
       }
       const token = await getToken({ req });
       if (token) {

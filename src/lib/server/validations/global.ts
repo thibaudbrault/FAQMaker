@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-
 export const getTenantIdSchema = z.object({
   tenantId: z.string().cuid2(),
 });
@@ -10,5 +9,5 @@ export const getIdSchema = z.object({
 });
 
 export const getUserIdSchema = z.object({
-  userId: z.string().cuid2()
-})
+  userId: z.string().cuid2(),
+});

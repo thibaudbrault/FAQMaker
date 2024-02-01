@@ -8,10 +8,10 @@ export const createAnswerServerSchema = z.object({
 
 export const updateAnswerServerSchema = z.object({
   body: z.object({
-    text: z.string().trim().min(1, {message: "Answer is required"}),
-    userId: z.string().cuid2()
+    text: z.string().trim().min(1, { message: 'Answer is required' }),
+    userId: z.string().cuid2(),
   }),
   query: z.object({
-    id: z.string().cuid2()
-  })
-})
+    id: z.string().cuid2(),
+  }),
+});

@@ -3,16 +3,18 @@ import { z } from 'zod';
 export const getNodeServerSchema = z.object({
   tenantId: z.string().cuid2(),
   id: z.string().cuid2(),
-})
+});
 
-export const getNodesServerSchema = 
-  z.object({
-    tenantId: z.string(),
-    page: z.string(),
-  });
+export const getNodesServerSchema = z.object({
+  tenantId: z.string(),
+  page: z.string(),
+});
 
 export const createNodeServerSchema = z.object({
-  text: z.string().trim().min(3, { message: 'Question must be at least 3 characters long' }),
+  text: z
+    .string()
+    .trim()
+    .min(3, { message: 'Question must be at least 3 characters long' }),
   slug: z.string(),
   tenantId: z.string().cuid2(),
   userId: z.string().cuid2(),
@@ -22,7 +24,10 @@ export const createNodeServerSchema = z.object({
 
 export const updateNodeServerSchema = z.object({
   body: z.object({
-    text: z.string().trim().min(3, {message: 'Question must be at least 3 characters long'}),
+    text: z
+      .string()
+      .trim()
+      .min(3, { message: 'Question must be at least 3 characters long' }),
     userId: z.string().cuid2(),
     questionId: z.string().cuid2(),
     tenantId: z.string().cuid2(),
@@ -30,6 +35,6 @@ export const updateNodeServerSchema = z.object({
     tags: z.array(z.string().cuid2()),
   }),
   query: z.object({
-    id: z.string().cuid2()
-  })
-})
+    id: z.string().cuid2(),
+  }),
+});

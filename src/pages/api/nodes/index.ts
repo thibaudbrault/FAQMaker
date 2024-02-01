@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getToken } from 'next-auth/jwt';
 
 import { getNodesServerSchema, createNodeServerSchema } from '@/lib';
 import { OFFSET, nodeModel } from '@/utils';
 import prisma from 'lib/prisma';
-import { getToken } from 'next-auth/jwt';
 
 export default async function handler(
   req: NextApiRequest,
@@ -33,7 +33,7 @@ export default async function handler(
           take: OFFSET,
           include: nodeModel,
         });
-        return res.status(200).json({success: true, nodes});
+        return res.status(200).json({ success: true, nodes });
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -80,9 +80,11 @@ export default async function handler(
             },
           });
           if (withAnswer) {
-            return res
-              .status(201)
-              .json({ success: true, node, message: 'Question created successfully' });
+            return res.status(201).json({
+              success: true,
+              node,
+              message: 'Question created successfully',
+            });
           }
           return res
             .status(201)

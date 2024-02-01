@@ -13,7 +13,7 @@ export const createTenantServerSchema = z.object({
     .trim()
     .min(1, { message: 'User email is required' })
     .email({ message: 'Invalid email' }),
-})
+});
 
 export const updateTenantServerSchema = z.object({
   body: z.object({
@@ -26,6 +26,6 @@ export const updateTenantServerSchema = z.object({
     domain: z.string().trim().nullable(),
   }),
   query: z.object({
-    id: z.string().cuid2()
-  })
-})
+    id: z.string().cuid2(),
+  }),
+});

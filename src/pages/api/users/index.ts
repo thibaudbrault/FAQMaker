@@ -1,8 +1,13 @@
-import { createUserServerSchema, getTenantIdSchema, getUsersCount } from '@/lib';
+import { getToken } from 'next-auth/jwt';
+
+import {
+  createUserServerSchema,
+  getTenantIdSchema,
+  getUsersCount,
+} from '@/lib';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getToken } from 'next-auth/jwt';
 
 export default async function handler(
   req: NextApiRequest,
@@ -31,15 +36,16 @@ export default async function handler(
       }
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(404).json({success: false, error: error.message });
+        return res.status(404).json({ success: false, error: error.message });
       }
     }
   } else if (req.method === 'POST') {
     try {
       if (!req.body) {
-        return res
-          .status(404)
-          .json({ success: false, error: {message: `Form data not provided`} });
+        return res.status(404).json({
+          success: false,
+          error: { message: `Form data not provided` },
+        });
       }
       const token = await getToken({ req });
       if (token) {
@@ -57,15 +63,16 @@ export default async function handler(
               where: { email, tenantId },
             });
             if (userExists) {
-              return res
-                .status(409)
-                .json({ success: false, error: {message: 'User already exists'} });
+              return res.status(409).json({
+                success: false,
+                error: { message: 'User already exists' },
+              });
             }
             const usersCount = await getUsersCount(tenantId);
             if (!usersCount) {
               return res.status(404).json({
                 success: false,
-                error: {message: 'Could not find the number of users'},
+                error: { message: 'Could not find the number of users' },
               });
             }
             const { plan } = await prisma.tenant.findUnique({
@@ -78,7 +85,7 @@ export default async function handler(
             ) {
               return res.status(402).json({
                 success: false,
-                error: {message: 'You reached the maximum number of users.'},
+                error: { message: 'You reached the maximum number of users.' },
               });
             }
             await prisma.user.create({
@@ -88,7 +95,9 @@ export default async function handler(
                 tenantId,
               },
             });
-            return res.status(201).json({ message: 'User created successfully' });
+            return res
+              .status(201)
+              .json({ message: 'User created successfully' });
           } else {
             const errors = [];
             for (const element of newUsersArray) {
@@ -147,7 +156,9 @@ export default async function handler(
                 errors,
               });
             }
-            return res.status(201).json({ message: 'Users created successfully' });
+            return res
+              .status(201)
+              .json({ message: 'Users created successfully' });
           }
         }
       } else {
@@ -157,7 +168,7 @@ export default async function handler(
       }
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(500).json({success: false, error: error.message });
+        return res.status(500).json({ success: false, error: error.message });
       }
     }
   } else {

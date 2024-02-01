@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getToken } from 'next-auth/jwt';
 
 import { getUserIdSchema } from '@/lib';
 import prisma from 'lib/prisma';
-import { getToken } from 'next-auth/jwt';
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,10 +20,10 @@ export default async function handler(
         const result = getUserIdSchema.safeParse(req.query);
         if (result.success === false) {
           const errors = result.error.formErrors.fieldErrors;
-            return res.status(422).json({
-              success: false,
-              error: { message: 'Invalid request', errors },
-            });
+          return res.status(422).json({
+            success: false,
+            error: { message: 'Invalid request', errors },
+          });
         } else {
           const { userId } = result.data;
           const questions = await prisma.question.findMany({

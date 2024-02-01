@@ -7,9 +7,9 @@ export const createTagServerSchema = z.object({
 
 export const deleteTagServerSchema = z.object({
   body: z.object({
-    tenantId: z.string().cuid2()
+    tenantId: z.string().cuid2(),
   }),
   query: z.object({
-    id: z.string().cuid2()
-  })
-})
+    id: z.string().cuid2(),
+  }),
+});

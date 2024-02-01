@@ -218,7 +218,9 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                   )}
                   <div className="flex justify-center">
                     <Button
-                      variant={newUsersArray.length === 0 ? 'disabled' : 'primary'}
+                      variant={
+                        newUsersArray.length === 0 ? 'disabled' : 'primary'
+                      }
                       weight="semibold"
                       style={{ fontVariant: 'small-caps' }}
                       className="lowercase"

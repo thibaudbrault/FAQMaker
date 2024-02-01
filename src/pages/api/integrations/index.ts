@@ -1,8 +1,9 @@
+import { getToken } from 'next-auth/jwt';
+
 import { createIntegrationServerSchema } from '@/lib';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getToken } from 'next-auth/jwt';
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,9 +12,10 @@ export default async function handler(
   if (req.method === 'POST') {
     try {
       if (!req.body) {
-        return res
-          .status(404)
-          .json({ success: false, error:{message: `Form data not provided`} });
+        return res.status(404).json({
+          success: false,
+          error: { message: `Form data not provided` },
+        });
       }
       const token = await getToken({ req });
       if (token) {
@@ -34,18 +36,19 @@ export default async function handler(
               tenantId,
             },
           });
-          return res
-            .status(201)
-            .json({success: true, message: 'Integrations updated successfully' });
-          }
-        } else {
-          return res
-            .status(401)
-            .json({ success: false, error: { message: 'Not signed in' } });
+          return res.status(201).json({
+            success: true,
+            message: 'Integrations updated successfully',
+          });
         }
+      } else {
+        return res
+          .status(401)
+          .json({ success: false, error: { message: 'Not signed in' } });
+      }
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(500).json({success: false, error: error.message });
+        return res.status(500).json({ success: false, error: error.message });
       }
     }
   } else {

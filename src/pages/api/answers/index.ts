@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getToken } from 'next-auth/jwt';
 
 import { createAnswerServerSchema, getUserIdSchema } from '@/lib';
 import prisma from 'lib/prisma';
-import { getToken } from 'next-auth/jwt';
 
 export default async function handler(
   req: NextApiRequest,
@@ -41,7 +41,7 @@ export default async function handler(
             },
           },
         });
-        return res.status(200).json({success: true, answers});
+        return res.status(200).json({ success: true, answers });
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -77,7 +77,7 @@ export default async function handler(
           });
           return res
             .status(201)
-            .json({success: true, message: 'Answer created successfully' });
+            .json({ success: true, message: 'Answer created successfully' });
         }
       } else {
         return res

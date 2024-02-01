@@ -1,8 +1,9 @@
+import { getToken } from 'next-auth/jwt';
+
 import { getTenantIdSchema, createTagServerSchema } from '@/lib';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getToken } from 'next-auth/jwt';
 
 export default async function handler(
   req: NextApiRequest,
@@ -27,7 +28,7 @@ export default async function handler(
         const tags = await prisma.tag.findMany({
           where: { tenantId: tenantId as string },
         });
-        return res.status(200).json({success: true, tags});
+        return res.status(200).json({ success: true, tags });
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -58,7 +59,9 @@ export default async function handler(
               tenantId,
             },
           });
-          return res.status(201).json({ success: true, message: 'Tag created successfully' });
+          return res
+            .status(201)
+            .json({ success: true, message: 'Tag created successfully' });
         }
       } else {
         return res
