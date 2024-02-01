@@ -51,9 +51,9 @@ export default async function handler(
           const subscriptionId = session.subscription as string;
           const email = session.customer_details?.email;
           let checkoutPlan: IPlan['value'] = 'free';
-          if (session.amount_total === 2900) {
+          if (session.amount_total === 1900) {
             checkoutPlan = 'startup';
-          } else if (session.amount_total === 4900) {
+          } else if (session.amount_total === 2900) {
             checkoutPlan = 'enterprise';
           }
           await prisma.tenant.update({
