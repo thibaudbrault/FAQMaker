@@ -78,10 +78,6 @@ function Edit({ me, id }: Props) {
     return <Loader size="screen" />;
   }
 
-  if (isError && error instanceof AxiosError) {
-    console.error(`Something went wrong: ${error.response.data.message}`);
-  }
-
   if (node) {
     return (
       <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>

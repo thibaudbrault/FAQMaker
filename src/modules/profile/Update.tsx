@@ -63,10 +63,6 @@ export const UpdateProfile = ({ me }: Props) => {
     setDisabled(isSubmitting || !isDirty || !isValid);
   }, [isDirty, isSubmitting, isValid]);
 
-  if (isError && error instanceof AxiosError) {
-    console.error(`Something went wrong: ${error.response.data.message}`);
-  }
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

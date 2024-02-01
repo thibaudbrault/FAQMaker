@@ -58,10 +58,6 @@ export const Integrations = ({ tenantId }: Props) => {
     return <Loader size="items" />;
   }
 
-  if (isError && error instanceof AxiosError) {
-    console.error(`Something went wrong: ${error.response.data.message}`);
-  }
-
   return (
     <div className="flex flex-col gap-4">
       <h2

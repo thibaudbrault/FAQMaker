@@ -123,10 +123,6 @@ const Form = ({ tenantId }: Props) => {
     setDisabled(isSubmitting || !isValid);
   }, [isSubmitting, isValid]);
 
-  if (isError && error instanceof AxiosError) {
-    console.error(`Something went wrong: ${error.response.data.message}`);
-  }
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

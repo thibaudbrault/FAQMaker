@@ -26,10 +26,6 @@ export const Tags = ({ tenantId }: Props) => {
     return <Loader size="screen" />;
   }
 
-  if (isError && error instanceof AxiosError) {
-    console.error(`Something went wrong: ${error.response.data.message}`);
-  }
-
   return (
     <section className="mx-auto w-11/12 md:w-3/4">
       {tags.length > 0 ? (

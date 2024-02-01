@@ -67,10 +67,6 @@ function New({ me }: Props) {
     mutate(values);
   };
 
-  if (isError && error instanceof AxiosError) {
-    console.error(`${error.response.data.error.message}`);
-  }
-
   useEffect(() => {
     setDisabled(isSubmitting || !isValid);
   }, [isSubmitting, isValid]);

@@ -97,10 +97,6 @@ export const Colors = ({ colors, tenantId }: Props) => {
     setDisabled(isSubmitting || !isDirty);
   }, [isSubmitting, isDirty]);
 
-  if (isError && error instanceof AxiosError) {
-    console.error(`Something went wrong: ${error.response.data.message}`);
-  }
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
