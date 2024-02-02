@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+td, th {
+  @apply border border-default p-1;
+}
+
 @layer base {
   html {
     font-family: Inter, sans-serif;
