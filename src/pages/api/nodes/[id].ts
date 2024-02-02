@@ -19,10 +19,7 @@ export default async function handler(
           .json({ success: false, error: { message: `Node not found` } });
       }
       if (token) {
-        const result = getNodeServerSchema.safeParse({
-          body: req.body,
-          query: req.query,
-        });
+        const result = getNodeServerSchema.safeParse(req.query);
         if (result.success === false) {
           const errors = result.error.formErrors.fieldErrors;
           return res.status(422).json({

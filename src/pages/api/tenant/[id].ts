@@ -53,6 +53,11 @@ export default async function handler(
     }
   } else if (req.method === 'PUT') {
     try {
+      if (!req.query) {
+        return res
+          .status(404)
+          .json({ success: false, error: { message: `Tenant not found` } });
+      }
       if (token) {
         const result = updateTenantServerSchema.safeParse({
           body: req.body,
