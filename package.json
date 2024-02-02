@@ -11,6 +11,7 @@
     "start": "next start --port ${PORT-3000}",
     "test": "pnpm exec playwright test",
     "test:headed": "pnpm exec playwright test --headed",
+    "test:ui": "pnpm exec playwright test --ui",
     "install:playwright": "pnpm exec playwright install",
     "install:playwright:deps": "pnpm exec playwright install --with-deps",
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/stripe/webhooks",
