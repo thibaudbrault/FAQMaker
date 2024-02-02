@@ -33,7 +33,7 @@ export default async function handler(
           take: OFFSET,
           include: nodeModel,
         });
-        return res.status(200).json({ success: true, nodes });
+        return res.status(200).json(nodes);
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -81,7 +81,6 @@ export default async function handler(
           });
           if (withAnswer) {
             return res.status(201).json({
-              success: true,
               node,
               message: 'Question created successfully',
             });

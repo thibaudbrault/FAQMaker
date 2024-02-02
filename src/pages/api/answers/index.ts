@@ -41,7 +41,7 @@ export default async function handler(
             },
           },
         });
-        return res.status(200).json({ success: true, answers });
+        return res.status(200).json(answers);
       }
     } catch (error) {
       if (error instanceof Error) {

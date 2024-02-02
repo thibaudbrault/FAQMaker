@@ -39,7 +39,7 @@ export default async function handler(
               },
             },
           });
-          return res.status(200).json({ success: true, tenant });
+          return res.status(200).json(tenant);
         }
       } else {
         return res

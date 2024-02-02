@@ -28,7 +28,7 @@ export default async function handler(
         const tags = await prisma.tag.findMany({
           where: { tenantId: tenantId as string },
         });
-        return res.status(200).json({ success: true, tags });
+        return res.status(200).json(tags);
       }
     } catch (error) {
       if (error instanceof Error) {

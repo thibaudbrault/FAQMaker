@@ -30,7 +30,7 @@ export default async function handler(
           const integrations = await prisma.integrations.findUnique({
             where: { tenantId: id as string },
           });
-          return res.status(200).json({ success: true, integrations });
+          return res.status(200).json(integrations);
         }
       } else {
         return res.status(401).json({
