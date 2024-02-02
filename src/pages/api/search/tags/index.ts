@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getToken } from 'next-auth/jwt';
 
+import { getTagSearchServerSchema } from '@/lib';
 import { nodeModel } from '@/utils';
 import prisma from 'lib/prisma';
-import { getToken } from 'next-auth/jwt';
-import { getTagSearchServerSchema } from '@/lib';
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,7 +14,7 @@ export default async function handler(
       if (!req.query) {
         return res
           .status(404)
-          .json({ success: false, error: {message: `Tenant not found`} });
+          .json({ success: false, error: { message: `Tenant not found` } });
       }
       const token = await getToken({ req });
       if (token) {
@@ -48,7 +48,7 @@ export default async function handler(
       }
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(404).json({success: false, error: error.message });
+        return res.status(404).json({ success: false, error: error.message });
       }
     }
   } else {

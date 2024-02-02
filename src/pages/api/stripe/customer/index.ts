@@ -1,9 +1,9 @@
 import Stripe from 'stripe';
 
+import { createCustomerServerSchema } from '@/lib/server/validations/stripe';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { createCustomerServerSchema } from '@/lib/server/validations/stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16',
@@ -57,7 +57,7 @@ export default async function handler(
       }
     } catch (error) {
       if (error instanceof Error) {
-        res.status(500).json({success: false, error: error.message });
+        res.status(500).json({ success: false, error: error.message });
       }
     }
   } else {

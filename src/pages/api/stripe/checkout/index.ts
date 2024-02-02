@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
 
-import { Routes } from '@/utils';
 import { createCheckoutServerSchema } from '@/lib/server/validations/stripe';
+import { Routes } from '@/utils';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16',
@@ -51,7 +51,7 @@ export default async function handler(
       }
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(500).json({success: false, error: error.message});
+        return res.status(500).json({ success: false, error: error.message });
       }
     }
   } else {

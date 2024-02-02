@@ -32,7 +32,7 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
             gcTime: 60 * 1000,
             staleTime: 60 * 1000,
             retry: false,
-            throwOnError: true
+            throwOnError: true,
           },
         },
       }),

@@ -17,9 +17,6 @@ export const createUserClientSchema =
 
 export const updateUserClientSchema = createUserClientSchema.merge(
   z.object({
-    name: z
-      .string()
-      .trim()
-      .optional(),
+    name: z.string().trim().optional(),
   }),
 );
