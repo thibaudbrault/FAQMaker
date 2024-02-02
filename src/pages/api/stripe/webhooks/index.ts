@@ -1,4 +1,4 @@
-import { buffer } from 'micro';
+// import { buffer } from 'micro';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Stripe } from 'stripe';
 
@@ -10,6 +10,14 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 });
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 const STRIPE_SIGNATURE_HEADER = 'stripe-signature';
+
+async function buffer(readable) {
+  const chunks = [];
+  for await (const chunk of readable) {
+    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
+  }
+  return Buffer.concat(chunks);
+}
 
 export const config = {
   api: {
