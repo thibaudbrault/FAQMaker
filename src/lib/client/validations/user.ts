@@ -20,7 +20,6 @@ export const updateUserClientSchema = createUserClientSchema.merge(
     name: z
       .string()
       .trim()
-      .min(1, { message: 'User name is required' })
       .optional(),
   }),
 );

@@ -131,7 +131,7 @@ const Form = ({ user, tenantId }: Props) => {
         <div className="flex flex-col gap-1 [&_svg]:focus-within:text-secondary">
           <Field label={'Name'} value={'name'} error={errors.name?.message}>
             <Input
-              {...register('name', { required: true })}
+              {...register('name')}
               withIcon
               defaultValue={user.name}
               icon={<UserIcon className="h-5 w-5" />}

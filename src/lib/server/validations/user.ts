@@ -6,15 +6,14 @@ export const createUserServerSchema = z.object({
   email: z
     .string()
     .trim()
-    .min(1, { message: 'User email is required' })
-    .email({ message: 'Invalid email' }),
+    .email({ message: 'Invalid email' })
+    .optional(),
   name: z
     .string()
     .trim()
-    .min(1, { message: 'User name is required' })
     .optional(),
   role: z.enum(ROLE),
-  newUsersArray: z.array(z.string().email()),
+  newUsersArray: z.array(z.string().email()).optional(),
   tenantId: z.string().cuid2(),
 });
 
@@ -29,7 +28,6 @@ export const updateUserServerSchema = z.object({
     name: z
       .string()
       .trim()
-      .min(1, { message: 'User name is required' })
       .optional(),
     role: z.enum(ROLE),
   }),

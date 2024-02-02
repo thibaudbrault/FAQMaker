@@ -14,8 +14,9 @@ test('Can ask a question', async ({ page }) => {
 test('Can answer a question', async ({ page }) => {
   await page.goto('/');
   await page
-    .getByRole('heading', { name: 'This is a question', exact: true })
+    .getByRole('link', { name: 'This is a question', exact: true })
     .click();
+  await page.getByRole('button', { name: 'Edit' }).click();
   await page.getByRole('link', { name: 'Answer' }).click();
   await page.waitForURL(/\/question\/answer/);
   await page.getByRole('textbox').click();
@@ -48,15 +49,7 @@ test('Can edit a question', async ({ page }) => {
 
 test('Can edit an answer', async ({ page }) => {
   await page.goto('/');
-  await page
-    .getByRole('heading', { name: 'This is a modified question', exact: true })
-    .click();
-  await expect(page.getByText('This is an answer')).toBeVisible();
-  await page
-    .locator('li')
-    .filter({ hasText: 'This is a modified question' })
-    .getByRole('link')
-    .click();
+  await page.getByRole('link', { name: 'This is a modified question' }).click();
   await page.getByRole('button', { name: 'Edit' }).click();
   await page.getByRole('link', { name: 'Answer' }).click();
   await page.waitForURL(/\/question\/answer/);
