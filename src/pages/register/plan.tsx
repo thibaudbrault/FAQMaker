@@ -14,7 +14,6 @@ import { Routes } from '@/utils';
 
 function Plan() {
   const state = useAtomValue(registerAtom);
-  console.log(state);
 
   const { handleSubmit } = useForm();
   const router = useRouter();
