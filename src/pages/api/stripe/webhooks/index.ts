@@ -1,4 +1,3 @@
-// import { buffer } from 'micro';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Stripe } from 'stripe';
 
