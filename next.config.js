@@ -4,7 +4,7 @@ module.exports = removeImports({
     transpilePackages: ['@mdxeditor/editor', 'react-diff-view'],
     swcMinify: true,
     images: {
-        domains: ['lh3.googleusercontent.com']
+        domains: ['lh3.googleusercontent.com', 'api.dicebear.com']
     },
     experimental: {
         swcPlugins: [['@swc-jotai/react-refresh', {}]],

@@ -1,10 +1,12 @@
-import { AlignJustify, LogOut, Settings, UserIcon, Wallet } from 'lucide-react';
-import Image from 'next/image';
+import { AlignJustify, LogOut, Settings, Wallet } from 'lucide-react';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   Button,
   Drawer,
   DrawerContent,
@@ -52,17 +54,12 @@ export const Header = ({ id, company, tenantId }: Props) => {
                           href="/profile"
                           className="flex items-center gap-1 hover:text-negativeOffset"
                         >
-                          {user.image ? (
-                            <Image
-                              src={user.image}
-                              alt="Profile"
-                              width={24}
-                              height={24}
-                              className="rounded-full"
-                            />
-                          ) : (
-                            <UserIcon />
-                          )}
+                          <Avatar className="h-6 w-6">
+                            <AvatarImage src={user.image} />
+                            <AvatarFallback>
+                              {user.email[0].toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
                         </Link>
                       </TooltipTrigger>
                       <TooltipContent>
