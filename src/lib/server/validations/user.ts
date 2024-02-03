@@ -5,7 +5,7 @@ const ROLE = ['user', 'admin', 'tenant'] as const;
 export const createUserServerSchema = z.object({
   email: z.string().trim().email({ message: 'Invalid email' }).optional(),
   name: z.string().trim().optional(),
-  role: z.enum(ROLE),
+  role: z.enum(ROLE).optional(),
   newUsersArray: z.array(z.string().email()).optional(),
   tenantId: z.string().cuid2(),
 });
