@@ -16,12 +16,10 @@ export default async function handler(
   if (req.method === 'POST') {
     try {
       if (!req.body) {
-        return res
-          .status(404)
-          .json({
-            success: false,
-            error: { message: `Customer details not provided` },
-          });
+        return res.status(404).json({
+          success: false,
+          error: { message: `Customer details not provided` },
+        });
       }
       const result = getTenantIdSchema.safeParse(req.body);
       if (result.success === false) {
