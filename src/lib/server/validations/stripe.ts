@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const createCheckoutServerSchema = z.object({
-  customerId: z.string().cuid2(),
+  customerId: z.string(),
   lookup_key: z.string(),
 });
 
