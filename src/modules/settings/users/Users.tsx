@@ -88,7 +88,7 @@ export const Users = ({ userId, tenantId, plan }: Props) => {
 };
 
 const UserAvatar = ({ id, email, image }) => {
-  const placeholderImage = `https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${id}`;
+  const placeholderImage = `https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${id}&radius=50`;
   const avatar = image ?? placeholderImage;
   return (
     <Avatar className="m-3 h-9 w-9">
