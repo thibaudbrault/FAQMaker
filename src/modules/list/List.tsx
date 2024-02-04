@@ -35,7 +35,7 @@ type Props = {
 
 export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
   if (isLoading) {
-    return <Loader size="screen" color="border-secondary" />;
+    return <Loader size="screen" color="border-accent" />;
   }
 
   if (isError && error instanceof Error) {
@@ -83,14 +83,14 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                       {!node.answer && (
                         <Tooltip>
                           <TooltipTrigger>
-                            <BadgeHelp className="h-4 w-4 text-secondary" />
+                            <BadgeHelp className="h-4 w-4 text-accent" />
                           </TooltipTrigger>
                           <TooltipContent>Unanswered</TooltipContent>
                         </Tooltip>
                       )}
                       <Tooltip>
                         <TooltipTrigger>
-                          <BadgeInfo className="h-4 w-4 text-secondary" />
+                          <BadgeInfo className="h-4 w-4 text-accent" />
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>Asked by {node.question.user.name}</p>
@@ -111,7 +111,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                       {node.answer && (
                         <Tooltip>
                           <TooltipTrigger>
-                            <BadgeCheck className="h-4 w-4 text-secondary" />
+                            <BadgeCheck className="h-4 w-4 text-accent" />
                           </TooltipTrigger>
                           <TooltipContent>
                             <p>Answered by {node.answer.user.name}</p>

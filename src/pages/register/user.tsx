@@ -55,7 +55,7 @@ function Register() {
               type="email"
               id="email"
               placeholder="Email"
-              className="w-full border border-transparent border-b-teal-700 bg-transparent p-1 outline-none placeholder:text-stone-500 focus:rounded-md focus:border-secondary"
+              className="w-full border border-transparent border-b-teal-700 bg-transparent p-1 outline-none placeholder:text-stone-500 focus:rounded-md focus:border-accent"
             />
           </Field>
         </fieldset>

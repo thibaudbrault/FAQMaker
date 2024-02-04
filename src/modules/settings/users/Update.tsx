@@ -128,7 +128,7 @@ const Form = ({ user, tenantId }: Props) => {
       className="flex flex-col items-center gap-4"
     >
       <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
-        <div className="flex flex-col gap-1 [&_svg]:focus-within:text-secondary">
+        <div className="flex flex-col gap-1 [&_svg]:focus-within:text-accent">
           <Field label={'Name'} value={'name'} error={errors.name?.message}>
             <Input
               {...register('name')}
@@ -138,11 +138,11 @@ const Form = ({ user, tenantId }: Props) => {
               type="name"
               id="name"
               placeholder="Name"
-              className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
+              className="w-full rounded-md border border-transparent p-1 outline-none focus:border-accent"
             />
           </Field>
         </div>
-        <div className="flex flex-col gap-1 [&_svg]:focus-within:text-secondary">
+        <div className="flex flex-col gap-1 [&_svg]:focus-within:text-accent">
           <Field label={'Email'} value={'email'} error={errors.email?.message}>
             <Input
               {...register('email', { required: true })}
@@ -152,7 +152,7 @@ const Form = ({ user, tenantId }: Props) => {
               type="email"
               id="email"
               placeholder="Email"
-              className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
+              className="w-full rounded-md border border-transparent p-1 outline-none focus:border-accent"
             />
           </Field>
         </div>
@@ -173,7 +173,7 @@ const Form = ({ user, tenantId }: Props) => {
                 <Select onValueChange={onChange} defaultValue={user.role}>
                   <SelectTrigger
                     id="role"
-                    className="bg-white focus:border-secondary focus:ring-0 data-[state=open]:border-secondary"
+                    className="bg-white focus:border-accent focus:ring-0 data-[state=open]:border-accent"
                   >
                     <SelectValue placeholder="Select a role" />
                   </SelectTrigger>

@@ -119,7 +119,7 @@ const Form = ({ tenantId }: Props) => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col items-center gap-2"
     >
-      <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-secondary">
+      <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-accent">
         <Field label="Label" value="label" error={errors.label?.message}>
           <Input
             {...register('label')}
@@ -128,7 +128,7 @@ const Form = ({ tenantId }: Props) => {
             type="label"
             id="label"
             placeholder="Tag label"
-            className="w-full rounded-md border border-transparent py-1 outline-none focus:border-secondary"
+            className="w-full rounded-md border border-transparent py-1 outline-none focus:border-accent"
           />
         </Field>
       </fieldset>

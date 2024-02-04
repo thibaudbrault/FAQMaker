@@ -25,16 +25,11 @@ const button = cva('button', {
         'duration-300',
         'hover:bg-offset',
       ],
-      secondary: [
-        'bg-transparent',
-        'text-secondary',
-        'border',
-        'border-secondary',
-      ],
+      secondary: ['bg-transparent', 'text-accent', 'border', 'border-accent'],
       disabled: ['bg-disabled', 'text-negative', 'border-transparent'],
     },
     border: {
-      primary: ['border-secondary'],
+      primary: ['border-accent'],
     },
     icon: {
       withIcon: ['flex', 'justify-center', 'items-end', 'gap-2'],

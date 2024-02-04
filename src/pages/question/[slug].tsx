@@ -55,7 +55,7 @@ function QuestionPage({ me, id }: Props) {
                 Edit
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-default">
-                <DropdownMenuItem className="text-base hover:text-secondary">
+                <DropdownMenuItem className="text-base hover:text-accent">
                   <Link
                     className="flex items-center justify-start gap-2"
                     href={{
@@ -68,7 +68,7 @@ function QuestionPage({ me, id }: Props) {
                     Question
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-base hover:text-secondary">
+                <DropdownMenuItem className="text-base hover:text-accent">
                   <Link
                     className="flex items-center justify-start gap-2"
                     href={{
@@ -95,7 +95,7 @@ function QuestionPage({ me, id }: Props) {
                 </li>
               ))}
             </ul>
-            <hr className="my-6 border-secondary" />
+            <hr className="my-6 border-accent" />
             {node.answer ? (
               <MarkdownPreview
                 className="mx-auto w-11/12 text-left"
@@ -104,7 +104,7 @@ function QuestionPage({ me, id }: Props) {
             ) : (
               <p className="text-center italic">No answer</p>
             )}
-            <hr className="my-6 border-secondary" />
+            <hr className="my-6 border-accent" />
             <div className="flex justify-between">
               <div className="text-xs">
                 <p>

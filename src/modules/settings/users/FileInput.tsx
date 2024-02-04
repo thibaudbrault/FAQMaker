@@ -133,7 +133,7 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
           icon="withIcon"
           weight="semibold"
           className={`rounded-none rounded-tl-md lowercase md:rounded-l-md ${
-            fileName ? 'bg-secondary text-negative' : ''
+            fileName ? 'bg-accent text-negative' : ''
           }`}
           style={{ fontVariant: 'small-caps' }}
           onClick={handleButtonClick}
@@ -155,7 +155,7 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
           type="text"
           id="column"
           placeholder="Column name"
-          className="rounded-tr-md border border-secondary bg-transparent px-1 outline-none md:rounded-none md:border-x-0 md:border-y md:border-y-secondary"
+          className="md:border-y-secondary rounded-tr-md border border-accent bg-transparent px-1 outline-none md:rounded-none md:border-x-0 md:border-y"
         />
         {isDesktop ? (
           <Dialog>

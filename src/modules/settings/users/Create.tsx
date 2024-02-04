@@ -137,7 +137,7 @@ const Form = ({ tenantId }: Props) => {
             type="email"
             id="email"
             placeholder="Email"
-            className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
+            className="w-full rounded-md border border-transparent p-1 outline-none focus:border-accent"
           />
         </Field>
         <div className="flex flex-col gap-1">
@@ -156,7 +156,7 @@ const Form = ({ tenantId }: Props) => {
               <Select defaultValue="user" onValueChange={onChange}>
                 <SelectTrigger
                   id="role"
-                  className="bg-white focus:border-secondary focus:ring-0 data-[state=open]:border-secondary"
+                  className="bg-white focus:border-accent focus:ring-0 data-[state=open]:border-accent"
                 >
                   <SelectValue placeholder="Select a role" />
                 </SelectTrigger>

@@ -50,11 +50,11 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
     <section className="mx-auto flex w-11/12 items-end justify-center gap-8 md:w-3/4">
       <form
         onSubmit={handleSubmit(onSearch)}
-        className="group/search flex w-full flex-col [&_svg]:focus-within:text-secondary"
+        className="group/search flex w-full flex-col [&_svg]:focus-within:text-accent"
       >
         <Label
           htmlFor="search"
-          className="lowercase focus-within:text-secondary"
+          className="lowercase focus-within:text-accent"
           style={{ fontVariant: 'small-caps' }}
         >
           Search
@@ -66,7 +66,7 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
           type="text"
           id="search"
           placeholder="Search"
-          className="w-full rounded-md border border-ghost bg-default py-2 outline-none focus:border-secondary "
+          className="w-full rounded-md border border-ghost bg-default py-2 outline-none focus:border-accent "
         />
       </form>
       {tags.length > 0 && (

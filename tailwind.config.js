@@ -11,7 +11,7 @@ module.exports = {
       textColor: {
         default: "var(--color-text)",
         offset: "var(--color-text-offset)",
-        secondary: "var(--color-text-secondary)",
+        accent: "var(--color-text-accent)",
         negative: "var(--color-text-negative)",
         negativeOffset: "var(--color-text-negative-offset)",
         error: "var(--color-text-error)"
@@ -19,8 +19,8 @@ module.exports = {
       backgroundColor: {
         default: "var(--color-background)",
         offset: "var(--color-background-offset)",
-        secondary: "var(--color-background-secondary)",
-        secondaryGhost: "var(--color-background-secondary-ghost)",
+        accent: "var(--color-background-accent)",
+        accentGhost: "var(--color-background-accent-ghost)",
         negative: "var(--color-background-negative)",
         negativeOffset: "var(--color-background-negative-offset)",
         disabled: "var(--color-background-disabled)"
@@ -28,7 +28,7 @@ module.exports = {
       borderColor: {
         default: "var(--color-border)",
         ghost: "var(--color-border-ghost)",
-        secondary: "var(--color-border-secondary)",
+        accent: "var(--color-border-accent)",
         negative: "var(--color-border-negative)",
       },
       keyframes: {

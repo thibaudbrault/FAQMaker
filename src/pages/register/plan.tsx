@@ -112,7 +112,7 @@ function Plan() {
               </div>
               <div className="">
                 <div className="my-5">
-                  <p className="pt-2 text-sm font-bold text-secondary">
+                  <p className="pt-2 text-sm font-bold text-accent">
                     {plan.message}
                   </p>
                 </div>
@@ -120,7 +120,7 @@ function Plan() {
                   <ul className="list-none text-right">
                     {plan.benefits.map((benefit, index) => (
                       <li key={index} className="flex gap-2">
-                        <Check className="text-secondary" />
+                        <Check className="text-accent" />
                         <p>{benefit}</p>
                       </li>
                     ))}

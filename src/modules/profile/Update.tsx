@@ -92,7 +92,7 @@ export const UpdateProfile = ({ me }: Props) => {
           {fields.map((field) => (
             <li
               key={field.value}
-              className="flex flex-col gap-1 [&_svg]:focus-within:text-secondary"
+              className="flex flex-col gap-1 [&_svg]:focus-within:text-accent"
             >
               <Field
                 label={field.label}
@@ -107,7 +107,7 @@ export const UpdateProfile = ({ me }: Props) => {
                   type={field.type}
                   id={field.value}
                   placeholder={field.label}
-                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
+                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-accent"
                 />
               </Field>
             </li>

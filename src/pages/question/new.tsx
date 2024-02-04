@@ -77,7 +77,7 @@ function New({ me }: Props) {
         <BackButton />
         <div className="flex flex-col gap-4 rounded-md bg-default p-4">
           <form className="flex flex-col items-center gap-4">
-            <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-secondary">
+            <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-accent">
               <div className="w-full text-center">
                 <legend
                   className="font-serif text-3xl font-semibold lowercase md:text-4xl"
@@ -98,7 +98,7 @@ function New({ me }: Props) {
                   type="text"
                   id="question"
                   placeholder="New question"
-                  className="w-full rounded-md border border-transparent py-1 outline-none focus:border-secondary"
+                  className="w-full rounded-md border border-transparent py-1 outline-none focus:border-accent"
                 />
               </Field>
               <TagsList

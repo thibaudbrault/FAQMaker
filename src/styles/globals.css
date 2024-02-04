@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-td, th {
+td,
+th {
   @apply border border-default p-1;
 }
 
@@ -32,19 +33,19 @@ td, th {
 :root {
   --color-text: theme('colors.neutral.900');
   --color-text-offset: theme('colors.neutral.600');
-  --color-text-secondary: theme('colors.teal.700');
+  --color-text-accent: theme('colors.teal.700');
   --color-text-negative: theme('colors.neutral.100');
   --color-text-negative-offset: theme('colors.neutral.300');
   --color-text-error: theme('colors.red.700');
   --color-background: theme('colors.neutral.100');
   --color-background-offset: theme('colors.neutral.200');
-  --color-background-secondary: theme('colors.teal.700');
-  --color-background-secondary-ghost: theme('colors.teal.700' / 30%);
+  --color-background-accent: theme('colors.teal.700');
+  --color-background-accent-ghost: theme('colors.teal.700' / 30%);
   --color-background-negative: theme('colors.neutral.900');
   --color-background-negative-offset: theme('colors.neutral.800');
   --color-background-disabled: theme('colors.neutral.600');
   --color-border: theme('colors.neutral.900');
   --color-border-ghost: theme('colors.neutral.900' / 10%);
-  --color-border-secondary: theme('colors.teal.700');
+  --color-border-accent: theme('colors.teal.700');
   --color-border-negative: theme('colors.neutral.100');
 }

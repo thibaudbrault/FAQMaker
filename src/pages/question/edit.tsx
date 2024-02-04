@@ -88,7 +88,7 @@ function Edit({ me, id }: Props) {
               className="flex flex-col items-center justify-center gap-4 "
               onSubmit={handleSubmit(onSubmit)}
             >
-              <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-secondary">
+              <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-accent">
                 <div className="w-full text-center">
                   <legend
                     className="font-serif text-3xl font-semibold lowercase md:text-4xl"
@@ -108,7 +108,7 @@ function Edit({ me, id }: Props) {
                     icon={<HelpCircle />}
                     type="text"
                     id="question"
-                    className="w-full rounded-md border border-stone-200 p-1 outline-none focus:border-secondary "
+                    className="w-full rounded-md border border-stone-200 p-1 outline-none focus:border-accent "
                   />
                 </Field>
               </fieldset>

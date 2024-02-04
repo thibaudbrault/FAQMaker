@@ -50,7 +50,7 @@ export const Users = ({ userId, tenantId, plan }: Props) => {
               <div className="flex flex-col items-start">
                 <h2
                   className={`text-2xl ${
-                    user.role !== 'user' ? 'text-secondary' : 'text-default'
+                    user.role !== 'user' ? 'text-accent' : 'text-default'
                   }`}
                 >
                   <b>{user.name}</b>
