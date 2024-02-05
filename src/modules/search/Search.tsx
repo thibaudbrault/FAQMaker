@@ -50,7 +50,7 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
     <section className="mx-auto flex w-11/12 items-end justify-center gap-8 md:w-3/4">
       <form
         onSubmit={handleSubmit(onSearch)}
-        className="group/search flex w-full flex-col [&_svg]:focus-within:text-accent"
+        className="group/search flex w-full gap-1 flex-col [&_svg]:focus-within:text-accent"
       >
         <Label
           htmlFor="search"

@@ -29,7 +29,7 @@ export const ErrorFallback = forwardRef<HTMLDivElement, ErrorProps>(
       <div
         className={cn(
           errorVariants({ fallbackType }),
-          'flex flex-col items-center justify-center gap-2 bg-negative text-negative',
+          'flex flex-col items-center justify-center gap-2 bg-neutral-900 text-neutral-100',
         )}
         ref={ref}
       >
