@@ -16,7 +16,7 @@ export const Data = ({ tenantId, plan }: Props) => {
     () => [
       {
         text: 'Questions',
-        value: nodesCount ?? 0,
+        value: nodesCount,
         icon: <HelpCircle className="hidden h-9 w-9 xl:block" />,
       },
       {

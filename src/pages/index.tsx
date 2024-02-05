@@ -44,11 +44,11 @@ function Home({ me }: Props) {
     me.tenantId,
     searchQuery,
   );
-  const { data: filteredTags, isLoading: isTagsLoading } = useSearchTags(
+  const { data: filteredTags } = useSearchTags(
     me.tenantId,
     searchTag,
   );
-  const { data: nodesCount } = useNodesCount(me.tenantId);
+  const { data: nodesCount, isPending: isNodesCountLoading } = useNodesCount(me.tenantId);
   const { data: tags } = useTags(me.tenantId);
 
   if (searchQuery) {
@@ -94,8 +94,8 @@ function Home({ me }: Props) {
   }, [userPreferences]);
 
   useEffect(() => {
-    setIsLoading(isPending || isSearchLoading);
-  }, [isPending, isSearchLoading]);
+    setIsLoading(isPending || isSearchLoading || isNodesCountLoading);
+  }, [isPending, isSearchLoading, isNodesCountLoading]);
 
   return (
     <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
