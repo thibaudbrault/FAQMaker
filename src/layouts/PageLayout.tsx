@@ -1,10 +1,11 @@
 import { ReactNode, useEffect } from 'react';
 
+import { useAtomValue } from 'jotai';
+
 import { MeProvider } from '@/contexts';
 import { ErrorBoundaryWrapper, SuspenseWrapper } from '@/lib';
 import { Footer, Header } from '@/modules';
 import { themeAtom } from '@/store';
-import { useAtomValue } from 'jotai';
 
 type Props = {
   children: ReactNode;
@@ -14,7 +15,6 @@ type Props = {
 };
 
 export const PageLayout = ({ children, id, company, tenantId }: Props) => {
-
   const selectedTheme = useAtomValue(themeAtom);
 
   useEffect(() => {

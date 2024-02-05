@@ -44,11 +44,10 @@ function Home({ me }: Props) {
     me.tenantId,
     searchQuery,
   );
-  const { data: filteredTags } = useSearchTags(
+  const { data: filteredTags } = useSearchTags(me.tenantId, searchTag);
+  const { data: nodesCount, isPending: isNodesCountLoading } = useNodesCount(
     me.tenantId,
-    searchTag,
   );
-  const { data: nodesCount, isPending: isNodesCountLoading } = useNodesCount(me.tenantId);
   const { data: tags } = useTags(me.tenantId);
 
   if (searchQuery) {

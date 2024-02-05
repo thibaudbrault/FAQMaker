@@ -24,6 +24,7 @@ import {
 } from '@/components';
 import { useUpsertColors } from '@/hooks';
 import { colorsClientSchema } from '@/lib';
+
 import { ThemeSelector } from './ThemeSelector';
 
 type Schema = z.infer<typeof colorsClientSchema>;
@@ -99,7 +100,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
   }, [isSubmitting, isDirty]);
 
   return (
-      <ThemeSelector />
+    <ThemeSelector />
     // <form
     //   onSubmit={handleSubmit(onSubmit)}
     //   className="relative flex flex-col gap-4"
