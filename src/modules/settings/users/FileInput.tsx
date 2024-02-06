@@ -155,7 +155,7 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
           type="text"
           id="column"
           placeholder="Column name"
-          className="md:border-y-secondary rounded-tr-md border border-accent bg-transparent px-1 outline-none md:rounded-none md:border-x-0 md:border-y"
+          className="md:border-y-secondary rounded-none rounded-tr-md border border-accent bg-transparent px-1 outline-none md:rounded-none md:border-x-0 md:border-y"
         />
         {isDesktop ? (
           <Dialog>
