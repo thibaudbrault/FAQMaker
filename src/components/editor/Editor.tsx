@@ -18,7 +18,7 @@ export const Editor = ({ onChange, value }: Props) => {
   return (
     <div className="w-full">
       <MDEditor
-        className="!w-full !rounded-md border border-accent !bg-white"
+        className="[a_.w-md-toolbar]:dark:!bg-negativeOffset !w-full !rounded-md border !border-accent !bg-offset !shadow-none dark:!bg-negativeOffset dark:!text-negative"
         value={value}
         preview={isDesktop ? 'live' : 'edit'}
         onChange={onChange}

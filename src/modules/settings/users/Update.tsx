@@ -56,11 +56,9 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
             Modify
           </Button>
         </DialogTrigger>
-        <DialogContent className="bg-neutral-200/90">
+        <DialogContent>
           <DialogHeader>
-            <DialogTitle className="font-serif text-2xl">
-              Modify user
-            </DialogTitle>
+            <DialogTitle>Modify user</DialogTitle>
           </DialogHeader>
           <Form user={user} tenantId={tenantId} />
         </DialogContent>
@@ -81,7 +79,7 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
           Modify
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="bg-neutral-200/90">
+      <DrawerContent>
         <div className="mb-10 mt-5">
           <DrawerHeader>
             <DrawerTitle className="font-serif text-2xl">
@@ -138,7 +136,6 @@ const Form = ({ user, tenantId }: Props) => {
               type="name"
               id="name"
               placeholder="Name"
-              className="w-full rounded-md border border-transparent p-1 outline-none focus:border-accent"
             />
           </Field>
         </div>
@@ -152,7 +149,6 @@ const Form = ({ user, tenantId }: Props) => {
               type="email"
               id="email"
               placeholder="Email"
-              className="w-full rounded-md border border-transparent p-1 outline-none focus:border-accent"
             />
           </Field>
         </div>

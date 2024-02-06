@@ -8,6 +8,9 @@ export interface InputProps
   icon?: ReactNode;
 }
 
+const styles =
+  'dark:bg-negativeOffset w-full rounded-md border border-ghost dark:border-negativeGhost p-1 shadow-sm outline-none focus:border-accent dark:focus:border-accent';
+
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, withIcon = false, icon, ...props }, ref) => {
     return withIcon ? (
@@ -18,7 +21,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           ref={ref}
-          className={cn('!pl-12 shadow-sm', className)}
+          className={cn(styles, '!pl-12', className)}
           {...props}
         />
       </div>
@@ -26,7 +29,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         ref={ref}
-        className={cn('shadow-sm', className)}
+        className={cn(styles, className)}
         {...props}
       />
     );

@@ -22,12 +22,7 @@ type Props = {
 export const Users = ({ userId, tenantId, plan }: Props) => {
   const { data: users, isPending } = useUsers(tenantId);
 
-  const {
-    mutate,
-    isPending: isUserLoading,
-    isError,
-    error,
-  } = useDeleteUser(tenantId);
+  const { mutate, isPending: isUserLoading } = useDeleteUser(tenantId);
 
   const handleDeleteUser = (id: string) => {
     mutate({ id });
@@ -42,7 +37,7 @@ export const Users = ({ userId, tenantId, plan }: Props) => {
       {users?.map((user) => (
         <li
           key={user.id}
-          className="rounded-md border border-stone-200 bg-default p-6 shadow-sm"
+          className="rounded-md border border-ghost bg-default p-6 shadow-sm dark:bg-negative"
         >
           <div className="flex w-full flex-col justify-between gap-2 md:flex-row md:gap-0">
             <div className="flex items-center justify-start">

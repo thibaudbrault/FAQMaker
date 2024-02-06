@@ -45,9 +45,6 @@ function Settings({ me }: Props) {
     [],
   );
 
-  const tabStyle =
-    'data-[state=active]:bg-negative data-[state=active]:text-negative text-xl lowercase font-semibold';
-
   return (
     <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
       <section className="mx-auto flex w-11/12 flex-col items-center pb-12 md:w-3/4">
@@ -63,7 +60,6 @@ function Settings({ me }: Props) {
               <TabsTrigger
                 key={index}
                 value={tab.value}
-                className={tabStyle}
                 style={{ fontVariant: 'small-caps' }}
               >
                 {tab.label}

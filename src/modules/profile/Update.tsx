@@ -35,7 +35,7 @@ export const UpdateProfile = ({ me }: Props) => {
     },
   });
 
-  const { mutate, isError, error } = useUpdateUser(me.id, me.tenantId);
+  const { mutate } = useUpdateUser(me.id, me.tenantId);
 
   const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
@@ -107,7 +107,6 @@ export const UpdateProfile = ({ me }: Props) => {
                   type={field.type}
                   id={field.value}
                   placeholder={field.label}
-                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-accent"
                 />
               </Field>
             </li>

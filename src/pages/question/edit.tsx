@@ -83,7 +83,7 @@ function Edit({ me, id }: Props) {
       <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <BackButton />
-          <div className="flex flex-col gap-4 rounded-md bg-default p-4">
+          <div className="flex flex-col gap-4 rounded-md bg-default p-4 dark:bg-negative">
             <form
               className="flex flex-col items-center justify-center gap-4 "
               onSubmit={handleSubmit(onSubmit)}
@@ -108,7 +108,6 @@ function Edit({ me, id }: Props) {
                     icon={<HelpCircle />}
                     type="text"
                     id="question"
-                    className="w-full rounded-md border border-stone-200 p-1 outline-none focus:border-accent "
                   />
                 </Field>
               </fieldset>

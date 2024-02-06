@@ -173,11 +173,11 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                 Confirm
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-neutral-200/90">
+            <DialogContent>
               {csvData.length > 0 ? (
                 <>
                   <DialogHeader>
-                    <DialogTitle className="text-2xl">New users</DialogTitle>
+                    <DialogTitle>New users</DialogTitle>
                   </DialogHeader>
                   {existingUsersArray.length > 0 && (
                     <div className="rounded-md bg-red-600/30 p-2">

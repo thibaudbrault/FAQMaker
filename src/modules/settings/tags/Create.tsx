@@ -50,9 +50,9 @@ export const CreateTag = ({ tenantId }: Props) => {
             New tag
           </Button>
         </DialogTrigger>
-        <DialogContent className="bg-neutral-200/90">
+        <DialogContent>
           <DialogHeader>
-            <DialogTitle className="text-2xl">New tag</DialogTitle>
+            <DialogTitle>New tag</DialogTitle>
           </DialogHeader>
           <Form tenantId={tenantId} />
         </DialogContent>
@@ -128,7 +128,6 @@ const Form = ({ tenantId }: Props) => {
             type="label"
             id="label"
             placeholder="Tag label"
-            className="w-full rounded-md border border-transparent py-1 outline-none focus:border-accent"
           />
         </Field>
       </fieldset>

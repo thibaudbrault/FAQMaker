@@ -4,7 +4,7 @@
 
 td,
 th {
-  @apply border border-default p-1;
+  @apply border border-default p-1 dark:border-negative;
 }
 
 @layer base {
@@ -48,5 +48,6 @@ th {
     --color-border-ghost: theme('colors.neutral.900' / 10%);
     --color-border-accent: theme('colors.teal.700');
     --color-border-negative: theme('colors.neutral.100');
+    --color-border-negative-ghost: theme('colors.neutral.100' / 10%);
   }
 }

@@ -102,69 +102,67 @@ function Plan() {
                 saveData(plan.value, plan.lookup_key),
               )}
               key={index}
-              className="w-full transform overflow-hidden rounded-md bg-default p-4 text-center transition duration-200 ease-in hover:scale-[1.02] hover:shadow-2xl"
+              className="w-full transform overflow-hidden rounded-md bg-default p-4 text-center transition duration-200 ease-in hover:scale-[1.02] hover:shadow-2xl dark:bg-negative"
             >
-              <div className="w-full border-b border-black py-4">
+              <div className="w-full border-b border-default py-4 dark:border-negative">
                 <h2 className="text-xl uppercase">{plan.label}</h2>
                 <h3 className="mt-2 text-4xl font-bold">
                   ${plan.price}/<sub className="text-xs">mo</sub>
                 </h3>
               </div>
-              <div className="">
-                <div className="my-5">
-                  <p className="pt-2 text-sm font-bold text-accent">
-                    {plan.message}
-                  </p>
-                </div>
-                <div className="mb-10 text-lg">
-                  <ul className="list-none text-right">
-                    {plan.benefits.map((benefit, index) => (
-                      <li key={index} className="flex gap-2">
-                        <Check className="text-accent" />
-                        <p>{benefit}</p>
-                      </li>
-                    ))}
-                    {plan.drawbacks?.map((drawback, index) => (
-                      <li
-                        key={index}
-                        className="flex gap-2 text-offset opacity-70"
-                      >
-                        <Minus className="text-offset" />
-                        <p>{drawback}</p>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-10 w-full">
-                    {plan.value === 'free' ? (
-                      <Button
-                        variant="primary"
-                        size="full"
-                        icon="withIcon"
-                        font="large"
-                        weight="bold"
-                        className="lowercase"
-                        style={{ fontVariant: 'small-caps' }}
-                        type="submit"
-                      >
-                        Next
-                        <MoveRight />
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="primary"
-                        size="full"
-                        icon="withIcon"
-                        font="large"
-                        weight="bold"
-                        className="lowercase"
-                        style={{ fontVariant: 'small-caps' }}
-                        type="submit"
-                      >
-                        <Wallet />
-                        Checkout
-                      </Button>
-                    )}
-                  </div>
+              <div className="my-5">
+                <p className="pt-2 text-sm font-bold text-accent">
+                  {plan.message}
+                </p>
+              </div>
+              <div className="mb-10 text-lg">
+                <ul className="list-none text-right">
+                  {plan.benefits.map((benefit, index) => (
+                    <li key={index} className="flex gap-2">
+                      <Check className="text-accent" />
+                      <p>{benefit}</p>
+                    </li>
+                  ))}
+                  {plan.drawbacks?.map((drawback, index) => (
+                    <li
+                      key={index}
+                      className="flex gap-2 text-offset opacity-70"
+                    >
+                      <Minus className="text-offset" />
+                      <p>{drawback}</p>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-10 w-full">
+                  {plan.value === 'free' ? (
+                    <Button
+                      variant="primary"
+                      size="full"
+                      icon="withIcon"
+                      font="large"
+                      weight="bold"
+                      className="lowercase"
+                      style={{ fontVariant: 'small-caps' }}
+                      type="submit"
+                    >
+                      Next
+                      <MoveRight />
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="primary"
+                      size="full"
+                      icon="withIcon"
+                      font="large"
+                      weight="bold"
+                      className="lowercase"
+                      style={{ fontVariant: 'small-caps' }}
+                      type="submit"
+                    >
+                      <Wallet />
+                      Checkout
+                    </Button>
+                  )}
                 </div>
               </div>
             </form>

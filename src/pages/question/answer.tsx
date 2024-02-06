@@ -78,7 +78,7 @@ function Answer({ me, id }: Props) {
       <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <BackButton />
-          <div className="flex flex-col gap-4 rounded-md bg-default p-4">
+          <div className="flex flex-col gap-4 rounded-md bg-default p-4 dark:bg-negative">
             <h2
               className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
               style={{ fontVariant: 'small-caps' }}

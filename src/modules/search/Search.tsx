@@ -66,13 +66,13 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
           type="text"
           id="search"
           placeholder="Search"
-          className="w-full rounded-md border border-ghost bg-default py-2 outline-none focus:border-accent "
+          className="py-2"
         />
       </form>
       {tags.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger
-            className="w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase text-negative"
+            className="w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase text-negative hover:bg-offset dark:bg-default dark:text-default dark:hover:bg-offset"
             style={{ fontVariant: 'small-caps' }}
           >
             <TagIcon />

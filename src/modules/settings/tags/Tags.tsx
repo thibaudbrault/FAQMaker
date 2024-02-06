@@ -11,12 +11,7 @@ type Props = {
 
 export const Tags = ({ tenantId }: Props) => {
   const { data: tags, isPending } = useTags(tenantId);
-  const {
-    mutate,
-    isPending: isTagLoading,
-    isError,
-    error,
-  } = useDeleteTag(tenantId);
+  const { mutate, isPending: isTagLoading } = useDeleteTag(tenantId);
 
   const handleDeleteTag = (id: string) => {
     mutate({ id });
@@ -33,7 +28,7 @@ export const Tags = ({ tenantId }: Props) => {
           {tags.map((tag) => (
             <li
               key={tag.id}
-              className="flex w-fit items-center gap-2 rounded-md bg-negative text-negative"
+              className="flex w-fit items-center gap-2 rounded-md bg-negative text-negative dark:bg-default dark:text-default"
             >
               <p className="px-2">{tag.label}</p>
               <Button

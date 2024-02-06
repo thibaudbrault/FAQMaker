@@ -14,6 +14,9 @@ const button = cva('button', {
         'border-transparent',
         'text-negative',
         'hover:bg-negativeOffset',
+        'dark:bg-default',
+        'dark:text-default',
+        'dark:hover:bg-offset',
       ],
       negative: [
         'bg-default',
@@ -23,6 +26,10 @@ const button = cva('button', {
         'transition-all',
         'duration-300',
         'hover:bg-offset',
+        'dark:bg-negative',
+        'dark:text-negative',
+        'dark:border-negative',
+        'dark:hover:bg-negativeOffset',
       ],
       ghost: [
         'bg-transparent',
@@ -42,7 +49,7 @@ const button = cva('button', {
       primary: ['border-accent'],
     },
     icon: {
-      withIcon: ['flex', 'justify-center', 'items-end', 'gap-2'],
+      withIcon: ['flex', 'justify-center', 'items-center', 'gap-1'],
     },
     font: {
       small: ['text-sm'],

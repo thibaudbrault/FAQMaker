@@ -51,12 +51,7 @@ function New({ me }: Props) {
 
   const { data: tags, isPending } = useTags(me.tenantId);
   const { data: integrations } = useIntegration(me.tenantId);
-  const { mutate, isError, error } = useCreateNode(
-    me,
-    router,
-    selectedTags,
-    integrations,
-  );
+  const { mutate } = useCreateNode(me, router, selectedTags, integrations);
 
   const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
@@ -75,7 +70,7 @@ function New({ me }: Props) {
     <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
       <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
         <BackButton />
-        <div className="flex flex-col gap-4 rounded-md bg-default p-4">
+        <div className="flex flex-col gap-4 rounded-md bg-default p-4 dark:bg-negative">
           <form className="flex flex-col items-center gap-4">
             <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-accent">
               <div className="w-full text-center">
@@ -98,7 +93,6 @@ function New({ me }: Props) {
                   type="text"
                   id="question"
                   placeholder="New question"
-                  className="w-full rounded-md border border-transparent py-1 outline-none focus:border-accent"
                 />
               </Field>
               <TagsList

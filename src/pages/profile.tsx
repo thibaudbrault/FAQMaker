@@ -43,7 +43,7 @@ function Profile({ me }: Props) {
 export default Profile;
 
 const Section = ({ children }) => (
-  <section className="mx-auto flex w-11/12 flex-col gap-4 rounded-md bg-default p-4 md:w-3/4">
+  <section className="mx-auto flex w-11/12 flex-col gap-4 rounded-md bg-default p-4 dark:bg-negative dark:text-negative md:w-3/4">
     {children}
   </section>
 );

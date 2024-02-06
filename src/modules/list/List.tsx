@@ -48,7 +48,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
         <ul className="mx-auto flex w-11/12 list-none flex-col gap-4 md:w-3/4">
           {nodes?.map((node) => (
             <li
-              className="relative rounded-md bg-default transition-all duration-300 hover:shadow-lg"
+              className="relative rounded-md bg-default transition-all duration-300 hover:shadow-lg dark:bg-negative"
               key={node.id}
             >
               <details>
@@ -68,7 +68,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                         </li>
                       ))}
                     </ul>
-                    <h2 className="mb-2 text-2xl font-semibold transition-all duration-300 hover:underline">
+                    <h2 className="mb-2 text-3xl font-semibold transition-all duration-300 hover:underline">
                       <Link
                         href={{
                           pathname: '/question/[slug]',
@@ -132,7 +132,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                   </div>
                   <ChevronDown />
                 </summary>
-                <hr className="mx-auto my-6 h-px w-3/4 border-none bg-negative" />
+                <hr className="mx-auto my-6 h-px w-3/4 border-none bg-negative dark:bg-default" />
                 {node.answer ? (
                   <div className="mb-6 px-6">
                     <MarkdownPreview source={node.answer.text} />

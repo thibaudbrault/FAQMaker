@@ -33,6 +33,7 @@ module.exports = {
         ghost: 'var(--color-border-ghost)',
         accent: 'var(--color-border-accent)',
         negative: 'var(--color-border-negative)',
+        negativeGhost: 'var(--color-border-negative-ghost)',
       },
       keyframes: {
         'accordion-down': {

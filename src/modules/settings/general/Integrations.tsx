@@ -86,7 +86,6 @@ export const Integrations = ({ tenantId }: Props) => {
                   type={field.type}
                   id={field.value}
                   placeholder="https://hooks.slack.com/services/"
-                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-accent"
                 />
               </Field>
             </div>

@@ -39,7 +39,7 @@ export const Data = ({ tenantId, plan }: Props) => {
       <ul className="flex list-none flex-col gap-4 md:grid md:grid-cols-3">
         {cards.map((card, index) => (
           <li
-            className="flex items-center gap-6 rounded-md bg-default p-4"
+            className="flex items-center gap-6 rounded-md bg-default p-4 dark:bg-negative"
             key={index}
           >
             {card.icon}

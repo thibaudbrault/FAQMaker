@@ -99,7 +99,6 @@ export const Company = ({ tenant, isPending }: Props) => {
                   type={field.type}
                   id={field.value}
                   placeholder={field.label}
-                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-accent"
                 />
               </Field>
             </div>

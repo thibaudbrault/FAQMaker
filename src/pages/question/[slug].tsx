@@ -29,12 +29,7 @@ type Props = {
 };
 
 function QuestionPage({ me, id }: Props) {
-  const {
-    data: node,
-    isPending,
-    isError,
-    error,
-  } = useNode(me.tenantId, id as string);
+  const { data: node, isPending } = useNode(me.tenantId, id as string);
 
   if (isPending) {
     return <Loader size="screen" />;
@@ -48,7 +43,7 @@ function QuestionPage({ me, id }: Props) {
             <BackButton />
             <DropdownMenu>
               <DropdownMenuTrigger
-                className="w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase text-negative"
+                className="w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase text-negative hover:bg-negativeOffset dark:bg-default dark:text-default dark:hover:bg-offset"
                 style={{ fontVariant: 'small-caps' }}
               >
                 Edit
@@ -83,7 +78,7 @@ function QuestionPage({ me, id }: Props) {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="rounded-md bg-default p-4">
+          <div className="rounded-md bg-default p-4 dark:bg-negative">
             <h2 className="text-2xl font-semibold">{node.question.text}</h2>
             <ul className="flex list-none gap-2 text-xs">
               {node.tags.map((tag) => (

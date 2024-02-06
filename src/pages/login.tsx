@@ -22,7 +22,9 @@ function Login() {
           >
             Login
           </h2>
-          <p className="text-sm text-offset">Use your associated account</p>
+          <p className="text-sm text-offset dark:text-negativeOffset">
+            Use your associated account
+          </p>
         </div>
         <Button
           variant="primary"

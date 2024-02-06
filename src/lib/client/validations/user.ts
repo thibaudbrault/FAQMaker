@@ -5,11 +5,12 @@ export const userEmailClientSchema = z.object({
     .string()
     .trim()
     .min(1, { message: 'User email is required' })
-    .email({ message: 'Invalid email' }),
+    .email({ message: 'Invalid email' })
+    .optional(),
 });
 
 export const userRoleClientSchema = z.object({
-  role: z.enum(['user', 'admin', 'tenant']),
+  role: z.enum(['user', 'admin', 'tenant']).optional(),
 });
 
 export const createUserClientSchema =

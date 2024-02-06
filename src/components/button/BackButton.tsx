@@ -11,6 +11,7 @@ export const BackButton = () => {
       weight="semibold"
       icon="withIcon"
       font="large"
+      size="small"
       className="lowercase"
       style={{ fontVariant: 'small-caps' }}
       onClick={() => router.back()}
