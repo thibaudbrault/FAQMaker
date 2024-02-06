@@ -161,26 +161,6 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                   </div>
                 )}
               </details>
-              {/* <Button
-                variant="ghost"
-                size="full"
-                font="large"
-                weight="bold"
-                rounded="bottom"
-                className="block border-t border-transparent border-t-default text-center lowercase"
-                style={{ fontVariant: 'small-caps' }}
-                asChild
-              >
-                <Link
-                  href={{
-                    pathname: '/question/[slug]',
-                    query: { slug: node.question.slug, id: node.id },
-                  }}
-                  as={`/question/${node.question.slug}`}
-                >
-                  Modify
-                </Link>
-              </Button> */}
             </li>
           ))}
         </ul>

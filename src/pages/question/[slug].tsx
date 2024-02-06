@@ -1,6 +1,5 @@
 import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { HelpCircle, PenSquare } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
@@ -54,8 +53,8 @@ function QuestionPage({ me, id }: Props) {
               >
                 Edit
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-default">
-                <DropdownMenuItem className="text-base hover:text-accent">
+              <DropdownMenuContent>
+                <DropdownMenuItem>
                   <Link
                     className="flex items-center justify-start gap-2"
                     href={{
@@ -68,7 +67,7 @@ function QuestionPage({ me, id }: Props) {
                     Question
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-base hover:text-accent">
+                <DropdownMenuItem>
                   <Link
                     className="flex items-center justify-start gap-2"
                     href={{
