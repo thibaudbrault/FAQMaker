@@ -10,7 +10,7 @@ import { Inter, Merriweather } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
 import { Toaster } from 'sonner';
 
-import { TooltipProvider } from '@/components';
+import { ThemeProvider, TooltipProvider } from '@/components';
 
 const merriweather = Merriweather({
   subsets: ['latin'],
@@ -42,21 +42,28 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <HydrationBoundary state={pageProps.dehydratedState}>
-          <Toaster
-            closeButton
-            richColors
-            position="top-center"
-            toastOptions={{
-              style: { fontSize: '1rem' },
-            }}
-          />
-          <TooltipProvider>
-            <div
-              className={`relative h-full min-h-screen text-default ${merriweather.variable} ${inter.variable}`}
-            >
-              <Component {...pageProps} />
-            </div>
-          </TooltipProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Toaster
+              closeButton
+              richColors
+              position="top-center"
+              toastOptions={{
+                style: { fontSize: '1rem' },
+              }}
+            />
+            <TooltipProvider>
+              <div
+                className={`relative h-full min-h-screen text-default dark:text-negative ${merriweather.variable} ${inter.variable}`}
+              >
+                <Component {...pageProps} />
+              </div>
+            </TooltipProvider>
+          </ThemeProvider>
         </HydrationBoundary>
       </QueryClientProvider>
     </SessionProvider>

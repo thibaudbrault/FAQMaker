@@ -18,6 +18,8 @@ import {
 import { useCreateBillingPortal, useMediaQuery, useUser } from '@/hooks';
 import { Routes } from '@/utils';
 
+import { ThemeToggle } from './ThemeToggle';
+
 type Props = {
   id: string;
   company: string;
@@ -100,6 +102,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
                       </Tooltip>
                     </li>
                   )}
+                  <ThemeToggle />
                   <li>
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -118,7 +121,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
                 </ul>
               )}
               <Button
-                variant="ghost"
+                variant="negative"
                 font="large"
                 size="small"
                 weight="semibold"
