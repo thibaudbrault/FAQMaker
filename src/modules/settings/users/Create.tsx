@@ -57,7 +57,7 @@ export const CreateUser = ({ tenantId }: Props) => {
             New user
           </Button>
         </DialogTrigger>
-        <DialogContent className="bg-stone-200/90">
+        <DialogContent className="bg-neutral-200/90">
           <DialogHeader>
             <DialogTitle className="text-2xl">New user</DialogTitle>
           </DialogHeader>
@@ -160,7 +160,7 @@ const Form = ({ tenantId }: Props) => {
                 >
                   <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
-                <SelectContent className="bg-stone-200">
+                <SelectContent className="bg-neutral-200">
                   <SelectItem value="user" className="pl-8">
                     User
                   </SelectItem>

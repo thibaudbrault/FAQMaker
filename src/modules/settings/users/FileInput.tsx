@@ -173,7 +173,7 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                 Confirm
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-stone-200/90">
+            <DialogContent className="bg-neutral-200/90">
               {csvData.length > 0 ? (
                 <>
                   <DialogHeader>

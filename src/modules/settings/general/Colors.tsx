@@ -232,7 +232,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
     //         </TooltipContent>
     //       </Tooltip>
     //     </DialogTrigger>
-    //     <DialogContent className="bg-stone-200/90">
+    //     <DialogContent className="bg-neutral-200/90">
     //       <DialogHeader>
     //         <DialogTitle className="text-2xl">
     //           How to build a good palette ?

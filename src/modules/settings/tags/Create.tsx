@@ -50,7 +50,7 @@ export const CreateTag = ({ tenantId }: Props) => {
             New tag
           </Button>
         </DialogTrigger>
-        <DialogContent className="bg-stone-200/90">
+        <DialogContent className="bg-neutral-200/90">
           <DialogHeader>
             <DialogTitle className="text-2xl">New tag</DialogTitle>
           </DialogHeader>

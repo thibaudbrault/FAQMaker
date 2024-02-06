@@ -56,7 +56,7 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
             Modify
           </Button>
         </DialogTrigger>
-        <DialogContent className="bg-stone-200/90">
+        <DialogContent className="bg-neutral-200/90">
           <DialogHeader>
             <DialogTitle className="font-serif text-2xl">
               Modify user
@@ -81,7 +81,7 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
           Modify
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="bg-stone-200/90">
+      <DrawerContent className="bg-neutral-200/90">
         <div className="mb-10 mt-5">
           <DrawerHeader>
             <DrawerTitle className="font-serif text-2xl">
@@ -177,7 +177,7 @@ const Form = ({ user, tenantId }: Props) => {
                   >
                     <SelectValue placeholder="Select a role" />
                   </SelectTrigger>
-                  <SelectContent className="bg-stone-200">
+                  <SelectContent className="bg-neutral-200">
                     <SelectItem value="user" className="pl-8">
                       User
                     </SelectItem>

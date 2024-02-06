@@ -8,7 +8,7 @@ const badge = cva('text-xs font-semibold', {
   variants: {
     variant: {
       primary: ['bg-negative', 'text-negative', 'text-center'],
-      disabled: ['bg-stone-600', 'text-negative', 'text-center'],
+      disabled: ['bg-neutral-600', 'text-negative', 'text-center'],
     },
     rounded: {
       full: ['rounded-full'],
