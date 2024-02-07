@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import { Stepper } from '@/components';
 import { TSteps } from '@/types';
@@ -23,6 +23,17 @@ export const AuthLayout = ({
   currentStep,
   noStepper,
 }: Props) => {
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return null
+  }
+  
   return (
     <main className="min-h-screen w-full bg-gradient-to-br from-black via-teal-950 to-teal-700 relative flex flex-col items-center justify-center gap-8">
       <div className='absolute top-4 right-4'>
