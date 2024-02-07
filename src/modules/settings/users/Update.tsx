@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
-import { AxiosError } from 'axios';
 import { AtSign, UserIcon } from 'lucide-react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -27,7 +26,6 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  errorToast,
 } from '@/components';
 import { useMediaQuery, useUpdateUser } from '@/hooks';
 import { updateUserClientSchema } from '@/lib';

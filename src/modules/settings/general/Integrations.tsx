@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Integrations as IntegrationsType, Tenant } from '@prisma/client';
-import { AxiosError } from 'axios';
+import { Integrations as IntegrationsType } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Field, Input, Loader, errorToast } from '@/components';
+import { Button, Field, Input, Loader } from '@/components';
 import { useIntegration, useUpsertIntegrations } from '@/hooks';
 import { integrationsClientSchema } from '@/lib';
 import { IIntegrations } from '@/types';

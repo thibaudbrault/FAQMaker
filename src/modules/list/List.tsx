@@ -1,12 +1,5 @@
 import { AxiosError } from 'axios';
-import {
-  BadgeAlert,
-  BadgeCheck,
-  BadgeHelp,
-  BadgeInfo,
-  ChevronDown,
-  PenSquare,
-} from 'lucide-react';
+import { BadgeCheck, BadgeHelp, BadgeInfo, ChevronDown } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 

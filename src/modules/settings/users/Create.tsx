@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AxiosError } from 'axios';
 import { AtSign, PlusCircle } from 'lucide-react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -26,7 +25,6 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  errorToast,
 } from '@/components';
 import { useCreateUser, useMediaQuery } from '@/hooks';
 import { createUserClientSchema } from '@/lib';

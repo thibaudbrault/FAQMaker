@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AxiosError } from 'axios';
 import { PlusCircle, Tag as TagIcon } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';

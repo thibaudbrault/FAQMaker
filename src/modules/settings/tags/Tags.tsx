@@ -1,6 +1,4 @@
-import { AxiosError } from 'axios';
-
-import { Button, Loader, errorToast } from '@/components';
+import { Button, Loader } from '@/components';
 import { useDeleteTag, useTags } from '@/hooks';
 
 import { CreateTag } from './Create';

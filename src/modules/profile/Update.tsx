@@ -1,13 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AxiosError } from 'axios';
 import { AtSign, UserIcon } from 'lucide-react';
 import Image from 'next/image';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Field, Input, errorToast } from '@/components';
+import { Button, Field, Input } from '@/components';
 import { useMediaQuery, useUpdateUser } from '@/hooks';
 import { updateUserClientSchema } from '@/lib';
 import { IUserUpdateFields, UserWithTenant } from '@/types';

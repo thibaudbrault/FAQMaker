@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { HelpCircle } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
