@@ -1,6 +1,10 @@
 import { getToken } from 'next-auth/jwt';
 
-import { getNodeServerSchema, getTenantIdSchema, updateNodeServerSchema } from '@/lib';
+import {
+  getNodeServerSchema,
+  getTenantIdSchema,
+  updateNodeServerSchema,
+} from '@/lib';
 import { nodeModelWithDate } from '@/utils';
 import prisma from 'lib/prisma';
 
@@ -32,8 +36,8 @@ export default async function handler(
             where: { tenantId },
           });
           if (!node) {
-            node = 0
-          } 
+            node = 0;
+          }
           return res.status(200).json(node);
         }
       } else {

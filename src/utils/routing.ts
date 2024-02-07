@@ -21,7 +21,7 @@ export const Routes = {
     USERS: '/api/users',
     NODES: {
       INDEX: '/api/nodes',
-      COUNT: '/api/nodes/count'
+      COUNT: '/api/nodes/count',
     },
     CHECKOUT: '/api/stripe/checkout',
     COLORS: '/api/colors',
