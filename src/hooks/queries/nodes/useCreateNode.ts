@@ -24,7 +24,7 @@ const createNode = async (
     userId: me.id,
     tags: selectedTags,
   };
-  const { data } = await axios.post(Routes.API.NODES, body);
+  const { data } = await axios.post(Routes.API.NODES.INDEX, body);
   if (integrations) {
     if (integrations.slack) {
       try {

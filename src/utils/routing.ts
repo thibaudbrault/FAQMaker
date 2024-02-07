@@ -19,7 +19,10 @@ export const Routes = {
   },
   API: {
     USERS: '/api/users',
-    NODES: '/api/nodes',
+    NODES: {
+      INDEX: '/api/nodes',
+      COUNT: '/api/nodes/count'
+    },
     CHECKOUT: '/api/stripe/checkout',
     COLORS: '/api/colors',
     CUSTOMER: '/api/stripe/customer',
