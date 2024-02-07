@@ -17,8 +17,7 @@ import {
 } from '@/components';
 import { useCreateBillingPortal, useMediaQuery, useUser } from '@/hooks';
 import { Routes } from '@/utils';
-
-import { ThemeToggle } from './ThemeToggle';
+import { ThemeToggle } from '../theme';
 
 type Props = {
   id: string;
@@ -38,7 +37,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
   };
 
   return (
-    <header className="flex items-center justify-between bg-negative px-8 py-4 text-negative">
+    <header className="flex items-center justify-between bg-negative px-4 py-2 md:px-8 md:py-4 text-negative">
       <h1>
         <Link href="/" className="font-serif text-4xl">
           {company}
@@ -134,6 +133,8 @@ export const Header = ({ id, company, tenantId }: Props) => {
             </div>
           )
         : user && (
+          <div className='flex items-center gap-2'>
+            <ThemeToggle />
             <Drawer>
               <DrawerTrigger>
                 <AlignJustify />
@@ -166,6 +167,7 @@ export const Header = ({ id, company, tenantId }: Props) => {
                 </div>
               </DrawerContent>
             </Drawer>
+          </div>
           )}
     </header>
   );

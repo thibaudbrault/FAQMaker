@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 
 import { Stepper } from '@/components';
 import { TSteps } from '@/types';
+import { ThemeToggle } from '@/modules';
 
 type Props = {
   children: ReactNode;
@@ -23,8 +24,10 @@ export const AuthLayout = ({
   noStepper,
 }: Props) => {
   return (
-    <main className="min-h-screen w-full bg-gradient-to-br from-black via-teal-950 to-teal-700">
-      <section className="flex min-h-screen w-full flex-col items-center justify-center gap-8">
+    <main className="min-h-screen w-full bg-gradient-to-br from-black via-teal-950 to-teal-700 relative flex flex-col items-center justify-center gap-8">
+      <div className='absolute top-4 right-4'>
+          <ThemeToggle />
+        </div>
         {!noStepper && <Stepper currentStep={currentStep} steps={steps} />}
         {hasBackground ? (
           <div className="mx-auto flex w-11/12 flex-col items-center gap-8 rounded-md bg-default p-8 dark:bg-negative md:w-[500px]">
@@ -33,7 +36,6 @@ export const AuthLayout = ({
         ) : (
           <>{children}</>
         )}
-      </section>
     </main>
   );
 };
