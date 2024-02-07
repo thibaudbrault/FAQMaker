@@ -10,7 +10,7 @@ type Schema = z.infer<typeof createUserClientSchema>;
 
 const createUser = async (values: Schema, tenantId: string) => {
   const body = { ...values, tenantId };
-  const { data } = await axios.post(Routes.API.USERS, body);
+  const { data } = await axios.post(Routes.API.USERS.INDEX, body);
   return data;
 };
 

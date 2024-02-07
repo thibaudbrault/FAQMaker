@@ -6,7 +6,7 @@ import { QueryKeys, Routes } from '@/utils';
 
 const createUsers = async (newUsersArray: string[], tenantId: string) => {
   const body = { newUsersArray, tenantId };
-  const { data } = await axios.post(Routes.API.USERS, body);
+  const { data } = await axios.post(Routes.API.USERS.INDEX, body);
   return data;
 };
 

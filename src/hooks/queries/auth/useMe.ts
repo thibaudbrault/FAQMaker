@@ -8,7 +8,7 @@ import { QueryKeys, Routes } from '@/utils';
 
 const getUser = async (id: string | undefined) => {
   if (!id) return null;
-  const { data } = await axios.get<User>(`${Routes.API.USERS}/${id}`);
+  const { data } = await axios.get<User>(`${Routes.API.USERS.INDEX}/${id}`);
   return data;
 };
 
