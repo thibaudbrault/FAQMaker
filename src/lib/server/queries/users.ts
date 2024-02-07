@@ -24,7 +24,7 @@ export const getUsersCount = async (tenantId: string) => {
     where: { tenantId },
   });
 
-  if (!users) return null;
+  if (!users) return 0;
 
   return users;
 };
