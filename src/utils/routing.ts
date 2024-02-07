@@ -20,7 +20,7 @@ export const Routes = {
   API: {
     USERS: {
       INDEX: '/api/users',
-      COUNT: '/api/users/count'
+      COUNT: '/api/users/count',
     },
     NODES: {
       INDEX: '/api/nodes',

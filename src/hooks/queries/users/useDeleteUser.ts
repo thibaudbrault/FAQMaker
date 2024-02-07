@@ -6,9 +6,12 @@ import { QueryKeys, Routes } from '@/utils';
 
 const deleteUser = async (tenantId: string, id: string) => {
   const data = { tenantId };
-  const { data: deleteData } = await axios.delete(`${Routes.API.USERS.INDEX}/${id}`, {
-    data,
-  });
+  const { data: deleteData } = await axios.delete(
+    `${Routes.API.USERS.INDEX}/${id}`,
+    {
+      data,
+    },
+  );
   return deleteData;
 };
 
