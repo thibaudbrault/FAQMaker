@@ -1,11 +1,8 @@
 import { getToken } from 'next-auth/jwt';
 
 import {
-  getNodeServerSchema,
-  getTenantIdSchema,
-  updateNodeServerSchema,
+    getTenantIdSchema
 } from '@/lib';
-import { nodeModelWithDate } from '@/utils';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -32,13 +29,13 @@ export default async function handler(
           });
         } else {
           const { tenantId } = result.data;
-          let node = await prisma.node.count({
+          let nodes = await prisma.node.count({
             where: { tenantId },
           });
-          if (!node) {
-            node = 0;
+          if (!nodes) {
+            nodes = 0;
           }
-          return res.status(200).json(node);
+          return res.status(200).json(nodes);
         }
       } else {
         return res
