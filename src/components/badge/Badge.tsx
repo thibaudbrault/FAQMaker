@@ -8,29 +8,20 @@ const badge = cva('text-xs font-semibold', {
   variants: {
     variant: {
       primary: [
-        'bg-negative',
-        'text-negative',
-        'text-center',
-        'dark:bg-default',
-        'dark:text-default',
+        'bg-negative text-negative text-center dark:bg-default dark:text-default',
       ],
       disabled: [
-        'bg-neutral-600',
-        'text-negative',
-        'text-center',
-        'dark:bg-neutral-400',
-        'dark:text-default',
+        'bg-neutral-600 text-negative text-center dark:bg-neutral-400 dark:text-default',
       ],
     },
     rounded: {
       full: ['rounded-full'],
     },
     size: {
-      small: ['px-2', 'min-w-[40px]'],
+      small: ['px-2 min-w-[40px]'],
     },
   },
 });
-
 export interface BadgeProps
   extends HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof badge> {}

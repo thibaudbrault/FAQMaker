@@ -5,15 +5,13 @@ import { VariantProps, cva } from 'class-variance-authority';
 import { cn } from '@/utils';
 
 const loader = cva(
-  [
-    'inline-block animate-spin rounded-full border-solid border-current !border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]',
-  ],
+  'inline-block animate-spin rounded-full border-solid border-current !border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]',
   {
     variants: {
       size: {
-        items: ['h-4', 'w-4'],
-        page: ['h-16', 'w-16'],
-        screen: ['h-24', 'w-24'],
+        items: ['h-4 w-4'],
+        page: ['h-16 w-16'],
+        screen: ['h-24 w-24'],
       },
       border: {
         thick: ['border-4'],
@@ -25,7 +23,6 @@ const loader = cva(
     },
   },
 );
-
 export interface LoaderProps
   extends HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof loader> {}

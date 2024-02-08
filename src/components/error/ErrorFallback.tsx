@@ -9,9 +9,9 @@ import { Button } from '../button';
 const errorVariants = cva('error', {
   variants: {
     fallbackType: {
-      item: ['h-8', 'w-8'],
-      page: ['h-16', 'w-16'],
-      screen: ['h-screen', 'w-screen'],
+      item: ['h-8 w-8'],
+      page: ['h-16 w-16'],
+      screen: ['h-screen w-screen'],
     },
   },
 });
