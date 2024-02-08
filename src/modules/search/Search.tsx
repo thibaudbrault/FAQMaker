@@ -72,7 +72,7 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
       {tags.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger
-            className="w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase text-negative hover:bg-offset dark:bg-default dark:text-default dark:hover:bg-offset"
+            className="w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase text-negative hover:bg-negativeOffset dark:bg-default dark:text-default dark:hover:bg-offset"
             style={{ fontVariant: 'small-caps' }}
           >
             <TagIcon />
@@ -81,7 +81,9 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
             {tags.map((tag) => (
               <DropdownMenuItem
                 className={`cursor-pointer rounded-md font-semibold hover:bg-offset ${
-                  tagActive === tag.label ? 'bg-offset' : 'bg-default'
+                  tagActive === tag.label
+                    ? 'bg-negative text-negative hover:bg-negativeOffset'
+                    : 'bg-default'
                 }`}
                 key={tag.id}
               >
