@@ -12,6 +12,21 @@ import {
 export const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();
 
+  const themes = [
+    {
+      value: 'light',
+      label: 'Light',
+    },
+    {
+      value: 'dark',
+      label: 'Dark',
+    },
+    {
+      value: 'system',
+      label: 'System',
+    },
+  ];
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,15 +40,19 @@ export const ThemeToggle = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem onClick={() => setTheme('light')}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>
-          System
-        </DropdownMenuItem>
+        {themes.map((th) => (
+          <DropdownMenuItem
+            key={th.value}
+            className={
+              theme === th.value
+                ? 'bg-negative text-negative hover:bg-negativeOffset'
+                : ''
+            }
+            onClick={() => setTheme(th.value)}
+          >
+            {th.label}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );
