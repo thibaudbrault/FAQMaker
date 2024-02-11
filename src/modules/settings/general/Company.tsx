@@ -3,22 +3,21 @@ import { useEffect, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Tenant } from '@prisma/client';
 import { useRouter } from 'next/router';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Field, Input, Loader } from '@/components';
+import { Button, Field, Input } from '@/components';
 import { useUpdateTenant } from '@/hooks';
 import { updateTenantClientSchema } from '@/lib';
 import { ITenantUpdateFields } from '@/types';
 
 type Props = {
   tenant: Tenant;
-  isPending: boolean;
 };
 
 type Schema = z.infer<typeof updateTenantClientSchema>;
 
-export const Company = ({ tenant, isPending }: Props) => {
+export const Company = ({ tenant }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const router = useRouter();
   const {
@@ -26,7 +25,6 @@ export const Company = ({ tenant, isPending }: Props) => {
     handleSubmit,
     watch,
     reset,
-    control,
     formState: { isSubmitting, isDirty, isValid, errors },
   } = useForm<Schema>({
     resolver: zodResolver(updateTenantClientSchema),
@@ -35,7 +33,6 @@ export const Company = ({ tenant, isPending }: Props) => {
       company: tenant.company,
       email: tenant.email,
       domain: tenant.domain,
-      logo: null,
     },
   });
   const domainValue = watch('domain');
@@ -43,8 +40,7 @@ export const Company = ({ tenant, isPending }: Props) => {
   const { mutate } = useUpdateTenant(tenant.id, router);
 
   const onSubmit: SubmitHandler<Schema> = (values) => {
-    console.log(values);
-    // mutate(values);
+    mutate(values);
   };
 
   const fields: ITenantUpdateFields[] = useMemo(
@@ -79,12 +75,6 @@ export const Company = ({ tenant, isPending }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDirty, isSubmitting, isValid, domainValue]);
 
-  if (isPending) {
-    return <Loader size="items" />;
-  }
-
-  console.log(errors.logo);
-
   return (
     <div className="flex flex-col gap-4">
       <h2
@@ -97,7 +87,7 @@ export const Company = ({ tenant, isPending }: Props) => {
         className="flex flex-col items-center gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <fieldset className="flex w-full flex-col gap-2 md:grid md:grid-cols-2 md:gap-4 md:gap-x-8">
+        <fieldset className="flex w-full flex-col gap-2 md:flex-row">
           {fields.map((field) => (
             <div
               key={field.value}
@@ -113,30 +103,10 @@ export const Company = ({ tenant, isPending }: Props) => {
                   type={field.type}
                   id={field.value}
                   placeholder={field.label}
-                  accept="image/png, image/jpeg"
                 />
               </Field>
             </div>
           ))}
-          <Field label="Logo" value="logo" error={errors.logo?.message}>
-            <Controller
-              control={control}
-              name={'logo'}
-              render={({ field: { value, onChange, ...field } }) => {
-                return (
-                  <Input
-                    {...field}
-                    onChange={(event) => {
-                      onChange(event.target.files[0]);
-                    }}
-                    type="file"
-                    id="logo"
-                    accept="image/jpeg, image/jpg, image/png, image/webp, image/svg"
-                  />
-                );
-              }}
-            />
-          </Field>
         </fieldset>
         <Button
           variant={disabled ? 'disabled' : 'primary'}
