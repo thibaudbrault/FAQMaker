@@ -1,4 +1,3 @@
-import { Storage } from '@google-cloud/storage';
 import { getToken } from 'next-auth/jwt';
 
 import { getIdSchema, updateTenantServerSchema } from '@/lib';
@@ -71,22 +70,6 @@ export default async function handler(
             error: { message: 'Invalid request', errors },
           });
         } else {
-          const storage = new Storage({
-            projectId: process.env.PROJECT_ID,
-            credentials: {
-              client_email: process.env.CLIENT_EMAIL,
-              private_key: process.env.PRIVATE_KEY,
-            },
-          });
-
-          const bucket = storage.bucket(process.env.BUCKET_NAME);
-          const file = bucket.file(result.data.body.logo);
-          const options = {
-            expires: Date.now() + 1 * 60 * 1000, //  1 minute,
-            fields: { 'x-goog-meta-test': 'data' },
-          };
-
-          const [response] = await file.generateSignedPostPolicyV4(options);
           const { id } = result.data.query;
           const data = result.data.body;
           await prisma.tenant.update({
