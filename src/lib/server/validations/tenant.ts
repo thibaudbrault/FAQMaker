@@ -26,15 +26,18 @@ export const updateTenantServerSchema = z.object({
       .min(1, { message: 'Email is required' })
       .email({ message: 'Invalid email' }),
     domain: z.string().trim().nullable(),
-    logo: z
-      .custom<File>((file) => file instanceof File, 'Please upload a file')
-      .refine((file) => file?.size <= MAX_FILE_SIZE, 'File must be under 5MB')
-      .refine(
-        (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-        'Wrong format',
-      ),
   }),
   query: z.object({
     id: z.string().cuid2(),
   }),
+});
+
+export const logoServerSchema = z.object({
+  logo: z
+    .custom<File>((file) => file instanceof File, 'Please upload a file')
+    .refine((file) => file?.size <= MAX_FILE_SIZE, 'File must be under 5MB')
+    .refine(
+      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+      'Wrong format',
+    ),
 });
