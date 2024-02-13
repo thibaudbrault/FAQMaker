@@ -3,18 +3,18 @@ const removeImports = require('next-remove-imports')();
 const { withSentryConfig } = require("@sentry/nextjs");
 
 const nextConfig = removeImports({
-    transpilePackages: ['@mdxeditor/editor', 'react-diff-view'],
-    swcMinify: true,
-    images: {
-        domains: ['lh3.googleusercontent.com', 'api.dicebear.com']
-    },
-    experimental: {
-        swcPlugins: [['@swc-jotai/react-refresh', {}]],
-    },
-    webpack: (config) => {
-        config.experiments = { ...config.experiments, topLevelAwait: true };
-        return config;
-    }
+  transpilePackages: ['@mdxeditor/editor', 'react-diff-view'],
+  swcMinify: true,
+  images: {
+    domains: ['lh3.googleusercontent.com', 'api.dicebear.com', 'storage.googleapis.com']
+  },
+  experimental: {
+    swcPlugins: [['@swc-jotai/react-refresh', {}]],
+  },
+  webpack: (config) => {
+    config.experiments = { ...config.experiments, topLevelAwait: true };
+    return config;
+  }
 })
 
 
