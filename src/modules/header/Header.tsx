@@ -42,13 +42,15 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
   return (
     <header className="flex items-center justify-between bg-negative px-4 py-2 text-negative md:px-8 md:py-4">
       <Link href="/" className="flex items-center gap-2">
-        <Image
-          src={logo}
-          alt=""
-          width={50}
-          height={50}
-          className="rounded-md"
-        />
+        {logo && (
+          <Image
+            src={logo}
+            alt=""
+            width={50}
+            height={50}
+            className="rounded-md"
+          />
+        )}
         <h1 className="font-serif text-4xl">{company}</h1>
       </Link>
       {isDesktop
