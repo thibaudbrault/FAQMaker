@@ -1,4 +1,5 @@
 import { AlignJustify, LogOut, Settings, Wallet } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
@@ -23,10 +24,11 @@ import { ThemeToggle } from '../theme';
 type Props = {
   id: string;
   company: string;
+  logo: string;
   tenantId: string;
 };
 
-export const Header = ({ id, company, tenantId }: Props) => {
+export const Header = ({ id, company, logo, tenantId }: Props) => {
   const { handleSubmit } = useForm();
   const { data: user, isPending } = useUser(id);
   const isDesktop = useMediaQuery('(min-width: 640px)');
@@ -39,11 +41,16 @@ export const Header = ({ id, company, tenantId }: Props) => {
 
   return (
     <header className="flex items-center justify-between bg-negative px-4 py-2 text-negative md:px-8 md:py-4">
-      <h1>
-        <Link href="/" className="font-serif text-4xl">
-          {company}
-        </Link>
-      </h1>
+      <Link href="/" className="flex items-center gap-2">
+        <Image
+          src={logo}
+          alt=""
+          width={50}
+          height={50}
+          className="rounded-md"
+        />
+        <h1 className="font-serif text-4xl">{company}</h1>
+      </Link>
       {isDesktop
         ? user && (
             <div className="flex items-end gap-4">

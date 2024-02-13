@@ -30,7 +30,12 @@ function Profile({ me }: Props) {
   ];
 
   return (
-    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
+    <PageLayout
+      id={me.id}
+      company={me.tenant.company}
+      logo={me.tenant.logo}
+      tenantId={me.tenantId}
+    >
       <div className="flex flex-col gap-4">
         {sections.map((section, index) => (
           <Section key={index}>{section.component}</Section>

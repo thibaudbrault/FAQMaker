@@ -97,7 +97,12 @@ function Home({ me }: Props) {
   }, [isPending, isSearchLoading, isNodesCountLoading]);
 
   return (
-    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
+    <PageLayout
+      id={me.id}
+      company={me.tenant.company}
+      logo={me.tenant.logo}
+      tenantId={me.tenantId}
+    >
       <Search
         tags={tags}
         setSearchQuery={setSearchQuery}
