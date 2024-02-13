@@ -3,6 +3,8 @@ import { Fields, Files, IncomingForm } from 'formidable';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getToken } from 'next-auth/jwt';
 
+import prisma from 'lib/prisma';
+
 export const config = {
   api: {
     bodyParser: false,
@@ -30,6 +32,7 @@ export default async function handler(
           });
         });
         const logo = data.files.logo?.[0];
+        const tenantId = data.fields.tenantId?.[0];
         if (!logo) {
           return res
             .status(500)
@@ -44,9 +47,35 @@ export default async function handler(
           destination: `logos/${logo.newFilename}${logo.originalFilename}`,
           public: true,
         };
-        bucket.upload(logo.filepath, options, (error, file) => {
-          console.log('error: ', error);
-          console.log('file: ', file);
+        const { logo: oldLogo } = await prisma.tenant.findUnique({
+          where: { id: tenantId },
+          select: {
+            logo: true,
+          },
+        });
+        if (oldLogo) {
+          const fileName = oldLogo.replace(
+            'https://storage.googleapis.com/faqmaker/',
+            '',
+          );
+          bucket.file(fileName).delete();
+        }
+        bucket.upload(logo.filepath, options, async (error, file) => {
+          if (file) {
+            const url = `${file.storage.apiEndpoint}/${file.bucket.name}/${file.name}`;
+            await prisma.tenant.update({
+              where: { id: tenantId },
+              data: {
+                logo: url,
+              },
+            });
+            return res
+              .status(200)
+              .json({ file, message: 'Files uploaded successfully' });
+          }
+          if (error) {
+            return res.status(500).json({ success: false, error });
+          }
         });
       } else {
         return res

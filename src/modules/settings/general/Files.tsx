@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Tenant } from '@prisma/client';
+import { Upload } from 'lucide-react';
 import Image from 'next/image';
+import Dropzone from 'react-dropzone';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Field, Input } from '@/components';
+import { Button } from '@/components';
 import { useUpsertFiles } from '@/hooks';
 import { filesClientSchema } from '@/lib';
 
@@ -19,10 +21,12 @@ type Schema = z.infer<typeof filesClientSchema>;
 export const Files = ({ tenant }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [previewImage, setPreviewImage] = useState<string>('');
+  const [file, setFile] = useState<File>();
 
   const {
     handleSubmit,
     control,
+    reset,
     formState: { isSubmitting, isDirty, isValid, errors },
   } = useForm<Schema>({
     resolver: zodResolver(filesClientSchema),
@@ -38,6 +42,12 @@ export const Files = ({ tenant }: Props) => {
     mutate(values);
   };
 
+  const handleReset = () => {
+    reset();
+    setPreviewImage('');
+    setFile(null);
+  };
+
   useEffect(() => {
     setDisabled(isSubmitting || !isDirty || !isValid);
 
@@ -50,22 +60,80 @@ export const Files = ({ tenant }: Props) => {
         className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
         style={{ fontVariant: 'small-caps' }}
       >
-        Files
+        Logo
       </h2>
-      {previewImage && (
-        <Image
-          src={previewImage}
-          alt="logo"
-          className="rounded-md border border-default dark:border-negative"
-          width={150}
-          height={150}
-        />
-      )}
       <form
-        className="flex flex-col items-center gap-4"
+        className="mx-auto flex w-11/12 flex-col items-center gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <fieldset className="flex w-full flex-col gap-2 md:flex-row">
+        <Controller
+          name={'logo'}
+          control={control}
+          render={({ field: { onChange, onBlur } }) => (
+            <div className="w-full">
+              <Dropzone
+                accept={{
+                  'image/png': ['.svg', '.jpeg', '.jpg', '.webp', '.png'],
+                }}
+                onDrop={(acceptedFiles) => {
+                  onChange(acceptedFiles[0]);
+                  setFile(acceptedFiles[0]);
+                  setPreviewImage(URL.createObjectURL(acceptedFiles[0]));
+                }}
+              >
+                {({ getRootProps, getInputProps, open, isDragActive }) => (
+                  <div
+                    className={`relative flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-t-md border-2 border-b-0 border-dashed border-default px-4 py-8 text-default dark:border-negative dark:text-negative ${isDragActive ? 'bg-offset dark:bg-negativeOffset' : 'bg-transparent'}`}
+                    {...getRootProps()}
+                  >
+                    <input
+                      {...getInputProps({
+                        id: 'spreadsheet',
+                        onChange,
+                        onBlur,
+                      })}
+                    />
+                    {previewImage ? (
+                      <Image
+                        src={previewImage}
+                        alt={file.name}
+                        className="h-36 w-36 rounded-md border border-default object-cover dark:border-negative"
+                        width={144}
+                        height={144}
+                      />
+                    ) : (
+                      <div className="flex h-36 w-36 items-center justify-center">
+                        <Upload className="h-20 w-20" />
+                      </div>
+                    )}
+                    <p className="text-xl font-semibold">
+                      {file ? file.name : 'No file selected.'}
+                    </p>
+                    <button
+                      type="button"
+                      className="text-sm hover:text-offset dark:hover:text-negativeOffset"
+                      onClick={open}
+                    >
+                      Choose a file or drag and drop
+                    </button>
+                  </div>
+                )}
+              </Dropzone>
+              <Button
+                variant="primary"
+                rounded="bottom"
+                weight="semibold"
+                className="w-full lowercase"
+                style={{ fontVariant: 'small-caps' }}
+                onClick={handleReset}
+                type="button"
+              >
+                Remove
+              </Button>
+            </div>
+          )}
+        />
+        {/* <fieldset className="flex w-full flex-col gap-2 md:flex-row">
           <Field label="Logo" value="logo" error={errors.logo?.message}>
             <Controller
               control={control}
@@ -88,7 +156,7 @@ export const Files = ({ tenant }: Props) => {
               }}
             />
           </Field>
-        </fieldset>
+        </fieldset> */}
         <Button
           variant={disabled ? 'disabled' : 'primary'}
           weight="semibold"

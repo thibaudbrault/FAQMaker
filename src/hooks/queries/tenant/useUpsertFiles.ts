@@ -2,8 +2,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { z } from 'zod';
 
+import { promiseToast } from '@/components';
 import { filesClientSchema } from '@/lib';
-import { Routes } from '@/utils';
+import { QueryKeys, Routes } from '@/utils';
 
 type Schema = z.infer<typeof filesClientSchema>;
 
@@ -12,21 +13,25 @@ const upsertFiles = async (values: Schema, id: string) => {
   Object.values(values).forEach((file) => {
     formData.append('logo', file);
   });
+  formData.append('tenantId', id);
   const { data } = await axios.post(Routes.API.STORAGE.LOGO, formData);
-  // const { data } = await axios.put(`${Routes.API.TENANT}/${id}`, body);
-  // return data;
+  return data;
 };
 
 export const useUpsertFiles = (id: string) => {
   const queryClient = useQueryClient();
+  const upsertFilesMutation = async (values: Schema) => {
+    const promise = upsertFiles(values, id);
+    promiseToast(promise, 'Uploading files...');
+    return promise;
+  };
   const mutation = useMutation({
-    mutationFn: (values: Schema) => upsertFiles(values, id),
-    // onSuccess: (data) => {
-    //   successToast(data.message);
-    //   queryClient.invalidateQueries({
-    //     queryKey: [QueryKeys.TENANT, id],
-    //   });
-    // },
+    mutationFn: upsertFilesMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.TENANT, id],
+      });
+    },
   });
   return mutation;
 };
