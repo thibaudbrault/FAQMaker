@@ -1,7 +1,11 @@
+import { RegisterEmailTemplate } from '@/components';
 import { createTenantServerSchema } from '@/lib';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(
   req: NextApiRequest,
@@ -70,6 +74,12 @@ export default async function handler(
             error: { message: 'There was a problem when creating the user' },
           });
         }
+        await resend.emails.send({
+          from: 'Acme <onboarding@resend.dev>',
+          to: [companyEmail],
+          subject: 'Welcome to FAQMaker',
+          react: RegisterEmailTemplate(),
+        });
         return res
           .status(201)
           .json({ success: true, message: 'Account created successfully' });
