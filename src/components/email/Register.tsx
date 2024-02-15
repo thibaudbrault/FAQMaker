@@ -1,11 +1,5 @@
-interface Props {
-  company: string;
-}
-
-export const RegisterEmailTemplate = ({
-  company,
-}: Props) => (
+export const RegisterEmailTemplate = () => (
   <div>
-    <h1>Thanks for using FAQMaker!</h1>
+    <h1>Welcome to FAQMaker</h1>
   </div>
 );
