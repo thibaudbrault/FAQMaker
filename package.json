@@ -69,6 +69,7 @@
     "react-paginate": "^8.2.0",
     "react-papaparse": "^4.4.0",
     "rehype-sanitize": "^6.0.0",
+    "resend": "^3.2.0",
     "slugify": "^1.6.6",
     "sonner": "^1.4.0",
     "stripe": "^14.16.0",
