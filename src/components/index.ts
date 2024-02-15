@@ -5,6 +5,7 @@ export * from './dialog';
 export * from './drawer';
 export * from './dropdown';
 export * from './editor';
+export * from './email';
 export * from './error';
 export * from './field';
 export * from './input';
