@@ -1,9 +1,10 @@
+import { Resend } from 'resend';
+
 import { RegisterEmailTemplate } from '@/components';
 import { createTenantServerSchema } from '@/lib';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
