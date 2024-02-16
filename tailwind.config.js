@@ -21,12 +21,17 @@ module.exports = {
       },
       backgroundColor: {
         default: 'var(--color-background)',
+        ghost: 'var(--color-background-ghost)',
         offset: 'var(--color-background-offset)',
         accent: 'var(--color-background-accent)',
         accentGhost: 'var(--color-background-accent-ghost)',
         negative: 'var(--color-background-negative)',
+        negativeGhost: 'var(--color-background-negative-ghost)',
         negativeOffset: 'var(--color-background-negative-offset)',
         disabled: 'var(--color-background-disabled)',
+        error: 'var(--color-background-error)',
+        errorOffsetDark: 'var(--color-background-error-offset-dark)',
+        errorOffsetLight: 'var(--color-background-error-offset-light)',
       },
       borderColor: {
         default: 'var(--color-border)',

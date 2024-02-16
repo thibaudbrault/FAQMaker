@@ -5,18 +5,23 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/utils';
 
-const button = cva('button', {
+const button = cva('transition-all duration-300', {
   variants: {
     variant: {
       primary: [
         'bg-negative border border-transparent text-negative hover:bg-negativeOffset dark:bg-default dark:text-default dark:hover:bg-offset',
       ],
       negative: [
-        'bg-default text-default border border-default transition-all duration-300 hover:bg-offset dark:bg-negative dark:text-negative dark:border-negative dark:hover:bg-negativeOffset',
+        'bg-default text-default border border-default hover:bg-offset dark:bg-negative dark:text-negative dark:border-negative dark:hover:bg-negativeOffset',
       ],
-      ghost: ['bg-transparent text-negative border border-transparent'],
+      ghost: [
+        'bg-negativeGhost text-default border border-ghost dark:border-ghost dark:bg-ghost dark:text-negative',
+      ],
       secondary: ['bg-transparent text-accent border border-accent'],
       disabled: ['bg-disabled text-negative border border-transparent'],
+      destructive: [
+        'text-negative bg-error hover:bg-errorOffsetLight dark:hover:bg-errorOffsetDar border border-ghost',
+      ],
     },
     border: {
       primary: ['border-accent'],

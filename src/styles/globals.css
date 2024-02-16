@@ -37,13 +37,20 @@ th {
     --color-text-negative: theme('colors.neutral.100');
     --color-text-negative-offset: theme('colors.neutral.300');
     --color-text-error: theme('colors.red.700');
+
     --color-background: theme('colors.neutral.100');
+    --color-background-ghost: theme('colors.neutral.100' / 30%);
     --color-background-offset: theme('colors.neutral.200');
     --color-background-accent: theme('colors.teal.700');
     --color-background-accent-ghost: theme('colors.teal.700' / 30%);
     --color-background-negative: theme('colors.neutral.900');
+    --color-background-negative-ghost: theme('colors.neutral.900' / 30%);
     --color-background-negative-offset: theme('colors.neutral.800');
     --color-background-disabled: theme('colors.neutral.600');
+    --color-background-error: theme('colors.red.900');
+    --color-background-error-offset-light: theme('colors.red.800');
+    --color-background-error-offset-dark: theme('colors.red.950');
+
     --color-border: theme('colors.neutral.900');
     --color-border-ghost: theme('colors.neutral.900' / 10%);
     --color-border-accent: theme('colors.teal.700');

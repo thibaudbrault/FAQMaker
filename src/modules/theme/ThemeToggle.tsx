@@ -30,7 +30,7 @@ export const ThemeToggle = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button size="icon">
           {theme === 'light' ? (
             <SunIcon className="h-6 w-6" />
           ) : (
