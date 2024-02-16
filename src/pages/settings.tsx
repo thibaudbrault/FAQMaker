@@ -16,7 +16,7 @@ import {
   getUsersCount,
   ssrNcHandler,
 } from '@/lib';
-import { General, Tags, Users } from '@/modules';
+import { General, Payment, Tags, Users } from '@/modules';
 import { UserWithTenant } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
 
@@ -70,6 +70,14 @@ function Settings({ me }: Props) {
                 {tab.label}
               </TabsTrigger>
             ))}
+            {me.role === 'tenant' && (
+              <TabsTrigger
+                value="payment"
+                style={{ fontVariant: 'small-caps' }}
+              >
+                Payment
+              </TabsTrigger>
+            )}
           </TabsList>
           <TabsContent value="general" className="flex flex-col gap-4">
             <General
@@ -83,6 +91,9 @@ function Settings({ me }: Props) {
           </TabsContent>
           <TabsContent value="users">
             <Users userId={me.id} tenantId={me.tenantId} plan={tenant.plan} />
+          </TabsContent>
+          <TabsContent value="payment" className="flex flex-col gap-4">
+            <Payment tenantId={me.tenantId} company={tenant.company} />
           </TabsContent>
         </Tabs>
       </section>

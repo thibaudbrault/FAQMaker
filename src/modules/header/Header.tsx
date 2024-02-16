@@ -1,8 +1,7 @@
-import { AlignJustify, LogOut, Settings, Wallet } from 'lucide-react';
+import { AlignJustify, LogOut, Settings } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
-import { useForm } from 'react-hook-form';
 
 import {
   Avatar,
@@ -16,7 +15,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components';
-import { useCreateBillingPortal, useMediaQuery, useUser } from '@/hooks';
+import { useMediaQuery, useUser } from '@/hooks';
 import { Routes } from '@/utils';
 
 import { ThemeToggle } from '../theme';
@@ -29,15 +28,8 @@ type Props = {
 };
 
 export const Header = ({ id, company, logo, tenantId }: Props) => {
-  const { handleSubmit } = useForm();
   const { data: user, isPending } = useUser(id);
   const isDesktop = useMediaQuery('(min-width: 640px)');
-
-  const { mutate } = useCreateBillingPortal(tenantId);
-
-  const onSubmit = () => {
-    mutate();
-  };
 
   return (
     <header className="flex items-center justify-between bg-negative px-4 py-2 text-negative md:px-8 md:py-4">
@@ -95,22 +87,6 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
                       </Tooltip>
                     </li>
                   )}
-                  {user?.role === 'tenant' && (
-                    <li>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <form onSubmit={handleSubmit(onSubmit)}>
-                            <button className="hover:text-negativeOffset">
-                              <Wallet />
-                            </button>
-                          </form>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Billing</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </li>
-                  )}
                   <ThemeToggle />
                   <li>
                     <Tooltip>
@@ -158,11 +134,6 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
                       <Link href="/settings" className="hover:underline">
                         Settings
                       </Link>
-                    )}
-                    {user.role === 'tenant' && (
-                      <form onSubmit={handleSubmit(onSubmit)}>
-                        <button className="hover:underline">Billing</button>
-                      </form>
                     )}
                     <button
                       onClick={() => signOut()}
