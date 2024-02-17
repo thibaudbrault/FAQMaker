@@ -1,10 +1,8 @@
-import { useAtomValue } from 'jotai';
 import { Banknote } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { Button } from '@/components';
 import { useCreateBillingPortal } from '@/hooks';
-import { userAtom } from '@/store';
 
 type Props = {
   tenantId: string;
@@ -13,8 +11,6 @@ type Props = {
 export const Billing = ({ tenantId }: Props) => {
   const { handleSubmit } = useForm();
   const { mutate } = useCreateBillingPortal(tenantId);
-  const state = useAtomValue(userAtom);
-  console.log('🚀 ~ Billing ~ state:', state);
 
   const onSubmit = () => {
     mutate();
