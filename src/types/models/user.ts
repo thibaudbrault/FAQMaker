@@ -1,11 +1,13 @@
 import { Color, Tenant, User } from '@prisma/client';
 
-type TenantWithColor = Tenant & {
+type PartialTenant = Tenant & {
   color: Color;
+  logo: string;
+  company: string;
 };
 
 export type UserWithTenant = User & {
-  tenant: TenantWithColor;
+  tenant: PartialTenant;
 };
 
 export type RegisterInfo = {
