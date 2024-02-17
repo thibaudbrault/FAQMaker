@@ -7,6 +7,7 @@ import prisma from 'lib/prisma';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const { data: domains } = await resend.domains.list();
 
 export default async function handler(
   req: NextApiRequest,
@@ -76,7 +77,7 @@ export default async function handler(
           });
         }
         await resend.emails.send({
-          from: 'Acme <onboarding@resend.dev>',
+          from: `noreply@${domains.data[0].name}`,
           to: [companyEmail],
           subject: 'Welcome to FAQMaker',
           react: RegisterEmailTemplate(),
