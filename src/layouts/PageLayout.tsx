@@ -23,7 +23,7 @@ export const PageLayout = ({
     <ErrorBoundaryWrapper errorFallbackType="screen">
       <SuspenseWrapper loaderType="screen">
         <MeProvider>
-          <main className="flex h-full min-h-screen flex-col bg-neutral-200 dark:bg-neutral-950">
+          <main className="flex h-full min-h-screen flex-col bg-gray-1">
             <Header id={id} company={company} logo={logo} tenantId={tenantId} />
             <div className="my-12 flex-grow">{children}</div>
             <Footer company={company} />

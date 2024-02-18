@@ -9,16 +9,20 @@ const button = cva('transition-all duration-300', {
   variants: {
     variant: {
       primary: [
-        'bg-negative border border-transparent text-negative hover:bg-negativeOffset dark:bg-default dark:text-default dark:hover:bg-offset',
+        'bg-teal-9 hover:bg-teal-10 text-white shadow-sm shadow-transparent',
       ],
       negative: [
-        'bg-default text-default border border-default hover:bg-offset dark:bg-negative dark:text-negative dark:border-negative dark:hover:bg-negativeOffset',
+        'bg-gray-3 hover:bg-gray-4 shadow-sm shadow-grayA-8 text-gray-12',
       ],
       ghost: [
         'bg-negativeGhost text-default border border-ghost dark:border-ghost dark:bg-ghost dark:text-negative',
       ],
-      secondary: ['bg-transparent text-accent border border-accent'],
-      disabled: ['bg-disabled text-negative border border-transparent'],
+      secondary: [
+        'bg-transparent text-tealA-11 shadow shadow-sm shadow-tealA-7 hover:shadow-tealA-8',
+      ],
+      disabled: [
+        'bg-teal-surfaceLight dark:bg-teal-surfaceDark shadow-sm text-tealA-11 shadow-tealA-7 hover:shadow-tealA-8',
+      ],
       destructive: [
         'text-negative bg-error hover:bg-errorOffsetLight dark:hover:bg-errorOffsetDar border border-ghost',
       ],

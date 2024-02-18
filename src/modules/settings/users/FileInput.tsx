@@ -121,7 +121,7 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
   }, [isSubmitting, file]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-1">
       <form
         onSubmit={handleSubmit(onFileSubmit)}
         className="grid grid-cols-2 grid-rows-1 md:grid-cols-3"
@@ -155,7 +155,7 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
           type="text"
           id="column"
           placeholder="Column name"
-          className="md:border-y-secondary rounded-none rounded-tr-md border border-accent bg-transparent px-1 outline-none md:rounded-none md:border-x-0 md:border-y"
+          className="rounded-none rounded-tr-md px-1  outline-none md:rounded-none"
         />
         {isDesktop ? (
           <Dialog>

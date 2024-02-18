@@ -89,8 +89,17 @@ function QuestionPage({ me, id }: Props) {
             </DropdownMenu>
           </div>
           <div className="rounded-md bg-default p-4 dark:bg-negative">
+            <ul className="flex list-none gap-2 text-xs">
+              {node.tags.map((tag) => (
+                <li key={tag.id}>
+                  <Badge variant="primary" rounded="full" size="small">
+                    {tag.label}
+                  </Badge>
+                </li>
+              ))}
+            </ul>
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-semibold">{node.question.text}</h2>
+              <h2 className="text-3xl font-semibold">{node.question.text}</h2>
               <Tooltip>
                 <TooltipTrigger>
                   <button
@@ -107,15 +116,6 @@ function QuestionPage({ me, id }: Props) {
                 <TooltipContent>Copy url</TooltipContent>
               </Tooltip>
             </div>
-            <ul className="flex list-none gap-2 text-xs">
-              {node.tags.map((tag) => (
-                <li key={tag.id}>
-                  <Badge variant="primary" rounded="full" size="small">
-                    {tag.label}
-                  </Badge>
-                </li>
-              ))}
-            </ul>
             <hr className="my-6 border-accent" />
             {node.answer ? (
               <MarkdownPreview
