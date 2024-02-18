@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@import '@radix-ui/colors/teal';
+@import '@radix-ui/colors/teal-alpha';
+@import '@radix-ui/colors/teal-dark';
+@import '@radix-ui/colors/teal-dark-alpha';
+
+@import '@radix-ui/colors/gray';
+@import '@radix-ui/colors/gray-alpha';
+@import '@radix-ui/colors/gray-dark';
+@import '@radix-ui/colors/gray-dark-alpha';
+
 td,
 th {
   @apply border border-default p-1 dark:border-negative;
