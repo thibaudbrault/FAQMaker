@@ -87,6 +87,7 @@ export const Delete = ({ tenantId, company }: Props) => {
                 className="lowercase"
                 style={{ fontVariant: 'small-caps' }}
                 type="button"
+                // @ts-ignore
                 onClick={() => setValue('text', '')}
               >
                 Cancel
