@@ -12,6 +12,11 @@
 @import '@radix-ui/colors/gray-dark';
 @import '@radix-ui/colors/gray-dark-alpha';
 
+@import '@radix-ui/colors/red';
+@import '@radix-ui/colors/red-alpha';
+@import '@radix-ui/colors/red-dark';
+@import '@radix-ui/colors/red-dark-alpha';
+
 td,
 th {
   @apply border border-default p-1 dark:border-negative;

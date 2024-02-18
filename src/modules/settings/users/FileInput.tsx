@@ -133,7 +133,7 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
           icon="withIcon"
           weight="semibold"
           className={`rounded-none rounded-tl-md lowercase md:rounded-l-md ${
-            fileName ? 'bg-accent text-negative' : ''
+            fileName ? 'bg-teal-9 text-white' : ''
           }`}
           style={{ fontVariant: 'small-caps' }}
           onClick={handleButtonClick}

@@ -58,7 +58,7 @@ function QuestionPage({ me, id }: Props) {
               >
                 Edit
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="flex flex-col gap-1">
                 <DropdownMenuItem>
                   <Link
                     className="flex items-center justify-start gap-2"
