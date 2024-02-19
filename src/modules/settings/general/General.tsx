@@ -14,24 +14,26 @@ type Props = {
 };
 
 export const General = ({ tenantId, tenant, isPending }: Props) => {
+  const styles = 'w-full rounded-md bg-gray-3 p-4';
+
   if (isPending) {
     return <Loader size="page" />;
   }
   return (
     <>
       {tenant.plan !== 'free' && (
-        <section className="w-full rounded-md bg-default p-4 dark:bg-negative">
+        <section className={styles}>
           <Colors colors={tenant.color} tenantId={tenantId} />
         </section>
       )}
-      <section className="w-full rounded-md bg-default p-4 dark:bg-negative">
+      <section className={styles}>
         <Company tenant={tenant} />
       </section>
-      <section className="w-full rounded-md bg-default p-4 dark:bg-negative">
+      <section className={styles}>
         <Files tenant={tenant} />
       </section>
       {tenant.plan !== 'free' && (
-        <section className="w-full rounded-md bg-default p-4 dark:bg-negative">
+        <section className={styles}>
           <Integrations tenantId={tenantId} />
         </section>
       )}

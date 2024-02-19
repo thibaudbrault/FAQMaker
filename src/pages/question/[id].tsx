@@ -53,7 +53,7 @@ function QuestionPage({ me, id }: Props) {
             <BackButton />
             <DropdownMenu>
               <DropdownMenuTrigger
-                className="w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase text-negative hover:bg-negativeOffset dark:bg-default dark:text-default dark:hover:bg-offset"
+                className="w-fit rounded-md bg-gray-3 px-4 py-2 font-bold uppercase text-gray-12 hover:bg-gray-4"
                 style={{ fontVariant: 'small-caps' }}
               >
                 Edit
@@ -88,7 +88,7 @@ function QuestionPage({ me, id }: Props) {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="rounded-md bg-default p-4 dark:bg-negative">
+          <div className="rounded-md bg-gray-3 p-4">
             <ul className="flex list-none gap-2 text-xs">
               {node.tags.map((tag) => (
                 <li key={tag.id}>
@@ -103,7 +103,7 @@ function QuestionPage({ me, id }: Props) {
               <Tooltip>
                 <TooltipTrigger>
                   <button
-                    className="hover:text-offset dark:hover:text-negativeOffset"
+                    className="text-gray-12 hover:text-gray-11"
                     onClick={() =>
                       navigator.clipboard.writeText(
                         `${process.env.NEXT_PUBLIC_SITE_URL}${asPath}`,
@@ -116,7 +116,7 @@ function QuestionPage({ me, id }: Props) {
                 <TooltipContent>Copy url</TooltipContent>
               </Tooltip>
             </div>
-            <hr className="my-6 border-accent" />
+            <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-6" />
             {node.answer ? (
               <MarkdownPreview
                 className="mx-auto w-11/12 text-left"
@@ -125,7 +125,7 @@ function QuestionPage({ me, id }: Props) {
             ) : (
               <p className="text-center italic">No answer</p>
             )}
-            <hr className="my-6 border-accent" />
+            <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-6" />
             <div className="flex justify-between">
               <div className="text-xs">
                 <p>

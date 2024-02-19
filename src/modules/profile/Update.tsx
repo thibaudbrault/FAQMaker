@@ -91,7 +91,7 @@ export const UpdateProfile = ({ me }: Props) => {
           {fields.map((field) => (
             <li
               key={field.value}
-              className="flex flex-col gap-1 [&_svg]:focus-within:text-accent"
+              className="[&_svg]:focus-within:text-accent flex flex-col gap-1"
             >
               <Field
                 label={field.label}

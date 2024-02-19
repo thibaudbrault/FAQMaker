@@ -73,7 +73,7 @@ export const Integrations = ({ tenantId }: Props) => {
           {fields.map((field) => (
             <div
               key={field.value}
-              className="flex flex-1 flex-col [&_svg]:focus-within:text-accent"
+              className="[&_svg]:focus-within:text-accent flex flex-1 flex-col"
             >
               <Field
                 label={field.label}

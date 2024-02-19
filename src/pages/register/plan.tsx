@@ -86,12 +86,12 @@ function Plan() {
       <div className="flex w-full flex-col items-center justify-center gap-8 rounded-md p-8">
         <div className="mb-4 flex w-full flex-col gap-2 text-center">
           <h2
-            className="font-serif text-5xl font-bold lowercase text-negative"
+            className="text-negative font-serif text-5xl font-bold lowercase"
             style={{ fontVariant: 'small-caps' }}
           >
             Plan
           </h2>
-          <p className="text-sm text-negativeOffset">
+          <p className="text-negativeOffset text-sm">
             Choose the right plan for you
           </p>
         </div>
@@ -102,16 +102,16 @@ function Plan() {
                 saveData(plan.value, plan.lookup_key),
               )}
               key={index}
-              className="w-full transform overflow-hidden rounded-md bg-default p-4 text-center transition duration-200 ease-in hover:scale-[1.02] hover:shadow-2xl dark:bg-negative"
+              className="w-full overflow-hidden rounded-md bg-grayA-3 p-4 text-center text-gray-12 shadow-sm shadow-tealA-7 transition-all duration-300 hover:shadow-tealA-8"
             >
-              <div className="w-full border-b border-default py-4 dark:border-negative">
+              <div className="border-default dark:border-negative w-full border-b py-4">
                 <h2 className="text-xl uppercase">{plan.label}</h2>
                 <h3 className="mt-2 text-4xl font-bold">
                   ${plan.price}/<sub className="text-xs">mo</sub>
                 </h3>
               </div>
               <div className="my-5">
-                <p className="pt-2 text-sm font-bold text-accent">
+                <p className="pt-2 text-sm font-bold text-tealA-11">
                   {plan.message}
                 </p>
               </div>
@@ -126,7 +126,7 @@ function Plan() {
                   {plan.drawbacks?.map((drawback, index) => (
                     <li
                       key={index}
-                      className="flex gap-2 text-offset opacity-70"
+                      className="text-offset flex gap-2 opacity-70"
                     >
                       <Minus className="text-offset" />
                       <p>{drawback}</p>

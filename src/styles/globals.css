@@ -19,7 +19,7 @@
 
 td,
 th {
-  @apply border border-default p-1 dark:border-negative;
+  @apply border border-gray-7 p-1;
 }
 
 @layer base {

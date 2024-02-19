@@ -50,11 +50,11 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
     <section className="mx-auto flex w-11/12 items-end justify-center gap-8 md:w-3/4">
       <form
         onSubmit={handleSubmit(onSearch)}
-        className="group/search flex w-full flex-col gap-1 [&_svg]:focus-within:text-accent"
+        className="group/search [&_svg]:focus-within:text-accent flex w-full flex-col gap-1"
       >
         <Label
           htmlFor="search"
-          className="lowercase focus-within:text-accent"
+          className="focus-within:text-accent lowercase"
           style={{ fontVariant: 'small-caps' }}
         >
           Search
@@ -80,7 +80,7 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
           <DropdownMenuContent className="flex flex-col gap-1">
             {tags.map((tag) => (
               <DropdownMenuItem
-                className={`cursor-pointer rounded-md font-semibold hover:bg-offset ${
+                className={`hover:bg-offset cursor-pointer rounded-md font-semibold ${
                   tagActive === tag.label
                     ? 'bg-gray-12 text-white hover:bg-gray-12 dark:bg-gray-1 dark:hover:bg-gray-1'
                     : 'bg-gray-1 dark:bg-gray-12'

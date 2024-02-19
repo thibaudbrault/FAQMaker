@@ -30,7 +30,7 @@ export const UserAnswers = ({ nodes, isPending }: Props) => {
         <ul className="flex list-none flex-col gap-2 ">
           {nodes.map((node, index) => (
             <li
-              className="flex items-center justify-between rounded-md bg-offset px-3 py-2 shadow-sm dark:bg-negativeOffset"
+              className="bg-offset dark:bg-negativeOffset flex items-center justify-between rounded-md px-3 py-2 shadow-sm"
               key={index}
             >
               <MarkdownPreview source={node.answer.text} />

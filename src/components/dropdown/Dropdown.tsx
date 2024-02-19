@@ -39,7 +39,7 @@ const DropdownMenuItem = forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      'relative flex cursor-pointer select-none items-center rounded-md px-2 py-1.5 text-base font-semibold outline-none transition-all duration-300 hover:bg-gray-2 dark:hover:bg-gray-11',
+      'relative flex cursor-pointer select-none items-center rounded-md px-2 py-1.5 text-base font-semibold outline-none transition-all duration-300 hover:bg-gray-3 dark:hover:bg-gray-11',
       inset && 'pl-8',
       className,
     )}
@@ -54,7 +54,7 @@ const DropdownMenuSeparator = forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Separator
     ref={ref}
-    className={cn('mx-auto h-px w-11/12 bg-negative', className)}
+    className={cn('bg-negative mx-auto h-px w-11/12', className)}
     {...props}
   />
 ));

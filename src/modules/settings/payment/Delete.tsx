@@ -73,7 +73,7 @@ export const Delete = ({ tenantId, company }: Props) => {
           account is permanent and will delete all your data forever.
         </p>
 
-        <p className="text-sm text-offset dark:text-negativeOffset">
+        <p className="text-offset dark:text-negativeOffset text-sm">
           Type <span className="font-semibold">DELETE {company}</span> to
           confirm
         </p>

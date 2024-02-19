@@ -151,13 +151,10 @@ const Form = ({ tenantId }: Props) => {
             rules={{ required: true }}
             render={({ field: { onChange } }) => (
               <Select defaultValue="user" onValueChange={onChange}>
-                <SelectTrigger
-                  id="role"
-                  className="bg-white focus:border-accent focus:ring-0 data-[state=open]:border-accent dark:bg-negativeOffset"
-                >
+                <SelectTrigger id="role">
                   <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
-                <SelectContent className="bg-neutral-200 dark:bg-negativeOffset">
+                <SelectContent>
                   <SelectItem value="user" className="pl-8">
                     User
                   </SelectItem>

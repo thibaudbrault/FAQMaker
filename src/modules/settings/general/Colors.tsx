@@ -120,7 +120,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
                 presetColors={false}
                 disableAlpha={true}
                 onChange={(color) => handleForegroundChange(onChange, color)}
-                className="border border-ghost"
+                className="border-ghost border"
               />
             )}
           />
@@ -137,7 +137,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
                 presetColors={false}
                 disableAlpha={true}
                 onChange={(color) => handleBackgroundChange(onChange, color)}
-                className="border border-ghost"
+                className="border-ghost border"
               />
             )}
           />
@@ -154,7 +154,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
                 presetColors={false}
                 disableAlpha={true}
                 onChange={(color) => handleBorderChange(onChange, color)}
-                className="border border-ghost"
+                className="border-ghost border"
               />
             )}
           />
@@ -162,7 +162,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
       </fieldset>
       <div className="flex items-center justify-center gap-8">
         <p
-          className="w-fit rounded-md border border-ghost px-2 py-1 text-center font-semibold"
+          className="border-ghost w-fit rounded-md border px-2 py-1 text-center font-semibold"
           style={{ backgroundColor: hexBackground, color: hexForeground }}
         >
           Test the colors
@@ -182,7 +182,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
             <TooltipTrigger asChild>
               <p
                 className={`font-semibold ${
-                  wcag === 'Fail' ? 'text-error' : ''
+                  wcag === 'Fail' ? 'text-red-9' : ''
                 } ${wcag === 'AAA' ? 'text-green-700' : ''}`}
               >
                 {wcag}
@@ -205,7 +205,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
           Update
         </Button>
         {wcag === 'Fail' && (
-          <p className="text-sm text-error">
+          <p className="text-sm text-red-9">
             <span className="font-semibold">Bad contrast!</span> Do not use this
             palette
           </p>

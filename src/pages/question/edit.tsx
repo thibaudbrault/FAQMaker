@@ -87,12 +87,12 @@ function Edit({ me, id }: Props) {
       >
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <BackButton />
-          <div className="flex flex-col gap-4 rounded-md bg-default p-4 dark:bg-negative">
+          <div className="bg-default dark:bg-negative flex flex-col gap-4 rounded-md p-4">
             <form
               className="flex flex-col items-center justify-center gap-4 "
               onSubmit={handleSubmit(onSubmit)}
             >
-              <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-accent">
+              <fieldset className="[&_svg]:focus-within:text-accent mx-auto flex w-11/12 flex-col gap-4">
                 <div className="w-full text-center">
                   <legend
                     className="font-serif text-3xl font-semibold lowercase md:text-4xl"

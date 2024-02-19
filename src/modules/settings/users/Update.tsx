@@ -124,7 +124,7 @@ const Form = ({ user, tenantId }: Props) => {
       className="flex flex-col items-center gap-4"
     >
       <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
-        <div className="flex flex-col gap-1 [&_svg]:focus-within:text-accent">
+        <div className="[&_svg]:focus-within:text-accent flex flex-col gap-1">
           <Field label={'Name'} value={'name'} error={errors.name?.message}>
             <Input
               {...register('name')}
@@ -137,7 +137,7 @@ const Form = ({ user, tenantId }: Props) => {
             />
           </Field>
         </div>
-        <div className="flex flex-col gap-1 [&_svg]:focus-within:text-accent">
+        <div className="[&_svg]:focus-within:text-accent flex flex-col gap-1">
           <Field label={'Email'} value={'email'} error={errors.email?.message}>
             <Input
               {...register('email', { required: true })}
@@ -165,13 +165,10 @@ const Form = ({ user, tenantId }: Props) => {
               rules={{ required: true }}
               render={({ field: { onChange } }) => (
                 <Select onValueChange={onChange} defaultValue={user.role}>
-                  <SelectTrigger
-                    id="role"
-                    className="bg-white focus:border-accent focus:ring-0 data-[state=open]:border-accent"
-                  >
+                  <SelectTrigger id="role">
                     <SelectValue placeholder="Select a role" />
                   </SelectTrigger>
-                  <SelectContent className="bg-neutral-200">
+                  <SelectContent>
                     <SelectItem value="user" className="pl-8">
                       User
                     </SelectItem>

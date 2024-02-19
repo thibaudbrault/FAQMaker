@@ -32,7 +32,7 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
   const isDesktop = useMediaQuery('(min-width: 640px)');
 
   return (
-    <header className="flex items-center justify-between bg-negative px-4 py-2 text-negative md:px-8 md:py-4">
+    <header className="flex items-center justify-between border-b border-b-gray-6 bg-gray-2 px-4 py-2 text-gray-12 md:px-8 md:py-4">
       <Link href="/" className="flex items-center gap-2">
         {logo && (
           <Image
@@ -55,7 +55,7 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
                       <TooltipTrigger asChild>
                         <Link
                           href="/profile"
-                          className="flex items-center gap-1 hover:text-negativeOffset"
+                          className="flex items-center gap-1 hover:text-gray-11"
                         >
                           <Avatar className="h-6 w-6">
                             <AvatarImage src={user.image} />
@@ -74,10 +74,7 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
                     <li>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Link
-                            href="/settings"
-                            className="hover:text-negativeOffset"
-                          >
+                          <Link href="/settings" className="hover:text-gray-11">
                             <Settings />
                           </Link>
                         </TooltipTrigger>
@@ -93,7 +90,7 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
                       <TooltipTrigger asChild>
                         <button
                           onClick={() => signOut()}
-                          className="hover:text-negativeOffset"
+                          className="hover:text-gray-11"
                         >
                           <LogOut />
                         </button>
@@ -141,9 +138,9 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
                     >
                       Logout
                     </button>
-                    <hr className="mx-auto my-2 h-px w-3/4 border-none bg-negative" />
+                    <hr className="bg-negative mx-auto my-2 h-px w-3/4 border-none" />
                     <Link
-                      className="rounded-md bg-negative px-2 py-1 text-negative  hover:bg-negativeOffset"
+                      className="bg-negative text-negative hover:bg-negativeOffset rounded-md px-2  py-1"
                       href={Routes.SITE.QUESTION.NEW}
                     >
                       New Question

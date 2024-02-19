@@ -32,7 +32,7 @@ export const UserQuestions = ({ questions, isPending }: Props) => {
         <ul className="flex list-none flex-col gap-2">
           {questions?.map((question) => (
             <li
-              className="flex items-center justify-between rounded-md bg-offset px-3 py-2 shadow-sm dark:bg-negativeOffset"
+              className="bg-offset dark:bg-negativeOffset flex items-center justify-between rounded-md px-3 py-2 shadow-sm"
               key={question.id}
             >
               <h3 className="text-xl font-semibold hover:underline md:text-2xl">

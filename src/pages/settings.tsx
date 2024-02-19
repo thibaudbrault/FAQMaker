@@ -60,7 +60,7 @@ function Settings({ me }: Props) {
           Settings
         </h2>
         <Tabs defaultValue="general" className="mt-6 w-full">
-          <TabsList className="mb-4 w-full">
+          <TabsList className="mx-auto mb-4 w-fit justify-center">
             {tabs.map((tab, index) => (
               <TabsTrigger
                 key={index}

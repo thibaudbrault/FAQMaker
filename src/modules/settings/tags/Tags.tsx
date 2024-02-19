@@ -26,9 +26,9 @@ export const Tags = ({ tenantId }: Props) => {
           {tags.map((tag) => (
             <li
               key={tag.id}
-              className="flex w-fit items-center gap-2 rounded-md bg-negative text-negative dark:bg-default dark:text-default"
+              className="flex w-fit items-center gap-2 rounded-md bg-gray-12 text-gray-1"
             >
-              <p className="px-2">{tag.label}</p>
+              <p className="px-2 font-semibold">{tag.label}</p>
               <Button
                 variant="primary"
                 size="small"

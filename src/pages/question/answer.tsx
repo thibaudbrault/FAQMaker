@@ -83,7 +83,7 @@ function Answer({ me, id }: Props) {
       >
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <BackButton />
-          <div className="flex flex-col gap-4 rounded-md bg-default p-4 dark:bg-negative">
+          <div className="flex flex-col gap-4 rounded-md bg-gray-3 p-4">
             <h2
               className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
               style={{ fontVariant: 'small-caps' }}
@@ -106,7 +106,7 @@ function Answer({ me, id }: Props) {
                   )}
                 />
                 {errors.text && (
-                  <p className="text-sm text-error">{errors.text.message}</p>
+                  <p className="text-sm text-red-12">{errors.text.message}</p>
                 )}
                 <Link
                   className="flex w-fit items-baseline gap-1 text-sm hover:underline"
