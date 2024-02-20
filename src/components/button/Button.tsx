@@ -11,11 +11,8 @@ const button = cva('transition-all duration-300', {
       primary: [
         'bg-teal-9 hover:bg-teal-10 text-white shadow-sm shadow-transparent',
       ],
-      negative: [
-        'bg-gray-3 hover:bg-gray-4 shadow-sm shadow-grayA-8 text-gray-12',
-      ],
       ghost: [
-        'bg-negativeGhost text-default border border-ghost dark:border-ghost dark:bg-ghost dark:text-negative',
+        'bg-gray-3 hover:bg-gray-4 shadow-sm shadow-grayA-8 text-gray-12',
       ],
       secondary: [
         'bg-transparent text-tealA-11 shadow shadow-sm shadow-tealA-7 hover:shadow-tealA-8',
@@ -26,9 +23,6 @@ const button = cva('transition-all duration-300', {
       destructive: [
         'bg-red-surfaceLight dark:bg-red-surfaceDark shadow-sm text-redA-11 shadow-redA-7 hover:shadow-redA-8',
       ],
-    },
-    border: {
-      primary: ['border-accent'],
     },
     icon: {
       withIcon: ['flex justify-center items-center gap-1'],
@@ -74,7 +68,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       asChild = false,
       variant,
-      border,
       icon,
       font,
       rounded,
@@ -90,7 +83,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           button({
             variant,
-            border,
             font,
             icon,
             weight,

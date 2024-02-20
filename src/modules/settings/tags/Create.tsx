@@ -118,7 +118,7 @@ const Form = ({ tenantId }: Props) => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col items-center gap-2"
     >
-      <fieldset className="[&_svg]:focus-within:text-accent mx-auto flex w-11/12 flex-col gap-1">
+      <fieldset className="mx-auto flex w-11/12 flex-col gap-1">
         <Field label="Label" value="label" error={errors.label?.message}>
           <Input
             {...register('label')}

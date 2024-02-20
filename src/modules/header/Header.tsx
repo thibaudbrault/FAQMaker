@@ -24,10 +24,9 @@ type Props = {
   id: string;
   company: string;
   logo: string;
-  tenantId: string;
 };
 
-export const Header = ({ id, company, logo, tenantId }: Props) => {
+export const Header = ({ id, company, logo }: Props) => {
   const { data: user, isPending } = useUser(id);
   const isDesktop = useMediaQuery('(min-width: 640px)');
 
@@ -59,9 +58,7 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
                         >
                           <Avatar className="h-6 w-6">
                             <AvatarImage src={user.image} />
-                            <AvatarFallback>
-                              {user.email[0].toUpperCase()}
-                            </AvatarFallback>
+                            <AvatarFallback>{user.email[0]}</AvatarFallback>
                           </Avatar>
                         </Link>
                       </TooltipTrigger>
@@ -103,7 +100,7 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
                 </ul>
               )}
               <Button
-                variant="negative"
+                variant="ghost"
                 font="large"
                 size="small"
                 weight="semibold"
@@ -138,13 +135,17 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
                     >
                       Logout
                     </button>
-                    <hr className="bg-negative mx-auto my-2 h-px w-3/4 border-none" />
-                    <Link
-                      className="bg-negative text-negative hover:bg-negativeOffset rounded-md px-2  py-1"
-                      href={Routes.SITE.QUESTION.NEW}
+                    <hr className="mx-auto my-2 h-px w-3/4 border-none bg-gray-6" />
+                    <Button
+                      variant="primary"
+                      size="medium"
+                      weight="semibold"
+                      font="large"
+                      className="lowercase"
+                      style={{ fontVariant: 'small-caps' }}
                     >
-                      New Question
-                    </Link>
+                      <Link href={Routes.SITE.QUESTION.NEW}>New Question</Link>
+                    </Button>
                   </div>
                 </DrawerContent>
               </Drawer>

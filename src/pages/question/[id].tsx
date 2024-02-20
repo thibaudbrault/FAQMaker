@@ -36,18 +36,16 @@ function QuestionPage({ me, id }: Props) {
   const { data: node, isPending } = useNode(me.tenantId, id as string);
   const { asPath } = useRouter();
 
-  if (isPending) {
-    return <Loader size="screen" />;
-  }
-
-  if (node) {
-    return (
-      <PageLayout
-        id={me.id}
-        company={me.tenant.company}
-        logo={me.tenant.logo}
-        tenantId={me.tenantId}
-      >
+  return (
+    <PageLayout
+      id={me.id}
+      company={me.tenant.company}
+      logo={me.tenant.logo}
+      tenantId={me.tenantId}
+    >
+      {isPending ? (
+        <Loader size="screen" />
+      ) : (
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <div className="flex items-center justify-between">
             <BackButton />
@@ -178,9 +176,9 @@ function QuestionPage({ me, id }: Props) {
             </div>
           </div>
         </section>
-      </PageLayout>
-    );
-  }
+      )}
+    </PageLayout>
+  );
 }
 
 export default QuestionPage;

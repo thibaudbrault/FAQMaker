@@ -11,10 +11,10 @@ type Props = {
 
 export const Stepper = ({ steps, currentStep }: Props) => {
   return (
-    <aside className="text-negative mx-auto flex w-11/12 items-center justify-between font-bold md:w-[500px]">
+    <aside className="mx-auto flex w-11/12 items-center justify-between font-bold text-gray-12 md:w-[500px]">
       {steps.map((step) => (
         <>
-          <div key={step.id} className="text-negative flex items-center">
+          <div key={step.id} className="flex items-center text-gray-12">
             {step.id < currentStep ? (
               <p className="flex items-center gap-1">
                 <BadgeCheck className="h-full w-full" aria-hidden="true" />

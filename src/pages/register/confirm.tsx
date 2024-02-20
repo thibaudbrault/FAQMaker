@@ -71,7 +71,7 @@ function Confirm() {
             >
               Confirm
             </legend>
-            <p className="text-offset text-sm">Confirm the information</p>
+            <p className="text-sm text-gray-11">Confirm the information</p>
           </div>
           <div>
             <p className="mb-2 text-xl font-bold">Company</p>

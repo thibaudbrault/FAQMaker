@@ -47,7 +47,7 @@ function Register() {
             >
               User
             </legend>
-            <p className="text-offset text-sm">Your connection mail</p>
+            <p className="text-sm text-gray-11">Your connection mail</p>
           </div>
           <Field label="Email" value="email" error={errors.email?.message}>
             <Input
@@ -55,7 +55,7 @@ function Register() {
               type="email"
               id="email"
               placeholder="Email"
-              className="border-b-accent placeholder:text-offset border border-transparent bg-transparent"
+              className="bg-transparent"
             />
           </Field>
         </fieldset>

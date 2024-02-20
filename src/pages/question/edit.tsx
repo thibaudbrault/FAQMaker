@@ -73,26 +73,24 @@ function Edit({ me, id }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitting, isValid, isDirty]);
 
-  if (isPending) {
-    return <Loader size="screen" />;
-  }
-
-  if (node) {
-    return (
-      <PageLayout
-        id={me.id}
-        company={me.tenant.company}
-        logo={me.tenant.logo}
-        tenantId={me.tenantId}
-      >
+  return (
+    <PageLayout
+      id={me.id}
+      company={me.tenant.company}
+      logo={me.tenant.logo}
+      tenantId={me.tenantId}
+    >
+      {isPending ? (
+        <Loader size="screen" />
+      ) : (
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <BackButton />
-          <div className="bg-default dark:bg-negative flex flex-col gap-4 rounded-md p-4">
+          <div className="flex flex-col gap-4 rounded-md bg-gray-3 p-4">
             <form
               className="flex flex-col items-center justify-center gap-4 "
               onSubmit={handleSubmit(onSubmit)}
             >
-              <fieldset className="[&_svg]:focus-within:text-accent mx-auto flex w-11/12 flex-col gap-4">
+              <fieldset className="mx-auto flex w-11/12 flex-col gap-4">
                 <div className="w-full text-center">
                   <legend
                     className="font-serif text-3xl font-semibold lowercase md:text-4xl"
@@ -138,9 +136,9 @@ function Edit({ me, id }: Props) {
             </form>
           </div>
         </section>
-      </PageLayout>
-    );
-  }
+      )}
+    </PageLayout>
+  );
 }
 
 export default Edit;

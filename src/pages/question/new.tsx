@@ -76,7 +76,7 @@ function New({ me }: Props) {
         <BackButton />
         <div className="flex flex-col gap-4 rounded-md bg-gray-3 p-4">
           <form className="flex flex-col items-center gap-4">
-            <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-tealA-8">
+            <fieldset className="mx-auto flex w-11/12 flex-col gap-4">
               <div className="w-full text-center">
                 <legend
                   className="font-serif text-3xl font-semibold lowercase md:text-4xl"
@@ -118,7 +118,7 @@ function New({ me }: Props) {
                 Submit
               </Button>
               <Button
-                variant={disabled ? 'disabled' : 'negative'}
+                variant={disabled ? 'disabled' : 'ghost'}
                 icon="withIcon"
                 weight="semibold"
                 className="lowercase"

@@ -18,9 +18,15 @@ type Props = {
   tags: Tag[];
   setSearchQuery: Dispatch<SetStateAction<string>>;
   setSearchTag: Dispatch<SetStateAction<string>>;
+  setPage: Dispatch<SetStateAction<number>>;
 };
 
-export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
+export const Search = ({
+  tags,
+  setSearchQuery,
+  setSearchTag,
+  setPage,
+}: Props) => {
   const router = useRouter();
   const { handleSubmit, register } = useForm();
   const [tagActive, setTagActive] = useState<string | null>(null);
@@ -28,6 +34,7 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
   const onSearch = (values) => {
     const { search } = values;
     setSearchQuery(search);
+    setPage(0);
     if (search) {
       const encodedSearch = encodeURI(search);
       router.push(`?search=${encodedSearch}`);
@@ -39,22 +46,24 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
   const handleTagSearch = (label: string) => {
     setTagActive(label);
     setSearchTag(label);
+    setPage(0);
   };
 
   const handleResetTag = () => {
     setTagActive(null);
     setSearchTag(null);
+    setPage(0);
   };
 
   return (
     <section className="mx-auto flex w-11/12 items-end justify-center gap-8 md:w-3/4">
       <form
         onSubmit={handleSubmit(onSearch)}
-        className="group/search [&_svg]:focus-within:text-accent flex w-full flex-col gap-1"
+        className="group/search flex w-full flex-col gap-1 [&_svg]:focus-within:text-tealA-8"
       >
         <Label
           htmlFor="search"
-          className="focus-within:text-accent lowercase"
+          className="lowercase"
           style={{ fontVariant: 'small-caps' }}
         >
           Search
@@ -80,11 +89,11 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
           <DropdownMenuContent className="flex flex-col gap-1">
             {tags.map((tag) => (
               <DropdownMenuItem
-                className={`hover:bg-offset cursor-pointer rounded-md font-semibold ${
+                className={
                   tagActive === tag.label
                     ? 'bg-gray-12 text-white hover:bg-gray-12 dark:bg-gray-1 dark:hover:bg-gray-1'
                     : 'bg-gray-1 dark:bg-gray-12'
-                }`}
+                }
                 key={tag.id}
               >
                 <button

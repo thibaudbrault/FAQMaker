@@ -108,7 +108,7 @@ const Form = ({ user, tenantId }: Props) => {
       role: user.role,
     },
   });
-  const { mutate, isError, error } = useUpdateUser(user.id, tenantId);
+  const { mutate } = useUpdateUser(user.id, tenantId);
 
   const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
@@ -124,7 +124,7 @@ const Form = ({ user, tenantId }: Props) => {
       className="flex flex-col items-center gap-4"
     >
       <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
-        <div className="[&_svg]:focus-within:text-accent flex flex-col gap-1">
+        <div className="flex flex-col gap-1">
           <Field label={'Name'} value={'name'} error={errors.name?.message}>
             <Input
               {...register('name')}
@@ -137,7 +137,7 @@ const Form = ({ user, tenantId }: Props) => {
             />
           </Field>
         </div>
-        <div className="[&_svg]:focus-within:text-accent flex flex-col gap-1">
+        <div className="flex flex-col gap-1">
           <Field label={'Email'} value={'email'} error={errors.email?.message}>
             <Input
               {...register('email', { required: true })}

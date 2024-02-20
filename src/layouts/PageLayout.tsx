@@ -24,7 +24,7 @@ export const PageLayout = ({
       <SuspenseWrapper loaderType="screen">
         <MeProvider>
           <main className="flex h-full min-h-screen flex-col bg-gray-1">
-            <Header id={id} company={company} logo={logo} tenantId={tenantId} />
+            <Header id={id} company={company} logo={logo} />
             <div className="my-12 flex-grow">{children}</div>
             <Footer company={company} />
           </main>

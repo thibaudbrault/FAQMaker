@@ -28,7 +28,7 @@ type Props = {
 
 export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
   if (isLoading) {
-    return <Loader size="screen" color="border-accent" />;
+    return <Loader size="screen" />;
   }
 
   if (isError && error instanceof Error) {

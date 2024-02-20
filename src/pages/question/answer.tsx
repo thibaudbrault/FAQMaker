@@ -69,18 +69,16 @@ function Answer({ me, id }: Props) {
     setDisabled(isSubmitting || !isValid || !isDirty);
   }, [isSubmitting, isValid, isDirty]);
 
-  if (isPending) {
-    return <Loader size="screen" />;
-  }
-
-  if (node) {
-    return (
-      <PageLayout
-        id={me.id}
-        company={me.tenant.company}
-        logo={me.tenant.logo}
-        tenantId={me.tenantId}
-      >
+  return (
+    <PageLayout
+      id={me.id}
+      company={me.tenant.company}
+      logo={me.tenant.logo}
+      tenantId={me.tenantId}
+    >
+      {isPending ? (
+        <Loader size="screen" />
+      ) : (
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <BackButton />
           <div className="flex flex-col gap-4 rounded-md bg-gray-3 p-4">
@@ -94,7 +92,7 @@ function Answer({ me, id }: Props) {
               className="flex flex-col items-center justify-center gap-2"
               onSubmit={handleSubmit(onSubmit)}
             >
-              <div className="flex w-full flex-col justify-start">
+              <div className="flex w-full flex-col justify-start gap-px">
                 <p className="text-sm">
                   Question: <b>{node.question.text}</b>
                 </p>
@@ -130,9 +128,9 @@ function Answer({ me, id }: Props) {
             </form>
           </div>
         </section>
-      </PageLayout>
-    );
-  }
+      )}
+    </PageLayout>
+  );
 }
 
 export default Answer;

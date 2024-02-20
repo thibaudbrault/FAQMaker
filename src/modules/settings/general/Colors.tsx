@@ -120,7 +120,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
                 presetColors={false}
                 disableAlpha={true}
                 onChange={(color) => handleForegroundChange(onChange, color)}
-                className="border-ghost border"
+                className="border border-gray-6"
               />
             )}
           />
@@ -137,7 +137,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
                 presetColors={false}
                 disableAlpha={true}
                 onChange={(color) => handleBackgroundChange(onChange, color)}
-                className="border-ghost border"
+                className="border border-gray-6"
               />
             )}
           />
@@ -154,7 +154,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
                 presetColors={false}
                 disableAlpha={true}
                 onChange={(color) => handleBorderChange(onChange, color)}
-                className="border-ghost border"
+                className="border border-gray-6"
               />
             )}
           />
@@ -162,7 +162,7 @@ export const Colors = ({ colors, tenantId }: Props) => {
       </fieldset>
       <div className="flex items-center justify-center gap-8">
         <p
-          className="border-ghost w-fit rounded-md border px-2 py-1 text-center font-semibold"
+          className="w-fit rounded-md border border-gray-6 px-2 py-1 text-center font-semibold"
           style={{ backgroundColor: hexBackground, color: hexForeground }}
         >
           Test the colors

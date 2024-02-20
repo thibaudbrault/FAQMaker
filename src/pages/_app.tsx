@@ -58,7 +58,7 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
             />
             <TooltipProvider>
               <div
-                className={`text-default dark:text-negative relative h-full min-h-screen ${merriweather.variable} ${inter.variable}`}
+                className={`relative h-full min-h-screen text-gray-12 ${merriweather.variable} ${inter.variable}`}
               >
                 <Component {...pageProps} />
               </div>

@@ -48,24 +48,11 @@ const DropdownMenuItem = forwardRef<
 ));
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
 
-const DropdownMenuSeparator = forwardRef<
-  ElementRef<typeof DropdownMenuPrimitive.Separator>,
-  ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
->(({ className, ...props }, ref) => (
-  <DropdownMenuPrimitive.Separator
-    ref={ref}
-    className={cn('bg-negative mx-auto h-px w-11/12', className)}
-    {...props}
-  />
-));
-DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
-
 export {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuPortal,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 };
