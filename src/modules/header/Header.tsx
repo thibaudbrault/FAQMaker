@@ -24,15 +24,14 @@ type Props = {
   id: string;
   company: string;
   logo: string;
-  tenantId: string;
 };
 
-export const Header = ({ id, company, logo, tenantId }: Props) => {
+export const Header = ({ id, company, logo }: Props) => {
   const { data: user, isPending } = useUser(id);
   const isDesktop = useMediaQuery('(min-width: 640px)');
 
   return (
-    <header className="flex items-center justify-between bg-negative px-4 py-2 text-negative md:px-8 md:py-4">
+    <header className="flex items-center justify-between border-b border-b-gray-6 bg-gray-2 px-4 py-2 text-gray-12 md:px-8 md:py-4">
       <Link href="/" className="flex items-center gap-2">
         {logo && (
           <Image
@@ -55,13 +54,11 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
                       <TooltipTrigger asChild>
                         <Link
                           href="/profile"
-                          className="flex items-center gap-1 hover:text-negativeOffset"
+                          className="flex items-center gap-1 hover:text-gray-11"
                         >
                           <Avatar className="h-6 w-6">
                             <AvatarImage src={user.image} />
-                            <AvatarFallback>
-                              {user.email[0].toUpperCase()}
-                            </AvatarFallback>
+                            <AvatarFallback>{user.email[0]}</AvatarFallback>
                           </Avatar>
                         </Link>
                       </TooltipTrigger>
@@ -74,10 +71,7 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
                     <li>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Link
-                            href="/settings"
-                            className="hover:text-negativeOffset"
-                          >
+                          <Link href="/settings" className="hover:text-gray-11">
                             <Settings />
                           </Link>
                         </TooltipTrigger>
@@ -93,7 +87,7 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
                       <TooltipTrigger asChild>
                         <button
                           onClick={() => signOut()}
-                          className="hover:text-negativeOffset"
+                          className="hover:text-gray-11"
                         >
                           <LogOut />
                         </button>
@@ -106,7 +100,7 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
                 </ul>
               )}
               <Button
-                variant="negative"
+                variant="ghost"
                 font="large"
                 size="small"
                 weight="semibold"
@@ -141,13 +135,17 @@ export const Header = ({ id, company, logo, tenantId }: Props) => {
                     >
                       Logout
                     </button>
-                    <hr className="mx-auto my-2 h-px w-3/4 border-none bg-negative" />
-                    <Link
-                      className="rounded-md bg-negative px-2 py-1 text-negative  hover:bg-negativeOffset"
-                      href={Routes.SITE.QUESTION.NEW}
+                    <hr className="mx-auto my-2 h-px w-3/4 border-none bg-gray-6" />
+                    <Button
+                      variant="primary"
+                      size="medium"
+                      weight="semibold"
+                      font="large"
+                      className="lowercase"
+                      style={{ fontVariant: 'small-caps' }}
                     >
-                      New Question
-                    </Link>
+                      <Link href={Routes.SITE.QUESTION.NEW}>New Question</Link>
+                    </Button>
                   </div>
                 </DrawerContent>
               </Drawer>

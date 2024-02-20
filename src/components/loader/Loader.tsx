@@ -9,9 +9,9 @@ const loader = cva(
   {
     variants: {
       size: {
-        items: ['h-8 w-8'],
-        page: ['h-16 w-16'],
-        screen: ['h-24 w-24'],
+        items: ['h-12 w-12'],
+        page: ['h-24 w-24'],
+        screen: ['h-32 w-32'],
       },
       border: {
         thick: ['border-4'],
@@ -32,7 +32,7 @@ export const Loader = forwardRef<HTMLDivElement, LoaderProps>(
     return (
       <>
         {size === 'items' ? (
-          <div className="flex w-full items-center justify-center">
+          <div className="flex w-full items-center justify-center py-8">
             <div
               className={cn(loader({ size, border }), color, className)}
               {...props}
@@ -45,7 +45,7 @@ export const Loader = forwardRef<HTMLDivElement, LoaderProps>(
           </div>
         ) : (
           <div
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
+            className="flex h-screen w-full items-center justify-center"
             ref={ref}
           >
             <div

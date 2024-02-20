@@ -30,7 +30,7 @@ export const ThemeToggle = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="icon">
+        <Button size="icon" className="text-gray-12 hover:text-gray-11">
           {theme === 'light' ? (
             <SunIcon className="h-6 w-6" />
           ) : (
@@ -39,14 +39,14 @@ export const ThemeToggle = () => {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent className="flex flex-col gap-1">
         {themes.map((th) => (
           <DropdownMenuItem
             key={th.value}
             className={
               theme === th.value
-                ? 'bg-negative text-negative hover:bg-negativeOffset'
-                : ''
+                ? 'bg-gray-12 text-white hover:bg-gray-12 dark:bg-gray-1 dark:hover:bg-gray-1'
+                : 'bg-gray-1 dark:bg-gray-12'
             }
             onClick={() => setTheme(th.value)}
           >

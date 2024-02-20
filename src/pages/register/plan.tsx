@@ -86,14 +86,12 @@ function Plan() {
       <div className="flex w-full flex-col items-center justify-center gap-8 rounded-md p-8">
         <div className="mb-4 flex w-full flex-col gap-2 text-center">
           <h2
-            className="font-serif text-5xl font-bold lowercase text-negative"
+            className="font-serif text-5xl font-bold lowercase text-gray-12"
             style={{ fontVariant: 'small-caps' }}
           >
             Plan
           </h2>
-          <p className="text-sm text-negativeOffset">
-            Choose the right plan for you
-          </p>
+          <p className="text-sm text-gray-12">Choose the right plan for you</p>
         </div>
         <section className="grid grid-cols-1 justify-evenly gap-8 md:grid-cols-2 lg:grid-cols-3">
           {plans.map((plan, index) => (
@@ -102,33 +100,34 @@ function Plan() {
                 saveData(plan.value, plan.lookup_key),
               )}
               key={index}
-              className="w-full transform overflow-hidden rounded-md bg-default p-4 text-center transition duration-200 ease-in hover:scale-[1.02] hover:shadow-2xl dark:bg-negative"
+              className="w-full overflow-hidden rounded-md bg-grayA-3 p-4 text-center text-gray-12 shadow-sm shadow-tealA-7 transition-all duration-300 hover:shadow-tealA-8"
             >
-              <div className="w-full border-b border-default py-4 dark:border-negative">
-                <h2 className="text-xl uppercase">{plan.label}</h2>
-                <h3 className="mt-2 text-4xl font-bold">
-                  ${plan.price}/<sub className="text-xs">mo</sub>
+              <div>
+                <h3 className="text-sm font-semibold uppercase text-tealA-11">
+                  {plan.label}
                 </h3>
-              </div>
-              <div className="my-5">
-                <p className="pt-2 text-sm font-bold text-accent">
-                  {plan.message}
+                <p className="mt-2 text-4xl font-bold">
+                  ${plan.price}/<sub className="text-xs">mo</sub>
                 </p>
               </div>
+              <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-9" />
+              <p className="mb-2 text-sm font-bold text-gray-12">
+                {plan.message}
+              </p>
               <div className="mb-10 text-lg">
                 <ul className="list-none text-right">
                   {plan.benefits.map((benefit, index) => (
                     <li key={index} className="flex gap-2">
-                      <Check className="text-accent" />
+                      <Check className="text-teal-9" />
                       <p>{benefit}</p>
                     </li>
                   ))}
                   {plan.drawbacks?.map((drawback, index) => (
                     <li
                       key={index}
-                      className="flex gap-2 text-offset opacity-70"
+                      className="flex gap-2 text-gray-11 opacity-70"
                     >
-                      <Minus className="text-offset" />
+                      <Minus className="text-gray-11" />
                       <p>{drawback}</p>
                     </li>
                   ))}

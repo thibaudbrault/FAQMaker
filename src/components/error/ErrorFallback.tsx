@@ -43,7 +43,7 @@ export const ErrorFallback = forwardRef<HTMLDivElement, ErrorProps>(
           </p>
         </div>
         <Button
-          variant="ghost"
+          variant="primary"
           font="large"
           size="small"
           weight="semibold"

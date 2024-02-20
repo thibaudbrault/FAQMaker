@@ -32,7 +32,7 @@ export const Integrations = ({ tenantId }: Props) => {
     },
   });
 
-  const { mutate, isError, error } = useUpsertIntegrations(tenantId);
+  const { mutate } = useUpsertIntegrations(tenantId);
 
   const onSubmit = (values: IntegrationsType) => {
     mutate(values);
@@ -71,10 +71,7 @@ export const Integrations = ({ tenantId }: Props) => {
       >
         <fieldset className="mx-auto flex w-11/12 gap-2">
           {fields.map((field) => (
-            <div
-              key={field.value}
-              className="flex flex-1 flex-col [&_svg]:focus-within:text-accent"
-            >
+            <div key={field.value} className="flex flex-1 flex-col">
               <Field
                 label={field.label}
                 value={field.value}

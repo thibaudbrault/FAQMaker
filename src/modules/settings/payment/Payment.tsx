@@ -8,7 +8,7 @@ type Props = {
 
 export const Payment = ({ tenantId, company }: Props) => {
   return (
-    <section className="flex w-full flex-col gap-4 rounded-md bg-default p-4 dark:bg-negative">
+    <section className="flex w-full flex-col gap-4 rounded-md bg-gray-3 p-4">
       <h2
         className="text-center font-serif text-4xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}

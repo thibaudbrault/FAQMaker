@@ -37,7 +37,7 @@ export const Users = ({ userId, tenantId, plan }: Props) => {
       {users?.map((user) => (
         <li
           key={user.id}
-          className="rounded-md border border-ghost bg-default p-6 shadow-sm dark:bg-negative"
+          className="rounded-md bg-gray-3 p-6 shadow-sm shadow-tealA-7 hover:shadow-tealA-8"
         >
           <div className="flex w-full flex-col justify-between gap-2 md:flex-row md:gap-0">
             <div className="flex items-center justify-start">
@@ -45,7 +45,7 @@ export const Users = ({ userId, tenantId, plan }: Props) => {
               <div className="flex flex-col items-start">
                 <h2
                   className={`text-2xl ${
-                    user.role !== 'user' ? 'text-accent' : 'text-default'
+                    user.role !== 'user' ? 'text-teal-11' : ''
                   }`}
                 >
                   <b>{user.name}</b>
@@ -73,9 +73,9 @@ export const Users = ({ userId, tenantId, plan }: Props) => {
       ))}
       <CreateUser tenantId={tenantId} />
       <div className="flex items-center gap-4">
-        <div className="h-px flex-grow bg-negative" />
+        <div className="h-px flex-grow bg-gray-6" />
         <p className="text-center text-xl font-bold uppercase">or</p>
-        <div className="h-px flex-grow bg-negative" />
+        <div className="h-px flex-grow bg-gray-6" />
       </div>
       <FileInput tenantId={tenantId} users={users} plan={plan} />
     </ul>

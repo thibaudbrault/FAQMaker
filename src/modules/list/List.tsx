@@ -28,7 +28,7 @@ type Props = {
 
 export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
   if (isLoading) {
-    return <Loader size="screen" color="border-accent" />;
+    return <Loader size="screen" />;
   }
 
   if (isError && error instanceof Error) {
@@ -41,7 +41,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
         <ul className="mx-auto flex w-11/12 list-none flex-col gap-4 md:w-3/4">
           {nodes?.map((node) => (
             <li
-              className="relative rounded-md bg-default transition-all duration-300 hover:shadow-lg dark:bg-negative"
+              className="relative rounded-md bg-gray-3 text-gray-12 shadow-gray-9 transition-all duration-300 hover:shadow-lg"
               key={node.id}
             >
               <details>
@@ -75,14 +75,14 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                       {!node.answer && (
                         <Tooltip>
                           <TooltipTrigger>
-                            <BadgeHelp className="h-4 w-4 text-accent" />
+                            <BadgeHelp className="h-4 w-4 text-teal-9" />
                           </TooltipTrigger>
                           <TooltipContent>Unanswered</TooltipContent>
                         </Tooltip>
                       )}
                       <Tooltip>
                         <TooltipTrigger>
-                          <BadgeInfo className="h-4 w-4 text-accent" />
+                          <BadgeInfo className="h-4 w-4 text-teal-9" />
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>Asked by {node.question.user.name}</p>
@@ -103,7 +103,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                       {node.answer && (
                         <Tooltip>
                           <TooltipTrigger>
-                            <BadgeCheck className="h-4 w-4 text-accent" />
+                            <BadgeCheck className="h-4 w-4 text-teal-9" />
                           </TooltipTrigger>
                           <TooltipContent>
                             <p>Answered by {node.answer.user.name}</p>
@@ -124,7 +124,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                   </div>
                   <ChevronDown />
                 </summary>
-                <hr className="mx-auto my-6 h-px w-3/4 border-none bg-negative dark:bg-default" />
+                <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-6" />
                 {node.answer ? (
                   <div className="mb-6 px-6">
                     <MarkdownPreview source={node.answer.text} />

@@ -22,9 +22,7 @@ function Login() {
           >
             Login
           </h2>
-          <p className="text-sm text-offset dark:text-negativeOffset">
-            Use your associated account
-          </p>
+          <p className="text-sm text-gray-11">Use your associated account</p>
         </div>
         <Button
           variant="primary"
@@ -83,5 +81,5 @@ type ErrorProps = {
 
 const LoginError = ({ error }: ErrorProps) => {
   const errorMessage = error && (errors[error] ?? errors.default);
-  return <div className="text-center text-error">{errorMessage}</div>;
+  return <div className="text-center text-red-9">{errorMessage}</div>;
 };

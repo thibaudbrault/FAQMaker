@@ -17,6 +17,9 @@ dependencies:
   '@prisma/client':
     specifier: 5.5.0
     version: 5.5.0(prisma@5.5.0)
+  '@radix-ui/colors':
+    specifier: ^3.0.0
+    version: 3.0.0
   '@radix-ui/react-avatar':
     specifier: ^1.0.4
     version: 1.0.4(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0)
@@ -999,6 +1002,10 @@ packages:
   /@prisma/engines@5.5.0:
     resolution: {integrity: sha512-WX+8l4sJuWeS3A/5WqJpdBHp32UzUticiKwUWbFggcd6/sqGtCiiaFmXYmNw6Au2O6hjSX37Y07Vu2ZhP9cmWg==}
     requiresBuild: true
+
+  /@radix-ui/colors@3.0.0:
+    resolution: {integrity: sha512-FUOsGBkHrYJwCSEtWRCIfQbZG7q1e6DgxCIOe1SUQzDe/7rXXeA47s8yCn6fuTNQAj1Zq4oTFi9Yjp3wzElcxg==}
+    dev: false
 
   /@radix-ui/number@1.0.1:
     resolution: {integrity: sha512-T5gIdVO2mmPW3NNhjNgEP3cqMXjXL9UbO0BzWcXfvdBs+BohbQxvd/K5hSVKmn9/lbTdsQVKbUcP5WLCwvUbBg==}

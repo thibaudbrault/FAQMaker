@@ -67,7 +67,7 @@ function Company() {
             >
               Company
             </legend>
-            <p className="text-sm text-offset">Your company details</p>
+            <p className="text-sm text-gray-11">Your company details</p>
           </div>
           {fields.map((field) => (
             <Field
@@ -82,7 +82,7 @@ function Company() {
                 type={field.type}
                 id={field.value}
                 placeholder={field.label}
-                className="border border-transparent border-b-accent bg-transparent placeholder:text-offset"
+                className="bg-transparent"
               />
             </Field>
           ))}

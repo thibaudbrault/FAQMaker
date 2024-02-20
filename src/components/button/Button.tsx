@@ -9,22 +9,20 @@ const button = cva('transition-all duration-300', {
   variants: {
     variant: {
       primary: [
-        'bg-negative border border-transparent text-negative hover:bg-negativeOffset dark:bg-default dark:text-default dark:hover:bg-offset',
-      ],
-      negative: [
-        'bg-default text-default border border-default hover:bg-offset dark:bg-negative dark:text-negative dark:border-negative dark:hover:bg-negativeOffset',
+        'bg-teal-9 hover:bg-teal-10 text-white shadow-sm shadow-transparent',
       ],
       ghost: [
-        'bg-negativeGhost text-default border border-ghost dark:border-ghost dark:bg-ghost dark:text-negative',
+        'bg-gray-3 hover:bg-gray-4 shadow-sm shadow-grayA-8 text-gray-12',
       ],
-      secondary: ['bg-transparent text-accent border border-accent'],
-      disabled: ['bg-disabled text-negative border border-transparent'],
+      secondary: [
+        'bg-transparent text-tealA-11 shadow shadow-sm shadow-tealA-7 hover:shadow-tealA-8',
+      ],
+      disabled: [
+        'bg-teal-surfaceLight dark:bg-teal-surfaceDark shadow-sm text-tealA-11 shadow-tealA-7 hover:shadow-tealA-8',
+      ],
       destructive: [
-        'text-negative bg-error hover:bg-errorOffsetLight dark:hover:bg-errorOffsetDar border border-ghost',
+        'bg-red-surfaceLight dark:bg-red-surfaceDark shadow-sm text-redA-11 shadow-redA-7 hover:shadow-redA-8',
       ],
-    },
-    border: {
-      primary: ['border-accent'],
     },
     icon: {
       withIcon: ['flex justify-center items-center gap-1'],
@@ -70,7 +68,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       asChild = false,
       variant,
-      border,
       icon,
       font,
       rounded,
@@ -86,7 +83,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           button({
             variant,
-            border,
             font,
             icon,
             weight,

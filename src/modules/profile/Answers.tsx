@@ -15,7 +15,7 @@ type Props = {
 
 export const UserAnswers = ({ nodes, isPending }: Props) => {
   if (isPending) {
-    return <Loader size="page" />;
+    return <Loader size="items" />;
   }
 
   return (
@@ -30,18 +30,16 @@ export const UserAnswers = ({ nodes, isPending }: Props) => {
         <ul className="flex list-none flex-col gap-2 ">
           {nodes.map((node, index) => (
             <li
-              className="flex items-center justify-between rounded-md bg-offset px-3 py-2 shadow-sm dark:bg-negativeOffset"
+              className="flex items-center justify-between rounded-md px-3 py-2 shadow-sm"
               key={index}
             >
               <MarkdownPreview source={node.answer.text} />
 
               <Link
-                className="hover:text-offset dark:hover:text-negativeOffset"
                 href={{
-                  pathname: '/question/[slug]',
-                  query: { slug: node.question.slug, id: node.id },
+                  pathname: '/question/[id]',
+                  query: { id: node.question.id },
                 }}
-                as={`/question/${node.question.slug}`}
               >
                 <MoveRight />
               </Link>

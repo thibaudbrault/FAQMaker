@@ -89,10 +89,7 @@ export const Company = ({ tenant }: Props) => {
       >
         <fieldset className="flex w-full flex-col gap-2 md:flex-row">
           {fields.map((field) => (
-            <div
-              key={field.value}
-              className="flex flex-1 flex-col [&_svg]:focus-within:text-accent"
-            >
+            <div key={field.value} className="flex flex-1 flex-col">
               <Field
                 label={field.label}
                 value={field.value}

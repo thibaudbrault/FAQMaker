@@ -7,12 +7,8 @@ import { cn } from '@/utils';
 const badge = cva('text-xs font-semibold', {
   variants: {
     variant: {
-      primary: [
-        'bg-negative text-negative text-center dark:bg-default dark:text-default',
-      ],
-      disabled: [
-        'bg-neutral-600 text-negative text-center dark:bg-neutral-400 dark:text-default',
-      ],
+      primary: ['bg-gray-12 text-gray-1 text-center'],
+      disabled: ['bg-gray-11 text-gray-1 text-center'],
     },
     rounded: {
       full: ['rounded-full'],

@@ -36,29 +36,27 @@ function QuestionPage({ me, id }: Props) {
   const { data: node, isPending } = useNode(me.tenantId, id as string);
   const { asPath } = useRouter();
 
-  if (isPending) {
-    return <Loader size="screen" />;
-  }
-
-  if (node) {
-    return (
-      <PageLayout
-        id={me.id}
-        company={me.tenant.company}
-        logo={me.tenant.logo}
-        tenantId={me.tenantId}
-      >
+  return (
+    <PageLayout
+      id={me.id}
+      company={me.tenant.company}
+      logo={me.tenant.logo}
+      tenantId={me.tenantId}
+    >
+      {isPending ? (
+        <Loader size="screen" />
+      ) : (
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <div className="flex items-center justify-between">
             <BackButton />
             <DropdownMenu>
               <DropdownMenuTrigger
-                className="w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase text-negative hover:bg-negativeOffset dark:bg-default dark:text-default dark:hover:bg-offset"
+                className="w-fit rounded-md bg-gray-3 px-4 py-2 font-bold uppercase text-gray-12 hover:bg-gray-4"
                 style={{ fontVariant: 'small-caps' }}
               >
                 Edit
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="flex flex-col gap-1">
                 <DropdownMenuItem>
                   <Link
                     className="flex items-center justify-start gap-2"
@@ -88,13 +86,22 @@ function QuestionPage({ me, id }: Props) {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="rounded-md bg-default p-4 dark:bg-negative">
+          <div className="rounded-md bg-gray-3 p-4">
+            <ul className="flex list-none gap-2 text-xs">
+              {node.tags.map((tag) => (
+                <li key={tag.id}>
+                  <Badge variant="primary" rounded="full" size="small">
+                    {tag.label}
+                  </Badge>
+                </li>
+              ))}
+            </ul>
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-semibold">{node.question.text}</h2>
+              <h2 className="text-3xl font-semibold">{node.question.text}</h2>
               <Tooltip>
                 <TooltipTrigger>
                   <button
-                    className="hover:text-offset dark:hover:text-negativeOffset"
+                    className="text-gray-12 hover:text-gray-11"
                     onClick={() =>
                       navigator.clipboard.writeText(
                         `${process.env.NEXT_PUBLIC_SITE_URL}${asPath}`,
@@ -107,16 +114,7 @@ function QuestionPage({ me, id }: Props) {
                 <TooltipContent>Copy url</TooltipContent>
               </Tooltip>
             </div>
-            <ul className="flex list-none gap-2 text-xs">
-              {node.tags.map((tag) => (
-                <li key={tag.id}>
-                  <Badge variant="primary" rounded="full" size="small">
-                    {tag.label}
-                  </Badge>
-                </li>
-              ))}
-            </ul>
-            <hr className="my-6 border-accent" />
+            <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-6" />
             {node.answer ? (
               <MarkdownPreview
                 className="mx-auto w-11/12 text-left"
@@ -125,7 +123,7 @@ function QuestionPage({ me, id }: Props) {
             ) : (
               <p className="text-center italic">No answer</p>
             )}
-            <hr className="my-6 border-accent" />
+            <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-6" />
             <div className="flex justify-between">
               <div className="text-xs">
                 <p>
@@ -178,9 +176,9 @@ function QuestionPage({ me, id }: Props) {
             </div>
           </div>
         </section>
-      </PageLayout>
-    );
-  }
+      )}
+    </PageLayout>
+  );
 }
 
 export default QuestionPage;

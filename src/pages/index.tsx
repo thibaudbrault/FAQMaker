@@ -107,6 +107,7 @@ function Home({ me }: Props) {
         tags={tags}
         setSearchQuery={setSearchQuery}
         setSearchTag={setSearchTag}
+        setPage={setPage}
       />
       <List
         nodes={nodes}
@@ -115,7 +116,7 @@ function Home({ me }: Props) {
         error={error}
         message={message}
       />
-      {nodesCount > OFFSET && (
+      {nodesCount > OFFSET && (nodes.length === OFFSET || page !== 0) && (
         <Pagination nodesLength={nodesCount} setPage={setPage} />
       )}
     </PageLayout>

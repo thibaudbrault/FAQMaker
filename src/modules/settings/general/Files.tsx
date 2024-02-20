@@ -83,7 +83,7 @@ export const Files = ({ tenant }: Props) => {
               >
                 {({ getRootProps, getInputProps, open, isDragActive }) => (
                   <div
-                    className={`relative flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-t-md border-2 border-b-0 border-dashed border-default px-4 py-8 text-default dark:border-negative dark:text-negative ${isDragActive ? 'bg-offset dark:bg-negativeOffset' : 'bg-transparent'}`}
+                    className={`relative flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-t-md border-2 border-b-0 border-dashed border-gray-12 px-4 py-8 ${isDragActive ? 'bg-grayA-3' : 'bg-transparent'}`}
                     {...getRootProps()}
                   >
                     <input
@@ -97,7 +97,7 @@ export const Files = ({ tenant }: Props) => {
                       <Image
                         src={previewImage}
                         alt={file.name}
-                        className="h-36 w-36 rounded-md border border-default object-cover dark:border-negative"
+                        className="h-36 w-36 rounded-md border border-gray-7 object-cover"
                         width={144}
                         height={144}
                       />
@@ -111,7 +111,7 @@ export const Files = ({ tenant }: Props) => {
                     </p>
                     <button
                       type="button"
-                      className="text-sm hover:text-offset dark:hover:text-negativeOffset"
+                      className="text-sm text-gray-11 hover:text-gray-12"
                       onClick={open}
                     >
                       Choose a file or drag and drop

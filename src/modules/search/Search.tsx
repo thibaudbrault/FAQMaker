@@ -18,9 +18,15 @@ type Props = {
   tags: Tag[];
   setSearchQuery: Dispatch<SetStateAction<string>>;
   setSearchTag: Dispatch<SetStateAction<string>>;
+  setPage: Dispatch<SetStateAction<number>>;
 };
 
-export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
+export const Search = ({
+  tags,
+  setSearchQuery,
+  setSearchTag,
+  setPage,
+}: Props) => {
   const router = useRouter();
   const { handleSubmit, register } = useForm();
   const [tagActive, setTagActive] = useState<string | null>(null);
@@ -28,6 +34,7 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
   const onSearch = (values) => {
     const { search } = values;
     setSearchQuery(search);
+    setPage(0);
     if (search) {
       const encodedSearch = encodeURI(search);
       router.push(`?search=${encodedSearch}`);
@@ -39,22 +46,24 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
   const handleTagSearch = (label: string) => {
     setTagActive(label);
     setSearchTag(label);
+    setPage(0);
   };
 
   const handleResetTag = () => {
     setTagActive(null);
     setSearchTag(null);
+    setPage(0);
   };
 
   return (
     <section className="mx-auto flex w-11/12 items-end justify-center gap-8 md:w-3/4">
       <form
         onSubmit={handleSubmit(onSearch)}
-        className="group/search flex w-full flex-col gap-1 [&_svg]:focus-within:text-accent"
+        className="group/search flex w-full flex-col gap-1 [&_svg]:focus-within:text-tealA-8"
       >
         <Label
           htmlFor="search"
-          className="lowercase focus-within:text-accent"
+          className="lowercase"
           style={{ fontVariant: 'small-caps' }}
         >
           Search
@@ -72,19 +81,19 @@ export const Search = ({ tags, setSearchQuery, setSearchTag }: Props) => {
       {tags.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger
-            className="w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase text-negative hover:bg-negativeOffset dark:bg-default dark:text-default dark:hover:bg-offset"
+            className="w-fit rounded-md bg-gray-3 px-4 py-2 font-bold uppercase text-gray-12 hover:bg-gray-4"
             style={{ fontVariant: 'small-caps' }}
           >
             <TagIcon />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="flex flex-col gap-1 bg-default">
+          <DropdownMenuContent className="flex flex-col gap-1">
             {tags.map((tag) => (
               <DropdownMenuItem
-                className={`cursor-pointer rounded-md font-semibold hover:bg-offset ${
+                className={
                   tagActive === tag.label
-                    ? 'bg-negative text-negative hover:bg-negativeOffset'
-                    : 'bg-default'
-                }`}
+                    ? 'bg-gray-12 text-white hover:bg-gray-12 dark:bg-gray-1 dark:hover:bg-gray-1'
+                    : 'bg-gray-1 dark:bg-gray-12'
+                }
                 key={tag.id}
               >
                 <button
