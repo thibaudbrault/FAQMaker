@@ -22,7 +22,6 @@ model Tenant {
   nodes          Node[]
   tags           Tag[]
   integrations   Integrations?
-  color          Color?
 }
 
 model Integrations {
@@ -126,17 +125,6 @@ model Tag {
   nodes    Node[]
   tenant   Tenant @relation(fields: [tenantId], references: [id])
   tenantId String
-
-  @@index([tenantId])
-}
-
-model Color {
-  id         String @id @default(cuid())
-  foreground String
-  background String
-  border     String
-  tenant     Tenant @relation(fields: [tenantId], references: [id])
-  tenantId   String @unique
 
   @@index([tenantId])
 }

@@ -29,15 +29,6 @@ export default async function handler(
           const { id } = result.data;
           const tenant = await prisma.tenant.findUnique({
             where: { id: id as string },
-            include: {
-              color: {
-                select: {
-                  foreground: true,
-                  background: true,
-                  border: true,
-                },
-              },
-            },
           });
           return res.status(200).json(tenant);
         }

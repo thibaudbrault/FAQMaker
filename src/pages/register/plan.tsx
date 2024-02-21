@@ -38,7 +38,7 @@ function Plan() {
         lookup_key: 'free_monthly',
         message: 'Perfect to try out',
         benefits: ['5 users', 'Unlimited questions'],
-        drawbacks: ['Slack integration', 'Theme personalization'],
+        drawbacks: ['Slack integration'],
       },
       {
         label: 'Startup',
@@ -46,12 +46,7 @@ function Plan() {
         price: 19,
         lookup_key: 'startup_monthly',
         message: 'Perfect for startups',
-        benefits: [
-          '100 users',
-          'Unlimited questions',
-          'Slack integration',
-          'Theme personalization',
-        ],
+        benefits: ['100 users', 'Unlimited questions', 'Slack integration'],
       },
       {
         label: 'Enterprise',
@@ -63,7 +58,6 @@ function Plan() {
           'Unlimited users',
           'Unlimited questions',
           'Slack integration',
-          'Theme personalization',
         ],
       },
     ],

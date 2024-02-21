@@ -1,7 +1,7 @@
-import { Loader } from '@/components';
-import { ExtendedTenant } from '@/types';
+import { Tenant } from '@prisma/client';
 
-import { Colors } from './Colors';
+import { Loader } from '@/components';
+
 import { Company } from './Company';
 import { Data } from './Data';
 import { Files } from './Files';
@@ -9,7 +9,7 @@ import { Integrations } from './Integrations';
 
 type Props = {
   tenantId: string;
-  tenant: ExtendedTenant;
+  tenant: Tenant;
   isPending: boolean;
 };
 
@@ -21,11 +21,6 @@ export const General = ({ tenantId, tenant, isPending }: Props) => {
   }
   return (
     <>
-      {tenant.plan !== 'free' && (
-        <section className={styles}>
-          <Colors colors={tenant.color} tenantId={tenantId} />
-        </section>
-      )}
       <section className={styles}>
         <Company tenant={tenant} />
       </section>

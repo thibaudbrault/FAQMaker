@@ -1,7 +1,7 @@
+import { Tenant } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 
-import { ExtendedTenant } from '@/types';
 import { QueryKeys, Routes } from '@/utils';
 
 const getTenant = async (tenantId: string) => {
@@ -10,7 +10,7 @@ const getTenant = async (tenantId: string) => {
 };
 
 export const useTenant = (tenantId: string) => {
-  const query = useQuery<ExtendedTenant, AxiosError>({
+  const query = useQuery<Tenant, AxiosError>({
     queryKey: [QueryKeys.TENANT, tenantId],
     queryFn: () => getTenant(tenantId),
   });
