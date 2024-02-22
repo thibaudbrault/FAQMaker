@@ -12,6 +12,11 @@ export const updateTenantClientSchema = z.object({
   domain: z.string().trim().nullable(),
 });
 
+export const deleteSchema = (company: string) =>
+  z.object({
+    text: z.literal(`DELETE ${company}`),
+  });
+
 export const filesClientSchema = z.object({
   logo: z
     .custom<File>((file) => file instanceof File, 'Please upload a file')

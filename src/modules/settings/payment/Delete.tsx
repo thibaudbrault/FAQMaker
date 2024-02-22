@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Flame } from 'lucide-react';
+import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -16,6 +17,7 @@ import {
   DialogTrigger,
   Input,
 } from '@/components';
+import { useDeleteTenant } from '@/hooks';
 
 type Props = {
   tenantId: string;
@@ -29,6 +31,7 @@ export const Delete = ({ tenantId, company }: Props) => {
   type Schema = z.infer<typeof deleteSchema>;
 
   const [disabled, setDisabled] = useState<boolean>(true);
+  const router = useRouter();
 
   const {
     register,
@@ -40,10 +43,11 @@ export const Delete = ({ tenantId, company }: Props) => {
     mode: 'onBlur',
   });
 
-  // const { mutate, isError, error } = useCreateTag(tenantId);
+  const { mutate } = useDeleteTenant(tenantId, company, router);
 
   const onSubmit: SubmitHandler<Schema> = (values) => {
-    console.log('🚀 ~ onSubmit ~ values:', values);
+    // @ts-ignore
+    mutate(values);
   };
 
   useEffect(() => {
@@ -94,7 +98,7 @@ export const Delete = ({ tenantId, company }: Props) => {
               </Button>
             </DialogClose>
             <Button
-              variant={disabled ? 'disabled' : 'destructive'}
+              variant={disabled ? 'disabledDestructive' : 'destructive'}
               weight="semibold"
               className="lowercase"
               style={{ fontVariant: 'small-caps' }}

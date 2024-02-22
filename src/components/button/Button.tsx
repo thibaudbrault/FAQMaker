@@ -20,8 +20,11 @@ const button = cva('transition-all duration-300', {
       disabled: [
         'bg-teal-surfaceLight dark:bg-teal-surfaceDark shadow-sm text-tealA-11 shadow-tealA-7 hover:shadow-tealA-8',
       ],
-      destructive: [
+      disabledDestructive: [
         'bg-red-surfaceLight dark:bg-red-surfaceDark shadow-sm text-redA-11 shadow-redA-7 hover:shadow-redA-8',
+      ],
+      destructive: [
+        'bg-red-9 hover:bg-red-10 text-white shadow-sm shadow-transparent',
       ],
     },
     icon: {

@@ -32,6 +32,17 @@ export const updateTenantServerSchema = z.object({
   }),
 });
 
+export const deleteTenantServerSchema = (company: string) =>
+  z.object({
+    body: z.object({
+      text: z.literal(`DELETE ${company}`),
+      company: z.string(),
+    }),
+    query: z.object({
+      id: z.string().cuid2(),
+    }),
+  });
+
 export const logoServerSchema = z.object({
   logo: z
     .custom<File>((file) => file instanceof File, 'Please upload a file')
