@@ -117,10 +117,9 @@ export default async function handler(
               customerId: true,
             },
           });
-          const deleteTenant = await prisma.tenant.delete({
+          await prisma.tenant.delete({
             where: { id, company },
           });
-          console.log('🚀 ~ deleteTenant:', deleteTenant);
           await stripe.customers.del(customerId);
           return res
             .status(200)
