@@ -34,7 +34,7 @@ function Confirm() {
     isSuccess: customerIsSuccess,
   } = useCreateCustomer();
   const { mutateAsync: mutateTenant, isSuccess: tenantIsSuccess } =
-    useCreateTenant(router);
+    useCreateTenant();
 
   const onSubmit: SubmitHandler<Schema> = async (values) => {
     try {
