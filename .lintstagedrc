@@ -1,0 +1,3 @@
+{
+  "*.{ts,tsx}": ["prettier \"src/**/*.+(ts|js|tsx)\" --write", "eslint \"src/**/*.+(ts|js|tsx)\" --fix"]
+}

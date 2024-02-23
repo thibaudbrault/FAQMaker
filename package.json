@@ -23,12 +23,12 @@
     "push": "prisma db push",
     "format": "prisma format",
     "type": "tsc --noEmit",
-    "lint": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\"",
-    "lint:fix": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --fix",
-    "prettier": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\"",
-    "prettier:check": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --check",
-    "prettier:write": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --write",
-    "postinstall": "prisma generate && husky install"
+    "lint": "eslint \"src/**/*.+(ts|js|tsx)\"",
+    "lint:fix": "eslint \"src/**/*.+(ts|js|tsx)\" --fix",
+    "prettier": "prettier \"src/**/*.+(ts|js|tsx)\"",
+    "prettier:check": "prettier \"src/**/*.+(ts|js|tsx)\" --check",
+    "prettier:write": "prettier \"src/**/*.+(ts|js|tsx)\" --write",
+    "prepare": "husky"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.7.0",
@@ -103,11 +103,5 @@
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.3.3"
-  },
-  "lint-staged": {
-    "./src/**/*.{ts,js,jsx,tsx}": [
-      "pnpm lint:fix",
-      "pnpm prettier:write"
-    ]
   }
 }
