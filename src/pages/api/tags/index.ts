@@ -1,6 +1,6 @@
 import { getToken } from 'next-auth/jwt';
 
-import { getTenantIdSchema, createTagServerSchema } from '@/lib';
+import { getTenantIdSchema, createTagServerSchema, getTagsCount } from '@/lib';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -53,6 +53,26 @@ export default async function handler(
           });
         } else {
           const { label, tenantId } = result.data;
+          const tagsCount = await getTagsCount(tenantId);
+          if (typeof tagsCount !== 'number') {
+            return res.status(404).json({
+              success: false,
+              error: { message: 'Could not find the number of tags' },
+            });
+          }
+          const { plan } = await prisma.tenant.findUnique({
+            where: { id: tenantId },
+            select: { plan: true },
+          });
+          if (
+            (plan === 'free' && tagsCount >= 3) ||
+            (plan === 'startup' && tagsCount >= 10)
+          ) {
+            return res.status(402).json({
+              success: false,
+              error: { message: 'You reached the maximum number of tags.' },
+            });
+          }
           await prisma.tag.create({
             data: {
               label,
