@@ -57,7 +57,7 @@ export default async function handler(
             error: { message: 'Invalid request', errors },
           });
         } else {
-          const { email, role, name, newUsersArray, tenantId } = result.data;
+          const { email, role, newUsersArray, tenantId } = result.data;
           if (role) {
             const userExists = await prisma.user.findUnique({
               where: { email, tenantId },
@@ -69,7 +69,7 @@ export default async function handler(
               });
             }
             const usersCount = await getUsersCount(tenantId);
-            if (!usersCount) {
+            if (typeof usersCount !== 'number') {
               return res.status(404).json({
                 success: false,
                 error: { message: 'Could not find the number of users' },
