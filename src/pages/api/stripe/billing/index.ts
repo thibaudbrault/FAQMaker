@@ -40,6 +40,9 @@ export default async function handler(
         const usersCount = await prisma.user.count({
           where: { tenantId },
         });
+        const tagsCount = await prisma.tag.count({
+          where: { tenantId },
+        });
         const productsList = await stripe.products.list({
           active: true,
         });
@@ -54,7 +57,7 @@ export default async function handler(
             );
             break;
           case 'startup':
-            if (usersCount <= 5) {
+            if (usersCount <= 5 && tagsCount <= 3) {
               products.push(
                 { product: free.id, prices: [free.default_price] },
                 { product: startup.id, prices: [startup.default_price] },
@@ -68,13 +71,13 @@ export default async function handler(
             }
             break;
           case 'enterprise':
-            if (usersCount <= 5) {
+            if (usersCount <= 5 && tagsCount <= 3) {
               products.push(
                 { product: free.id, prices: [free.default_price] },
                 { product: startup.id, prices: [startup.default_price] },
                 { product: enterprise.id, prices: [enterprise.default_price] },
               );
-            } else if (usersCount <= 100) {
+            } else if (usersCount <= 100 && tagsCount <= 10) {
               products.push(
                 { product: startup.id, prices: [startup.default_price] },
                 { product: enterprise.id, prices: [enterprise.default_price] },
