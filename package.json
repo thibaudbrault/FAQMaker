@@ -28,7 +28,8 @@
     "prettier": "prettier \"src/**/*.+(ts|js|tsx)\"",
     "prettier:check": "prettier \"src/**/*.+(ts|js|tsx)\" --check",
     "prettier:write": "prettier \"src/**/*.+(ts|js|tsx)\" --write",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.7.0",
