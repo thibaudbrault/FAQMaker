@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react';
 
-import { useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
+import { RESET } from 'jotai/utils';
 import { Check, Minus, MoveRight, Wallet } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
@@ -13,7 +14,7 @@ import { IPlan } from '@/types';
 import { Routes } from '@/utils';
 
 function Plan() {
-  const state = useAtomValue(registerAtom);
+  const [state, setState] = useAtom(registerAtom);
 
   const { handleSubmit } = useForm();
   const router = useRouter();
@@ -23,7 +24,8 @@ function Plan() {
 
   const saveData = (value: IPlan['value'], lookup_key: string) => {
     if (value === 'free') {
-      return router.push(Routes.SITE.LOGIN);
+      setState(RESET);
+      router.push(Routes.SITE.LOGIN);
     } else {
       return mutate(lookup_key);
     }
@@ -37,7 +39,7 @@ function Plan() {
         price: 0,
         lookup_key: 'free_monthly',
         message: 'Perfect to try out',
-        benefits: ['5 users', 'Unlimited questions'],
+        benefits: ['5 users', '3 tags', 'Unlimited questions'],
         drawbacks: ['Slack integration'],
       },
       {
@@ -46,7 +48,12 @@ function Plan() {
         price: 19,
         lookup_key: 'startup_monthly',
         message: 'Perfect for startups',
-        benefits: ['100 users', 'Unlimited questions', 'Slack integration'],
+        benefits: [
+          '100 users',
+          '10 tags',
+          'Unlimited questions',
+          'Slack integration',
+        ],
       },
       {
         label: 'Enterprise',
@@ -56,6 +63,7 @@ function Plan() {
         message: 'Perfect for big companies',
         benefits: [
           'Unlimited users',
+          'Unlimited tags',
           'Unlimited questions',
           'Slack integration',
         ],
@@ -67,6 +75,7 @@ function Plan() {
   useEffect(() => {
     if (status === 'success') {
       successToast('Payment successful');
+      setState(RESET);
       router.push(Routes.SITE.LOGIN);
     } else if (status === 'cancel') {
       errorToast('Payment unsuccessful');
