@@ -120,11 +120,11 @@ export const Files = ({ tenant }: Props) => {
                 )}
               </Dropzone>
               <Button
-                variant="primary"
+                variant="ghost"
                 rounded="bottom"
                 weight="semibold"
-                className="w-full lowercase"
-                style={{ fontVariant: 'small-caps' }}
+                className="w-full border-2 border-t border-dashed border-t-grayA-8 lowercase shadow-none"
+                style={{ fontVariant: 'small-caps', borderTopStyle: 'solid' }}
                 onClick={handleReset}
                 type="button"
               >
@@ -133,30 +133,6 @@ export const Files = ({ tenant }: Props) => {
             </div>
           )}
         />
-        {/* <fieldset className="flex w-full flex-col gap-2 md:flex-row">
-          <Field label="Logo" value="logo" error={errors.logo?.message}>
-            <Controller
-              control={control}
-              name={'logo'}
-              render={({ field: { value, onChange, ...field } }) => {
-                return (
-                  <Input
-                    {...field}
-                    onChange={(event) => {
-                      onChange(event.target.files[0]);
-                      setPreviewImage(
-                        URL.createObjectURL(event.target.files[0]),
-                      );
-                    }}
-                    type="file"
-                    id="logo"
-                    accept="image/jpeg, image/jpg, image/png, image/webp, image/svg"
-                  />
-                );
-              }}
-            />
-          </Field>
-        </fieldset> */}
         <Button
           variant={disabled ? 'disabled' : 'primary'}
           weight="semibold"
