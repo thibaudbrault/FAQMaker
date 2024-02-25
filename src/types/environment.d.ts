@@ -21,6 +21,8 @@ declare global {
       SENTRY_IGNORE_API_RESOLUTION_ERROR: number;
 
       PROJECT_ID: string;
+      CLIENT_EMAIL: string;
+      PRIVATE_KEY: string;
 
       RESEND_API_KEY: string;
     }
