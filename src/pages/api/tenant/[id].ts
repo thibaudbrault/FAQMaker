@@ -1,3 +1,4 @@
+import { Storage } from '@google-cloud/storage';
 import { getToken } from 'next-auth/jwt';
 import Stripe from 'stripe';
 
@@ -111,12 +112,35 @@ export default async function handler(
         } else {
           const { id } = result.data.query;
           const { company } = result.data.body;
-          const { customerId } = await prisma.tenant.findUnique({
+          const { customerId, logo } = await prisma.tenant.findUnique({
             where: { id },
             select: {
               customerId: true,
+              logo: true,
             },
           });
+          const storage = new Storage({
+            projectId: process.env.PROJECT_ID,
+            credentials: {
+              client_email: process.env.CLIENT_EMAIL,
+              private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+            },
+          });
+          const bucketName = 'faqmaker';
+          const bucket = storage.bucket(bucketName);
+          if (logo) {
+            const fileName = logo.replace(
+              'https://storage.googleapis.com/faqmaker/',
+              '',
+            );
+            bucket.file(fileName).delete();
+          }
+          if (!customerId) {
+            return res.status(404).json({
+              success: false,
+              error: { message: `Customer not found` },
+            });
+          }
           await prisma.tenant.delete({
             where: { id, company },
           });

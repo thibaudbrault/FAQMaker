@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { v4 as uuid } from 'uuid';
 import { z } from 'zod';
 
 import { promiseToast } from '@/components';
@@ -9,13 +10,28 @@ import { QueryKeys, Routes } from '@/utils';
 type Schema = z.infer<typeof filesClientSchema>;
 
 const upsertFiles = async (values: Schema, id: string) => {
-  const formData = new FormData();
-  Object.values(values).forEach((file) => {
-    formData.append('logo', file);
-  });
-  formData.append('tenantId', id);
-  const { data } = await axios.post(Routes.API.STORAGE.LOGO, formData);
-  return data;
+  try {
+    const { logo: file } = values;
+    const randomId = uuid();
+    const filename = encodeURIComponent(randomId + file.name);
+    const { data: signedData } = await axios.post(
+      `${Routes.API.STORAGE.LOGO}?file=${filename}`,
+    );
+    const { url, fields } = signedData;
+    const formData = new FormData();
+    Object.entries({ ...fields, file }).forEach(([key, value]) => {
+      formData.append(key, value as string | Blob);
+    });
+    await axios.post(url, formData);
+    const body = {
+      logoUrl: url + 'logos/' + filename,
+      filename,
+    };
+    const { data } = await axios.put(`${Routes.API.TENANT.LOGO}/${id}`, body);
+    return data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const useUpsertFiles = (id: string) => {
