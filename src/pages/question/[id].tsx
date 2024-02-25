@@ -99,7 +99,7 @@ function QuestionPage({ me, id }: Props) {
             <div className="flex items-center justify-between">
               <h2 className="text-3xl font-semibold">{node.question.text}</h2>
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger asChild>
                   <button
                     className="text-gray-12 hover:text-gray-11"
                     onClick={() =>
