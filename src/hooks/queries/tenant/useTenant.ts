@@ -5,7 +5,7 @@ import axios, { AxiosError } from 'axios';
 import { QueryKeys, Routes } from '@/utils';
 
 const getTenant = async (tenantId: string) => {
-  const { data } = await axios.get(`${Routes.API.TENANT}/${tenantId}`);
+  const { data } = await axios.get(`${Routes.API.TENANT.INDEX}/${tenantId}`);
   return data;
 };
 

@@ -12,7 +12,7 @@ const createTenant = async (values: Schema) => {
   const body = {
     ...values,
   };
-  const { data } = await axios.post(Routes.API.TENANT, body);
+  const { data } = await axios.post(Routes.API.TENANT.INDEX, body);
   return data;
 };
 

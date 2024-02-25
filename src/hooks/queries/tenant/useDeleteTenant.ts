@@ -11,7 +11,7 @@ const deleteTenant = async (values, tenantId: string, company: string) => {
     company,
   };
   const { data: deleteData } = await axios.delete(
-    `${Routes.API.TENANT}/${tenantId}`,
+    `${Routes.API.TENANT.INDEX}/${tenantId}`,
     { data },
   );
   return deleteData;

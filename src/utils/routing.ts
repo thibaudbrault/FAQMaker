@@ -37,7 +37,10 @@ export const Routes = {
       TAGS: '/api/search/tags',
     },
     TAGS: '/api/tags',
-    TENANT: '/api/tenant',
+    TENANT: {
+      INDEX: '/api/tenant',
+      LOGO: '/api/tenant/logo',
+    },
     WEBHOOKS: '/api/stripe/webhooks',
     STORAGE: {
       LOGO: '/api/storage/logo',
