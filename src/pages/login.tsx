@@ -35,7 +35,7 @@ function Login() {
           style={{ fontVariant: 'small-caps' }}
           onClick={() =>
             signIn(`google`, {
-              callbackUrl: process.env.NEXT_PUBLIC_SITE_URL,
+              callbackUrl: router.query.callbackUrl as string,
             })
           }
         >
