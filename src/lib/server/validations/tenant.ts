@@ -1,7 +1,5 @@
 import { z } from 'zod';
 
-import { MAX_FILE_SIZE, ACCEPTED_IMAGE_TYPES } from '@/utils';
-
 export const createTenantServerSchema = z.object({
   company: z.string().trim().min(1, { message: 'Company name is required' }),
   companyEmail: z
@@ -43,12 +41,15 @@ export const deleteTenantServerSchema = (company: string) =>
     }),
   });
 
-export const logoServerSchema = z.object({
-  logo: z
-    .custom<File>((file) => file instanceof File, 'Please upload a file')
-    .refine((file) => file?.size <= MAX_FILE_SIZE, 'File must be under 5MB')
-    .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-      'Wrong format',
-    ),
+export const updateLogoServerSchema = z.object({
+  body: z.object({
+    filename: z.string(),
+    logoUrl: z
+      .string()
+      .url()
+      .regex(/^https:\/\/storage\.googleapis\.com\/faqmaker\/logos/),
+  }),
+  query: z.object({
+    id: z.string().cuid2(),
+  }),
 });
