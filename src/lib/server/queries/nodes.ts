@@ -18,7 +18,7 @@ export const getNodesCount = async (tenantId: string) => {
     where: { tenantId },
   });
 
-  if (!nodes) return null;
+  if (!nodes) return 0;
 
   return nodes;
 };

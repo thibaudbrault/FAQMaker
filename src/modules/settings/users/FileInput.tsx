@@ -46,13 +46,13 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
   const fileInput = useRef(null);
   const { readRemoteFile } = usePapaParse();
   const emails = users.map((user) => user.email);
-  const newArray = newUsers
+  const newUsersArray = newUsers
     ?.filter((user) => !emails.includes(user))
     .splice(0, limit);
-  const removedArray = newUsers
+  const removedUsersArray = newUsers
     ?.filter((user) => !emails.includes(user))
     .slice(limit);
-  const existingArray =
+  const existingUsersArray =
     newUsers?.filter((user) => !!emails.includes(user)) ?? [];
 
   const {
@@ -100,7 +100,7 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
     });
   };
 
-  const { mutate } = useCreateUsers(tenantId, newArray);
+  const { mutate } = useCreateUsers(tenantId, newUsersArray);
 
   const onFileSubmit: SubmitHandler<Schema> = (values) => {
     handleFileSubmit(values.name);
@@ -117,10 +117,11 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
     } else if (plan === 'enterprise') {
       setLimit(Infinity);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitting, file]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-1">
       <form
         onSubmit={handleSubmit(onFileSubmit)}
         className="grid grid-cols-2 grid-rows-1 md:grid-cols-3"
@@ -132,7 +133,7 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
           icon="withIcon"
           weight="semibold"
           className={`rounded-none rounded-tl-md lowercase md:rounded-l-md ${
-            fileName ? 'bg-secondary text-negative' : ''
+            fileName ? 'bg-teal-9 text-white' : ''
           }`}
           style={{ fontVariant: 'small-caps' }}
           onClick={handleButtonClick}
@@ -154,7 +155,7 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
           type="text"
           id="column"
           placeholder="Column name"
-          className="rounded-tr-md border border-secondary bg-transparent px-1 outline-none md:rounded-none md:border-x-0 md:border-y md:border-y-secondary"
+          className="rounded-none rounded-tr-md px-1  outline-none md:rounded-none"
         />
         {isDesktop ? (
           <Dialog>
@@ -172,30 +173,30 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                 Confirm
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-stone-200/90">
+            <DialogContent>
               {csvData.length > 0 ? (
                 <>
                   <DialogHeader>
-                    <DialogTitle className="text-2xl">New users</DialogTitle>
+                    <DialogTitle>New users</DialogTitle>
                   </DialogHeader>
-                  {existingArray.length > 0 && (
+                  {existingUsersArray.length > 0 && (
                     <div className="rounded-md bg-red-600/30 p-2">
                       <p className="pb-2 font-semibold">Already exists</p>
                       <ul className="list-none text-sm italic">
-                        {existingArray &&
-                          existingArray.map((user, index) => (
+                        {existingUsersArray &&
+                          existingUsersArray.map((user, index) => (
                             <li key={index}>{user}</li>
                           ))}
                       </ul>
                     </div>
                   )}
                   <div className="rounded-md bg-green-600/30 p-2">
-                    {newArray.length > 0 ? (
+                    {newUsersArray.length > 0 ? (
                       <>
                         <p className="pb-2 font-semibold">New</p>
                         <ul className="flex list-none flex-col gap-1 text-sm italic">
-                          {newArray &&
-                            newArray.map((user, index) => (
+                          {newUsersArray &&
+                            newUsersArray.map((user, index) => (
                               <li key={index}>{user}</li>
                             ))}
                         </ul>
@@ -208,8 +209,8 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                     <div className="rounded-md bg-neutral-600/30 p-2">
                       <p className="pb-2 font-semibold">Not added</p>
                       <ul className="flex list-none flex-col gap-1 text-sm italic line-through">
-                        {removedArray &&
-                          removedArray.map((user, index) => (
+                        {removedUsersArray &&
+                          removedUsersArray.map((user, index) => (
                             <li key={index}>{user}</li>
                           ))}
                       </ul>
@@ -217,13 +218,15 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                   )}
                   <div className="flex justify-center">
                     <Button
-                      variant={newArray.length === 0 ? 'disabled' : 'primary'}
+                      variant={
+                        newUsersArray.length === 0 ? 'disabled' : 'primary'
+                      }
                       weight="semibold"
                       style={{ fontVariant: 'small-caps' }}
                       className="lowercase"
                       type="button"
                       onClick={onSubmit}
-                      disabled={newArray.length === 0}
+                      disabled={newUsersArray.length === 0}
                     >
                       Submit
                     </Button>
@@ -264,24 +267,24 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                       <DrawerTitle className="text-2xl">New users</DrawerTitle>
                     </DrawerHeader>
                     <div className="flex flex-col gap-2 px-2">
-                      {existingArray.length > 0 && (
+                      {existingUsersArray.length > 0 && (
                         <div className="rounded-md bg-red-600/30 p-2">
                           <p className="pb-2 font-semibold">Already exists</p>
                           <ul className="list-none text-sm italic">
-                            {existingArray &&
-                              existingArray.map((user, index) => (
+                            {existingUsersArray &&
+                              existingUsersArray.map((user, index) => (
                                 <li key={index}>{user}</li>
                               ))}
                           </ul>
                         </div>
                       )}
                       <div className="rounded-md bg-green-600/30 p-2">
-                        {newArray.length > 0 ? (
+                        {newUsersArray.length > 0 ? (
                           <>
                             <p className="pb-2 font-semibold">New</p>
                             <ul className="flex list-none flex-col gap-1 text-sm italic">
-                              {newArray &&
-                                newArray.map((user, index) => (
+                              {newUsersArray &&
+                                newUsersArray.map((user, index) => (
                                   <li key={index}>{user}</li>
                                 ))}
                             </ul>
@@ -294,8 +297,8 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                         <div className="rounded-md bg-neutral-600/30 p-2">
                           <p className="pb-2 font-semibold">Not added</p>
                           <ul className="flex list-none flex-col gap-1 text-sm italic line-through">
-                            {removedArray &&
-                              removedArray.map((user, index) => (
+                            {removedUsersArray &&
+                              removedUsersArray.map((user, index) => (
                                 <li key={index}>{user}</li>
                               ))}
                           </ul>
@@ -304,14 +307,14 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                       <div className="flex justify-center">
                         <Button
                           variant={
-                            newArray.length === 0 ? 'disabled' : 'primary'
+                            newUsersArray.length === 0 ? 'disabled' : 'primary'
                           }
                           weight="semibold"
                           style={{ fontVariant: 'small-caps' }}
                           className="lowercase"
                           type="button"
                           onClick={onSubmit}
-                          disabled={newArray.length === 0}
+                          disabled={newUsersArray.length === 0}
                         >
                           Submit
                         </Button>

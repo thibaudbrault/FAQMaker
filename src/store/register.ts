@@ -1,8 +1,8 @@
-import { atom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 
 import { RegisterInfo } from '@/types';
 
-export const registerAtom = atom<RegisterInfo>({
+export const registerAtom = atomWithStorage<RegisterInfo>('register-data', {
   company: '',
   companyEmail: '',
   domain: null,

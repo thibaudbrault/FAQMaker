@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getToken } from 'next-auth/jwt';
 
-import { getIdSchemaFn } from '@/lib';
+import { createAnswerServerSchema, getUserIdSchema } from '@/lib';
 import prisma from 'lib/prisma';
 
 export default async function handler(
@@ -12,13 +13,12 @@ export default async function handler(
       if (!req.query) {
         return res
           .status(404)
-          .json({ success: false, message: `User not found` });
+          .json({ success: false, error: { message: `User not found` } });
       }
-      const getUserIdSchema = getIdSchemaFn('userId');
       const result = getUserIdSchema.safeParse(req.query);
       if (result.success === false) {
-        const { errors } = result.error;
-        return res.status(400).json({
+        const errors = result.error.formErrors.fieldErrors;
+        return res.status(422).json({
           success: false,
           error: { message: 'Invalid request', errors },
         });
@@ -45,7 +45,9 @@ export default async function handler(
       }
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(404).json({ error: error.message });
+        return res
+          .status(404)
+          .json({ success: false, error: { error: error.message } });
       }
     }
   } else if (req.method === 'POST') {
@@ -53,21 +55,45 @@ export default async function handler(
       if (!req.body) {
         return res
           .status(404)
-          .json({ success: false, message: `Answer not provided` });
+          .json({ success: false, error: { message: `Answer not provided` } });
       }
-      const { text, nodeId, userId } = req.body;
-      await prisma.answer.create({
-        data: {
-          nodeId,
-          userId,
-          text,
-        },
-      });
-      return res.status(201).json({ message: 'Answer created successfully' });
+      const token = await getToken({ req });
+      if (token) {
+        const result = createAnswerServerSchema.safeParse(req.body);
+        if (result.success === false) {
+          const errors = result.error.formErrors.fieldErrors;
+          return res.status(422).json({
+            success: false,
+            error: { message: 'Invalid request', errors },
+          });
+        } else {
+          const { text, nodeId, userId } = result.data;
+          await prisma.answer.create({
+            data: {
+              nodeId,
+              userId,
+              text,
+            },
+          });
+          return res
+            .status(201)
+            .json({ success: true, message: 'Answer created successfully' });
+        }
+      } else {
+        return res
+          .status(401)
+          .json({ success: false, error: { message: 'Not signed in' } });
+      }
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(500).json({ error: error.message });
+        return res
+          .status(500)
+          .json({ success: false, error: { error: error.message } });
       }
     }
+  } else {
+    return res
+      .status(405)
+      .json({ success: false, error: { message: 'Method not allowed' } });
   }
 }

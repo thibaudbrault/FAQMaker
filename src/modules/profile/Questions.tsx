@@ -17,7 +17,7 @@ type Props = {
 
 export const UserQuestions = ({ questions, isPending }: Props) => {
   if (isPending) {
-    return <Loader size="page" />;
+    return <Loader size="items" />;
   }
 
   return (
@@ -32,16 +32,15 @@ export const UserQuestions = ({ questions, isPending }: Props) => {
         <ul className="flex list-none flex-col gap-2">
           {questions?.map((question) => (
             <li
-              className="flex items-center justify-between rounded-md bg-white px-3 py-2 shadow-sm"
+              className="flex items-center justify-between rounded-md px-3 py-2 shadow-sm"
               key={question.id}
             >
               <h3 className="text-xl font-semibold hover:underline md:text-2xl">
                 <Link
                   href={{
-                    pathname: '/question/[slug]',
-                    query: { slug: question.slug, id: question.node.id },
+                    pathname: '/question/[id]',
+                    query: { id: question.node.id },
                   }}
-                  as={`/question/${question.slug}?id=${question.node.id}`}
                 >
                   {question.text}
                 </Link>

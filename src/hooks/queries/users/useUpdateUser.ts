@@ -13,7 +13,7 @@ const updateUser = async (values: Schema, id: string, tenantId: string) => {
     ...values,
     tenantId,
   };
-  const { data } = await axios.put(`${Routes.API.USERS}/${id}`, body);
+  const { data } = await axios.put(`${Routes.API.USERS.INDEX}/${id}`, body);
   return data;
 };
 

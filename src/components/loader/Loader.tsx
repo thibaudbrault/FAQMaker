@@ -5,15 +5,13 @@ import { VariantProps, cva } from 'class-variance-authority';
 import { cn } from '@/utils';
 
 const loader = cva(
-  [
-    'inline-block animate-spin rounded-full border-solid border-current !border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]',
-  ],
+  'inline-block animate-spin rounded-full border-solid border-current !border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]',
   {
     variants: {
       size: {
-        items: ['h-4', 'w-4'],
-        page: ['h-16', 'w-16'],
-        screen: ['h-24', 'w-24'],
+        items: ['h-12 w-12'],
+        page: ['h-24 w-24'],
+        screen: ['h-32 w-32'],
       },
       border: {
         thick: ['border-4'],
@@ -25,7 +23,6 @@ const loader = cva(
     },
   },
 );
-
 export interface LoaderProps
   extends HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof loader> {}
@@ -35,18 +32,20 @@ export const Loader = forwardRef<HTMLDivElement, LoaderProps>(
     return (
       <>
         {size === 'items' ? (
-          <div
-            className={cn(loader({ size, border }), color, className)}
-            {...props}
-            role="status"
-          >
-            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-              Loading...
-            </span>
+          <div className="flex w-full items-center justify-center py-8">
+            <div
+              className={cn(loader({ size, border }), color, className)}
+              {...props}
+              role="status"
+            >
+              <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                Loading...
+              </span>
+            </div>
           </div>
         ) : (
           <div
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
+            className="flex h-screen w-full items-center justify-center"
             ref={ref}
           >
             <div

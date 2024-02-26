@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
-import { AxiosError } from 'axios';
 import { AtSign, UserIcon } from 'lucide-react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -27,7 +26,6 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  errorToast,
 } from '@/components';
 import { useMediaQuery, useUpdateUser } from '@/hooks';
 import { updateUserClientSchema } from '@/lib';
@@ -56,11 +54,9 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
             Modify
           </Button>
         </DialogTrigger>
-        <DialogContent className="bg-stone-200/90">
+        <DialogContent>
           <DialogHeader>
-            <DialogTitle className="font-serif text-2xl">
-              Modify user
-            </DialogTitle>
+            <DialogTitle>Modify user</DialogTitle>
           </DialogHeader>
           <Form user={user} tenantId={tenantId} />
         </DialogContent>
@@ -81,7 +77,7 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
           Modify
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="bg-stone-200/90">
+      <DrawerContent>
         <div className="mb-10 mt-5">
           <DrawerHeader>
             <DrawerTitle className="font-serif text-2xl">
@@ -112,7 +108,7 @@ const Form = ({ user, tenantId }: Props) => {
       role: user.role,
     },
   });
-  const { mutate, isError, error } = useUpdateUser(user.id, tenantId);
+  const { mutate } = useUpdateUser(user.id, tenantId);
 
   const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
@@ -122,31 +118,26 @@ const Form = ({ user, tenantId }: Props) => {
     setDisabled(isSubmitting || !isDirty || !isValid);
   }, [isDirty, isSubmitting, isValid]);
 
-  if (isError && error instanceof AxiosError) {
-    const errorMessage = error.response?.data.message || 'An error occurred';
-    errorToast(errorMessage);
-  }
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col items-center gap-4"
     >
       <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
-        <div className="flex flex-col gap-1 [&_svg]:focus-within:text-secondary">
+        <div className="flex flex-col gap-1">
           <Field label={'Name'} value={'name'} error={errors.name?.message}>
             <Input
-              {...register('name', { required: true })}
+              {...register('name')}
               withIcon
               defaultValue={user.name}
               icon={<UserIcon className="h-5 w-5" />}
               type="name"
               id="name"
               placeholder="Name"
-              className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
             />
           </Field>
         </div>
-        <div className="flex flex-col gap-1 [&_svg]:focus-within:text-secondary">
+        <div className="flex flex-col gap-1">
           <Field label={'Email'} value={'email'} error={errors.email?.message}>
             <Input
               {...register('email', { required: true })}
@@ -156,7 +147,6 @@ const Form = ({ user, tenantId }: Props) => {
               type="email"
               id="email"
               placeholder="Email"
-              className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
             />
           </Field>
         </div>
@@ -175,13 +165,10 @@ const Form = ({ user, tenantId }: Props) => {
               rules={{ required: true }}
               render={({ field: { onChange } }) => (
                 <Select onValueChange={onChange} defaultValue={user.role}>
-                  <SelectTrigger
-                    id="role"
-                    className="bg-white focus:border-secondary focus:ring-0 data-[state=open]:border-secondary"
-                  >
+                  <SelectTrigger id="role">
                     <SelectValue placeholder="Select a role" />
                   </SelectTrigger>
-                  <SelectContent className="bg-stone-200">
+                  <SelectContent>
                     <SelectItem value="user" className="pl-8">
                       User
                     </SelectItem>

@@ -2,7 +2,7 @@ import { MoveRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import { Button, Loader } from '@/components';
+import { Loader } from '@/components';
 import { NodeWithQuestionAndAnswer } from '@/hooks';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
@@ -15,7 +15,7 @@ type Props = {
 
 export const UserAnswers = ({ nodes, isPending }: Props) => {
   if (isPending) {
-    return <Loader size="page" />;
+    return <Loader size="items" />;
   }
 
   return (
@@ -30,21 +30,19 @@ export const UserAnswers = ({ nodes, isPending }: Props) => {
         <ul className="flex list-none flex-col gap-2 ">
           {nodes.map((node, index) => (
             <li
-              className="flex items-center justify-between rounded-md bg-white px-3 py-2 shadow-sm"
+              className="flex items-center justify-between rounded-md px-3 py-2 shadow-sm"
               key={index}
             >
               <MarkdownPreview source={node.answer.text} />
-              <Button variant="secondary" weight="semibold" asChild>
-                <Link
-                  href={{
-                    pathname: '/question/[slug]',
-                    query: { slug: node.question.slug, id: node.id },
-                  }}
-                  as={`/question/${node.question.slug}?id=${node.id}`}
-                >
-                  <MoveRight />
-                </Link>
-              </Button>
+
+              <Link
+                href={{
+                  pathname: '/question/[id]',
+                  query: { id: node.question.id },
+                }}
+              >
+                <MoveRight />
+              </Link>
             </li>
           ))}
         </ul>

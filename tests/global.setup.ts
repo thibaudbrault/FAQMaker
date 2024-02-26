@@ -1,7 +1,8 @@
 import { test as setup } from '@playwright/test';
-import { STORAGE_STATE } from '../playwright.config';
-import prisma from '../lib/prisma';
 import { Tenant, User } from '@prisma/client';
+
+import prisma from '../lib/prisma';
+import { STORAGE_STATE } from '../playwright.config';
 
 const createTenant = async () => {
   const res = await prisma.tenant.create({

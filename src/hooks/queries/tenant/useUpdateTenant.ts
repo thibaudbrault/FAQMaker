@@ -13,7 +13,7 @@ const updateTenant = async (values: Schema, id: string) => {
   const body = {
     ...values,
   };
-  const { data } = await axios.put(`${Routes.API.TENANT}/${id}`, body);
+  const { data } = await axios.put(`${Routes.API.TENANT.INDEX}/${id}`, body);
   return data;
 };
 

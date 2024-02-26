@@ -1,13 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AxiosError } from 'axios';
 import { AtSign, UserIcon } from 'lucide-react';
 import Image from 'next/image';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Field, Input, errorToast } from '@/components';
+import { Button, Field, Input } from '@/components';
 import { useMediaQuery, useUpdateUser } from '@/hooks';
 import { updateUserClientSchema } from '@/lib';
 import { IUserUpdateFields, UserWithTenant } from '@/types';
@@ -35,7 +34,7 @@ export const UpdateProfile = ({ me }: Props) => {
     },
   });
 
-  const { mutate, isError, error } = useUpdateUser(me.id, me.tenantId);
+  const { mutate } = useUpdateUser(me.id, me.tenantId);
 
   const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
@@ -63,11 +62,6 @@ export const UpdateProfile = ({ me }: Props) => {
     setDisabled(isSubmitting || !isDirty || !isValid);
   }, [isDirty, isSubmitting, isValid]);
 
-  if (isError && error instanceof AxiosError) {
-    const errorMessage = error.response?.data.message || 'An error occurred';
-    errorToast(errorMessage);
-  }
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -93,12 +87,9 @@ export const UpdateProfile = ({ me }: Props) => {
         ) : (
           <UserIcon className="row-start-2 h-20 w-20 self-center justify-self-center rounded-md sm:h-32 sm:w-32" />
         )}
-        <ul className="col-span-3 row-start-2 flex list-none list-none flex-col gap-2">
+        <ul className="col-span-3 row-start-2 flex list-none flex-col gap-2">
           {fields.map((field) => (
-            <li
-              key={field.value}
-              className="flex flex-col gap-1 [&_svg]:focus-within:text-secondary"
-            >
+            <li key={field.value} className="flex flex-col gap-1">
               <Field
                 label={field.label}
                 value={field.value}
@@ -112,7 +103,6 @@ export const UpdateProfile = ({ me }: Props) => {
                   type={field.type}
                   id={field.value}
                   placeholder={field.label}
-                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
                 />
               </Field>
             </li>

@@ -1,10 +1,12 @@
-import { AlignJustify, LogOut, Settings, UserIcon, Wallet } from 'lucide-react';
+import { AlignJustify, LogOut, Settings } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
-import { useForm } from 'react-hook-form';
 
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   Button,
   Drawer,
   DrawerContent,
@@ -13,35 +15,35 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components';
-import { useCreateBillingPortal, useMediaQuery, useUser } from '@/hooks';
-import { Routes, cn } from '@/utils';
+import { useMediaQuery, useUser } from '@/hooks';
+import { Routes } from '@/utils';
+
+import { ThemeToggle } from '../theme';
 
 type Props = {
   id: string;
   company: string;
-  tenantId: string;
+  logo: string;
 };
 
-export const Header = ({ id, company, tenantId }: Props) => {
-  const { handleSubmit } = useForm();
+export const Header = ({ id, company, logo }: Props) => {
   const { data: user, isPending } = useUser(id);
   const isDesktop = useMediaQuery('(min-width: 640px)');
 
-  const { mutate } = useCreateBillingPortal(tenantId);
-
-  const onSubmit = () => {
-    mutate();
-  };
-
-  const tooltipClass = 'bg-negative text-negative border border-negative';
-
   return (
-    <header className="flex items-center justify-between bg-negative px-8 py-4 text-negative">
-      <h1>
-        <Link href="/" className="font-serif text-4xl">
-          {company}
-        </Link>
-      </h1>
+    <header className="flex items-center justify-between border-b border-b-gray-6 bg-gray-2 px-4 py-2 text-gray-12 md:px-8 md:py-4">
+      <Link href="/" className="flex items-center gap-2">
+        {logo && (
+          <Image
+            src={logo}
+            alt=""
+            width={50}
+            height={50}
+            className="rounded-md"
+          />
+        )}
+        <h1 className="font-serif text-4xl">{company}</h1>
+      </Link>
       {isDesktop
         ? user && (
             <div className="flex items-end gap-4">
@@ -52,22 +54,15 @@ export const Header = ({ id, company, tenantId }: Props) => {
                       <TooltipTrigger asChild>
                         <Link
                           href="/profile"
-                          className="flex items-center gap-1 hover:text-negativeOffset"
+                          className="flex items-center gap-1 hover:text-gray-11"
                         >
-                          {user.image ? (
-                            <Image
-                              src={user.image}
-                              alt="Profile"
-                              width={24}
-                              height={24}
-                              className="rounded-full"
-                            />
-                          ) : (
-                            <UserIcon />
-                          )}
+                          <Avatar className="h-6 w-6">
+                            <AvatarImage src={user.image} />
+                            <AvatarFallback>{user.email[0]}</AvatarFallback>
+                          </Avatar>
                         </Link>
                       </TooltipTrigger>
-                      <TooltipContent className={cn(tooltipClass)}>
+                      <TooltipContent>
                         <p>Profile</p>
                       </TooltipContent>
                     </Tooltip>
@@ -76,46 +71,28 @@ export const Header = ({ id, company, tenantId }: Props) => {
                     <li>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Link
-                            href="/settings"
-                            className="hover:text-negativeOffset"
-                          >
+                          <Link href="/settings" className="hover:text-gray-11">
                             <Settings />
                           </Link>
                         </TooltipTrigger>
-                        <TooltipContent className={cn(tooltipClass)}>
+                        <TooltipContent>
                           <p>Settings</p>
                         </TooltipContent>
                       </Tooltip>
                     </li>
                   )}
-                  {user?.role === 'tenant' && (
-                    <li>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <form onSubmit={handleSubmit(onSubmit)}>
-                            <button className="hover:text-negativeOffset">
-                              <Wallet />
-                            </button>
-                          </form>
-                        </TooltipTrigger>
-                        <TooltipContent className={cn(tooltipClass)}>
-                          <p>Billing</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </li>
-                  )}
+                  <ThemeToggle />
                   <li>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <button
                           onClick={() => signOut()}
-                          className="hover:text-negativeOffset"
+                          className="hover:text-gray-11"
                         >
                           <LogOut />
                         </button>
                       </TooltipTrigger>
-                      <TooltipContent className={cn(tooltipClass)}>
+                      <TooltipContent>
                         <p>Logout</p>
                       </TooltipContent>
                     </Tooltip>
@@ -136,27 +113,43 @@ export const Header = ({ id, company, tenantId }: Props) => {
             </div>
           )
         : user && (
-            <Drawer>
-              <DrawerTrigger>
-                <AlignJustify />
-              </DrawerTrigger>
-              <DrawerContent>
-                <div className="mb-10 mt-5 flex flex-col items-center gap-2 text-xl font-semibold">
-                  <Link href="/profile">Profile</Link>
-                  {user.role !== 'user' && (
-                    <Link href="/settings">Settings</Link>
-                  )}
-                  {user.role === 'tenant' && (
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                      <button>Billing</button>
-                    </form>
-                  )}
-                  <button onClick={() => signOut()}>Logout</button>
-                  <hr className="mx-auto my-2 h-px w-3/4 border-none bg-negative" />
-                  <Link href={Routes.SITE.QUESTION.NEW}>New Question</Link>
-                </div>
-              </DrawerContent>
-            </Drawer>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <Drawer>
+                <DrawerTrigger>
+                  <AlignJustify />
+                </DrawerTrigger>
+                <DrawerContent>
+                  <div className="mb-10 mt-5 flex flex-col items-center gap-2 text-xl font-semibold">
+                    <Link href="/profile" className="hover:underline">
+                      Profile
+                    </Link>
+                    {user.role !== 'user' && (
+                      <Link href="/settings" className="hover:underline">
+                        Settings
+                      </Link>
+                    )}
+                    <button
+                      onClick={() => signOut()}
+                      className="hover:underline"
+                    >
+                      Logout
+                    </button>
+                    <hr className="mx-auto my-2 h-px w-3/4 border-none bg-gray-6" />
+                    <Button
+                      variant="primary"
+                      size="medium"
+                      weight="semibold"
+                      font="large"
+                      className="lowercase"
+                      style={{ fontVariant: 'small-caps' }}
+                    >
+                      <Link href={Routes.SITE.QUESTION.NEW}>New Question</Link>
+                    </Button>
+                  </div>
+                </DrawerContent>
+              </Drawer>
+            </div>
           )}
     </header>
   );

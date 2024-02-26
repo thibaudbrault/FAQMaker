@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Integrations as IntegrationsType, Tenant } from '@prisma/client';
-import { AxiosError } from 'axios';
+import { Integrations as IntegrationsType } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Field, Input, Loader, errorToast } from '@/components';
+import { Button, Field, Input, Loader } from '@/components';
 import { useIntegration, useUpsertIntegrations } from '@/hooks';
 import { integrationsClientSchema } from '@/lib';
 import { IIntegrations } from '@/types';
@@ -33,7 +32,7 @@ export const Integrations = ({ tenantId }: Props) => {
     },
   });
 
-  const { mutate, isError, error } = useUpsertIntegrations(tenantId);
+  const { mutate } = useUpsertIntegrations(tenantId);
 
   const onSubmit = (values: IntegrationsType) => {
     mutate(values);
@@ -58,11 +57,6 @@ export const Integrations = ({ tenantId }: Props) => {
     return <Loader size="items" />;
   }
 
-  if (isError && error instanceof AxiosError) {
-    const errorMessage = error.response?.data.message || 'An error occurred';
-    errorToast(errorMessage);
-  }
-
   return (
     <div className="flex flex-col gap-4">
       <h2
@@ -77,10 +71,7 @@ export const Integrations = ({ tenantId }: Props) => {
       >
         <fieldset className="mx-auto flex w-11/12 gap-2">
           {fields.map((field) => (
-            <div
-              key={field.value}
-              className="flex flex-1 flex-col [&_svg]:focus-within:text-secondary"
-            >
+            <div key={field.value} className="flex flex-1 flex-col">
               <Field
                 label={field.label}
                 value={field.value}
@@ -91,7 +82,6 @@ export const Integrations = ({ tenantId }: Props) => {
                   type={field.type}
                   id={field.value}
                   placeholder="https://hooks.slack.com/services/"
-                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
                 />
               </Field>
             </div>

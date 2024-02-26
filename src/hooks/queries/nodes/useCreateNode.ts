@@ -19,12 +19,12 @@ const createNode = async (
 ) => {
   const body = {
     ...values,
-    slug: slugify(values.text),
+    slug: slugify(values.text).toLowerCase(),
     tenantId: me.tenantId,
     userId: me.id,
     tags: selectedTags,
   };
-  const { data } = await axios.post(Routes.API.NODES, body);
+  const { data } = await axios.post(Routes.API.NODES.INDEX, body);
   if (integrations) {
     if (integrations.slack) {
       try {

@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AxiosError } from 'axios';
 import { useAtom } from 'jotai';
 import { MoveLeft } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Loader, errorToast } from '@/components';
+import { Button } from '@/components';
 import { useCreateCustomer, useCreateTenant } from '@/hooks';
 import { AuthLayout } from '@/layouts';
 import { registerCompleteClientSchema } from '@/lib';
 import { registerAtom } from '@/store';
-import { Routes, cn } from '@/utils';
+import { Routes } from '@/utils';
 
 type Schema = z.infer<typeof registerCompleteClientSchema>;
 
@@ -29,8 +28,13 @@ function Confirm() {
     defaultValues: state,
   });
 
-  const { data: customerId, mutateAsync: mutateCustomer, isSuccess: customerIsSuccess } = useCreateCustomer();
-  const { mutateAsync: mutateTenant, isSuccess: tenantIsSuccess } = useCreateTenant(router);
+  const {
+    data: customerId,
+    mutateAsync: mutateCustomer,
+    isSuccess: customerIsSuccess,
+  } = useCreateCustomer();
+  const { mutateAsync: mutateTenant, isSuccess: tenantIsSuccess } =
+    useCreateTenant();
 
   const onSubmit: SubmitHandler<Schema> = async (values) => {
     try {
@@ -54,7 +58,7 @@ function Confirm() {
   }, [isValid, isSubmitting]);
 
   return (
-    <AuthLayout hasBackground>
+    <AuthLayout hasBackground currentStep={3}>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex w-full flex-col gap-4"
@@ -67,7 +71,7 @@ function Confirm() {
             >
               Confirm
             </legend>
-            <p className="text-sm text-offset">Confirm the information</p>
+            <p className="text-sm text-gray-11">Confirm the information</p>
           </div>
           <div>
             <p className="mb-2 text-xl font-bold">Company</p>

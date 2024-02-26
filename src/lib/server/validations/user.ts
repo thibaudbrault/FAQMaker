@@ -1,53 +1,36 @@
 import { z } from 'zod';
 
-const passwordMin = 6;
-const passwordMax = 20;
+const ROLE = ['user', 'admin', 'tenant'] as const;
 
-const ROLE = ['user', 'admin'] as const;
-
-export const userLoginSchema = z.object({
-  email: z.string().email().nonempty(),
-  password: z.string().min(passwordMin).max(passwordMax).nonempty(),
+export const createUserServerSchema = z.object({
+  email: z.string().trim().email({ message: 'Invalid email' }).optional(),
+  name: z.string().trim().optional(),
+  role: z.enum(ROLE).optional(),
+  newUsersArray: z.array(z.string().email()).optional(),
+  tenantId: z.string().cuid2(),
 });
 
-export type LoginCredentials = z.infer<typeof userLoginSchema>;
-
-export const userGetSchema = z
-  .object({
-    id: z.string().cuid2(),
-    createdAt: z.string().datetime(),
-    firstName: z.string(),
-    lastName: z.string(),
-    email: z.string().email(),
-    password: z.string(),
-    role: z.enum(['user', 'admin']),
+export const updateUserServerSchema = z.object({
+  body: z.object({
     tenantId: z.string().cuid2(),
-  })
-  .refine((data) => data.id, 'Id should be specified.');
-
-export const userCreateSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(passwordMin).max(passwordMax),
-  firstName: z.string(),
-  lastName: z.string(),
-  role: z.enum(ROLE),
+    email: z
+      .string()
+      .trim()
+      .min(1, { message: 'User email is required' })
+      .email({ message: 'Invalid email' }),
+    name: z.string().trim().optional(),
+    role: z.enum(ROLE),
+  }),
+  query: z.object({
+    id: z.string().cuid2(),
+  }),
 });
 
-export const userUpdateSchema = z
-  .object({
-    password: z
-      .string()
-      .min(passwordMin)
-      .max(passwordMax)
-      .optional()
-      .or(z.literal('')),
-    confirmPassword: z.string().optional().or(z.literal('')),
-    name: z.string().optional().or(z.literal('')),
-    firstName: z.string().optional().or(z.literal('')),
-    lastName: z.string().optional().or(z.literal('')),
-    role: z.enum(ROLE).optional().or(z.literal('')),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match.",
-    path: ['confirmPassword'],
-  });
+export const deleteUserServerSchema = z.object({
+  body: z.object({
+    tenantId: z.string().cuid2(),
+  }),
+  query: z.object({
+    id: z.string().cuid2(),
+  }),
+});

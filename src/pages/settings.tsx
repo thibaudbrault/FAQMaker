@@ -16,7 +16,7 @@ import {
   getUsersCount,
   ssrNcHandler,
 } from '@/lib';
-import { General, Tags, Users } from '@/modules';
+import { General, Payment, Tags, Users } from '@/modules';
 import { UserWithTenant } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
 
@@ -45,11 +45,13 @@ function Settings({ me }: Props) {
     [],
   );
 
-  const tabStyle =
-    'data-[state=active]:bg-negative data-[state=active]:text-negative text-xl lowercase font-semibold';
-
   return (
-    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
+    <PageLayout
+      id={me.id}
+      company={me.tenant.company}
+      logo={me.tenant.logo}
+      tenantId={me.tenantId}
+    >
       <section className="mx-auto flex w-11/12 flex-col items-center pb-12 md:w-3/4">
         <h2
           className="font-serif text-5xl lowercase md:text-6xl"
@@ -58,17 +60,24 @@ function Settings({ me }: Props) {
           Settings
         </h2>
         <Tabs defaultValue="general" className="mt-6 w-full">
-          <TabsList className="mb-4 w-full">
+          <TabsList className="mx-auto mb-4 w-full justify-center overflow-x-scroll sm:w-fit md:overflow-x-hidden">
             {tabs.map((tab, index) => (
               <TabsTrigger
                 key={index}
                 value={tab.value}
-                className={tabStyle}
                 style={{ fontVariant: 'small-caps' }}
               >
                 {tab.label}
               </TabsTrigger>
             ))}
+            {me.role === 'tenant' && (
+              <TabsTrigger
+                value="payment"
+                style={{ fontVariant: 'small-caps' }}
+              >
+                Payment
+              </TabsTrigger>
+            )}
           </TabsList>
           <TabsContent value="general" className="flex flex-col gap-4">
             <General
@@ -78,10 +87,13 @@ function Settings({ me }: Props) {
             />
           </TabsContent>
           <TabsContent value="tags">
-            <Tags tenantId={me.tenantId} />
+            <Tags tenantId={me.tenantId} plan={tenant.plan} />
           </TabsContent>
           <TabsContent value="users">
             <Users userId={me.id} tenantId={me.tenantId} plan={tenant.plan} />
+          </TabsContent>
+          <TabsContent value="payment" className="flex flex-col gap-4">
+            <Payment tenantId={me.tenantId} company={tenant.company} />
           </TabsContent>
         </Tabs>
       </section>

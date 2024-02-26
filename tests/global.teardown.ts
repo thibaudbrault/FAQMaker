@@ -1,6 +1,7 @@
 import { test as teardown } from '@playwright/test';
-import prisma from '../lib/prisma';
 import { Tenant, User } from '@prisma/client';
+
+import prisma from '../lib/prisma';
 
 const getTenant = async () => {
   const res = await prisma.tenant.findUnique({

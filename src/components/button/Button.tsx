@@ -5,39 +5,30 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/utils';
 
-const button = cva('button', {
+const button = cva('transition-all duration-300', {
   variants: {
     variant: {
-      primary: ['bg-negative', 'text-negative', 'hover:bg-negativeOffset'],
-      negative: [
-        'bg-default',
-        'text-default',
-        'border',
-        'border-default',
-        'transition-all',
-        'duration-300',
-        'hover:bg-offset',
+      primary: [
+        'bg-teal-9 hover:bg-teal-10 text-white shadow-sm shadow-transparent',
       ],
       ghost: [
-        'bg-default',
-        'text-default',
-        'transition-all',
-        'duration-300',
-        'hover:bg-offset',
+        'bg-gray-3 hover:bg-gray-4 shadow-sm shadow-grayA-8 text-gray-12',
       ],
       secondary: [
-        'bg-transparent',
-        'text-secondary',
-        'border',
-        'border-secondary',
+        'bg-transparent text-tealA-11 shadow shadow-sm shadow-tealA-7 hover:shadow-tealA-8',
       ],
-      disabled: ['bg-disabled', 'text-negative', 'border-transparent'],
-    },
-    border: {
-      primary: ['border-secondary'],
+      disabled: [
+        'bg-teal-surfaceLight dark:bg-teal-surfaceDark shadow-sm text-tealA-11 shadow-tealA-7 hover:shadow-tealA-8',
+      ],
+      disabledDestructive: [
+        'bg-red-surfaceLight dark:bg-red-surfaceDark shadow-sm text-redA-11 shadow-redA-7 hover:shadow-redA-8',
+      ],
+      destructive: [
+        'bg-red-9 hover:bg-red-10 text-white shadow-sm shadow-transparent',
+      ],
     },
     icon: {
-      withIcon: ['flex', 'justify-center', 'items-end', 'gap-2'],
+      withIcon: ['flex justify-center items-center gap-1'],
     },
     font: {
       small: ['text-sm'],
@@ -55,9 +46,10 @@ const button = cva('button', {
       semibold: ['font-semibold'],
     },
     size: {
-      small: ['py-1', 'px-2', 'w-fit'],
-      medium: ['py-2', 'px-4', 'w-fit'],
-      full: ['py-2', 'w-full'],
+      small: ['py-1 px-2 w-fit'],
+      medium: ['py-2 px-4 w-fit'],
+      full: ['py-2 w-full'],
+      icon: ['h-6 w-6'],
     },
   },
   defaultVariants: {
@@ -79,7 +71,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       asChild = false,
       variant,
-      border,
       icon,
       font,
       rounded,
@@ -95,7 +86,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           button({
             variant,
-            border,
             font,
             icon,
             weight,

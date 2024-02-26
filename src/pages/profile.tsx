@@ -30,7 +30,12 @@ function Profile({ me }: Props) {
   ];
 
   return (
-    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
+    <PageLayout
+      id={me.id}
+      company={me.tenant.company}
+      logo={me.tenant.logo}
+      tenantId={me.tenantId}
+    >
       <div className="flex flex-col gap-4">
         {sections.map((section, index) => (
           <Section key={index}>{section.component}</Section>
@@ -43,7 +48,7 @@ function Profile({ me }: Props) {
 export default Profile;
 
 const Section = ({ children }) => (
-  <section className="mx-auto flex w-11/12 flex-col gap-4 rounded-md bg-default p-4 md:w-3/4">
+  <section className="mx-auto flex w-11/12 flex-col gap-4 rounded-md bg-gray-3 p-4 md:w-3/4">
     {children}
   </section>
 );

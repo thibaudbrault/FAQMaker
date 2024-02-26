@@ -2,9 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+@import '@radix-ui/colors/teal';
+@import '@radix-ui/colors/teal-alpha';
+@import '@radix-ui/colors/teal-dark';
+@import '@radix-ui/colors/teal-dark-alpha';
+
+@import '@radix-ui/colors/gray';
+@import '@radix-ui/colors/gray-alpha';
+@import '@radix-ui/colors/gray-dark';
+@import '@radix-ui/colors/gray-dark-alpha';
+
+@import '@radix-ui/colors/red';
+@import '@radix-ui/colors/red-alpha';
+@import '@radix-ui/colors/red-dark';
+@import '@radix-ui/colors/red-dark-alpha';
+
+td,
+th {
+  @apply border border-gray-7 p-1;
+}
+
 @layer base {
   html {
     font-family: Inter, sans-serif;
+    text-rendering: optimizeLegibility;
   }
 
   ul,
@@ -23,22 +44,4 @@
   summary > svg {
     transition: 0.3s ease-in-out;
   }
-}
-
-:root {
-  --color-text: theme('colors.neutral.900');
-  --color-text-offset: theme('colors.neutral.600');
-  --color-text-secondary: theme('colors.teal.700');
-  --color-text-negative: theme('colors.neutral.100');
-  --color-text-negative-offset: theme('colors.neutral.300');
-  --color-background: theme('colors.neutral.100');
-  --color-background-offset: theme('colors.neutral.200');
-  --color-background-secondary: theme('colors.teal.700');
-  --color-background-negative: theme('colors.neutral.900');
-  --color-background-negative-offset: theme('colors.neutral.800');
-  --color-background-disabled: theme('colors.neutral.600');
-  --color-border: theme('colors.neutral.900');
-  --color-border-ghost: theme('colors.neutral.900' / 10%);
-  --color-border-secondary: theme('colors.teal.700');
-  --color-border-negative: theme('colors.neutral.100');
 }

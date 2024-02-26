@@ -1,4 +1,3 @@
-import { buffer } from 'micro';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Stripe } from 'stripe';
 
@@ -10,6 +9,14 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 });
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 const STRIPE_SIGNATURE_HEADER = 'stripe-signature';
+
+async function buffer(readable) {
+  const chunks = [];
+  for await (const chunk of readable) {
+    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
+  }
+  return Buffer.concat(chunks);
+}
 
 export const config = {
   api: {
@@ -29,6 +36,7 @@ export default async function handler(
   try {
     event = stripe.webhooks.constructEvent(body, signature!, webhookSecret);
   } catch (error) {
+    console.error(`Webhook signature verification failed.`, error.message);
     return res.status(500).json({ error: error.message });
   }
 
@@ -37,6 +45,7 @@ export default async function handler(
     'payment_intent.succeeded',
     'payment_intent.payment_failed',
     'customer.subscription.updated',
+    'customer.updated',
   ];
 
   if (permittedEvents.includes(event.type)) {
@@ -48,10 +57,17 @@ export default async function handler(
           const session = event.data.object as Stripe.Checkout.Session;
           const subscriptionId = session.subscription as string;
           const email = session.customer_details?.email;
+          let checkoutPlan: IPlan['value'] = 'free';
+          if (session.amount_total === 1900) {
+            checkoutPlan = 'startup';
+          } else if (session.amount_total === 2900) {
+            checkoutPlan = 'enterprise';
+          }
           await prisma.tenant.update({
             where: { email },
             data: {
               subscriptionId,
+              plan: checkoutPlan,
             },
           });
           break;
@@ -71,6 +87,16 @@ export default async function handler(
             },
           });
           break;
+        case 'customer.updated':
+          const customer = event.data.object as Stripe.Customer;
+          const customerId = customer.id;
+          await prisma.tenant.update({
+            where: { customerId },
+            data: {
+              company: customer.name,
+              email: customer.email,
+            },
+          });
         case 'payment_intent.payment_failed':
           data = event.data.object as Stripe.PaymentIntent;
           console.log(`❌ Payment failed: ${data.last_payment_error?.message}`);
@@ -78,12 +104,6 @@ export default async function handler(
         case 'payment_intent.succeeded':
           const payment = event.data.object as Stripe.PaymentIntent;
           const paymentCustomer = payment.customer as string;
-          let paymentPlan: IPlan['value'] = 'free';
-          if (payment.amount === 2900) {
-            paymentPlan = 'startup';
-          } else if (payment.amount === 4900) {
-            paymentPlan = 'enterprise';
-          }
           let isActive: boolean = false;
           if (payment.status === 'succeeded') {
             isActive = true;
@@ -91,7 +111,6 @@ export default async function handler(
           await prisma.tenant.update({
             where: { customerId: paymentCustomer },
             data: {
-              plan: paymentPlan,
               isActive,
             },
           });

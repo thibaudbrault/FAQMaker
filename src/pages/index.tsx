@@ -44,11 +44,10 @@ function Home({ me }: Props) {
     me.tenantId,
     searchQuery,
   );
-  const { data: filteredTags, isLoading: isTagsLoading } = useSearchTags(
+  const { data: filteredTags } = useSearchTags(me.tenantId, searchTag);
+  const { data: nodesCount, isPending: isNodesCountLoading } = useNodesCount(
     me.tenantId,
-    searchTag,
   );
-  const { data: nodesCount } = useNodesCount(me.tenantId);
   const { data: tags } = useTags(me.tenantId);
 
   if (searchQuery) {
@@ -70,15 +69,21 @@ function Home({ me }: Props) {
   }
 
   useEffect(() => {
-    setIsLoading(isPending || isSearchLoading);
-  }, [isPending, isSearchLoading]);
+    setIsLoading(isPending || isSearchLoading || isNodesCountLoading);
+  }, [isPending, isSearchLoading, isNodesCountLoading]);
 
   return (
-    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
+    <PageLayout
+      id={me.id}
+      company={me.tenant.company}
+      logo={me.tenant.logo}
+      tenantId={me.tenantId}
+    >
       <Search
         tags={tags}
         setSearchQuery={setSearchQuery}
         setSearchTag={setSearchTag}
+        setPage={setPage}
       />
       <List
         nodes={nodes}
@@ -87,7 +92,7 @@ function Home({ me }: Props) {
         error={error}
         message={message}
       />
-      {nodesCount > OFFSET && (
+      {nodesCount > OFFSET && (nodes.length === OFFSET || page !== 0) && (
         <Pagination nodesLength={nodesCount} setPage={setPage} />
       )}
     </PageLayout>

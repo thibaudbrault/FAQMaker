@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AxiosError } from 'axios';
 import { AtSign, PlusCircle } from 'lucide-react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -26,7 +25,6 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  errorToast,
 } from '@/components';
 import { useCreateUser, useMediaQuery } from '@/hooks';
 import { createUserClientSchema } from '@/lib';
@@ -57,9 +55,9 @@ export const CreateUser = ({ tenantId }: Props) => {
             New user
           </Button>
         </DialogTrigger>
-        <DialogContent className="bg-stone-200/90">
+        <DialogContent>
           <DialogHeader>
-            <DialogTitle className="text-2xl">New user</DialogTitle>
+            <DialogTitle>New user</DialogTitle>
           </DialogHeader>
           <Form tenantId={tenantId} />
         </DialogContent>
@@ -113,7 +111,7 @@ const Form = ({ tenantId }: Props) => {
     },
   });
 
-  const { mutate, isError, error } = useCreateUser(tenantId, reset);
+  const { mutate } = useCreateUser(tenantId, reset);
 
   const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
@@ -122,11 +120,6 @@ const Form = ({ tenantId }: Props) => {
   useEffect(() => {
     setDisabled(isSubmitting || !isValid);
   }, [isSubmitting, isValid]);
-
-  if (isError && error instanceof AxiosError) {
-    const errorMessage = error.response?.data.message || 'An error occurred';
-    errorToast(errorMessage);
-  }
 
   return (
     <form
@@ -142,7 +135,6 @@ const Form = ({ tenantId }: Props) => {
             type="email"
             id="email"
             placeholder="Email"
-            className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
           />
         </Field>
         <div className="flex flex-col gap-1">
@@ -159,13 +151,10 @@ const Form = ({ tenantId }: Props) => {
             rules={{ required: true }}
             render={({ field: { onChange } }) => (
               <Select defaultValue="user" onValueChange={onChange}>
-                <SelectTrigger
-                  id="role"
-                  className="bg-white focus:border-secondary focus:ring-0 data-[state=open]:border-secondary"
-                >
+                <SelectTrigger id="role">
                   <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
-                <SelectContent className="bg-stone-200">
+                <SelectContent>
                   <SelectItem value="user" className="pl-8">
                     User
                   </SelectItem>

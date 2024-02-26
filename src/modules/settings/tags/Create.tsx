@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Tag } from '@prisma/client';
-import { AxiosError } from 'axios';
 import { PlusCircle, Tag as TagIcon } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -21,7 +19,6 @@ import {
   DrawerTrigger,
   Field,
   Input,
-  errorToast,
 } from '@/components';
 import { useCreateTag, useMediaQuery } from '@/hooks';
 import { createTagClientSchema } from '@/lib';
@@ -52,9 +49,9 @@ export const CreateTag = ({ tenantId }: Props) => {
             New tag
           </Button>
         </DialogTrigger>
-        <DialogContent className="bg-stone-200/90">
+        <DialogContent>
           <DialogHeader>
-            <DialogTitle className="text-2xl">New tag</DialogTitle>
+            <DialogTitle>New tag</DialogTitle>
           </DialogHeader>
           <Form tenantId={tenantId} />
         </DialogContent>
@@ -116,16 +113,12 @@ const Form = ({ tenantId }: Props) => {
     setDisabled(isSubmitting || !isValid);
   }, [isSubmitting, isValid]);
 
-  if (isError && error instanceof AxiosError) {
-    const errorMessage = error.response?.data.message || 'An error occurred';
-    errorToast(errorMessage);
-  }
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col items-center gap-2"
     >
-      <fieldset className="mx-auto flex w-11/12 flex-col gap-1 [&_svg]:focus-within:text-secondary">
+      <fieldset className="mx-auto flex w-11/12 flex-col gap-1">
         <Field label="Label" value="label" error={errors.label?.message}>
           <Input
             {...register('label')}
@@ -134,7 +127,6 @@ const Form = ({ tenantId }: Props) => {
             type="label"
             id="label"
             placeholder="Tag label"
-            className="w-full rounded-md border border-transparent py-1 outline-none focus:border-secondary"
           />
         </Field>
       </fieldset>

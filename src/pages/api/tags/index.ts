@@ -1,3 +1,6 @@
+import { getToken } from 'next-auth/jwt';
+
+import { getTenantIdSchema, createTagServerSchema, getTagsCount } from '@/lib';
 import prisma from 'lib/prisma';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -11,16 +14,25 @@ export default async function handler(
       if (!req.query) {
         return res
           .status(404)
-          .json({ success: false, message: `Tenant not found` });
+          .json({ success: false, error: { message: `Tenant not found` } });
       }
-      const { tenantId } = req.query;
-      const tags = await prisma.tag.findMany({
-        where: { tenantId: tenantId as string },
-      });
-      return res.status(200).json(tags);
+      const result = getTenantIdSchema.safeParse(req.query);
+      if (result.success === false) {
+        const errors = result.error.formErrors.fieldErrors;
+        return res.status(422).json({
+          success: false,
+          error: { message: 'Invalid request', errors },
+        });
+      } else {
+        const { tenantId } = result.data;
+        const tags = await prisma.tag.findMany({
+          where: { tenantId: tenantId as string },
+        });
+        return res.status(200).json(tags);
+      }
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(400).json({ error: error.message });
+        return res.status(400).json({ success: false, error: error.message });
       }
     }
   } else if (req.method === 'POST') {
@@ -28,20 +40,62 @@ export default async function handler(
       if (!req.body) {
         return res
           .status(404)
-          .json({ success: false, message: `Label not provided` });
+          .json({ success: false, error: { message: `Label not provided` } });
       }
-      const { label, tenantId } = req.body;
-      await prisma.tag.create({
-        data: {
-          label,
-          tenantId,
-        },
-      });
-      return res.status(201).json({ message: 'Tag created successfully' });
+      const token = await getToken({ req });
+      if (token) {
+        const result = createTagServerSchema.safeParse(req.body);
+        if (result.success === false) {
+          const errors = result.error.formErrors.fieldErrors;
+          return res.status(422).json({
+            success: false,
+            error: { message: 'Invalid request', errors },
+          });
+        } else {
+          const { label, tenantId } = result.data;
+          const tagsCount = await getTagsCount(tenantId);
+          if (typeof tagsCount !== 'number') {
+            return res.status(404).json({
+              success: false,
+              error: { message: 'Could not find the number of tags' },
+            });
+          }
+          const { plan } = await prisma.tenant.findUnique({
+            where: { id: tenantId },
+            select: { plan: true },
+          });
+          if (
+            (plan === 'free' && tagsCount >= 3) ||
+            (plan === 'startup' && tagsCount >= 10)
+          ) {
+            return res.status(402).json({
+              success: false,
+              error: { message: 'You reached the maximum number of tags.' },
+            });
+          }
+          await prisma.tag.create({
+            data: {
+              label,
+              tenantId,
+            },
+          });
+          return res
+            .status(201)
+            .json({ success: true, message: 'Tag created successfully' });
+        }
+      } else {
+        return res
+          .status(401)
+          .json({ success: false, error: { message: 'Not signed in' } });
+      }
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(500).json({ error: error.message });
+        return res.status(500).json({ success: false, error: error.message });
       }
     }
+  } else {
+    return res
+      .status(405)
+      .json({ success: false, error: { message: 'Method not allowed' } });
   }
 }

@@ -11,7 +11,7 @@ export const getMe = async (params: GetSessionParams): Promise<User | null> => {
 
   const me = await prisma.user.findUnique({
     where: { id },
-    include: { tenant: { select: { company: true } } },
+    include: { tenant: { select: { company: true, logo: true } } },
   });
 
   if (!me) return null;
@@ -24,7 +24,7 @@ export const getUsersCount = async (tenantId: string) => {
     where: { tenantId },
   });
 
-  if (!users) return null;
+  if (!users) return 0;
 
   return users;
 };

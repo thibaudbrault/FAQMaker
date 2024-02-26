@@ -6,24 +6,25 @@ import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Field, Input, Loader } from '@/components';
+import { Button, Field, Input } from '@/components';
 import { useUpdateTenant } from '@/hooks';
 import { updateTenantClientSchema } from '@/lib';
 import { ITenantUpdateFields } from '@/types';
 
 type Props = {
   tenant: Tenant;
-  isPending: boolean;
 };
 
 type Schema = z.infer<typeof updateTenantClientSchema>;
 
-export const Company = ({ tenant, isPending }: Props) => {
+export const Company = ({ tenant }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const router = useRouter();
   const {
     register,
     handleSubmit,
+    watch,
+    reset,
     formState: { isSubmitting, isDirty, isValid, errors },
   } = useForm<Schema>({
     resolver: zodResolver(updateTenantClientSchema),
@@ -31,9 +32,10 @@ export const Company = ({ tenant, isPending }: Props) => {
     defaultValues: {
       company: tenant.company,
       email: tenant.email,
-      domain: tenant.domain
+      domain: tenant.domain,
     },
   });
+  const domainValue = watch('domain');
 
   const { mutate } = useUpdateTenant(tenant.id, router);
 
@@ -56,19 +58,22 @@ export const Company = ({ tenant, isPending }: Props) => {
       {
         label: 'Domain',
         value: 'domain',
-        type: 'text'
-      }
+        type: 'text',
+      },
     ],
     [],
   );
 
   useEffect(() => {
+    if (domainValue === '') {
+      reset({
+        domain: tenant.domain,
+      });
+    }
     setDisabled(isSubmitting || !isDirty || !isValid);
-  }, [isDirty, isSubmitting, isValid]);
 
-  if (isPending) {
-    return <Loader size="items" />;
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDirty, isSubmitting, isValid, domainValue]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -82,24 +87,19 @@ export const Company = ({ tenant, isPending }: Props) => {
         className="flex flex-col items-center gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <fieldset className="w-full flex flex-col gap-2 md:flex-row">
+        <fieldset className="flex w-full flex-col gap-2 md:flex-row">
           {fields.map((field) => (
-            <div
-              key={field.value}
-              className="flex flex-1 flex-col [&_svg]:focus-within:text-secondary"
-            >
+            <div key={field.value} className="flex flex-1 flex-col">
               <Field
                 label={field.label}
                 value={field.value}
                 error={errors[field.value]?.message}
               >
                 <Input
-                  {...register(field.value, { required: true })}
-                  defaultValue={tenant[field.value]}
+                  {...register(field.value)}
                   type={field.type}
                   id={field.value}
                   placeholder={field.label}
-                  className="w-full rounded-md border border-transparent p-1 outline-none focus:border-secondary"
                 />
               </Field>
             </div>

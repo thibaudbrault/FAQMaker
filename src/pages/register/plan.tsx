@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react';
 
-import { useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
+import { RESET } from 'jotai/utils';
 import { Check, Minus, MoveRight, Wallet } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
@@ -13,7 +14,7 @@ import { IPlan } from '@/types';
 import { Routes } from '@/utils';
 
 function Plan() {
-  const state = useAtomValue(registerAtom);
+  const [state, setState] = useAtom(registerAtom);
 
   const { handleSubmit } = useForm();
   const router = useRouter();
@@ -23,7 +24,8 @@ function Plan() {
 
   const saveData = (value: IPlan['value'], lookup_key: string) => {
     if (value === 'free') {
-      return router.push(Routes.SITE.LOGIN);
+      setState(RESET);
+      router.push(Routes.SITE.LOGIN);
     } else {
       return mutate(lookup_key);
     }
@@ -37,8 +39,8 @@ function Plan() {
         price: 0,
         lookup_key: 'free_monthly',
         message: 'Perfect to try out',
-        benefits: ['5 users', 'Unlimited questions'],
-        drawbacks: ['Slack integration', 'Theme personalization'],
+        benefits: ['5 users', '3 tags', 'Unlimited questions'],
+        drawbacks: ['Slack integration'],
       },
       {
         label: 'Startup',
@@ -48,9 +50,9 @@ function Plan() {
         message: 'Perfect for startups',
         benefits: [
           '100 users',
+          '10 tags',
           'Unlimited questions',
           'Slack integration',
-          'Theme personalization',
         ],
       },
       {
@@ -61,9 +63,9 @@ function Plan() {
         message: 'Perfect for big companies',
         benefits: [
           'Unlimited users',
+          'Unlimited tags',
           'Unlimited questions',
           'Slack integration',
-          'Theme personalization',
         ],
       },
     ],
@@ -73,6 +75,7 @@ function Plan() {
   useEffect(() => {
     if (status === 'success') {
       successToast('Payment successful');
+      setState(RESET);
       router.push(Routes.SITE.LOGIN);
     } else if (status === 'cancel') {
       errorToast('Payment unsuccessful');
@@ -82,18 +85,16 @@ function Plan() {
   }, [status, router.isReady]);
 
   return (
-    <AuthLayout>
-      <div className="flex min-h-screen w-full flex-col items-center justify-center gap-8 rounded-md p-8">
+    <AuthLayout noStepper>
+      <div className="flex w-full flex-col items-center justify-center gap-8 rounded-md p-8">
         <div className="mb-4 flex w-full flex-col gap-2 text-center">
           <h2
-            className="font-serif text-5xl font-bold lowercase text-negative"
+            className="font-serif text-5xl font-bold lowercase text-gray-12"
             style={{ fontVariant: 'small-caps' }}
           >
             Plan
           </h2>
-          <p className="text-sm text-negativeOffset">
-            Choose the right plan for you
-          </p>
+          <p className="text-sm text-gray-12">Choose the right plan for you</p>
         </div>
         <section className="grid grid-cols-1 justify-evenly gap-8 md:grid-cols-2 lg:grid-cols-3">
           {plans.map((plan, index) => (
@@ -102,69 +103,68 @@ function Plan() {
                 saveData(plan.value, plan.lookup_key),
               )}
               key={index}
-              className="w-full transform overflow-hidden rounded-md bg-default p-4 text-center transition duration-200 ease-in hover:scale-[1.02] hover:shadow-2xl"
+              className="w-full overflow-hidden rounded-md bg-grayA-3 p-4 text-center text-gray-12 shadow-sm shadow-tealA-7 transition-all duration-300 hover:shadow-tealA-8"
             >
-              <div className="w-full border-b border-black py-4">
-                <h2 className="text-xl uppercase">{plan.label}</h2>
-                <h3 className="mt-2 text-4xl font-bold">
-                  ${plan.price}/<sub className="text-xs">mo</sub>
+              <div>
+                <h3 className="text-sm font-semibold uppercase text-tealA-11">
+                  {plan.label}
                 </h3>
+                <p className="mt-2 text-4xl font-bold">
+                  ${plan.price}/<sub className="text-xs">mo</sub>
+                </p>
               </div>
-              <div className="">
-                <div className="my-5">
-                  <p className="pt-2 text-sm font-bold text-secondary">
-                    {plan.message}
-                  </p>
-                </div>
-                <div className="mb-10 text-lg">
-                  <ul className="list-none text-right">
-                    {plan.benefits.map((benefit, index) => (
-                      <li key={index} className="flex gap-2">
-                        <Check className="text-secondary" />
-                        <p>{benefit}</p>
-                      </li>
-                    ))}
-                    {plan.drawbacks?.map((drawback, index) => (
-                      <li
-                        key={index}
-                        className="flex gap-2 text-offset opacity-70"
-                      >
-                        <Minus className="text-offset" />
-                        <p>{drawback}</p>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-10 w-full">
-                    {plan.value === 'free' ? (
-                      <Button
-                        variant="primary"
-                        size="full"
-                        icon="withIcon"
-                        font="large"
-                        weight="bold"
-                        className="lowercase"
-                        style={{ fontVariant: 'small-caps' }}
-                        type="submit"
-                      >
-                        Next
-                        <MoveRight />
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="primary"
-                        size="full"
-                        icon="withIcon"
-                        font="large"
-                        weight="bold"
-                        className="lowercase"
-                        style={{ fontVariant: 'small-caps' }}
-                        type="submit"
-                      >
-                        <Wallet />
-                        Checkout
-                      </Button>
-                    )}
-                  </div>
+              <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-9" />
+              <p className="mb-2 text-sm font-bold text-gray-12">
+                {plan.message}
+              </p>
+              <div className="mb-10 text-lg">
+                <ul className="list-none text-right">
+                  {plan.benefits.map((benefit, index) => (
+                    <li key={index} className="flex gap-2">
+                      <Check className="text-teal-9" />
+                      <p>{benefit}</p>
+                    </li>
+                  ))}
+                  {plan.drawbacks?.map((drawback, index) => (
+                    <li
+                      key={index}
+                      className="flex gap-2 text-gray-11 opacity-70"
+                    >
+                      <Minus className="text-gray-11" />
+                      <p>{drawback}</p>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-10 w-full">
+                  {plan.value === 'free' ? (
+                    <Button
+                      variant="primary"
+                      size="full"
+                      icon="withIcon"
+                      font="large"
+                      weight="bold"
+                      className="lowercase"
+                      style={{ fontVariant: 'small-caps' }}
+                      type="submit"
+                    >
+                      Next
+                      <MoveRight />
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="primary"
+                      size="full"
+                      icon="withIcon"
+                      font="large"
+                      weight="bold"
+                      className="lowercase"
+                      style={{ fontVariant: 'small-caps' }}
+                      type="submit"
+                    >
+                      <Wallet />
+                      Checkout
+                    </Button>
+                  )}
                 </div>
               </div>
             </form>

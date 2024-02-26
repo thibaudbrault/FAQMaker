@@ -1,11 +1,19 @@
 import { AxiosError } from 'axios';
-import { ChevronDown } from 'lucide-react';
+import { BadgeCheck, BadgeHelp, BadgeInfo, ChevronDown } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import { Badge, Button, Loader, errorToast } from '@/components';
+import {
+  Badge,
+  Button,
+  Loader,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  errorToast,
+} from '@/components';
 import { ExtendedNode } from '@/types';
-import { Routes } from '@/utils';
+import { Routes, dateOptions, timeOptions } from '@/utils';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
@@ -20,7 +28,7 @@ type Props = {
 
 export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
   if (isLoading) {
-    return <Loader size="screen" color="border-secondary" />;
+    return <Loader size="screen" />;
   }
 
   if (isError && error instanceof Error) {
@@ -30,18 +38,15 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
   return (
     <section className="mt-6">
       {nodes.length > 0 ? (
-        <ul className="mx-auto flex w-11/12 list-none flex-col gap-2 md:w-3/4">
+        <ul className="mx-auto flex w-11/12 list-none flex-col gap-4 md:w-3/4">
           {nodes?.map((node) => (
             <li
-              className="relative rounded-md bg-default transition-all duration-300 hover:shadow-lg"
+              className="relative rounded-md bg-gray-3 text-gray-12 shadow-gray-9 transition-all duration-300 hover:shadow-lg"
               key={node.id}
             >
               <details>
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-6 py-3">
                   <div>
-                    <h2 className="text-2xl font-semibold">
-                      {node.question.text}
-                    </h2>
                     <ul className="flex list-none gap-4 text-xs">
                       {node.tags.map((tag) => (
                         <li key={tag.id}>
@@ -56,10 +61,70 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                         </li>
                       ))}
                     </ul>
+                    <h2 className="mb-2 text-3xl font-semibold transition-all duration-300 hover:underline">
+                      <Link
+                        href={{
+                          pathname: '/question/[id]',
+                          query: { id: node.id },
+                        }}
+                      >
+                        {node.question.text}
+                      </Link>
+                    </h2>
+                    <div className="flex items-center gap-2">
+                      {!node.answer && (
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <BadgeHelp className="h-4 w-4 text-teal-9" />
+                          </TooltipTrigger>
+                          <TooltipContent>Unanswered</TooltipContent>
+                        </Tooltip>
+                      )}
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <BadgeInfo className="h-4 w-4 text-teal-9" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Asked by {node.question.user.name}</p>
+                          <p>
+                            Asked on{' '}
+                            {new Date(node.createdAt).toLocaleDateString(
+                              undefined,
+                              dateOptions,
+                            )}{' '}
+                            at{' '}
+                            {new Date(node.createdAt).toLocaleTimeString(
+                              undefined,
+                              timeOptions,
+                            )}
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                      {node.answer && (
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <BadgeCheck className="h-4 w-4 text-teal-9" />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Answered by {node.answer.user.name}</p>
+                            <p>
+                              Answered on{' '}
+                              {new Date(
+                                node.answer.updatedAt,
+                              ).toLocaleDateString(undefined, dateOptions)}{' '}
+                              at{' '}
+                              {new Date(
+                                node.answer.updatedAt,
+                              ).toLocaleTimeString(undefined, timeOptions)}
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      )}
+                    </div>
                   </div>
                   <ChevronDown />
                 </summary>
-                <hr className="mx-auto my-6 h-px w-3/4 border-none bg-negative" />
+                <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-6" />
                 {node.answer ? (
                   <div className="mb-6 px-6">
                     <MarkdownPreview source={node.answer.text} />
@@ -88,26 +153,6 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                   </div>
                 )}
               </details>
-              <Button
-                variant="ghost"
-                size="full"
-                font="large"
-                weight="bold"
-                rounded="bottom"
-                className="block border-t border-transparent border-t-default text-center lowercase"
-                style={{ fontVariant: 'small-caps' }}
-                asChild
-              >
-                <Link
-                  href={{
-                    pathname: '/question/[slug]',
-                    query: { slug: node.question.slug, id: node.id },
-                  }}
-                  as={`/question/${node.question.slug}?id=${node.id}`}
-                >
-                  Modify
-                </Link>
-              </Button>
             </li>
           ))}
         </ul>

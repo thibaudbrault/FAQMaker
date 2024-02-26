@@ -22,11 +22,11 @@ const updateNode = async (
     ...values,
     tenantId,
     questionId,
-    slug: slugify(values.text),
+    slug: slugify(values.text).toLowerCase(),
     userId,
     tags,
   };
-  const { data } = await axios.put(`${Routes.API.NODES}/${id}`, body);
+  const { data } = await axios.put(`${Routes.API.NODES.INDEX}/${id}`, body);
   return data;
 };
 

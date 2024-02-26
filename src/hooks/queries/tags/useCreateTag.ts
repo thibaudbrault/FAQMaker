@@ -1,9 +1,8 @@
-import { Tag } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { z } from 'zod';
 
-import { successToast } from '@/components';
+import { promiseToast } from '@/components';
 import { createTagClientSchema } from '@/lib';
 import { QueryKeys, Routes } from '@/utils';
 
@@ -20,11 +19,14 @@ const createTag = async (values: Schema, tenantId: string) => {
 
 export const useCreateTag = (tenantId: string, reset: () => void) => {
   const queryClient = useQueryClient();
-
+  const createTagMutation = async (values: Schema) => {
+    const promise = createTag(values, tenantId);
+    promiseToast(promise, 'Creating tag...');
+    return promise;
+  };
   const mutation = useMutation({
-    mutationFn: (values: Schema) => createTag(values, tenantId),
-    onSuccess: (data) => {
-      successToast(data.message);
+    mutationFn: createTagMutation,
+    onSuccess: () => {
       reset();
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.TAGS, tenantId],

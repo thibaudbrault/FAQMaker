@@ -5,7 +5,9 @@ import axios, { AxiosError } from 'axios';
 import { QueryKeys, Routes } from '@/utils';
 
 const getUsers = async (tenantId: string) => {
-  const { data } = await axios.get(Routes.API.USERS, { params: { tenantId } });
+  const { data } = await axios.get(Routes.API.USERS.INDEX, {
+    params: { tenantId },
+  });
   return data;
 };
 

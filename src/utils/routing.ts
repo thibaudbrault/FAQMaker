@@ -18,8 +18,14 @@ export const Routes = {
     _500: '/500',
   },
   API: {
-    USERS: '/api/users',
-    NODES: '/api/nodes',
+    USERS: {
+      INDEX: '/api/users',
+      COUNT: '/api/users/count',
+    },
+    NODES: {
+      INDEX: '/api/nodes',
+      COUNT: '/api/nodes/count',
+    },
     CHECKOUT: '/api/stripe/checkout',
     COLORS: '/api/colors',
     CUSTOMER: '/api/stripe/customer',
@@ -31,8 +37,14 @@ export const Routes = {
       TAGS: '/api/search/tags',
     },
     TAGS: '/api/tags',
-    TENANT: '/api/tenant',
+    TENANT: {
+      INDEX: '/api/tenant',
+      LOGO: '/api/tenant/logo',
+    },
     WEBHOOKS: '/api/stripe/webhooks',
+    STORAGE: {
+      LOGO: '/api/storage/logo',
+    },
     INTEGRATIONS: {
       INDEX: '/api/integrations',
       SLACK: '/api/integrations/slack',

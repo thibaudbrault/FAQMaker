@@ -1,20 +1,22 @@
 import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { HelpCircle, MoveLeft, PenSquare } from 'lucide-react';
+import { HelpCircle, LinkIcon, PenSquare } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import {
+  BackButton,
   Badge,
-  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
   Loader,
-  errorToast,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
 } from '@/components';
 import { useNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
@@ -31,50 +33,31 @@ type Props = {
 };
 
 function QuestionPage({ me, id }: Props) {
-  const {
-    data: node,
-    isPending,
-    isError,
-    error,
-  } = useNode(me.tenantId, id as string);
+  const { data: node, isPending } = useNode(me.tenantId, id as string);
+  const { asPath } = useRouter();
 
-  if (isPending) {
-    return <Loader size="screen" />;
-  }
-
-  if (isError && error instanceof AxiosError) {
-    const errorMessage = error.message || 'An error occurred';
-    errorToast(errorMessage);
-  }
-
-  if (node) {
-    return (
-      <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
+  return (
+    <PageLayout
+      id={me.id}
+      company={me.tenant.company}
+      logo={me.tenant.logo}
+      tenantId={me.tenantId}
+    >
+      {isPending ? (
+        <Loader size="screen" />
+      ) : (
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
           <div className="flex items-center justify-between">
-            <Button
-              variant="primary"
-              weight="semibold"
-              icon="withIcon"
-              font="large"
-              asChild
-              className="lowercase"
-              style={{ fontVariant: 'small-caps' }}
-            >
-              <Link href="/">
-                <MoveLeft />
-                Go back
-              </Link>
-            </Button>
+            <BackButton />
             <DropdownMenu>
               <DropdownMenuTrigger
-                className="w-fit rounded-md bg-negative px-4 py-2 font-bold uppercase text-negative"
+                className="w-fit rounded-md bg-gray-3 px-4 py-2 font-bold uppercase text-gray-12 hover:bg-gray-4"
                 style={{ fontVariant: 'small-caps' }}
               >
                 Edit
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-default">
-                <DropdownMenuItem className="text-base hover:text-secondary">
+              <DropdownMenuContent className="flex flex-col gap-1">
+                <DropdownMenuItem>
                   <Link
                     className="flex items-center justify-start gap-2"
                     href={{
@@ -87,7 +70,7 @@ function QuestionPage({ me, id }: Props) {
                     Question
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-base hover:text-secondary">
+                <DropdownMenuItem>
                   <Link
                     className="flex items-center justify-start gap-2"
                     href={{
@@ -103,8 +86,7 @@ function QuestionPage({ me, id }: Props) {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="rounded-md bg-default p-4">
-            <h2 className="text-2xl font-semibold">{node.question.text}</h2>
+          <div className="rounded-md bg-gray-3 p-4">
             <ul className="flex list-none gap-2 text-xs">
               {node.tags.map((tag) => (
                 <li key={tag.id}>
@@ -114,7 +96,25 @@ function QuestionPage({ me, id }: Props) {
                 </li>
               ))}
             </ul>
-            <hr className="my-6 border-secondary" />
+            <div className="flex items-center justify-between">
+              <h2 className="text-3xl font-semibold">{node.question.text}</h2>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    className="text-gray-12 hover:text-gray-11"
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        `${process.env.NEXT_PUBLIC_SITE_URL}${asPath}`,
+                      )
+                    }
+                  >
+                    <LinkIcon />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>Copy url</TooltipContent>
+              </Tooltip>
+            </div>
+            <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-6" />
             {node.answer ? (
               <MarkdownPreview
                 className="mx-auto w-11/12 text-left"
@@ -123,7 +123,7 @@ function QuestionPage({ me, id }: Props) {
             ) : (
               <p className="text-center italic">No answer</p>
             )}
-            <hr className="my-6 border-secondary" />
+            <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-6" />
             <div className="flex justify-between">
               <div className="text-xs">
                 <p>
@@ -176,9 +176,9 @@ function QuestionPage({ me, id }: Props) {
             </div>
           </div>
         </section>
-      </PageLayout>
-    );
-  }
+      )}
+    </PageLayout>
+  );
 }
 
 export default QuestionPage;

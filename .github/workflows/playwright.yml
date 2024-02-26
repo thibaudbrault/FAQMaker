@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v3
         with:
           version: 8
 
@@ -44,7 +44,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install && pnpm install:playwright
+        run: pnpm install && pnpm install:playwright:deps
 
       - name: Build application
         run: pnpm build:ci
@@ -66,7 +66,7 @@ jobs:
           NEXTAUTH_URL: ${{secrets.NEXTAUTH_URL}}
           NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report

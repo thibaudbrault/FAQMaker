@@ -9,9 +9,9 @@ import { Button } from '../button';
 const errorVariants = cva('error', {
   variants: {
     fallbackType: {
-      item: ['h-8', 'w-8'],
-      page: ['h-16', 'w-16'],
-      screen: ['h-screen', 'w-screen'],
+      item: ['h-8 w-8'],
+      page: ['h-16 w-16'],
+      screen: ['h-screen w-screen'],
     },
   },
 });
@@ -29,7 +29,7 @@ export const ErrorFallback = forwardRef<HTMLDivElement, ErrorProps>(
       <div
         className={cn(
           errorVariants({ fallbackType }),
-          'flex flex-col items-center justify-center gap-2 bg-negative text-negative',
+          'flex flex-col items-center justify-center gap-2 bg-neutral-900 text-neutral-100',
         )}
         ref={ref}
       >
@@ -43,7 +43,7 @@ export const ErrorFallback = forwardRef<HTMLDivElement, ErrorProps>(
           </p>
         </div>
         <Button
-          variant="ghost"
+          variant="primary"
           font="large"
           size="small"
           weight="semibold"

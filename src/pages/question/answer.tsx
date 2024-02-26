@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { ExternalLink, MoveLeft } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Editor, Loader } from '@/components';
+import { BackButton, Button, Editor, Loader } from '@/components';
 import { useCreateAnswer, useNode, useUpdateAnswer } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { answerClientSchema, getMe, getNode, ssrNcHandler } from '@/lib';
@@ -69,35 +69,19 @@ function Answer({ me, id }: Props) {
     setDisabled(isSubmitting || !isValid || !isDirty);
   }, [isSubmitting, isValid, isDirty]);
 
-  if (isPending) {
-    return <Loader size="screen" />;
-  }
-
-  if (node) {
-    return (
-      <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
+  return (
+    <PageLayout
+      id={me.id}
+      company={me.tenant.company}
+      logo={me.tenant.logo}
+      tenantId={me.tenantId}
+    >
+      {isPending ? (
+        <Loader size="screen" />
+      ) : (
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
-          <Button
-            variant="primary"
-            weight="semibold"
-            icon="withIcon"
-            font="large"
-            asChild
-            className="lowercase"
-            style={{ fontVariant: 'small-caps' }}
-          >
-            <Link
-              href={{
-                pathname: '/question/[slug]',
-                query: { slug: node.question.slug, id: node.id },
-              }}
-              as={`/question/${node.question.slug}?id=${node.id}`}
-            >
-              <MoveLeft />
-              Go back
-            </Link>
-          </Button>
-          <div className="flex flex-col gap-4 rounded-md bg-default p-4">
+          <BackButton />
+          <div className="flex flex-col gap-4 rounded-md bg-gray-3 p-4">
             <h2
               className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
               style={{ fontVariant: 'small-caps' }}
@@ -108,7 +92,7 @@ function Answer({ me, id }: Props) {
               className="flex flex-col items-center justify-center gap-2"
               onSubmit={handleSubmit(onSubmit)}
             >
-              <div className="flex w-full flex-col justify-start">
+              <div className="flex w-full flex-col justify-start gap-px">
                 <p className="text-sm">
                   Question: <b>{node.question.text}</b>
                 </p>
@@ -120,7 +104,7 @@ function Answer({ me, id }: Props) {
                   )}
                 />
                 {errors.text && (
-                  <p className="text-sm text-red-700">{errors.text.message}</p>
+                  <p className="text-sm text-red-12">{errors.text.message}</p>
                 )}
                 <Link
                   className="flex w-fit items-baseline gap-1 text-sm hover:underline"
@@ -144,9 +128,9 @@ function Answer({ me, id }: Props) {
             </form>
           </div>
         </section>
-      </PageLayout>
-    );
-  }
+      )}
+    </PageLayout>
+  );
 }
 
 export default Answer;

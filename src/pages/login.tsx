@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react';
 
 import googleIcon from '@/assets/google.svg';
 import { Button } from '@/components';
-import { AuthLayout } from '@/layouts';
+import { LoginLayout } from '@/layouts';
 import { Routes } from '@/utils';
 
 function Login() {
@@ -13,7 +13,7 @@ function Login() {
   const error = router.query.error as string;
 
   return (
-    <AuthLayout hasBackground>
+    <LoginLayout>
       <div className="flex w-full flex-col gap-4">
         <div className="mb-4 flex w-full flex-col gap-2 text-center">
           <h2
@@ -22,7 +22,7 @@ function Login() {
           >
             Login
           </h2>
-          <p className="text-sm text-offset">Use your associated account</p>
+          <p className="text-sm text-gray-11">Use your associated account</p>
         </div>
         <Button
           variant="primary"
@@ -35,7 +35,7 @@ function Login() {
           style={{ fontVariant: 'small-caps' }}
           onClick={() =>
             signIn(`google`, {
-              callbackUrl: process.env.NEXT_PUBLIC_SITE_URL,
+              callbackUrl: router.query.callbackUrl as string,
             })
           }
         >
@@ -53,7 +53,7 @@ function Login() {
           </Link>
         </p>
       </div>
-    </AuthLayout>
+    </LoginLayout>
   );
 }
 
@@ -81,5 +81,5 @@ type ErrorProps = {
 
 const LoginError = ({ error }: ErrorProps) => {
   const errorMessage = error && (errors[error] ?? errors.default);
-  return <div className="text-center text-red-700">{errorMessage}</div>;
+  return <div className="text-center text-red-9">{errorMessage}</div>;
 };

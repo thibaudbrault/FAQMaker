@@ -15,6 +15,7 @@ export const nodeModel = {
     select: {
       id: true,
       text: true,
+      updatedAt: true,
       user: {
         select: {
           name: true,

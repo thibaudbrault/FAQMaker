@@ -54,7 +54,7 @@ function Company() {
   ];
 
   return (
-    <AuthLayout hasBackground>
+    <AuthLayout hasBackground currentStep={1}>
       <form
         onSubmit={handleSubmit(saveData)}
         className="flex w-full flex-col gap-4"
@@ -67,7 +67,7 @@ function Company() {
             >
               Company
             </legend>
-            <p className="text-sm text-offset">Your company details</p>
+            <p className="text-sm text-gray-11">Your company details</p>
           </div>
           {fields.map((field) => (
             <Field
@@ -82,7 +82,7 @@ function Company() {
                 type={field.type}
                 id={field.value}
                 placeholder={field.label}
-                className="w-full border border-transparent border-b-teal-700 bg-transparent p-1 outline-none placeholder:text-stone-500 focus:rounded-md focus:border-secondary"
+                className="bg-transparent"
               />
             </Field>
           ))}

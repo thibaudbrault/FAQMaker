@@ -34,7 +34,7 @@ function Register() {
   };
 
   return (
-    <AuthLayout hasBackground>
+    <AuthLayout hasBackground currentStep={2}>
       <form
         onSubmit={handleSubmit(saveData)}
         className="flex w-full flex-col gap-4"
@@ -47,7 +47,7 @@ function Register() {
             >
               User
             </legend>
-            <p className="text-sm text-offset">Your connection mail</p>
+            <p className="text-sm text-gray-11">Your connection mail</p>
           </div>
           <Field label="Email" value="email" error={errors.email?.message}>
             <Input
@@ -55,7 +55,7 @@ function Register() {
               type="email"
               id="email"
               placeholder="Email"
-              className="w-full border border-transparent border-b-teal-700 bg-transparent p-1 outline-none placeholder:text-stone-500 focus:rounded-md focus:border-secondary"
+              className="bg-transparent"
             />
           </Field>
         </fieldset>

@@ -7,7 +7,6 @@ import {
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 
 import { ErrorFallback, ErrorProps } from '@/components';
-import { FallbackType } from '@/types/global';
 
 type Props = {
   children: ReactNode;

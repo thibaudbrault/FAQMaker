@@ -21,7 +21,7 @@ test('Can update the company info', async ({ page }) => {
   await page.getByPlaceholder('Company').fill('ModifiedTenant');
   await page
     .locator('form')
-    .filter({ hasText: 'CompanyEmailUpdate' })
+    .filter({ hasText: 'CompanyEmailDomainUpdate' })
     .getByRole('button')
     .click();
   await expect(

@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Question, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { HelpCircle, MoveLeft, MoveRight } from 'lucide-react';
+import { HelpCircle, MoveRight } from 'lucide-react';
 import { GetServerSideProps } from 'next';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, errorToast, Field, Input, Loader } from '@/components';
+import { BackButton, Button, Field, Input } from '@/components';
 import { useCreateNode, useIntegration, useMediaQuery, useTags } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import {
@@ -23,7 +21,7 @@ import {
 } from '@/lib';
 import { TagsList } from '@/modules';
 import { UserWithTenant } from '@/types';
-import { cn, QueryKeys, Redirects } from '@/utils';
+import { QueryKeys, Redirects } from '@/utils';
 
 type Props = {
   me: UserWithTenant;
@@ -52,12 +50,7 @@ function New({ me }: Props) {
 
   const { data: tags, isPending } = useTags(me.tenantId);
   const { data: integrations } = useIntegration(me.tenantId);
-  const { mutate, isError, error } = useCreateNode(
-    me,
-    router,
-    selectedTags,
-    integrations,
-  );
+  const { mutate } = useCreateNode(me, router, selectedTags, integrations);
 
   const onSubmit: SubmitHandler<Schema> = (values) => {
     mutate(values);
@@ -68,35 +61,22 @@ function New({ me }: Props) {
     mutate(values);
   };
 
-  if (isError && error instanceof AxiosError) {
-    const errorMessage = error.response?.data.message || 'An error occurred';
-    errorToast(errorMessage);
-  }
-
   useEffect(() => {
     setDisabled(isSubmitting || !isValid);
   }, [isSubmitting, isValid]);
 
   return (
-    <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
+    <PageLayout
+      id={me.id}
+      company={me.tenant.company}
+      logo={me.tenant.logo}
+      tenantId={me.tenantId}
+    >
       <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
-        <Button
-          variant="primary"
-          weight="semibold"
-          icon="withIcon"
-          font="large"
-          asChild
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-        >
-          <Link href="/">
-            <MoveLeft />
-            Go back
-          </Link>
-        </Button>
-        <div className="flex flex-col gap-4 rounded-md bg-default p-4">
+        <BackButton />
+        <div className="flex flex-col gap-4 rounded-md bg-gray-3 p-4">
           <form className="flex flex-col items-center gap-4">
-            <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-secondary">
+            <fieldset className="mx-auto flex w-11/12 flex-col gap-4">
               <div className="w-full text-center">
                 <legend
                   className="font-serif text-3xl font-semibold lowercase md:text-4xl"
@@ -117,7 +97,6 @@ function New({ me }: Props) {
                   type="text"
                   id="question"
                   placeholder="New question"
-                  className="w-full rounded-md border border-transparent py-1 outline-none focus:border-secondary"
                 />
               </Field>
               <TagsList
@@ -139,7 +118,7 @@ function New({ me }: Props) {
                 Submit
               </Button>
               <Button
-                variant={disabled ? 'disabled' : 'negative'}
+                variant={disabled ? 'disabled' : 'ghost'}
                 icon="withIcon"
                 weight="semibold"
                 className="lowercase"

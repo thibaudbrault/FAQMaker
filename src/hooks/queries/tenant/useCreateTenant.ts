@@ -1,6 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { NextRouter } from 'next/router';
 import { z } from 'zod';
 
 import { promiseToast } from '@/components';
@@ -13,11 +12,11 @@ const createTenant = async (values: Schema) => {
   const body = {
     ...values,
   };
-  const { data } = await axios.post(Routes.API.TENANT, body);
+  const { data } = await axios.post(Routes.API.TENANT.INDEX, body);
   return data;
 };
 
-export const useCreateTenant = (router: NextRouter) => {
+export const useCreateTenant = () => {
   const createTenantMutation = async (values: Schema) => {
     const promise = createTenant(values);
     promiseToast(promise, 'Creating account...');

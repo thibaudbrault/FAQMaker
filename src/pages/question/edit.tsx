@@ -3,15 +3,13 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { HelpCircle, MoveLeft } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 import { GetServerSideProps } from 'next';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Field, Input, Loader, errorToast } from '@/components';
+import { BackButton, Button, Field, Input, Loader } from '@/components';
 import { useMediaQuery, useNode, useTags, useUpdateNode } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import {
@@ -75,45 +73,24 @@ function Edit({ me, id }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitting, isValid, isDirty]);
 
-  if (isPending) {
-    return <Loader size="screen" />;
-  }
-
-  if (isError && error instanceof AxiosError) {
-    const errorMessage = error.response?.data.message || 'An error occurred';
-    errorToast(errorMessage);
-  }
-
-  if (node) {
-    return (
-      <PageLayout id={me.id} company={me.tenant.company} tenantId={me.tenantId}>
+  return (
+    <PageLayout
+      id={me.id}
+      company={me.tenant.company}
+      logo={me.tenant.logo}
+      tenantId={me.tenantId}
+    >
+      {isPending ? (
+        <Loader size="screen" />
+      ) : (
         <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
-          <Button
-            variant="primary"
-            weight="semibold"
-            icon="withIcon"
-            font="large"
-            asChild
-            className="lowercase"
-            style={{ fontVariant: 'small-caps' }}
-          >
-            <Link
-              href={{
-                pathname: '/question/[slug]',
-                query: { slug: node.question.slug, id: node.id },
-              }}
-              as={`/question/${node.question.slug}?id=${node.id}`}
-            >
-              <MoveLeft />
-              Go back
-            </Link>
-          </Button>
-          <div className="flex flex-col gap-4 rounded-md bg-default p-4">
+          <BackButton />
+          <div className="flex flex-col gap-4 rounded-md bg-gray-3 p-4">
             <form
               className="flex flex-col items-center justify-center gap-4 "
               onSubmit={handleSubmit(onSubmit)}
             >
-              <fieldset className="mx-auto flex w-11/12 flex-col gap-4 [&_svg]:focus-within:text-secondary">
+              <fieldset className="mx-auto flex w-11/12 flex-col gap-4">
                 <div className="w-full text-center">
                   <legend
                     className="font-serif text-3xl font-semibold lowercase md:text-4xl"
@@ -133,7 +110,6 @@ function Edit({ me, id }: Props) {
                     icon={<HelpCircle />}
                     type="text"
                     id="question"
-                    className="w-full rounded-md border border-stone-200 p-1 outline-none focus:border-secondary "
                   />
                 </Field>
               </fieldset>
@@ -160,9 +136,9 @@ function Edit({ me, id }: Props) {
             </form>
           </div>
         </section>
-      </PageLayout>
-    );
-  }
+      )}
+    </PageLayout>
+  );
 }
 
 export default Edit;

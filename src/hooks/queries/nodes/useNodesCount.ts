@@ -1,17 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 
-import { QueryKeys } from '@/utils';
-import prisma from 'lib/prisma';
+import { QueryKeys, Routes } from '@/utils';
 
 const getNodesCount = async (tenantId: string) => {
-  const nodes = await prisma.node.count({
-    where: { tenantId },
+  const { data } = await axios.get(Routes.API.NODES.COUNT, {
+    params: { tenantId },
   });
-
-  if (!nodes) return null;
-
-  return nodes;
+  return data;
 };
 
 export const useNodesCount = (tenantId: string) => {
