@@ -11,9 +11,21 @@ type Props = {
   value: string;
   error?: string;
   info?: string;
+  hasLimit?: boolean;
+  limit?: number;
+  curLength?: number;
 };
 
-export const Field = ({ children, label, value, error, info }: Props) => {
+export const Field = ({
+  children,
+  label,
+  value,
+  error,
+  info,
+  hasLimit,
+  limit,
+  curLength,
+}: Props) => {
   return (
     <div
       key={value}
@@ -39,7 +51,18 @@ export const Field = ({ children, label, value, error, info }: Props) => {
         )}
       </div>
       {children}
-      {error && <small className="text-xs text-red-9">{error}</small>}
+      <div className="grid grid-cols-2 gap-2">
+        {error && (
+          <small className="col-start-1 justify-self-start text-xs text-red-9">
+            {error}
+          </small>
+        )}
+        {hasLimit && (
+          <small className="col-start-2 justify-self-end text-xs text-gray-11">
+            {curLength} / {limit} characters
+          </small>
+        )}
+      </div>
     </div>
   );
 };
