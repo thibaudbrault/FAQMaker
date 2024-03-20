@@ -14,7 +14,8 @@ export const createNodeServerSchema = z.object({
   text: z
     .string()
     .trim()
-    .min(3, { message: 'Question must be at least 3 characters long' }),
+    .min(3, { message: 'Question must be at least 3 characters long' })
+    .max(100, { message: 'Question must be under 100 characters long' }),
   slug: z.string(),
   tenantId: z.string().cuid2(),
   userId: z.string().cuid2(),
@@ -27,7 +28,8 @@ export const updateNodeServerSchema = z.object({
     text: z
       .string()
       .trim()
-      .min(3, { message: 'Question must be at least 3 characters long' }),
+      .min(3, { message: 'Question must be at least 3 characters long' })
+      .max(100, { message: 'Question must be under 100 characters long' }),
     userId: z.string().cuid2(),
     questionId: z.string().cuid2(),
     tenantId: z.string().cuid2(),

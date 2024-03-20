@@ -21,7 +21,7 @@ import {
 } from '@/lib';
 import { TagsList } from '@/modules';
 import { UserWithTenant } from '@/types';
-import { QueryKeys, Redirects, arraysAreEqual } from '@/utils';
+import { Limits, QueryKeys, Redirects, arraysAreEqual } from '@/utils';
 
 type Props = {
   me: UserWithTenant;
@@ -41,6 +41,7 @@ function Edit({ me, id }: Props) {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { isSubmitting, isDirty, isValid, errors },
   } = useForm<Schema>({
     resolver: zodResolver(questionClientSchema),
@@ -51,8 +52,9 @@ function Edit({ me, id }: Props) {
   });
 
   const router = useRouter();
+  const text = watch('text');
 
-  const { mutate, isError, error } = useUpdateNode(
+  const { mutate } = useUpdateNode(
     id,
     me.tenantId,
     me.id,
@@ -103,6 +105,9 @@ function Edit({ me, id }: Props) {
                   label="Question"
                   value="text"
                   error={errors?.text?.message}
+                  hasLimit
+                  limit={Limits.QUESTION}
+                  curLength={text.length}
                 >
                   <Input
                     {...register('text')}

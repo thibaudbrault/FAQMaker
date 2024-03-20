@@ -3,9 +3,7 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { ExternalLink } from 'lucide-react';
 import { GetServerSideProps } from 'next';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -15,7 +13,7 @@ import { useCreateAnswer, useNode, useUpdateAnswer } from '@/hooks';
 import { PageLayout } from '@/layouts';
 import { answerClientSchema, getMe, getNode, ssrNcHandler } from '@/lib';
 import { UserWithTenant } from '@/types';
-import { QueryKeys, Redirects } from '@/utils';
+import { Limits, QueryKeys, Redirects } from '@/utils';
 
 type Props = {
   me: UserWithTenant;
@@ -32,6 +30,7 @@ function Answer({ me, id }: Props) {
   const {
     handleSubmit,
     control,
+    watch,
     formState: { isSubmitting, errors, isValid, isDirty },
   } = useForm<Schema>({
     resolver: zodResolver(answerClientSchema),
@@ -42,6 +41,7 @@ function Answer({ me, id }: Props) {
   });
 
   const router = useRouter();
+  const text = watch('text');
 
   const { mutate: createAnswer } = useCreateAnswer(
     id,
@@ -103,17 +103,16 @@ function Answer({ me, id }: Props) {
                     <Editor value={value} onChange={onChange} />
                   )}
                 />
-                {errors.text && (
-                  <p className="text-sm text-red-12">{errors.text.message}</p>
-                )}
-                <Link
-                  className="flex w-fit items-baseline gap-1 text-sm hover:underline"
-                  href="https://www.markdownguide.org/cheat-sheet/"
-                  target="_blank"
-                >
-                  Markdown guide
-                  <ExternalLink className="h-3 w-3" />
-                </Link>
+                <div className="grid grid-cols-2 gap-2">
+                  {errors.text && (
+                    <small className="col-start-1 justify-self-start text-sm text-red-9">
+                      {errors.text.message}
+                    </small>
+                  )}
+                  <small className="col-start-2 justify-self-end text-xs text-gray-11">
+                    {text.length} / {Limits.ANSWER}
+                  </small>
+                </div>
               </div>
               <Button
                 variant={disabled ? 'disabled' : 'primary'}

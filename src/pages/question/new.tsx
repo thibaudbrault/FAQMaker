@@ -21,7 +21,7 @@ import {
 } from '@/lib';
 import { TagsList } from '@/modules';
 import { UserWithTenant } from '@/types';
-import { QueryKeys, Redirects } from '@/utils';
+import { Limits, QueryKeys, Redirects } from '@/utils';
 
 type Props = {
   me: UserWithTenant;
@@ -38,6 +38,7 @@ function New({ me }: Props) {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { isSubmitting, errors, isValid },
   } = useForm<Schema>({
     resolver: zodResolver(questionClientSchema),
@@ -47,6 +48,7 @@ function New({ me }: Props) {
     },
   });
   const router = useRouter();
+  const text = watch('text');
 
   const { data: tags, isPending } = useTags(me.tenantId);
   const { data: integrations } = useIntegration(me.tenantId);
@@ -89,6 +91,9 @@ function New({ me }: Props) {
                 label="Question"
                 value="text"
                 error={errors?.text?.message}
+                hasLimit
+                limit={Limits.QUESTION}
+                curLength={text.length}
               >
                 <Input
                   {...register('text')}
@@ -131,13 +136,6 @@ function New({ me }: Props) {
               </Button>
             </div>
           </form>
-          <div className="justify-start text-center text-xs">
-            <p>
-              {disabled
-                ? 'The question must have 3 or more letters'
-                : "You're good to post"}
-            </p>
-          </div>
         </div>
       </section>
     </PageLayout>
