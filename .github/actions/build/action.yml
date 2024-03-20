@@ -4,7 +4,6 @@ runs:
   using: 'composite'
   steps:
     - name: Checkout repo
-      uses: actions/checkout@v4
       uses: pnpm/action-setup@v3
       with:
         version: 8
