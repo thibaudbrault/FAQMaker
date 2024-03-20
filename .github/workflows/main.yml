@@ -17,7 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/build
+      
+      - name: Set up repo
+        uses: ./.github/actions/build
+
       - name: Lint
         run: pnpm lint
 
@@ -26,7 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/build
+
+      - name: Set up repo
+        uses: ./.github/actions/build
+
       - name: Type check
         run: pnpm type
 
@@ -35,7 +41,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/build
+
+      - name: Set up repo
+        uses: ./.github/actions/build
+
       - name: Format code
         run: pnpm prettier
 
@@ -62,7 +71,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/build
+
+      - name: Set up repo
+        uses: ./.github/actions/build
+
       - name: Install Playwright
         run: pnpm install:playwright:deps
 
