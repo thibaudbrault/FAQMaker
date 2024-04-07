@@ -64,7 +64,7 @@ export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
                     <h2 className="mb-2 text-3xl font-semibold transition-all duration-300 hover:underline">
                       <Link
                         href={{
-                          pathname: '/question/[id]',
+                          pathname: '/question',
                           query: { id: node.id },
                         }}
                       >

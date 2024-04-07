@@ -1,8 +1,10 @@
+'use client';
+
 import { Dispatch, MouseEvent, SetStateAction, useState } from 'react';
 
 import { Tag } from '@prisma/client';
 import { SearchIcon, TagIcon } from 'lucide-react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 import {

@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { NextRouter } from 'next/router';
+import { NextRouter } from 'next/navigation';
 
 import { promiseToast } from '@/components';
 import { Routes } from '@/utils';

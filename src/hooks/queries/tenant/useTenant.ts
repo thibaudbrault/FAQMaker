@@ -1,18 +1,11 @@
-import { Tenant } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
 
-import { QueryKeys, Routes } from '@/utils';
-
-const getTenant = async (tenantId: string) => {
-  const { data } = await axios.get(`${Routes.API.TENANT.INDEX}/${tenantId}`);
-  return data;
-};
+import { getTenant } from '@/actions';
+import { QueryKeys } from '@/utils';
 
 export const useTenant = (tenantId: string) => {
-  const query = useQuery<Tenant, AxiosError>({
+  return useQuery({
     queryKey: [QueryKeys.TENANT, tenantId],
-    queryFn: () => getTenant(tenantId),
+    queryFn: async () => getTenant(tenantId),
   });
-  return query;
 };

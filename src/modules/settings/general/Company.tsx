@@ -1,8 +1,10 @@
+'use client';
+
 import { useEffect, useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Tenant } from '@prisma/client';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 

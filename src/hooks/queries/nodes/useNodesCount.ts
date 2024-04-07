@@ -1,19 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
 
-import { QueryKeys, Routes } from '@/utils';
-
-const getNodesCount = async (tenantId: string) => {
-  const { data } = await axios.get(Routes.API.NODES.COUNT, {
-    params: { tenantId },
-  });
-  return data;
-};
+import { getNodesCount } from '@/actions';
+import { QueryKeys } from '@/utils';
 
 export const useNodesCount = (tenantId: string) => {
-  const query = useQuery<number, AxiosError>({
+  return useQuery({
     queryKey: [QueryKeys.NODES_COUNT, tenantId],
-    queryFn: () => getNodesCount(tenantId),
+    queryFn: async () => getNodesCount(tenantId),
   });
-  return query;
 };

@@ -1,29 +1,31 @@
 import {
-  dehydrate,
   HydrationBoundary,
   QueryClient,
+  dehydrate,
 } from '@tanstack/react-query';
-import { User } from 'next-auth';
+import { redirect } from 'next/navigation';
 
-import { getMe, ssrNcHandler, getNodes, getNodesCount, getTags } from '@/lib';
-import { Redirects, QueryKeys } from '@/utils';
+import { getAllNodes, getMe, getNodesCount, getTags } from '@/actions';
+import { QueryKeys, Routes } from '@/utils';
 
 import Home from './home';
 
-export default async function HomePage() {
-  const callbackMe = async () => await getMe({ req });
-  const me = await ssrNcHandler<User | null>(req, res, callbackMe);
+export default async function Page() {
+  const me = await getMe();
 
-  if (!me) return Redirects.LOGIN;
+  if (!me) {
+    redirect(Routes.SITE.LOGIN);
+  }
 
   const queryClient = new QueryClient();
+
   await queryClient.prefetchQuery({
     queryKey: [QueryKeys.ME, me.id],
     queryFn: () => me,
   });
   await queryClient.prefetchQuery({
     queryKey: [QueryKeys.NODES, me.tenantId],
-    queryFn: () => getNodes(me.tenantId),
+    queryFn: () => getAllNodes(me.tenantId),
   });
   await queryClient.prefetchQuery({
     queryKey: [QueryKeys.NODES_COUNT, me.tenantId],
@@ -36,7 +38,7 @@ export default async function HomePage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Home />
+      <Home me={me} />
     </HydrationBoundary>
   );
 }

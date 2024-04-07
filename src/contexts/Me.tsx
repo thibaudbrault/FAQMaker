@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactNode, createContext } from 'react';
 
 import { User } from '@prisma/client';

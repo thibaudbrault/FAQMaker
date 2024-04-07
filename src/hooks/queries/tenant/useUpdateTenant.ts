@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { NextRouter } from 'next/router';
+import { NextRouter } from 'next/navigation';
 import { z } from 'zod';
 
 import { successToast } from '@/components';

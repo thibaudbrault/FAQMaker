@@ -1,18 +1,11 @@
-import { Tag } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
 
-import { QueryKeys, Routes } from '@/utils';
-
-const getTags = async (tenantId: string) => {
-  const { data } = await axios.get(Routes.API.TAGS, { params: { tenantId } });
-  return data;
-};
+import { getTags } from '@/actions';
+import { QueryKeys } from '@/utils';
 
 export const useTags = (tenantId: string) => {
-  const query = useQuery<Tag[], AxiosError>({
+  return useQuery({
     queryKey: [QueryKeys.TAGS, tenantId],
-    queryFn: () => getTags(tenantId),
+    queryFn: async () => getTags(tenantId),
   });
-  return query;
 };

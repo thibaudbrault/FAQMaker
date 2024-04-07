@@ -1,25 +1,26 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-import { Search, List } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import { Props } from 'next/script';
 
 import { Pagination } from '@/components';
 import {
   useNodes,
+  useNodesCount,
   useSearchNodes,
   useSearchTags,
-  useNodesCount,
   useTags,
 } from '@/hooks';
-import { PageLayout } from '@/layouts';
-import { ExtendedNode } from '@/types';
+import { Footer, Header, List, Search } from '@/modules';
+import { ExtendedNode, UserWithTenant } from '@/types';
 import { OFFSET } from '@/utils';
 
+type Props = {
+  me: UserWithTenant;
+};
 
-function Home({ me }: Props) {
+export default function Home({ me }: Props) {
   const search = useSearchParams();
   const [searchQuery, setSearchQuery] = useState<string>(
     search.get('search') ?? null,
@@ -36,14 +37,17 @@ function Home({ me }: Props) {
     isError,
     error,
   } = useNodes(me.tenantId, page);
+
   const { data: filteredNodes, isLoading: isSearchLoading } = useSearchNodes(
     me.tenantId,
     searchQuery,
   );
   const { data: filteredTags } = useSearchTags(me.tenantId, searchTag);
+
   const { data: nodesCount, isPending: isNodesCountLoading } = useNodesCount(
     me.tenantId,
   );
+
   const { data: tags } = useTags(me.tenantId);
 
   if (searchQuery) {
@@ -69,30 +73,27 @@ function Home({ me }: Props) {
   }, [isPending, isSearchLoading, isNodesCountLoading]);
 
   return (
-    <PageLayout
-      id={me.id}
-      company={me.tenant.company}
-      logo={me.tenant.logo}
-      tenantId={me.tenantId}
-    >
-      <Search
-        tags={tags}
-        setSearchQuery={setSearchQuery}
-        setSearchTag={setSearchTag}
-        setPage={setPage}
-      />
-      <List
-        nodes={nodes}
-        isLoading={isLoading}
-        isError={isError}
-        error={error}
-        message={message}
-      />
-      {nodesCount > OFFSET && (nodes.length === OFFSET || page !== 0) && (
-        <Pagination nodesLength={nodesCount} setPage={setPage} />
-      )}
-    </PageLayout>
+    <main className="flex h-full min-h-screen flex-col bg-gray-1">
+      <Header id={me.id} company={me.tenant.company} logo={me.tenant.logo} />
+      <div className="my-12 flex-grow">
+        <Search
+          tags={tags}
+          setSearchQuery={setSearchQuery}
+          setSearchTag={setSearchTag}
+          setPage={setPage}
+        />
+        <List
+          nodes={nodes}
+          isLoading={isLoading}
+          isError={isError}
+          error={error}
+          message={message}
+        />
+        {nodesCount > OFFSET && (nodes.length === OFFSET || page !== 0) && (
+          <Pagination nodesLength={nodesCount} setPage={setPage} />
+        )}
+      </div>
+      <Footer company={me.tenant.company} />
+    </main>
   );
 }
-
-export default Home;
