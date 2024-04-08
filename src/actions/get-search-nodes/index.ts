@@ -6,8 +6,18 @@ import { nodeModel } from '@/utils';
 import prisma from 'lib/prisma';
 
 import { getSearchSchema } from './schema';
+import 'server-only';
 
-export const getSearchNodes = cache(async (body) => {
+type Props = {
+  tenantId: string;
+  searchQuery: string;
+};
+
+export const preload = (body: Props) => {
+  void getSearchNodes(body);
+};
+
+export const getSearchNodes = cache(async (body: Props) => {
   try {
     if (!body) {
       return { error: 'Tenant not found' };
