@@ -19,10 +19,6 @@ type Props = {
   withAnswer: boolean;
 };
 
-export const preload = (body: Props) => {
-  void createNode(body);
-};
-
 export const createNode = action(createNodeSchema, async (body: Props) => {
   try {
     if (!body) {
