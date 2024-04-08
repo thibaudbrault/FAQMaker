@@ -31,6 +31,7 @@ export default function Home({ me }: Props) {
 
   let nodes: ExtendedNode[] = [];
   let message = 'Ask a question';
+
   const {
     data: initialNodes,
     isPending,
