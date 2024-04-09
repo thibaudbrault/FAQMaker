@@ -1,5 +1,3 @@
-'use server';
-
 import { cache } from 'react';
 
 import { OFFSET, nodeModel } from '@/utils';
@@ -11,10 +9,6 @@ import 'server-only';
 type Props = {
   tenantId: string;
   page: number;
-};
-
-export const preload = (body: Props) => {
-  void getPaginatedNodes(body);
 };
 
 export const getPaginatedNodes = cache(async (body: Props) => {
@@ -42,7 +36,7 @@ export const getPaginatedNodes = cache(async (body: Props) => {
   }
 });
 
-export const getAllNodes = async (tenantId: string) => {
+export const getAllNodes = cache(async (tenantId: string) => {
   try {
     if (!tenantId) {
       return { error: 'Tenant not found' };
@@ -59,4 +53,4 @@ export const getAllNodes = async (tenantId: string) => {
   } catch (error) {
     return { error: 'Error fetching nodes' };
   }
-};
+});

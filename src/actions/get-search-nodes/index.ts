@@ -1,5 +1,3 @@
-'use server';
-
 import { cache } from 'react';
 
 import { nodeModel } from '@/utils';
@@ -11,10 +9,6 @@ import 'server-only';
 type Props = {
   tenantId: string;
   searchQuery: string;
-};
-
-export const preload = (body: Props) => {
-  void getSearchNodes(body);
 };
 
 export const getSearchNodes = cache(async (body: Props) => {

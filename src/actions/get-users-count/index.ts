@@ -1,13 +1,7 @@
-'use server';
-
 import { cache } from 'react';
 
 import prisma from 'lib/prisma';
 import 'server-only';
-
-export const preload = (tenantId: string) => {
-  void getUsersCount(tenantId);
-};
 
 export const getUsersCount = cache(async (tenantId: string) => {
   try {
