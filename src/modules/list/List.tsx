@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { BadgeCheck, BadgeHelp, BadgeInfo, ChevronDown } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -6,11 +5,9 @@ import Link from 'next/link';
 import {
   Badge,
   Button,
-  Loader,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-  errorToast,
 } from '@/components';
 import { ExtendedNode } from '@/types';
 import { Routes, dateOptions, timeOptions } from '@/utils';
@@ -20,21 +17,10 @@ const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
 
 type Props = {
   nodes: ExtendedNode[];
-  isLoading: boolean;
-  isError: boolean;
-  error: AxiosError;
   message: string;
 };
 
-export const List = ({ nodes, isLoading, isError, error, message }: Props) => {
-  if (isLoading) {
-    return <Loader size="screen" />;
-  }
-
-  if (isError && error instanceof Error) {
-    errorToast(error.message);
-  }
-
+export const List = ({ nodes, message }: Props) => {
   return (
     <section className="mt-6">
       {nodes.length > 0 ? (
