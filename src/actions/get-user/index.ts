@@ -1,7 +1,6 @@
 import { cache } from 'react';
 
 import prisma from 'lib/prisma';
-import 'server-only';
 
 export const getUser = cache(async (id: string) => {
   try {

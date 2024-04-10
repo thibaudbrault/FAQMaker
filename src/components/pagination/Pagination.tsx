@@ -15,7 +15,7 @@ type Props = {
 export const Pagination = ({ setPage, nodesLength }: Props) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get('page')) || 1;
+  const currentPage = Number(searchParams.get('page')) || 0;
 
   const handlePageChange = (data: { selected: number }) => {
     setPage(data.selected);

@@ -2,22 +2,22 @@
 
 import { useEffect, useState } from 'react';
 
-import { $Enums } from '@prisma/client';
+import { $Enums, Tag } from '@prisma/client';
 
-import { Button, Loader } from '@/components';
-import { useDeleteTag, useTags } from '@/hooks';
+import { Button } from '@/components';
+import { useDeleteTag } from '@/hooks';
 
 import { CreateTag } from './Create';
 
 type Props = {
   tenantId: string;
   plan: $Enums.Plan;
+  tags: Tag[];
 };
 
-export const Tags = ({ tenantId, plan }: Props) => {
+export const Tags = ({ tenantId, plan, tags }: Props) => {
   const [limit, setLimit] = useState<number>(3);
 
-  const { data: tags, isPending } = useTags(tenantId);
   const { mutate, isPending: isTagLoading } = useDeleteTag(tenantId);
 
   const handleDeleteTag = (id: string) => {
@@ -29,10 +29,6 @@ export const Tags = ({ tenantId, plan }: Props) => {
       setLimit(10);
     }
   }, [plan]);
-
-  if (isPending || isTagLoading) {
-    return <Loader size="screen" />;
-  }
 
   return (
     <section className="mx-auto w-11/12 md:w-3/4">

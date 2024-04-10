@@ -19,11 +19,11 @@ import {
   ssrNcHandler,
 } from '@/lib';
 import { TagsList } from '@/modules';
-import { UserWithTenant } from '@/types';
+import { Me } from '@/types';
 import { Limits, QueryKeys, Redirects, arraysAreEqual } from '@/utils';
 
 type Props = {
-  me: UserWithTenant;
+  me: Me;
   id: string;
 };
 

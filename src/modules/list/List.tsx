@@ -32,7 +32,18 @@ export const List = ({ nodes, message }: Props) => {
             >
               <details>
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-6 py-3">
-                  <div>
+                  <div className="flex flex-col gap-2">
+                    <h2 className="text-3xl font-semibold ">
+                      <Link
+                        className="transition-all duration-300 hover:underline"
+                        href={{
+                          pathname: '/question',
+                          query: { id: node.id },
+                        }}
+                      >
+                        {node.question.text}
+                      </Link>
+                    </h2>
                     <ul className="flex list-none gap-4 text-xs">
                       {node.tags.map((tag) => (
                         <li key={tag.id}>
@@ -47,16 +58,6 @@ export const List = ({ nodes, message }: Props) => {
                         </li>
                       ))}
                     </ul>
-                    <h2 className="mb-2 text-3xl font-semibold transition-all duration-300 hover:underline">
-                      <Link
-                        href={{
-                          pathname: '/question',
-                          query: { id: node.id },
-                        }}
-                      >
-                        {node.question.text}
-                      </Link>
-                    </h2>
                     <div className="flex items-center gap-2">
                       {!node.answer && (
                         <Tooltip>

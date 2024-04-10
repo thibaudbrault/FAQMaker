@@ -1,21 +1,22 @@
 import { cache } from 'react';
 
 import prisma from 'lib/prisma';
-import 'server-only';
 
-export const getNodesCount = cache(async (tenantId: string) => {
-  try {
-    if (!tenantId) {
-      return { error: 'Tenant not found' };
+export const getNodesCount = cache(
+  async (tenantId: string): Promise<number> => {
+    try {
+      if (!tenantId) {
+        throw new Error('Tenant not found');
+      }
+      const nodes = await prisma.node.count({
+        where: { tenantId },
+      });
+
+      if (!nodes) return 0;
+
+      return nodes;
+    } catch (error) {
+      throw new Error('Error fetching nodes count');
     }
-    const nodes = await prisma.node.count({
-      where: { tenantId },
-    });
-
-    if (!nodes) return 0;
-
-    return nodes;
-  } catch (error) {
-    return { error: 'Error fetching nodes count' };
-  }
-});
+  },
+);

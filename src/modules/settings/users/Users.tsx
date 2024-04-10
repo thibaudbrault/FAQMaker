@@ -1,13 +1,9 @@
-import { $Enums } from '@prisma/client';
+'use client';
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Button,
-  Loader,
-} from '@/components';
-import { useDeleteUser, useUsers } from '@/hooks';
+import { $Enums, User } from '@prisma/client';
+
+import { Avatar, AvatarFallback, AvatarImage, Button } from '@/components';
+import { useDeleteUser } from '@/hooks';
 
 import { CreateUser } from './Create';
 import { FileInput } from './FileInput';
@@ -17,20 +13,15 @@ type Props = {
   userId: string;
   tenantId: string;
   plan: $Enums.Plan;
+  users: User[] | null;
 };
 
-export const Users = ({ userId, tenantId, plan }: Props) => {
-  const { data: users, isPending } = useUsers(tenantId);
-
+export const Users = ({ userId, tenantId, plan, users }: Props) => {
   const { mutate, isPending: isUserLoading } = useDeleteUser(tenantId);
 
   const handleDeleteUser = (id: string) => {
     mutate({ id });
   };
-
-  if (isPending || isUserLoading) {
-    return <Loader size="page" />;
-  }
 
   return (
     <ul className="flex list-none flex-col gap-4">

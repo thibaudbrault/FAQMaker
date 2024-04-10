@@ -5,11 +5,11 @@ import { GetServerSideProps } from 'next';
 import { useUserAnswers, useUserQuestions } from '@/hooks';
 import { getMe, getUserAnswers, getUserQuestions, ssrNcHandler } from '@/lib';
 import { UpdateProfile, UserAnswers, UserQuestions } from '@/modules';
-import { UserWithTenant } from '@/types';
+import { Me } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
 
 type Props = {
-  me: UserWithTenant;
+  me: Me;
 };
 
 function Profile({ me }: Props) {

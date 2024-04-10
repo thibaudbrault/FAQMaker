@@ -16,11 +16,11 @@ import {
   ssrNcHandler,
 } from '@/lib';
 import { General, Payment, Tags, Users } from '@/modules';
-import { UserWithTenant } from '@/types';
+import { Me } from '@/types';
 import { QueryKeys, Redirects } from '@/utils';
 
 type Props = {
-  me: UserWithTenant;
+  me: Me;
 };
 
 function Settings({ me }: Props) {

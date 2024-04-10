@@ -11,11 +11,11 @@ import { z } from 'zod';
 import { BackButton, Button, Editor, Loader } from '@/components';
 import { useCreateAnswer, useNode, useUpdateAnswer } from '@/hooks';
 import { answerClientSchema, getMe, getNode, ssrNcHandler } from '@/lib';
-import { UserWithTenant } from '@/types';
+import { Me } from '@/types';
 import { Limits, QueryKeys, Redirects } from '@/utils';
 
 type Props = {
-  me: UserWithTenant;
+  me: Me;
   id: string;
 };
 

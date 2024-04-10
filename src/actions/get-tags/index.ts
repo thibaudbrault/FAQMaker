@@ -1,21 +1,24 @@
 import { cache } from 'react';
 
+import { Tag } from '@prisma/client';
+
 import prisma from 'lib/prisma';
-import 'server-only';
 
-export const getTags = cache(async (tenantId: string) => {
-  try {
-    if (!tenantId) {
-      return { error: 'Tenant not found' };
+export const getTags = cache(
+  async (tenantId: string): Promise<Tag[] | null> => {
+    try {
+      if (!tenantId) {
+        throw new Error('Tenant not found');
+      }
+      const tags = await prisma.tag.findMany({
+        where: { tenantId },
+      });
+
+      if (!tags) return null;
+
+      return tags;
+    } catch (error) {
+      throw new Error('Error fetching tags');
     }
-    const tags = await prisma.tag.findMany({
-      where: { tenantId },
-    });
-
-    if (!tags) return null;
-
-    return tags;
-  } catch (error) {
-    return { error: 'Error fetching tags' };
-  }
-});
+  },
+);

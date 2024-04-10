@@ -1,41 +1,32 @@
-import { useMemo } from 'react';
-
 import { HelpCircle, UserIcon, Wallet } from 'lucide-react';
-
-import { useNodesCount, useUsersCount } from '@/hooks';
 
 type Props = {
   tenantId: string;
   plan: string;
+  nodesCount: number;
+  usersCount: number;
 };
 
-export const Data = ({ tenantId, plan }: Props) => {
-  const { data: nodesCount } = useNodesCount(tenantId);
-  const { data: usersCount } = useUsersCount(tenantId);
-
+export const Data = ({ tenantId, plan, nodesCount, usersCount }: Props) => {
   const iconStyles = 'hidden h-9 w-9 xl:block';
 
-  const cards = useMemo(
-    () => [
-      {
-        text: 'Questions',
-        value: nodesCount,
-        icon: <HelpCircle className={iconStyles} />,
-      },
-      {
-        text: 'Users',
-        value: usersCount,
-        icon: <UserIcon className={iconStyles} />,
-      },
-      {
-        text: 'Plan',
-        value: plan,
-        icon: <Wallet className={iconStyles} />,
-      },
-    ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
+  const cards = [
+    {
+      text: 'Questions',
+      value: nodesCount,
+      icon: <HelpCircle className={iconStyles} />,
+    },
+    {
+      text: 'Users',
+      value: usersCount,
+      icon: <UserIcon className={iconStyles} />,
+    },
+    {
+      text: 'Plan',
+      value: plan,
+      icon: <Wallet className={iconStyles} />,
+    },
+  ];
 
   return (
     <>

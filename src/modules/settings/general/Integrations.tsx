@@ -7,20 +7,19 @@ import { Integrations as IntegrationsType } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Field, Input, Loader } from '@/components';
-import { useIntegration, useUpsertIntegrations } from '@/hooks';
+import { Button, Field, Input } from '@/components';
+import { useUpsertIntegrations } from '@/hooks';
 import { integrationsClientSchema } from '@/lib';
 import { IIntegrations } from '@/types';
 
 type Props = {
   tenantId: string;
+  integrations: IntegrationsType;
 };
 
 type Schema = z.infer<typeof integrationsClientSchema>;
 
-export const Integrations = ({ tenantId }: Props) => {
-  const { data: integrations, isPending } = useIntegration(tenantId);
-
+export const Integrations = ({ tenantId, integrations }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const {
     register,
@@ -54,10 +53,6 @@ export const Integrations = ({ tenantId }: Props) => {
   useEffect(() => {
     setDisabled(isSubmitting || !isDirty || !isValid);
   }, [isDirty, isSubmitting, isValid]);
-
-  if (isPending) {
-    return <Loader size="items" />;
-  }
 
   return (
     <div className="flex flex-col gap-4">

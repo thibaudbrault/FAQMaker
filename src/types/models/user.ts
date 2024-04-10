@@ -1,7 +1,10 @@
-import { Tenant, User } from '@prisma/client';
+import { User } from '@prisma/client';
 
-export type UserWithTenant = User & {
-  tenant: Tenant;
+export type Me = User & {
+  tenant: {
+    logo: string;
+    company: string;
+  };
 };
 
 export type RegisterInfo = {

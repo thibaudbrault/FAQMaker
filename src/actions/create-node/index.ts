@@ -1,16 +1,17 @@
 'use server';
 
+import { IncomingWebhook } from '@slack/webhook';
 import { revalidatePath } from 'next/cache';
 import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { action } from '@/lib';
+import { dateOptions, timeOptions } from '@/utils';
 import prisma from 'lib/prisma';
 
 import 'server-only';
-import { createNodeSchema } from './schema';
+import { createNodeSchema, slackIntegrationSchema } from './schema';
 
-type Props = {
+type CreateNodeData = {
   text: string;
   slug: string;
   tenantId: string;
@@ -19,17 +20,19 @@ type Props = {
   withAnswer: boolean;
 };
 
-export const createNode = action(createNodeSchema, async (body: Props) => {
+export const createNode = async (integrations, formData) => {
   try {
-    if (!body) {
+    if (!formData) {
       return { error: 'Data not provided' };
     }
+    let data = Object.fromEntries(formData);
+    data.tags = data.tags.split(',');
     const session = await getServerSession(authOptions);
     if (session) {
-      const result = createNodeSchema.safeParse(body);
+      const result = createNodeSchema.safeParse(data);
       if (result.success === false) {
-        const errors = result.error.formErrors.fieldErrors;
-        return { error: 'Invalid request' + errors };
+        const errors = result.error.flatten().fieldErrors;
+        return { errors: 'Invalid request' + errors };
       } else {
         const { text, slug, tenantId, userId, tags, withAnswer } = result.data;
         const duplicateQuestion = await prisma.node.findFirst({
@@ -37,6 +40,13 @@ export const createNode = action(createNodeSchema, async (body: Props) => {
         });
         if (duplicateQuestion) {
           return { error: 'This question already exists' };
+        }
+        if (integrations.slack) {
+          const slackBody = {
+            text,
+            url: integrations.slack,
+          };
+          await slackNotification(slackBody);
         }
         const node = await prisma.node.create({
           data: {
@@ -56,6 +66,7 @@ export const createNode = action(createNodeSchema, async (body: Props) => {
           };
         }
         revalidatePath('/');
+        revalidatePath('/question/new');
         return { message: 'Question created successfully' };
       }
     } else {
@@ -64,4 +75,42 @@ export const createNode = action(createNodeSchema, async (body: Props) => {
   } catch (error) {
     return { error: 'Error creating question' };
   }
-});
+};
+
+export const slackNotification = async (body) => {
+  const result = slackIntegrationSchema.safeParse(body);
+  if (result.success === false) {
+    const errors = result.error.flatten().fieldErrors;
+    return { errors: 'Invalid request' + errors };
+  } else {
+    const { url, text } = result.data;
+    const webhook = new IncomingWebhook(url);
+    await webhook.send({
+      text,
+      blocks: [
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: `*${text}*`,
+          },
+        },
+        {
+          type: 'divider',
+          block_id: 'divider1',
+        },
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: `Asked on ${new Date().toLocaleDateString(
+              undefined,
+              dateOptions,
+            )} at ${new Date().toLocaleTimeString(undefined, timeOptions)}`,
+          },
+        },
+      ],
+    });
+    return;
+  }
+};

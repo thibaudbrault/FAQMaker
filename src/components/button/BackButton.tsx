@@ -14,7 +14,7 @@ export const BackButton = () => {
       size="small"
       className="lowercase"
       style={{ fontVariant: 'small-caps' }}
-      onClick={() => router.back()}
+      onClick={() => router.push('/')}
     >
       <MoveLeft />
       Go back

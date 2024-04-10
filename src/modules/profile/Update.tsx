@@ -11,10 +11,10 @@ import { z } from 'zod';
 import { Button, Field, Input } from '@/components';
 import { useMediaQuery, useUpdateUser } from '@/hooks';
 import { updateUserClientSchema } from '@/lib';
-import { IUserUpdateFields, UserWithTenant } from '@/types';
+import { IUserUpdateFields, Me } from '@/types';
 
 type Props = {
-  me: UserWithTenant;
+  me: Me;
 };
 
 type Schema = z.infer<typeof updateUserClientSchema>;

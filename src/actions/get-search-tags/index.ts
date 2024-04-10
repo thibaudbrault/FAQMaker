@@ -4,7 +4,6 @@ import { nodeModel } from '@/utils';
 import prisma from 'lib/prisma';
 
 import { getTagSearchSchema } from './schema';
-import 'server-only';
 
 type Props = {
   tenantId: string;

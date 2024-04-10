@@ -15,11 +15,11 @@ import {
 } from '@/hooks';
 import { getMe, getNodes, getNodesCount, getTags, ssrNcHandler } from '@/lib';
 import { List, Search } from '@/modules';
-import { ExtendedNode, UserWithTenant } from '@/types';
+import { ExtendedNode, Me } from '@/types';
 import { OFFSET, QueryKeys, Redirects } from '@/utils';
 
 type Props = {
-  me: UserWithTenant;
+  me: Me;
 };
 
 function Home({ me }: Props) {

@@ -12,3 +12,11 @@ export const createNodeSchema = z.object({
   tags: z.array(z.string().cuid2()),
   withAnswer: z.boolean().optional(),
 });
+
+export const slackIntegrationSchema = z.object({
+  text: z
+    .string()
+    .trim()
+    .min(3, { message: 'Question must be at least 3 characters long' }),
+  url: z.string().trim().url({ message: 'Invalid URL' }),
+});

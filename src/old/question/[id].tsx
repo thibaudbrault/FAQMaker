@@ -20,14 +20,14 @@ import {
 } from '@/components';
 import { useNode } from '@/hooks';
 import { getMe, getNode, ssrNcHandler } from '@/lib';
-import { UserWithTenant } from '@/types';
+import { Me } from '@/types';
 import { QueryKeys, Redirects, Routes, dateOptions } from '@/utils';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
 
 type Props = {
-  me: UserWithTenant;
+  me: Me;
   id: string;
 };
 
