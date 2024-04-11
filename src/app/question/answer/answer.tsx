@@ -12,7 +12,6 @@ import { answerClientSchema } from '@/lib';
 import { ExtendedNode, Me } from '@/types';
 import { Limits } from '@/utils';
 
-
 type Props = {
   me: Me;
   node: ExtendedNode;
