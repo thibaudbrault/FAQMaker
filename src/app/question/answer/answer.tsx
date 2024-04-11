@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { createAnswer } from '@/actions';
+import { createAnswer, updateAnswer } from '@/actions';
 import { BackButton, Button, Editor } from '@/components';
 import { answerClientSchema } from '@/lib';
 import { ExtendedNode, Me } from '@/types';
@@ -32,7 +32,6 @@ export default function Answer({ me, node }: Props) {
     mode: 'onBlur',
     defaultValues: {
       text: node?.answer?.text ?? '',
-      nodeId: node.id,
       userId: me.id,
     },
   });
@@ -45,8 +44,10 @@ export default function Answer({ me, node }: Props) {
       formData.append(key, data[key]);
     }
     if (node?.answer) {
+      formData.append('id', node.answer.id);
       await updateAnswer(formData);
     } else {
+      formData.append('nodeId', node.id);
       await createAnswer(formData);
     }
   };
