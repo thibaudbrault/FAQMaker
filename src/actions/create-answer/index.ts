@@ -27,7 +27,6 @@ export async function createAnswer(formData) {
       const result = createAnswerSchema.safeParse(data);
       if (result.success === false) {
         const errors = result.error.flatten().fieldErrors;
-        console.log(errors);
         return { error: errors };
       } else {
         const { text, nodeId, userId } = result.data;
