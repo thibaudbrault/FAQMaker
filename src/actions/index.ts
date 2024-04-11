@@ -1,4 +1,5 @@
 export * from './create-node';
+export * from './create-answer';
 export * from './get-nodes';
 export * from './get-nodes-count';
 export * from './get-users-count';

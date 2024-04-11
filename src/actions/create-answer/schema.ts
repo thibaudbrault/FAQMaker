@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const answerClientSchema = z.object({
+export const createAnswerSchema = z.object({
   text: z
     .string()
     .trim()
