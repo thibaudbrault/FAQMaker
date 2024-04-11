@@ -1,3 +1,5 @@
+'use client';
+
 import '@uiw/react-md-editor/markdown-editor.css';
 
 import dynamic from 'next/dynamic';
