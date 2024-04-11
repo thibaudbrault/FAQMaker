@@ -2,7 +2,9 @@
 
 import { IncomingWebhook } from '@slack/webhook';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
+import slugify from 'slugify';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { dateOptions, timeOptions } from '@/utils';
@@ -13,35 +15,32 @@ import { createNodeSchema, slackIntegrationSchema } from './schema';
 
 type CreateNodeData = {
   text: string;
-  slug: string;
   tenantId: string;
   userId: string;
-  tags: string[];
-  withAnswer: boolean;
+  withAnswer?: boolean;
 };
 
-export const createNode = async (integrations, formData) => {
+export const createNode = async (integrations, tags, formData) => {
   try {
     if (!formData) {
       return { error: 'Data not provided' };
     }
-    let data = Object.fromEntries(formData);
-    data.tags = data.tags.split(',');
+    const data = Object.fromEntries(formData) as CreateNodeData;
     const session = await getServerSession(authOptions);
     if (session) {
-      const result = createNodeSchema.safeParse(data);
+      const result = createNodeSchema.safeParse({ ...data, tags });
       if (result.success === false) {
         const errors = result.error.flatten().fieldErrors;
-        return { errors: 'Invalid request' + errors };
+        return { error: errors };
       } else {
-        const { text, slug, tenantId, userId, tags, withAnswer } = result.data;
+        const { text, tenantId, userId, tags, withAnswer } = result.data;
         const duplicateQuestion = await prisma.node.findFirst({
           where: { tenantId, question: { text: text } },
         });
         if (duplicateQuestion) {
           return { error: 'This question already exists' };
         }
-        if (integrations.slack) {
+        if (integrations && integrations.slack) {
           const slackBody = {
             text,
             url: integrations.slack,
@@ -52,10 +51,14 @@ export const createNode = async (integrations, formData) => {
           data: {
             tenant: { connect: { id: tenantId } },
             question: {
-              create: { text, slug, user: { connect: { id: userId } } },
+              create: {
+                text,
+                slug: slugify(text).toLowerCase(),
+                user: { connect: { id: userId } },
+              },
             },
             tags: {
-              connect: tags.map((tag) => ({ id: tag })),
+              connect: tags?.map((tag) => ({ id: tag })),
             },
           },
         });
@@ -65,9 +68,6 @@ export const createNode = async (integrations, formData) => {
             message: 'Question created successfully',
           };
         }
-        revalidatePath('/');
-        revalidatePath('/question/new');
-        return { message: 'Question created successfully' };
       }
     } else {
       return { error: 'Not signed in' };
@@ -75,6 +75,9 @@ export const createNode = async (integrations, formData) => {
   } catch (error) {
     return { error: 'Error creating question' };
   }
+  revalidatePath('/');
+  redirect('/');
+  return { message: 'Question created successfully' };
 };
 
 export const slackNotification = async (body) => {
