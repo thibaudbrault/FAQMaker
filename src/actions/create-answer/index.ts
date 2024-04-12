@@ -16,7 +16,7 @@ type CreateAnswerData = {
   userId: string;
 };
 
-export async function createAnswer(formData) {
+export async function createAnswer(formData: FormData) {
   try {
     if (!formData) {
       return { error: 'Data not provided' };

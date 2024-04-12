@@ -16,7 +16,7 @@ type UpdateAnswerData = {
   userId: string;
 };
 
-export async function updateAnswer(formData) {
+export async function updateAnswer(formData: FormData) {
   try {
     if (!formData) {
       return { error: 'Data not provided' };
