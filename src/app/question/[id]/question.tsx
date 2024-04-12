@@ -16,14 +16,13 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components';
-import { ExtendedNode, Me } from '@/types';
+import { ExtendedNode } from '@/types';
 import { Routes, dateOptions } from '@/utils';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
 
 type Props = {
-  me: Me;
   node: ExtendedNode;
 };
 
