@@ -36,10 +36,7 @@ export const List = ({ nodes, message }: Props) => {
                     <h2 className="text-3xl font-semibold ">
                       <Link
                         className="transition-all duration-300 hover:underline"
-                        href={{
-                          pathname: '/question',
-                          query: { id: node.id },
-                        }}
+                        href={`/question/${node.id}`}
                       >
                         {node.question.text}
                       </Link>
@@ -111,10 +108,13 @@ export const List = ({ nodes, message }: Props) => {
                   </div>
                   <ChevronDown />
                 </summary>
-                <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-6" />
+                <hr className="mx-auto mb-6 mt-3 h-px w-3/4 border-none bg-gray-6" />
                 {node.answer ? (
                   <div className="mb-6 px-6">
-                    <MarkdownPreview source={node.answer.text} />
+                    <MarkdownPreview
+                      className="!bg-transparent"
+                      source={node.answer.text}
+                    />
                   </div>
                 ) : (
                   <div className="mb-6 flex items-center justify-center">

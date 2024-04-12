@@ -2,6 +2,7 @@ export * from './create-answer';
 export * from './create-node';
 export * from './get-integration';
 export * from './get-me';
+export * from './get-node';
 export * from './get-nodes';
 export * from './get-nodes-count';
 export * from './get-search-nodes';
