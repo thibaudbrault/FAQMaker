@@ -42,7 +42,7 @@ export async function updateAnswer(formData) {
       return { error: 'Not signed in' };
     }
   } catch (error) {
-    return { error: 'Error creating answer' };
+    return { error: 'Error updating answer' };
   }
   revalidatePath('/');
   redirect('/');
