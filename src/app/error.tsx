@@ -2,6 +2,8 @@
 
 import { useEffect } from 'react';
 
+import { Button } from '@/components';
+
 export default function Error({
   error,
   reset,
@@ -14,9 +16,19 @@ export default function Error({
   }, [error]);
 
   return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button onClick={() => reset()}>Try again</button>
+    <div className="flex h-screen w-screen flex-col items-center justify-center gap-12">
+      <h2 className="text-5xl font-bold">Something went wrong!</h2>
+      <Button
+        variant="destructive"
+        weight="semibold"
+        size="medium"
+        font="large"
+        className="lowercase"
+        style={{ fontVariant: 'small-caps' }}
+        onClick={() => reset()}
+      >
+        Try again
+      </Button>
     </div>
   );
 }
