@@ -37,8 +37,8 @@ export async function deleteTag(formData: FormData) {
       return { error: 'Not signed in' };
     }
   } catch (error) {
-    return { error: 'Error creating answer' };
+    return { error: 'Error deleting tag' };
   }
   revalidatePath('/settings');
-  return { message: 'Answer created successfully' };
+  return { message: 'Tag deleted successfully' };
 }
