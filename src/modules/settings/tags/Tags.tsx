@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 
 import { $Enums, Tag } from '@prisma/client';
 
+import { deleteTag } from '@/actions';
 import { Button } from '@/components';
-import { useDeleteTag } from '@/hooks';
 
 import { CreateTag } from './Create';
 
@@ -19,10 +19,11 @@ type Props = {
 export const Tags = ({ tenantId, plan, tags, tagsCount }: Props) => {
   const [limit, setLimit] = useState<number>(3);
 
-  const { mutate, isPending: isTagLoading } = useDeleteTag(tenantId);
-
-  const handleDeleteTag = (id: string) => {
-    mutate({ id });
+  const handleDeleteTag = async (id: string) => {
+    const formData = new FormData();
+    formData.append('tenantId', tenantId);
+    formData.append('id', id);
+    await deleteTag(formData);
   };
 
   useEffect(() => {

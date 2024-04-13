@@ -1,6 +1,7 @@
 export * from './create-answer';
 export * from './create-node';
 export * from './create-tag';
+export * from './delete-tag';
 export * from './get-integration';
 export * from './get-me';
 export * from './get-node';
