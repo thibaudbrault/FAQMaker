@@ -16,5 +16,6 @@ export * from './get-user';
 export * from './get-users';
 export * from './get-users-count';
 export * from './update-answer';
+export * from './update-node';
 export * from './update-tenant';
 export * from './upsert-integrations';
