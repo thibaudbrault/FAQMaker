@@ -6,7 +6,6 @@ import { Files } from './Files';
 import { Integrations } from './Integrations';
 
 type Props = {
-  tenantId: string;
   tenant: Tenant;
   integrations: IntegrationsType;
   nodesCount: number;
@@ -14,7 +13,6 @@ type Props = {
 };
 
 export const General = ({
-  tenantId,
   tenant,
   integrations,
   nodesCount,
@@ -32,12 +30,12 @@ export const General = ({
       </section>
       {tenant.plan !== 'free' && (
         <section className={styles}>
-          <Integrations tenantId={tenantId} integrations={integrations} />
+          <Integrations tenantId={tenant.id} integrations={integrations} />
         </section>
       )}
       <section className="w-full">
         <Data
-          tenantId={tenantId}
+          tenantId={tenant.id}
           plan={tenant.plan}
           nodesCount={nodesCount}
           usersCount={usersCount}

@@ -1,15 +1,14 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Tenant } from '@prisma/client';
-import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { updateTenant } from '@/actions';
 import { Button, Field, Input } from '@/components';
-import { useUpdateTenant } from '@/hooks';
 import { updateTenantClientSchema } from '@/lib';
 import { ITenantUpdateFields } from '@/types';
 
@@ -19,14 +18,11 @@ type Props = {
 
 type Schema = z.infer<typeof updateTenantClientSchema>;
 
-export const Company = ({ tenant }: Props) => {
+export function Company({ tenant }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const router = useRouter();
   const {
     register,
     handleSubmit,
-    watch,
-    reset,
     formState: { isSubmitting, isDirty, isValid, errors },
   } = useForm<Schema>({
     resolver: zodResolver(updateTenantClientSchema),
@@ -37,45 +33,37 @@ export const Company = ({ tenant }: Props) => {
       domain: tenant.domain,
     },
   });
-  const domainValue = watch('domain');
 
-  const { mutate } = useUpdateTenant(tenant.id, router);
-
-  const onSubmit: SubmitHandler<Schema> = (values) => {
-    mutate(values);
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+    formData.append('id', tenant.id);
+    await updateTenant(formData);
   };
 
-  const fields: ITenantUpdateFields[] = useMemo(
-    () => [
-      {
-        label: 'Company',
-        value: 'company',
-        type: 'text',
-      },
-      {
-        label: 'Email',
-        value: 'email',
-        type: 'email',
-      },
-      {
-        label: 'Domain',
-        value: 'domain',
-        type: 'text',
-      },
-    ],
-    [],
-  );
+  const fields: ITenantUpdateFields[] = [
+    {
+      label: 'Company',
+      value: 'company',
+      type: 'text',
+    },
+    {
+      label: 'Email',
+      value: 'email',
+      type: 'email',
+    },
+    {
+      label: 'Domain',
+      value: 'domain',
+      type: 'text',
+    },
+  ];
 
   useEffect(() => {
-    if (domainValue === '') {
-      reset({
-        domain: tenant.domain,
-      });
-    }
     setDisabled(isSubmitting || !isDirty || !isValid);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDirty, isSubmitting, isValid, domainValue]);
+  }, [isDirty, isSubmitting, isValid]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -119,4 +107,4 @@ export const Company = ({ tenant }: Props) => {
       </form>
     </div>
   );
-};
+}
