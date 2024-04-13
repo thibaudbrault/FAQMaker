@@ -3,6 +3,7 @@ import {
   getMe,
   getNodesCount,
   getTags,
+  getTagsCount,
   getTenant,
   getUsers,
   getUsersCount,
@@ -23,6 +24,7 @@ export default async function Page() {
 
   const nodesCount = await getNodesCount(tenantId);
   const usersCount = await getUsersCount(tenantId);
+  const tagsCount = await getTagsCount(tenantId);
   const tenant = await getTenant(tenantId);
   const integrations = await getIntegration(tenantId);
   const tags = await getTags(tenantId);
@@ -36,6 +38,7 @@ export default async function Page() {
           <Settings
             me={me}
             nodesCount={nodesCount}
+            tagsCount={tagsCount}
             usersCount={usersCount}
             tenant={tenant}
             integrations={integrations}

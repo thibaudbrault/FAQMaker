@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { $Enums } from '@prisma/client';
 import { PlusCircle, Tag as TagIcon } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { createTag } from '@/actions';
 import {
   Button,
   Dialog,
@@ -20,16 +22,18 @@ import {
   Field,
   Input,
 } from '@/components';
-import { useCreateTag, useMediaQuery } from '@/hooks';
+import { useMediaQuery } from '@/hooks';
 import { createTagClientSchema } from '@/lib';
 
 type Props = {
   tenantId: string;
+  plan: $Enums.Plan;
+  tagsCount: number;
 };
 
 type Schema = z.infer<typeof createTagClientSchema>;
 
-export const CreateTag = ({ tenantId }: Props) => {
+export const CreateTag = ({ tenantId, plan, tagsCount }: Props) => {
   const isDesktop = useMediaQuery('(min-width: 640px)');
 
   if (isDesktop) {
@@ -53,7 +57,7 @@ export const CreateTag = ({ tenantId }: Props) => {
           <DialogHeader>
             <DialogTitle>New tag</DialogTitle>
           </DialogHeader>
-          <Form tenantId={tenantId} />
+          <Form tenantId={tenantId} plan={plan} tagsCount={tagsCount} />
         </DialogContent>
       </Dialog>
     );
@@ -80,20 +84,19 @@ export const CreateTag = ({ tenantId }: Props) => {
           <DrawerHeader>
             <DrawerTitle>New tag</DrawerTitle>
           </DrawerHeader>
-          <Form tenantId={tenantId} />
+          <Form tenantId={tenantId} plan={plan} tagsCount={tagsCount} />
         </div>
       </DrawerContent>
     </Drawer>
   );
 };
 
-const Form = ({ tenantId }: Props) => {
+const Form = ({ tenantId, plan, tagsCount }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isSubmitting, isValid },
   } = useForm<Schema>({
     resolver: zodResolver(createTagClientSchema),
@@ -103,10 +106,15 @@ const Form = ({ tenantId }: Props) => {
     },
   });
 
-  const { mutate, isError, error } = useCreateTag(tenantId, reset);
-
-  const onSubmit: SubmitHandler<Schema> = (values) => {
-    mutate(values);
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+    formData.append('tagsCount', String(tagsCount));
+    formData.append('plan', plan);
+    formData.append('tenantId', tenantId);
+    await createTag(formData);
   };
 
   useEffect(() => {

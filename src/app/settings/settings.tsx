@@ -9,6 +9,7 @@ type Props = {
   me: Me;
   usersCount: number;
   nodesCount: number;
+  tagsCount: number;
   tenant: Tenant | null;
   integrations: Integrations | null;
   tags: Tag[] | null;
@@ -19,6 +20,7 @@ export default function Settings({
   me,
   usersCount,
   nodesCount,
+  tagsCount,
   tenant,
   integrations,
   tags,
@@ -67,7 +69,6 @@ export default function Settings({
         <TabsContent value="general" className="flex flex-col gap-4">
           <SuspenseWrapper loaderType="screen">
             <General
-              tenantId={me.tenantId}
               tenant={tenant}
               integrations={integrations}
               nodesCount={nodesCount}
@@ -77,7 +78,12 @@ export default function Settings({
         </TabsContent>
         <TabsContent value="tags">
           <SuspenseWrapper loaderType="screen">
-            <Tags tenantId={me.tenantId} plan={tenant.plan} tags={tags} />
+            <Tags
+              tenantId={me.tenantId}
+              plan={tenant.plan}
+              tags={tags}
+              tagsCount={tagsCount}
+            />
           </SuspenseWrapper>
         </TabsContent>
         <TabsContent value="users">

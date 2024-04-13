@@ -13,9 +13,10 @@ type Props = {
   tenantId: string;
   plan: $Enums.Plan;
   tags: Tag[];
+  tagsCount: number;
 };
 
-export const Tags = ({ tenantId, plan, tags }: Props) => {
+export const Tags = ({ tenantId, plan, tags, tagsCount }: Props) => {
   const [limit, setLimit] = useState<number>(3);
 
   const { mutate, isPending: isTagLoading } = useDeleteTag(tenantId);
@@ -57,7 +58,7 @@ export const Tags = ({ tenantId, plan, tags }: Props) => {
       ) : (
         <p className="my-6 text-center italic">No tags</p>
       )}
-      <CreateTag tenantId={tenantId} />
+      <CreateTag tenantId={tenantId} plan={plan} tagsCount={tagsCount} />
       {tags.length > 0 && plan !== 'enterprise' && (
         <p className="mt-1 text-xs text-gray-11">
           Tags limit: <span className="font-semibold">{tags.length}</span> /{' '}
