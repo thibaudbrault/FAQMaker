@@ -21,21 +21,21 @@ const nextConfig = removeImports({
   },
 });
 
-const sentryConfig = withSentryConfig(
-  nextConfig,
-  {
-    authToken: process.env.SENTRY_AUTH_TOKEN,
-    silent: true,
-    org: 'thibaud-brault',
-    project: 'faqmaker',
-  },
-  {
-    widenClientFileUpload: true,
-    transpileClientSDK: true,
-    tunnelRoute: '/monitoring',
-    hideSourceMaps: true,
-    disableLogger: true,
-  },
-);
+// const sentryConfig = withSentryConfig(
+//   nextConfig,
+//   {
+//     authToken: process.env.SENTRY_AUTH_TOKEN,
+//     silent: true,
+//     org: 'thibaud-brault',
+//     project: 'faqmaker',
+//   },
+//   {
+//     widenClientFileUpload: true,
+//     transpileClientSDK: true,
+//     tunnelRoute: '/monitoring',
+//     hideSourceMaps: true,
+//     disableLogger: true,
+//   },
+// );
 
-module.exports = sentryConfig;
+module.exports = nextConfig;
