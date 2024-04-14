@@ -13,3 +13,20 @@ export type ExtendedNode = Node & {
   answer: ExtendedAnswer;
   tags: Tag[];
 };
+
+export type NodeWithQuestionAndAnswer = Node & {
+  answer: {
+    text: string;
+  };
+  question: {
+    id: string;
+    slug: string;
+    text: string;
+  };
+};
+
+export type QuestionWithNodeId = Question & {
+  node: {
+    id: string;
+  };
+};

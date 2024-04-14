@@ -1,25 +1,15 @@
-import { Question } from '@prisma/client';
+'use client';
+
 import Link from 'next/link';
 
-import { Loader } from '@/components';
+import { QuestionWithNodeId } from '@/types';
 import { dateOptions } from '@/utils';
-
-type QuestionWithNodeId = Question & {
-  node: {
-    id: string;
-  };
-};
 
 type Props = {
   questions?: QuestionWithNodeId[];
-  isPending: boolean;
 };
 
-export const UserQuestions = ({ questions, isPending }: Props) => {
-  if (isPending) {
-    return <Loader size="items" />;
-  }
-
+export const UserQuestions = ({ questions }: Props) => {
   return (
     <>
       <h2
@@ -36,12 +26,7 @@ export const UserQuestions = ({ questions, isPending }: Props) => {
               key={question.id}
             >
               <h3 className="text-xl font-semibold hover:underline md:text-2xl">
-                <Link
-                  href={{
-                    pathname: '/question/[id]',
-                    query: { id: question.node.id },
-                  }}
-                >
+                <Link href={`/question/${question.node.id}`}>
                   {question.text}
                 </Link>
               </h3>

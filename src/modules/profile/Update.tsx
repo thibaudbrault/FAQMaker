@@ -8,8 +8,9 @@ import Image from 'next/image';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { updateUser } from '@/actions';
 import { Button, Field, Input } from '@/components';
-import { useMediaQuery, useUpdateUser } from '@/hooks';
+import { useMediaQuery } from '@/hooks';
 import { updateUserClientSchema } from '@/lib';
 import { IUserUpdateFields, Me } from '@/types';
 
@@ -36,10 +37,15 @@ export const UpdateProfile = ({ me }: Props) => {
     },
   });
 
-  const { mutate } = useUpdateUser(me.id, me.tenantId);
-
-  const onSubmit: SubmitHandler<Schema> = (values) => {
-    mutate(values);
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+    formData.append('role', me.role);
+    formData.append('id', me.id);
+    formData.append('tenantId', me.tenantId);
+    await updateUser(formData);
   };
 
   const fields: IUserUpdateFields[] = useMemo(

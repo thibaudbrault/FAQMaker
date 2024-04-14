@@ -1,8 +1,9 @@
+'use client';
+
 import { MoveRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import { Loader } from '@/components';
 import { NodeWithQuestionAndAnswer } from '@/hooks';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
@@ -10,14 +11,9 @@ const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
 
 type Props = {
   nodes?: NodeWithQuestionAndAnswer[];
-  isPending: boolean;
 };
 
-export const UserAnswers = ({ nodes, isPending }: Props) => {
-  if (isPending) {
-    return <Loader size="items" />;
-  }
-
+export const UserAnswers = ({ nodes }: Props) => {
   return (
     <>
       <h2
@@ -33,14 +29,12 @@ export const UserAnswers = ({ nodes, isPending }: Props) => {
               className="flex items-center justify-between rounded-md px-3 py-2 shadow-sm"
               key={index}
             >
-              <MarkdownPreview source={node.answer.text} />
+              <MarkdownPreview
+                source={node.answer.text}
+                className="!bg-transparent"
+              />
 
-              <Link
-                href={{
-                  pathname: '/question/[id]',
-                  query: { id: node.question.id },
-                }}
-              >
+              <Link href={`/question/${node.question.id}`}>
                 <MoveRight />
               </Link>
             </li>
