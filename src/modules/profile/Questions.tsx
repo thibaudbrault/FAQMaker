@@ -3,7 +3,7 @@
 import Link from 'next/link';
 
 import { QuestionWithNodeId } from '@/types';
-import { dateOptions } from '@/utils';
+import { Routes, dateOptions } from '@/utils';
 
 type Props = {
   questions?: QuestionWithNodeId[];
@@ -26,7 +26,9 @@ export const UserQuestions = ({ questions }: Props) => {
               key={question.id}
             >
               <h3 className="text-xl font-semibold hover:underline md:text-2xl">
-                <Link href={`/question/${question.node.id}`}>
+                <Link
+                  href={`${Routes.SITE.QUESTION.INDEX}/${question.node.id}`}
+                >
                   {question.text}
                 </Link>
               </h3>

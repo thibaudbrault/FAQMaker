@@ -6,6 +6,7 @@ import { getServerSession } from 'next-auth';
 import slugify from 'slugify';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
 import 'server-only';
@@ -73,7 +74,7 @@ export async function updateNode(tags, formData: FormData) {
   } catch (error) {
     return { error: 'Error updating question' };
   }
-  revalidatePath('/');
-  redirect('/');
+  revalidatePath(Routes.SITE.HOME);
+  redirect(Routes.SITE.HOME);
   return { message: 'Question updated successfully' };
 }

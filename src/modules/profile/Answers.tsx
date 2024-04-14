@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import { NodeWithQuestionAndAnswer } from '@/hooks';
+import { Routes } from '@/utils';
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
@@ -34,7 +35,7 @@ export const UserAnswers = ({ nodes }: Props) => {
                 className="!bg-transparent"
               />
 
-              <Link href={`/question/${node.question.id}`}>
+              <Link href={`${Routes.SITE.QUESTION.INDEX}/${node.question.id}`}>
                 <MoveRight />
               </Link>
             </li>

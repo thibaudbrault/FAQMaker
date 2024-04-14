@@ -29,7 +29,7 @@ type Props = {
 export const Header = ({ user }: Props) => {
   return (
     <header className="flex items-center justify-between border-b border-b-gray-6 bg-gray-2 px-4 py-2 text-gray-12 md:px-8 md:py-4">
-      <Link href="/" className="flex items-center gap-2">
+      <Link href={Routes.SITE.HOME} className="flex items-center gap-2">
         {user.tenant.logo && (
           <Image
             src={user.tenant.logo}
@@ -47,7 +47,7 @@ export const Header = ({ user }: Props) => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  href="/profile"
+                  href={Routes.SITE.PROFILE}
                   className="flex items-center gap-1 hover:text-gray-11"
                 >
                   <Avatar className="h-6 w-6">
@@ -65,7 +65,10 @@ export const Header = ({ user }: Props) => {
             <li>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link href="/settings" className="hover:text-gray-11">
+                  <Link
+                    href={Routes.SITE.SETTINGS}
+                    className="hover:text-gray-11"
+                  >
                     <Settings />
                   </Link>
                 </TooltipTrigger>
@@ -113,11 +116,11 @@ export const Header = ({ user }: Props) => {
           </DrawerTrigger>
           <DrawerContent>
             <div className="mb-10 mt-5 flex flex-col items-center gap-2 text-xl font-semibold">
-              <Link href="/profile" className="hover:underline">
+              <Link href={Routes.SITE.PROFILE} className="hover:underline">
                 Profile
               </Link>
               {user.role !== 'user' && (
-                <Link href="/settings" className="hover:underline">
+                <Link href={Routes.SITE.SETTINGS} className="hover:underline">
                   Settings
                 </Link>
               )}

@@ -7,7 +7,7 @@ import { getServerSession } from 'next-auth';
 import slugify from 'slugify';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { dateOptions, timeOptions } from '@/utils';
+import { Routes, dateOptions, timeOptions } from '@/utils';
 import prisma from 'lib/prisma';
 
 import 'server-only';
@@ -75,8 +75,8 @@ export const createNode = async (integrations, tags, formData) => {
   } catch (error) {
     return { error: 'Error creating question' };
   }
-  revalidatePath('/');
-  redirect('/');
+  revalidatePath(Routes.SITE.HOME);
+  redirect(Routes.SITE.HOME);
   return { message: 'Question created successfully' };
 };
 

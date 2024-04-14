@@ -6,6 +6,7 @@ export const Routes = {
     PROFILE: '/profile',
     ANSWER: '/question/answer',
     QUESTION: {
+      INDEX: '/question',
       NEW: '/question/new',
       EDIT: '/question/edit',
     },

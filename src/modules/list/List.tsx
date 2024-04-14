@@ -36,7 +36,7 @@ export const List = ({ nodes, message }: Props) => {
                     <h2 className="text-3xl font-semibold ">
                       <Link
                         className="transition-all duration-300 hover:underline"
-                        href={`/question/${node.id}`}
+                        href={`${Routes.SITE.QUESTION.INDEX}/${node.id}`}
                       >
                         {node.question.text}
                       </Link>

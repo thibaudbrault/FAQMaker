@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
 import 'server-only';
@@ -45,7 +46,7 @@ export async function updateTenant(formData: FormData) {
   } catch (error) {
     return { error: 'Error updating tenant' };
   }
-  revalidatePath('/settings');
-  redirect('/');
+  revalidatePath(Routes.SITE.SETTINGS);
+  redirect(Routes.SITE.HOME);
   return { message: 'Tenant updated successfully' };
 }
