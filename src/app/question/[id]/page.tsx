@@ -1,13 +1,15 @@
+import { redirect } from 'next/navigation';
+
 import { getMe, getNode } from '@/actions';
 import { Footer, Header } from '@/modules';
-import { Redirects } from '@/utils';
+import { Routes } from '@/utils';
 
 import Question from './question';
 
 export default async function Page({ params }) {
   const me = await getMe();
 
-  if (!me) return Redirects.LOGIN;
+  if (!me) return redirect(Routes.SITE.LOGIN);
   const tenantId = me.tenantId;
   const { id } = params;
 

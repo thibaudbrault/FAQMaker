@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+
 import {
   getIntegration,
   getMe,
@@ -10,16 +12,16 @@ import {
 } from '@/actions';
 import { SuspenseWrapper } from '@/lib';
 import { Footer, Header } from '@/modules';
-import { Redirects } from '@/utils';
+import { Routes } from '@/utils';
 
 import Settings from './settings';
 
 export default async function Page() {
   const me = await getMe();
 
-  if (!me) return Redirects.LOGIN;
+  if (!me) return redirect(Routes.SITE.LOGIN);
 
-  if (me.role === 'user') return Redirects.HOME;
+  if (me.role === 'user') return redirect(Routes.SITE.HOME);
   const tenantId = me.tenantId;
 
   const nodesCount = await getNodesCount(tenantId);

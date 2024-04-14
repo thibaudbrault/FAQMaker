@@ -37,10 +37,10 @@ export default function Form() {
   const { mutateAsync: mutateTenant, isSuccess: tenantIsSuccess } =
     useCreateTenant();
 
-  const onSubmit: SubmitHandler<Schema> = async (values) => {
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
     try {
-      await mutateTenant(values);
-      await mutateCustomer(values);
+      await mutateTenant(data);
+      await mutateCustomer(data);
     } catch (error) {
       console.error(`Something went wrong: ${error}`);
     }

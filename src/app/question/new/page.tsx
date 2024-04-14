@@ -1,13 +1,15 @@
-import { getMe, getIntegration, getTags } from '@/actions';
+import { redirect } from 'next/navigation';
+
+import { getIntegration, getMe, getTags } from '@/actions';
 import { Footer, Header } from '@/modules';
-import { Redirects } from '@/utils';
+import { Routes } from '@/utils';
 
 import New from './new';
 
 export default async function Page() {
   const me = await getMe();
 
-  if (!me) return Redirects.LOGIN;
+  if (!me) return redirect(Routes.SITE.LOGIN);
   const tenantId = me.tenantId;
 
   const integrations = await getIntegration(tenantId);

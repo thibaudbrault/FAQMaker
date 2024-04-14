@@ -1,14 +1,16 @@
+import { redirect } from 'next/navigation';
+
 import { getMe } from '@/actions';
 import { getNode } from '@/lib';
 import { Footer, Header } from '@/modules';
-import { Redirects } from '@/utils';
+import { Routes } from '@/utils';
 
 import Answer from './answer';
 
 export default async function Page({ searchParams }) {
   const me = await getMe();
 
-  if (!me) return Redirects.LOGIN;
+  if (!me) return redirect(Routes.SITE.LOGIN);
   const tenantId = me.tenantId;
   const { id } = searchParams;
 
