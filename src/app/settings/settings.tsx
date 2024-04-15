@@ -90,6 +90,7 @@ export default function Settings({
           <Users
             users={users}
             userId={me.id}
+            usersCount={usersCount}
             tenantId={me.tenantId}
             plan={tenant.plan}
           />

@@ -14,9 +14,10 @@ type Props = {
   tenantId: string;
   plan: $Enums.Plan;
   users: User[] | null;
+  usersCount: number;
 };
 
-export const Users = ({ userId, tenantId, plan, users }: Props) => {
+export const Users = ({ userId, tenantId, plan, users, usersCount }: Props) => {
   const { mutate, isPending: isUserLoading } = useDeleteUser(tenantId);
 
   const handleDeleteUser = (id: string) => {
@@ -62,13 +63,18 @@ export const Users = ({ userId, tenantId, plan, users }: Props) => {
           </div>
         </li>
       ))}
-      <CreateUser tenantId={tenantId} />
+      <CreateUser tenantId={tenantId} usersCount={usersCount} />
       <div className="flex items-center gap-4">
         <div className="h-px flex-grow bg-gray-6" />
         <p className="text-center text-xl font-bold uppercase">or</p>
         <div className="h-px flex-grow bg-gray-6" />
       </div>
-      <FileInput tenantId={tenantId} users={users} plan={plan} />
+      <FileInput
+        tenantId={tenantId}
+        users={users}
+        plan={plan}
+        usersCount={usersCount}
+      />
     </ul>
   );
 };

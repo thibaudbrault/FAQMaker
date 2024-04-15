@@ -34,11 +34,12 @@ import { createUserClientSchema } from '@/lib';
 
 type Props = {
   tenantId: string;
+  usersCount: number;
 };
 
 type Schema = z.infer<typeof createUserClientSchema>;
 
-export const CreateUser = ({ tenantId }: Props) => {
+export const CreateUser = ({ tenantId, usersCount }: Props) => {
   const isDesktop = useMediaQuery('(min-width: 640px)');
 
   if (isDesktop) {
@@ -62,7 +63,7 @@ export const CreateUser = ({ tenantId }: Props) => {
           <DialogHeader>
             <DialogTitle>New user</DialogTitle>
           </DialogHeader>
-          <Form tenantId={tenantId} />
+          <Form tenantId={tenantId} usersCount={usersCount} />
         </DialogContent>
       </Dialog>
     );
@@ -89,14 +90,14 @@ export const CreateUser = ({ tenantId }: Props) => {
           <DrawerHeader>
             <DrawerTitle className="text-2xl">New user</DrawerTitle>
           </DrawerHeader>
-          <Form tenantId={tenantId} />
+          <Form tenantId={tenantId} usersCount={usersCount} />
         </div>
       </DrawerContent>
     </Drawer>
   );
 };
 
-const Form = ({ tenantId }: Props) => {
+const Form = ({ tenantId, usersCount }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
 
   const {
@@ -120,6 +121,7 @@ const Form = ({ tenantId }: Props) => {
     }
     formData.append('tenantId', tenantId);
     await createUser(formData);
+    formData.append('usersCount', String(usersCount));
   };
 
   useEffect(() => {
