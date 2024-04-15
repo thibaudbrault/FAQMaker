@@ -8,10 +8,11 @@ import { Upload } from 'lucide-react';
 import Image from 'next/image';
 import Dropzone from 'react-dropzone';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { v4 as uuid } from 'uuid';
 import { z } from 'zod';
 
+import { getSignedLogo, updateLogo } from '@/actions';
 import { Button } from '@/components';
-import { useUpsertFiles } from '@/hooks';
 import { filesClientSchema } from '@/lib';
 
 type Props = {
@@ -23,7 +24,7 @@ type Schema = z.infer<typeof filesClientSchema>;
 export const Files = ({ tenant }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [previewImage, setPreviewImage] = useState<string>('');
-  const [file, setFile] = useState<File>();
+  const [file, setFile] = useState<File | null>(null);
 
   const {
     handleSubmit,
@@ -38,10 +39,24 @@ export const Files = ({ tenant }: Props) => {
     },
   });
 
-  const { mutate } = useUpsertFiles(tenant.id);
-
-  const onSubmit: SubmitHandler<Schema> = (values) => {
-    mutate(values);
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
+    const formData = new FormData();
+    const randomId = uuid();
+    const logo = encodeURIComponent(randomId + data.logo.name);
+    formData.append('logo', logo);
+    const { url, fields } = await getSignedLogo(formData);
+    formData.delete('logo');
+    Object.entries({ ...fields, file }).forEach(([key, value]) => {
+      formData.append(key, value as string | Blob);
+    });
+    await fetch(url, { method: 'POST', body: formData });
+    formData.forEach((_value, key) => {
+      formData.delete(key);
+    });
+    const logoUrl = url + 'logos/' + logo;
+    formData.append('logoUrl', logoUrl);
+    formData.append('id', tenant.id);
+    await updateLogo(formData);
   };
 
   const handleReset = () => {
@@ -52,8 +67,6 @@ export const Files = ({ tenant }: Props) => {
 
   useEffect(() => {
     setDisabled(isSubmitting || !isDirty || !isValid);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDirty, isSubmitting, isValid]);
 
   return (
@@ -98,7 +111,7 @@ export const Files = ({ tenant }: Props) => {
                     {previewImage ? (
                       <Image
                         src={previewImage}
-                        alt={file.name}
+                        alt={file?.name ?? 'Logo'}
                         className="h-36 w-36 rounded-md border border-gray-7 object-cover"
                         width={144}
                         height={144}
