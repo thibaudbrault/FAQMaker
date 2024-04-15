@@ -9,6 +9,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { usePapaParse } from 'react-papaparse';
 import { z } from 'zod';
 
+import { createUsers } from '@/actions';
 import {
   Button,
   Dialog,
@@ -25,25 +26,26 @@ import {
   DrawerTrigger,
   Input,
 } from '@/components';
-import { useCreateUsers, useMediaQuery } from '@/hooks';
+import { useMediaQuery } from '@/hooks';
 import { csvUploadClientSchema } from '@/lib';
 
 type Props = {
   tenantId: string;
   users: User[];
   plan: $Enums.Plan;
+  usersCount: number;
 };
 
 type Schema = z.infer<typeof csvUploadClientSchema>;
 
-export const FileInput = ({ tenantId, users, plan }: Props) => {
+export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
   const isDesktop = useMediaQuery('(min-width: 640px)');
 
-  const [file, setFile] = useState();
+  const [file, setFile] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string>('');
   const [csvData, setCsvData] = useState([]);
   const [disabled, setDisabled] = useState<boolean>(true);
-  const [newUsers, setNewUsers] = useState<string[]>();
+  const [newUsers, setNewUsers] = useState<string[]>([]);
   const [limit, setLimit] = useState<number>(5 - users.length);
   const fileInput = useRef(null);
   const { readRemoteFile } = usePapaParse();
@@ -102,14 +104,15 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
     });
   };
 
-  const { mutate } = useCreateUsers(tenantId, newUsersArray);
-
   const onFileSubmit: SubmitHandler<Schema> = (values) => {
     handleFileSubmit(values.name);
   };
 
-  const onSubmit = () => {
-    mutate();
+  const onSubmit = async () => {
+    const formData = new FormData();
+    formData.append('tenantId', tenantId);
+    formData.append('usersCount', String(usersCount));
+    await createUsers(newUsersArray, formData);
   };
 
   useEffect(() => {
