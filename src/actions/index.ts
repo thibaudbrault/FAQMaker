@@ -2,6 +2,7 @@ export * from './create-answer';
 export * from './create-node';
 export * from './create-tag';
 export * from './create-tenant';
+export * from './create-user';
 export * from './delete-tag';
 export * from './delete-tenant';
 export * from './get-integration';

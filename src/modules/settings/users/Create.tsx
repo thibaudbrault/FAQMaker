@@ -7,6 +7,7 @@ import { AtSign, PlusCircle } from 'lucide-react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { createUser } from '@/actions';
 import {
   Button,
   Dialog,
@@ -28,7 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components';
-import { useCreateUser, useMediaQuery } from '@/hooks';
+import { useMediaQuery } from '@/hooks';
 import { createUserClientSchema } from '@/lib';
 
 type Props = {
@@ -102,7 +103,6 @@ const Form = ({ tenantId }: Props) => {
     register,
     handleSubmit,
     control,
-    reset,
     formState: { errors, isValid, isSubmitting },
   } = useForm<Schema>({
     resolver: zodResolver(createUserClientSchema),
@@ -113,10 +113,13 @@ const Form = ({ tenantId }: Props) => {
     },
   });
 
-  const { mutate } = useCreateUser(tenantId, reset);
-
-  const onSubmit: SubmitHandler<Schema> = (values) => {
-    mutate(values);
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+    formData.append('tenantId', tenantId);
+    await createUser(formData);
   };
 
   useEffect(() => {
