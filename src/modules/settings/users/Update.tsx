@@ -8,6 +8,7 @@ import { AtSign, UserIcon } from 'lucide-react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { updateUser } from '@/actions';
 import {
   Button,
   Dialog,
@@ -29,7 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components';
-import { useMediaQuery, useUpdateUser } from '@/hooks';
+import { useMediaQuery } from '@/hooks';
 import { updateUserClientSchema } from '@/lib';
 
 type Props = {
@@ -110,10 +111,15 @@ const Form = ({ user, tenantId }: Props) => {
       role: user.role,
     },
   });
-  const { mutate } = useUpdateUser(user.id, tenantId);
 
-  const onSubmit: SubmitHandler<Schema> = (values) => {
-    mutate(values);
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key, data[key]);
+      formData.append('id', user.id);
+      formData.append('tenantId', tenantId);
+      await updateUser(formData);
+    }
   };
 
   useEffect(() => {
