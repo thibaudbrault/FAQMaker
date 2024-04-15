@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const ROLE = ['user', 'admin', 'tenant'] as const;
+import { ROLE } from '@/utils';
 
 export const createUserSchema = z.object({
   email: z.string().trim().email({ message: 'Invalid email' }),

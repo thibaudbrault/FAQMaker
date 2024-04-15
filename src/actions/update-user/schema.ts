@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const ROLE = ['user', 'admin', 'tenant'] as const;
+import { ROLE } from '@/utils';
 
 export const updateUserSchema = z.object({
   tenantId: z.string().cuid2(),

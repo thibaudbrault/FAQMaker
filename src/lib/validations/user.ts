@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { ROLE } from '@/utils';
+
 export const userEmailClientSchema = z.object({
   email: z
     .string()
@@ -10,7 +12,7 @@ export const userEmailClientSchema = z.object({
 });
 
 export const userRoleClientSchema = z.object({
-  role: z.enum(['user', 'admin', 'tenant']).optional(),
+  role: z.enum(ROLE).optional(),
 });
 
 export const createUserClientSchema = z.object({
@@ -20,7 +22,7 @@ export const createUserClientSchema = z.object({
     .min(1, { message: 'User email is required' })
     .email({ message: 'Invalid email' })
     .optional(),
-  role: z.enum(['user', 'admin', 'tenant']).optional(),
+  role: z.enum(ROLE).optional(),
   usersCount: z.number().min(0),
 });
 
