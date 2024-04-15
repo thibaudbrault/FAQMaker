@@ -2,8 +2,8 @@
 
 import { $Enums, User } from '@prisma/client';
 
+import { deleteUser } from '@/actions';
 import { Avatar, AvatarFallback, AvatarImage, Button } from '@/components';
-import { useDeleteUser } from '@/hooks';
 
 import { CreateUser } from './Create';
 import { FileInput } from './FileInput';
@@ -18,10 +18,11 @@ type Props = {
 };
 
 export const Users = ({ userId, tenantId, plan, users, usersCount }: Props) => {
-  const { mutate, isPending: isUserLoading } = useDeleteUser(tenantId);
-
-  const handleDeleteUser = (id: string) => {
-    mutate({ id });
+  const handleDeleteUser = async (id: string) => {
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('tenantId', tenantId);
+    await deleteUser(formData);
   };
 
   return (

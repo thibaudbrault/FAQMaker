@@ -6,6 +6,7 @@ export * from './create-user';
 export * from './create-users';
 export * from './delete-tag';
 export * from './delete-tenant';
+export * from './delete-user';
 export * from './get-integration';
 export * from './get-me';
 export * from './get-node';
