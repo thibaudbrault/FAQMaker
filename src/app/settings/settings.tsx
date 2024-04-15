@@ -1,7 +1,6 @@
 import { Integrations, Tag, Tenant, User } from '@prisma/client';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
-import { SuspenseWrapper } from '@/lib';
 import { General, Payment, Tags, Users } from '@/modules';
 import { Me } from '@/types';
 
@@ -67,24 +66,20 @@ export default function Settings({
           )}
         </TabsList>
         <TabsContent value="general" className="flex flex-col gap-4">
-          <SuspenseWrapper loaderType="screen">
-            <General
-              tenant={tenant}
-              integrations={integrations}
-              nodesCount={nodesCount}
-              usersCount={usersCount}
-            />
-          </SuspenseWrapper>
+          <General
+            tenant={tenant}
+            integrations={integrations}
+            nodesCount={nodesCount}
+            usersCount={usersCount}
+          />
         </TabsContent>
         <TabsContent value="tags">
-          <SuspenseWrapper loaderType="screen">
-            <Tags
-              tenantId={me.tenantId}
-              plan={tenant.plan}
-              tags={tags}
-              tagsCount={tagsCount}
-            />
-          </SuspenseWrapper>
+          <Tags
+            tenantId={me.tenantId}
+            plan={tenant.plan}
+            tags={tags}
+            tagsCount={tagsCount}
+          />
         </TabsContent>
         <TabsContent value="users">
           <Users

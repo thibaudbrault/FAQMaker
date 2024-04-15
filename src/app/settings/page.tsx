@@ -10,7 +10,6 @@ import {
   getUsers,
   getUsersCount,
 } from '@/actions';
-import { SuspenseWrapper } from '@/lib';
 import { Footer, Header } from '@/modules';
 import { Routes } from '@/utils';
 
@@ -33,23 +32,21 @@ export default async function Page() {
   const users = await getUsers(tenantId);
 
   return (
-    <SuspenseWrapper loaderType="screen">
-      <main className="flex h-full min-h-screen flex-col bg-gray-1">
-        <Header user={me} />
-        <div className="my-12 flex-grow">
-          <Settings
-            me={me}
-            nodesCount={nodesCount}
-            tagsCount={tagsCount}
-            usersCount={usersCount}
-            tenant={tenant}
-            integrations={integrations}
-            tags={tags}
-            users={users}
-          />
-        </div>
-        <Footer company={me.tenant.company} />
-      </main>
-    </SuspenseWrapper>
+    <main className="flex h-full min-h-screen flex-col bg-gray-1">
+      <Header user={me} />
+      <div className="my-12 flex-grow">
+        <Settings
+          me={me}
+          nodesCount={nodesCount}
+          tagsCount={tagsCount}
+          usersCount={usersCount}
+          tenant={tenant}
+          integrations={integrations}
+          tags={tags}
+          users={users}
+        />
+      </div>
+      <Footer company={me.tenant.company} />
+    </main>
   );
 }
