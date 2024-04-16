@@ -10,6 +10,7 @@ import { z } from 'zod';
 
 import { createNode } from '@/actions';
 import { BackButton, Button, Field, Input } from '@/components';
+import { useMediaQuery } from '@/hooks';
 import { questionClientSchema } from '@/lib';
 import { TagsList } from '@/modules';
 import { Me } from '@/types';
@@ -26,6 +27,7 @@ type Schema = z.infer<typeof questionClientSchema>;
 export default function New({ me, tags, integrations }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const isDesktop = useMediaQuery('(min-width: 640px)');
   const withAnswer = true;
 
   const {
@@ -84,7 +86,7 @@ export default function New({ me, tags, integrations }: Props) {
             >
               <Input
                 {...register('text')}
-                withIcon={true}
+                withIcon={isDesktop}
                 icon={<HelpCircle />}
                 type="text"
                 id="question"
