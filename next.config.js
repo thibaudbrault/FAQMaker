@@ -8,7 +8,6 @@ const nextConfig = removeImports({
   images: {
     domains: [
       'lh3.googleusercontent.com',
-      'api.dicebear.com',
       'storage.googleapis.com',
     ],
   },
