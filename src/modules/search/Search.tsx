@@ -2,10 +2,11 @@
 
 import { Dispatch, MouseEvent, SetStateAction, useState } from 'react';
 
+
 import { Tag } from '@prisma/client';
 import { SearchIcon, TagIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useDebouncedCallback } from 'use-debounce';
 
 import {
   DropdownMenu,
@@ -18,32 +19,26 @@ import {
 
 type Props = {
   tags: Tag[];
-  setSearchQuery: Dispatch<SetStateAction<string>>;
   setSearchTag: Dispatch<SetStateAction<string>>;
   setPage: Dispatch<SetStateAction<number>>;
 };
 
-export const Search = ({
-  tags,
-  setSearchQuery,
-  setSearchTag,
-  setPage,
-}: Props) => {
-  const router = useRouter();
-  const { handleSubmit, register } = useForm();
+export const Search = ({ tags, setSearchTag, setPage }: Props) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
   const [tagActive, setTagActive] = useState<string | null>(null);
 
-  const onSearch = (values) => {
-    const { search } = values;
-    setSearchQuery(search);
+  const handleSearch = useDebouncedCallback((search) => {
+    const params = new URLSearchParams(searchParams);
     setPage(0);
     if (search) {
-      const encodedSearch = encodeURI(search);
-      router.push(`?search=${encodedSearch}`);
+      params.set('query', search);
     } else {
-      router.push('');
+      params.delete('query');
     }
-  };
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
 
   const handleTagSearch = (label: string) => {
     setTagActive(label);
@@ -53,16 +48,13 @@ export const Search = ({
 
   const handleResetTag = () => {
     setTagActive(null);
-    setSearchTag(null);
+    setSearchTag('');
     setPage(0);
   };
 
   return (
     <section className="mx-auto flex w-11/12 items-end justify-center gap-8 md:w-3/4">
-      <form
-        onSubmit={handleSubmit(onSearch)}
-        className="group/search flex w-full flex-col gap-1 [&_svg]:focus-within:text-tealA-8"
-      >
+      <div className="group/search flex w-full flex-col gap-1 [&_svg]:focus-within:text-tealA-8">
         <Label
           htmlFor="search"
           className="lowercase"
@@ -71,15 +63,16 @@ export const Search = ({
           Search
         </Label>
         <Input
-          {...register('search')}
           withIcon
           icon={<SearchIcon />}
-          type="text"
+          type="search"
           id="search"
           placeholder="Search"
           className="py-2"
+          defaultValue={searchParams.get('query')?.toString()}
+          onChange={(e) => handleSearch(e.target.value)}
         />
-      </form>
+      </div>
       {tags.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger

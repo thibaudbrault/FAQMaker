@@ -5,32 +5,31 @@ import prisma from 'lib/prisma';
 
 import { getSearchSchema } from './schema';
 
-type Props = {
-  tenantId: string;
-  searchQuery: string;
-};
-
-export const getSearchNodes = cache(async (body: Props) => {
+export const getSearchNodes = cache(async (tenantId, query) => {
   try {
-    if (!body) {
+    if (!tenantId) {
       return { error: 'Tenant not found' };
     }
-    const result = getSearchSchema.safeParse(body);
+    if (!query) {
+      return [];
+    }
+    const result = getSearchSchema.safeParse({ tenantId, query });
     if (result.success === false) {
       const errors = result.error.formErrors.fieldErrors;
       return { error: 'Invalid request' + errors };
     } else {
-      const { tenantId, searchQuery } = result.data;
+      const { tenantId, query } = result.data;
       const nodes = await prisma.node.findMany({
         where: {
           tenantId: tenantId as string,
           question: {
-            text: { contains: searchQuery as string, mode: 'insensitive' },
+            text: { contains: query as string, mode: 'insensitive' },
           },
         },
         orderBy: { createdAt: 'desc' },
         include: nodeModel,
       });
+      if (!nodes) return [];
       return nodes;
     }
   } catch (error) {
