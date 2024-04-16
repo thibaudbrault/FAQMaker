@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const getPaginatedNodes = cache(
-  async (body: Props): Promise<ExtendedNode[] | null> => {
+  async (body: Props): Promise<ExtendedNode[]> => {
     try {
       if (!body) {
         throw new Error('Tenant not found');
@@ -30,7 +30,7 @@ export const getPaginatedNodes = cache(
           take: OFFSET,
           include: nodeModel,
         });
-        if (!nodes) return null;
+        if (!nodes) return [];
         return nodes as ExtendedNode[];
       }
     } catch (error) {

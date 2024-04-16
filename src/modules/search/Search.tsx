@@ -1,7 +1,6 @@
 'use client';
 
-import { Dispatch, MouseEvent, SetStateAction, useState } from 'react';
-
+import { MouseEvent } from 'react';
 
 import { Tag } from '@prisma/client';
 import { SearchIcon, TagIcon } from 'lucide-react';
@@ -19,19 +18,17 @@ import {
 
 type Props = {
   tags: Tag[];
-  setSearchTag: Dispatch<SetStateAction<string>>;
-  setPage: Dispatch<SetStateAction<number>>;
 };
 
-export const Search = ({ tags, setSearchTag, setPage }: Props) => {
+export const Search = ({ tags }: Props) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-  const [tagActive, setTagActive] = useState<string | null>(null);
+  const params = new URLSearchParams(searchParams);
+  const currentTag = params.get('tag') || '';
 
   const handleSearch = useDebouncedCallback((search) => {
-    const params = new URLSearchParams(searchParams);
-    setPage(0);
+    params.delete('page');
     if (search) {
       params.set('query', search);
     } else {
@@ -41,15 +38,15 @@ export const Search = ({ tags, setSearchTag, setPage }: Props) => {
   }, 300);
 
   const handleTagSearch = (label: string) => {
-    setTagActive(label);
-    setSearchTag(label);
-    setPage(0);
+    params.delete('page');
+    params.set('tag', label);
+    replace(`${pathname}?${params.toString()}`);
   };
 
   const handleResetTag = () => {
-    setTagActive(null);
-    setSearchTag('');
-    setPage(0);
+    params.delete('page');
+    params.delete('tag');
+    replace(`${pathname}?${params.toString()}`);
   };
 
   return (
@@ -85,7 +82,7 @@ export const Search = ({ tags, setSearchTag, setPage }: Props) => {
             {tags.map((tag) => (
               <DropdownMenuItem
                 className={
-                  tagActive === tag.label
+                  currentTag === tag.label
                     ? 'bg-gray-12 text-white hover:bg-gray-12 dark:bg-gray-1 dark:hover:bg-gray-1'
                     : 'bg-gray-1 dark:bg-gray-12'
                 }
@@ -99,7 +96,7 @@ export const Search = ({ tags, setSearchTag, setPage }: Props) => {
                 >
                   {tag.label}
                 </button>
-                {tagActive === tag.label && (
+                {currentTag === tag.label && (
                   <button onClick={handleResetTag}>x</button>
                 )}
               </DropdownMenuItem>

@@ -1,40 +1,36 @@
 'use client';
 
-import { useState } from 'react';
 
 import { Tag } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 
 import { Pagination } from '@/components';
-// import { useSearchNodes, useSearchTags } from '@/hooks';
 import { List, Search } from '@/modules';
-import { ExtendedNode, Me } from '@/types';
+import { ExtendedNode } from '@/types';
 import { OFFSET } from '@/utils';
 
 type Props = {
-  me: Me;
   initialNodes: ExtendedNode[];
   filteredNodes: ExtendedNode[];
+  filteredTags: ExtendedNode[];
   nodesCount: number;
   tags: Tag[];
 };
 
 export default function Home({
-  me,
   initialNodes,
   filteredNodes,
+  filteredTags,
   nodesCount,
   tags,
 }: Props) {
   const searchParams = useSearchParams();
   const query = searchParams.get('query') || '';
-  const [searchTag, setSearchTag] = useState<string>('');
-  const [page, setPage] = useState<number>(0);
+  const tag = searchParams.get('tag') || '';
+  const page = searchParams.get('page') || 0;
 
   let nodes: ExtendedNode[] = [];
   let message = 'Ask a question';
-
-  // const { data: filteredTags } = useSearchTags(me.tenantId, searchTag);
 
   if (query) {
     if (filteredNodes && filteredNodes.length > 0) {
@@ -43,23 +39,23 @@ export default function Home({
       nodes = [];
       message = 'No results';
     }
-    // } else if (searchTag) {
-    //   if (filteredTags && filteredTags.length > 0) {
-    //     nodes = filteredTags;
-    //   } else {
-    //     nodes = [];
-    //     message = 'No results';
-    //   }
+  } else if (tag) {
+    if (filteredTags && filteredTags.length > 0) {
+      nodes = filteredTags;
+    } else {
+      nodes = [];
+      message = 'No results';
+    }
   } else {
     nodes = initialNodes ?? [];
   }
 
   return (
     <>
-      <Search tags={tags} setSearchTag={setSearchTag} setPage={setPage} />
+      <Search tags={tags} />
       <List nodes={nodes} message={message} />
       {nodesCount > OFFSET && (nodes.length === OFFSET || page !== 0) && (
-        <Pagination nodesLength={nodesCount} setPage={setPage} />
+        <Pagination nodesLength={nodesCount} />
       )}
     </>
   );

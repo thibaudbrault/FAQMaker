@@ -1,31 +1,29 @@
 'use client';
 
-import { Dispatch, SetStateAction } from 'react';
 
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import ReactPaginate from 'react-paginate';
 
 import { OFFSET } from '@/utils';
 
 type Props = {
-  setPage: Dispatch<SetStateAction<number>>;
   nodesLength: number;
 };
 
-export const Pagination = ({ setPage, nodesLength }: Props) => {
+export const Pagination = ({ nodesLength }: Props) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get('page')) || 0;
+  const { replace } = useRouter();
 
   const handlePageChange = (data: { selected: number }) => {
-    setPage(data.selected);
-  };
-
-  const createPageURL = (data: { selected: number }) => {
     const params = new URLSearchParams(searchParams);
-    const pageNumber = data.selected;
-    params.set('page', pageNumber.toString());
-    return `${pathname}?${params.toString()}`;
+    const page = data.selected;
+    if (page > 0) {
+      params.set('page', page.toString());
+    } else {
+      params.delete('page');
+    }
+    replace(`${pathname}?${params.toString()}`);
   };
 
   return (
@@ -39,7 +37,7 @@ export const Pagination = ({ setPage, nodesLength }: Props) => {
         nextClassName="font-semibold h-10 px-2 flex items-center justify-center rounded-md hover:bg-gray-4"
         disabledClassName="text-gray-11 hover:text-gray-11 hover:!bg-transparent"
         breakLabel="..."
-        onPageChange={createPageURL}
+        onPageChange={handlePageChange}
         nextLabel="Next →"
         pageRangeDisplayed={3}
         marginPagesDisplayed={2}
