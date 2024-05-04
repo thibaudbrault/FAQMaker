@@ -23,7 +23,6 @@ export async function createTenant(formData: FormData) {
       return { error: 'Data not provided' };
     }
     const data = Object.fromEntries(formData) as CreateTenantData;
-    console.log('🚀 ~ createTenant ~ data:', data);
     const result = createTenantSchema.safeParse(data);
     if (result.success === false) {
       const errors = result.error.formErrors.fieldErrors;
