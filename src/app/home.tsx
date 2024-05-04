@@ -1,6 +1,5 @@
 'use client';
 
-
 import { Tag } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 
