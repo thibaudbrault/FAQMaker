@@ -70,21 +70,23 @@ export default function Form() {
           <p className="text-sm text-gray-11">Your company details</p>
         </div>
         {fields.map((field) => (
-          <Field
-            key={field.value}
-            label={field.label}
-            value={field.value}
-            info={field.info}
-            error={errors?.[field.value]?.message}
-          >
-            <Input
-              {...register(field.value)}
-              type={field.type}
-              id={field.value}
-              placeholder={field.label}
-              className="bg-transparent"
-            />
-          </Field>
+          <div key={field.value} className="flex flex-1 flex-col">
+            <Field
+              key={field.value}
+              label={field.label}
+              value={field.value}
+              info={field.info}
+              error={errors?.[field.value]?.message}
+            >
+              <Input
+                {...register(field.value)}
+                type={field.type}
+                id={field.value}
+                placeholder={field.label}
+                className="bg-transparent"
+              />
+            </Field>
+          </div>
         ))}
       </fieldset>
       <Button
