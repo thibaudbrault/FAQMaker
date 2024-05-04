@@ -9,10 +9,9 @@ import { useParams, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 import { Button, errorToast, successToast } from '@/components';
-import { useCreateCheckout } from '@/hooks';
 import { registerAtom } from '@/store';
 import { IPlan } from '@/types';
-import { Routes } from '@/utils';
+import { Routes, getStripe } from '@/utils';
 
 export default function Form() {
   const [state, setState] = useAtom(registerAtom);
@@ -22,14 +21,28 @@ export default function Form() {
   const params = useParams();
   const { status } = params;
 
-  const { mutate } = useCreateCheckout(state.customerId);
-
-  const saveData = (value: IPlan['value'], lookup_key: string) => {
+  const saveData = async (value: IPlan['value'], lookup_key: string) => {
     if (value === 'free') {
       setState(RESET);
       router.push(Routes.SITE.LOGIN);
     } else {
-      return mutate(lookup_key);
+      const body = { customerId: state.customerId, lookup_key };
+      const stripe = await getStripe();
+      const response = await fetch(Routes.API.CHECKOUT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+      const checkoutSession = await response.json();
+      if (response.ok) {
+        await stripe?.redirectToCheckout({
+          sessionId: checkoutSession.data.id,
+        });
+      } else {
+        errorToast(checkoutSession.error);
+      }
     }
   };
 

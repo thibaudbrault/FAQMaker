@@ -8,15 +8,19 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16',
 });
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   try {
-    if (!req.body) {
-      return { error: 'Information not provided' };
+    const body = await req.json();
+    if (!body) {
+      return NextResponse.json(
+        { error: 'Information not provided' },
+        { status: 500 },
+      );
     }
-    const result = createCheckoutSchema.safeParse(req.body);
+    const result = createCheckoutSchema.safeParse(body);
     if (result.success === false) {
       const errors = result.error.flatten().fieldErrors;
-      return { error: errors };
+      return NextResponse.json({ error: errors }, { status: 500 });
     } else {
       const { lookup_key, customerId } = result.data;
       const prices = await stripe.prices.list({
@@ -41,6 +45,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
       return NextResponse.json({ id: session.id });
     }
   } catch (error) {
-    return NextResponse.json({ error: 'Error creating checkout session' });
+    return NextResponse.json(
+      { error: 'Error creating checkout session' },
+      { status: 500 },
+    );
   }
 }
