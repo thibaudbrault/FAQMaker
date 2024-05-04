@@ -1,23 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-import { getTenantIdSchema } from '@/lib';
+import { tenantIdSchema } from '@/lib';
 import prisma from 'lib/prisma';
-
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16',
 });
 
-export async function POST(req: NextRequest, res: NextResponse) {
+type Products = {
+  product: string;
+  prices: Stripe.Price[];
+};
+
+export async function POST(req: NextRequest) {
   try {
-    if (!req.body) {
-      return { error: 'Customer details not provided' };
+    const body = await req.json();
+    if (!body) {
+      return NextResponse.json(
+        {
+          error: 'Customer details not provided',
+        },
+        { status: 500 },
+      );
     }
-    const result = getTenantIdSchema.safeParse(req.body);
+    const result = tenantIdSchema.safeParse(body);
     if (result.success === false) {
       const errors = result.error.flatten().fieldErrors;
-      return { error: errors };
+      return NextResponse.json({ error: errors });
     } else {
       const { tenantId } = result.data;
       const { customerId, plan } = await prisma.tenant.findUnique({
@@ -37,7 +47,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         active: true,
       });
       const [free, startup, enterprise] = productsList.data;
-      const products = [];
+      const products: Products[] = [];
       switch (plan) {
         case 'free':
           products.push(
@@ -114,9 +124,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
         customer: customerId,
         configuration: configuration.id,
       });
-      return NextResponse.json({ url });
+      return NextResponse.json({ url, customerId, plan });
     }
   } catch (error) {
-    return NextResponse.json({ error: 'Error creating billing session' });
+    return NextResponse.json(
+      {
+        error: 'Error creating billing session',
+      },
+      { status: 500 },
+    );
   }
 }
