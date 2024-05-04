@@ -9,8 +9,9 @@ import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { createTenant } from '@/actions';
 import { Button } from '@/components';
-import { useCreateCustomer, useCreateTenant } from '@/hooks';
+import { useCreateCustomer } from '@/hooks';
 import { registerCompleteClientSchema } from '@/lib';
 import { registerAtom } from '@/store';
 import { Routes } from '@/utils';
@@ -34,25 +35,22 @@ export default function Form() {
     mutateAsync: mutateCustomer,
     isSuccess: customerIsSuccess,
   } = useCreateCustomer();
-  const { mutateAsync: mutateTenant, isSuccess: tenantIsSuccess } =
-    useCreateTenant();
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    try {
-      await mutateTenant(data);
-      await mutateCustomer(data);
-    } catch (error) {
-      console.error(`Something went wrong: ${error}`);
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key, data[key]);
     }
+    await createTenant(formData);
+    // await mutateCustomer(data);
   };
 
-  useEffect(() => {
-    if (tenantIsSuccess && customerIsSuccess) {
-      setState({ ...state, customerId });
-      router.push(Routes.SITE.REGISTER.PLAN);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tenantIsSuccess, customerIsSuccess, customerId]);
+  // useEffect(() => {
+  //   if (customerIsSuccess) {
+  //     setState({ ...state, customerId });
+  //     router.push(Routes.SITE.REGISTER.PLAN);
+  //   }
+  // }, [customerIsSuccess, customerId]);
 
   useEffect(() => {
     setDisabled(!isValid || isSubmitting);

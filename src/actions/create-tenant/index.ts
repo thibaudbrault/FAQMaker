@@ -2,7 +2,6 @@
 
 import { Resend } from 'resend';
 
-import { RegisterEmailTemplate } from '@/components';
 import prisma from 'lib/prisma';
 
 import 'server-only';
@@ -24,6 +23,7 @@ export async function createTenant(formData: FormData) {
       return { error: 'Data not provided' };
     }
     const data = Object.fromEntries(formData) as CreateTenantData;
+    console.log('🚀 ~ createTenant ~ data:', data);
     const result = createTenantSchema.safeParse(data);
     if (result.success === false) {
       const errors = result.error.formErrors.fieldErrors;
@@ -64,12 +64,12 @@ export async function createTenant(formData: FormData) {
       if (!user) {
         return { error: 'There was a problem when creating the user' };
       }
-      await resend.emails.send({
-        from: `noreply@${domains?.data[0].name}`,
-        to: [companyEmail],
-        subject: 'Welcome to FAQMaker',
-        react: RegisterEmailTemplate(),
-      });
+      // await resend.emails.send({
+      //   from: `noreply@${domains?.data[0].name}`,
+      //   to: [companyEmail],
+      //   subject: 'Welcome to FAQMaker',
+      //   react: RegisterEmailTemplate(),
+      // });
     }
   } catch (error) {
     return { error: 'Error creating account' };
