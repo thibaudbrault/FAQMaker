@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     const result = tenantIdSchema.safeParse(body);
     if (result.success === false) {
       const errors = result.error.flatten().fieldErrors;
-      return NextResponse.json({ error: errors });
+      return NextResponse.json({ error: errors }, { status: 500 });
     } else {
       const { tenantId } = result.data;
       const { customerId, plan } = await prisma.tenant.findUnique({
