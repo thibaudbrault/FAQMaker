@@ -3,18 +3,20 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Integrations, Tag } from '@prisma/client';
 import { HelpCircle, MoveRight } from 'lucide-react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { useForm } from 'react-hook-form';
 
 import { createNode } from '@/actions';
 import { BackButton, Button, Field, Input } from '@/components';
 import { useMediaQuery } from '@/hooks';
 import { questionClientSchema } from '@/lib';
 import { TagsList } from '@/modules';
-import { Me } from '@/types';
 import { Limits } from '@/utils';
+
+import type { Me } from '@/types';
+import type { Integrations, Tag } from '@prisma/client';
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Props = {
   me: Me;
@@ -48,10 +50,11 @@ export default function New({ me, tags, integrations }: Props) {
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const formData = new FormData();
-    for (const key in data) {
+    Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
-    }
-    await createNode(integrations, selectedTags, formData);
+    });
+    formData.append('tags', JSON.stringify(selectedTags));
+    await createNode(integrations, formData);
   };
 
   const onSubmitWithAnswer: SubmitHandler<Schema> = (data) => {
@@ -120,7 +123,7 @@ export default function New({ me, tags, integrations }: Props) {
               onClick={handleSubmit(onSubmitWithAnswer)}
             >
               Answer
-              <MoveRight className="h-5 w-5" />
+              <MoveRight className="size-5" />
             </Button>
           </div>
         </form>

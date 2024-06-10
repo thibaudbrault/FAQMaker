@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Flame } from 'lucide-react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { deleteTenant } from '@/actions';
@@ -19,6 +19,8 @@ import {
   DialogTrigger,
   Input,
 } from '@/components';
+
+import type { SubmitHandler } from 'react-hook-form';
 
 type Props = {
   tenantId: string;
@@ -45,9 +47,9 @@ export const Delete = ({ tenantId, company }: Props) => {
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const formData = new FormData();
-    for (const key in data) {
+    Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
-    }
+    });
     formData.append('id', tenantId);
     formData.append('company', company);
     await deleteTenant(formData);

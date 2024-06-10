@@ -1,10 +1,10 @@
 'use client';
 
-import { Dispatch, SetStateAction } from 'react';
-
-import { Tag } from '@prisma/client';
+import type { Dispatch, SetStateAction } from 'react';
 
 import { Button } from '@/components';
+
+import type { Tag } from '@prisma/client';
 
 type Props = {
   tags: Tag[];
@@ -40,7 +40,6 @@ export const TagsList = ({ tags, selectedTags, setSelectedTags }: Props) => {
         ))}
       </ul>
     );
-  } else {
-    return <p className="text-center italic">No tags</p>;
   }
+  return <p className="text-center italic">No tags</p>;
 };

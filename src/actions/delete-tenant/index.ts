@@ -34,37 +34,36 @@ export async function deleteTenant(formData: FormData) {
       if (result.success === false) {
         const errors = result.error.flatten().fieldErrors;
         return { error: errors };
-      } else {
-        const { id, company } = result.data;
-        const { customerId, logo } = await prisma.tenant.findUnique({
-          where: { id, company },
-          select: {
-            customerId: true,
-            logo: true,
-          },
-        });
-        const storage = new Storage({
-          projectId: process.env.PROJECT_ID,
-          credentials: {
-            client_email: process.env.CLIENT_EMAIL,
-            private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
-          },
-        });
-        const bucketName = 'faqmaker';
-        const bucket = storage.bucket(bucketName);
-        if (logo) {
-          const fileName = logo.replace(
-            'https://storage.googleapis.com/faqmaker/',
-            '',
-          );
-          bucket.file(fileName).delete();
-        }
-        if (!customerId) return { error: `Customer not found` };
-        await prisma.tenant.delete({
-          where: { id, company },
-        });
-        await stripe.customers.del(customerId);
       }
+      const { id, company } = result.data;
+      const { customerId, logo } = await prisma.tenant.findUnique({
+        where: { id, company },
+        select: {
+          customerId: true,
+          logo: true,
+        },
+      });
+      const storage = new Storage({
+        projectId: process.env.PROJECT_ID,
+        credentials: {
+          client_email: process.env.CLIENT_EMAIL,
+          private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+        },
+      });
+      const bucketName = 'faqmaker';
+      const bucket = storage.bucket(bucketName);
+      if (logo) {
+        const fileName = logo.replace(
+          'https://storage.googleapis.com/faqmaker/',
+          '',
+        );
+        bucket.file(fileName).delete();
+      }
+      if (!customerId) return { error: `Customer not found` };
+      await prisma.tenant.delete({
+        where: { id, company },
+      });
+      await stripe.customers.del(customerId);
     } else {
       return { error: 'Not signed in' };
     }

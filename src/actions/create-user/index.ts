@@ -29,32 +29,31 @@ export async function createUser(formData: FormData) {
       if (result.success === false) {
         const errors = result.error.flatten().fieldErrors;
         return { error: errors };
-      } else {
-        const { email, role, usersCount, tenantId } = result.data;
-        const userExists = await prisma.user.findUnique({
-          where: { email, tenantId },
-        });
-        if (userExists) return { error: 'User already exists' };
-        if (typeof usersCount !== 'number')
-          return { error: 'Could not find the number of users' };
-        const { plan } = await prisma.tenant.findUnique({
-          where: { id: tenantId },
-          select: { plan: true },
-        });
-        if (
-          (plan === 'free' && usersCount >= 5) ||
-          (plan === 'startup' && usersCount >= 100)
-        ) {
-          return { error: 'You reached the maximum number of users' };
-        }
-        await prisma.user.create({
-          data: {
-            email,
-            role,
-            tenantId,
-          },
-        });
       }
+      const { email, role, usersCount, tenantId } = result.data;
+      const userExists = await prisma.user.findUnique({
+        where: { email, tenantId },
+      });
+      if (userExists) return { error: 'User already exists' };
+      if (typeof usersCount !== 'number')
+        return { error: 'Could not find the number of users' };
+      const { plan } = await prisma.tenant.findUnique({
+        where: { id: tenantId },
+        select: { plan: true },
+      });
+      if (
+        (plan === 'free' && usersCount >= 5) ||
+        (plan === 'startup' && usersCount >= 100)
+      ) {
+        return { error: 'You reached the maximum number of users' };
+      }
+      await prisma.user.create({
+        data: {
+          email,
+          role,
+          tenantId,
+        },
+      });
     } else {
       return { error: 'Not signed in' };
     }

@@ -1,8 +1,8 @@
 import { cache } from 'react';
 
-import { Tenant } from '@prisma/client';
-
 import prisma from 'lib/prisma';
+
+import type { Tenant } from '@prisma/client';
 
 export const getTenant = cache(
   async (tenantId: string): Promise<Tenant | null> => {

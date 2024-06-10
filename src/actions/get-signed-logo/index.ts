@@ -26,30 +26,28 @@ export async function getSignedLogo(formData: FormData) {
       if (result.success === false) {
         const errors = result.error.flatten().fieldErrors;
         return { error: errors };
-      } else {
-        const { logo } = result.data;
-        const storage = new Storage({
-          projectId: process.env.PROJECT_ID,
-          credentials: {
-            client_email: process.env.CLIENT_EMAIL,
-            private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
-          },
-        });
-        const bucket = storage.bucket(bucketName);
-        const file = bucket.file(`logos/${logo}`);
-        const options = {
-          expires: Date.now() + 1 * 60 * 1000, //  1 minute,
-          fields: { 'x-goog-meta-test': 'data' },
-        };
-        const [response] = await file.generateSignedPostPolicyV4(options);
-        return {
-          url: response.url,
-          fields: response.fields,
-        };
       }
-    } else {
-      return { error: 'Not signed in' };
+      const { logo } = result.data;
+      const storage = new Storage({
+        projectId: process.env.PROJECT_ID,
+        credentials: {
+          client_email: process.env.CLIENT_EMAIL,
+          private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+        },
+      });
+      const bucket = storage.bucket(bucketName);
+      const file = bucket.file(`logos/${logo}`);
+      const options = {
+        expires: Date.now() + 1 * 60 * 1000, //  1 minute,
+        fields: { 'x-goog-meta-test': 'data' },
+      };
+      const [response] = await file.generateSignedPostPolicyV4(options);
+      return {
+        url: response.url,
+        fields: response.fields,
+      };
     }
+    return { error: 'Not signed in' };
   } catch (error) {
     return { error: 'Error updating logo' };
   }

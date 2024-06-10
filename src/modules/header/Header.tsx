@@ -17,10 +17,11 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components';
-import { Me } from '@/types';
 import { Routes } from '@/utils';
 
 import { ThemeToggle } from '../theme';
+
+import type { Me } from '@/types';
 
 type Props = {
   user: Me;
@@ -50,7 +51,7 @@ export const Header = ({ user }: Props) => {
                   href={Routes.SITE.PROFILE}
                   className="flex items-center gap-1 hover:text-gray-11"
                 >
-                  <Avatar className="h-6 w-6">
+                  <Avatar className="size-6">
                     <AvatarImage src={user.image} />
                     <AvatarFallback>{user.email[0]}</AvatarFallback>
                   </Avatar>
@@ -85,6 +86,8 @@ export const Header = ({ user }: Props) => {
                 <button
                   onClick={() => signOut()}
                   className="hover:text-gray-11"
+                  type="button"
+                  aria-label="Log out"
                 >
                   <LogOut />
                 </button>
@@ -124,7 +127,11 @@ export const Header = ({ user }: Props) => {
                   Settings
                 </Link>
               )}
-              <button onClick={() => signOut()} className="hover:underline">
+              <button
+                onClick={() => signOut()}
+                className="hover:underline"
+                type="button"
+              >
                 Logout
               </button>
               <hr className="mx-auto my-2 h-px w-3/4 border-none bg-gray-6" />

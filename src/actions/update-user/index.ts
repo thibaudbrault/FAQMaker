@@ -29,17 +29,16 @@ export async function updateUser(formData: FormData) {
       if (result.success === false) {
         const errors = result.error.flatten().fieldErrors;
         return { error: errors };
-      } else {
-        const { id, tenantId, email, name, role } = result.data;
-        await prisma.user.update({
-          where: { id, tenantId },
-          data: {
-            email,
-            name,
-            role,
-          },
-        });
       }
+      const { id, tenantId, email, name, role } = result.data;
+      await prisma.user.update({
+        where: { id, tenantId },
+        data: {
+          email,
+          name,
+          role,
+        },
+      });
     } else {
       return { error: 'Not signed in' };
     }

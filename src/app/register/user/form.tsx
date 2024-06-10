@@ -5,13 +5,15 @@ import { useAtom } from 'jotai';
 import { MoveLeft, MoveRight } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { useForm } from 'react-hook-form';
 
 import { Button, Field, Input } from '@/components';
 import { registerUserClientSchema } from '@/lib';
 import { registerAtom } from '@/store';
 import { Routes } from '@/utils';
+
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Schema = z.infer<typeof registerUserClientSchema>;
 

@@ -1,8 +1,8 @@
 import { cache } from 'react';
 
-import { Tag } from '@prisma/client';
-
 import prisma from 'lib/prisma';
+
+import type { Tag } from '@prisma/client';
 
 export const getTags = cache(
   async (tenantId: string): Promise<Tag[] | null> => {

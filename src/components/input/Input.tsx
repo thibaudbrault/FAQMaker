@@ -1,4 +1,5 @@
-import { ReactNode, forwardRef } from 'react';
+import type { ReactNode } from 'react';
+import { forwardRef } from 'react';
 
 import { cn } from '@/utils';
 
@@ -15,9 +16,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, withIcon = false, icon, ...props }, ref) => {
     return withIcon ? (
       <div className="relative">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 transform">
-          {icon}
-        </span>
+        <span className="absolute left-3 top-1/2 -translate-y-1/2">{icon}</span>
         <input
           type={type}
           ref={ref}

@@ -9,8 +9,10 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components';
-import { ExtendedNode } from '@/types';
 import { Routes, dateOptions, timeOptions } from '@/utils';
+
+import type { ExtendedNode } from '@/types';
+
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
@@ -33,7 +35,7 @@ export const List = ({ nodes, message }: Props) => {
               <details>
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-6 py-3">
                   <div className="flex flex-col gap-2">
-                    <h2 className="text-3xl font-semibold ">
+                    <h2 className="text-3xl font-semibold">
                       <Link
                         className="transition-all duration-300 hover:underline"
                         href={`${Routes.SITE.QUESTION.INDEX}/${node.id}`}
@@ -59,14 +61,14 @@ export const List = ({ nodes, message }: Props) => {
                       {!node.answer && (
                         <Tooltip>
                           <TooltipTrigger>
-                            <BadgeHelp className="h-4 w-4 text-teal-9" />
+                            <BadgeHelp className="size-4 text-teal-9" />
                           </TooltipTrigger>
                           <TooltipContent>Unanswered</TooltipContent>
                         </Tooltip>
                       )}
                       <Tooltip>
                         <TooltipTrigger>
-                          <BadgeInfo className="h-4 w-4 text-teal-9" />
+                          <BadgeInfo className="size-4 text-teal-9" />
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>Asked by {node.question.user.name}</p>
@@ -87,7 +89,7 @@ export const List = ({ nodes, message }: Props) => {
                       {node.answer && (
                         <Tooltip>
                           <TooltipTrigger>
-                            <BadgeCheck className="h-4 w-4 text-teal-9" />
+                            <BadgeCheck className="size-4 text-teal-9" />
                           </TooltipTrigger>
                           <TooltipContent>
                             <p>Answered by {node.answer.user.name}</p>

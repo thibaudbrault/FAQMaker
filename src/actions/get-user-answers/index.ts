@@ -1,7 +1,8 @@
 import { cache } from 'react';
 
-import { NodeWithQuestionAndAnswer } from '@/types';
 import prisma from 'lib/prisma';
+
+import type { NodeWithQuestionAndAnswer } from '@/types';
 
 export const getUserAnswers = cache(
   async (userId: string): Promise<NodeWithQuestionAndAnswer[]> => {

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import { HelpCircle } from 'lucide-react';
 
@@ -42,7 +42,7 @@ export const Field = ({
         {info && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <HelpCircle className="h-3 w-3" />
+              <HelpCircle className="size-3" />
             </TooltipTrigger>
             <TooltipContent>
               <p>{info}</p>

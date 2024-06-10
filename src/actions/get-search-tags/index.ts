@@ -1,10 +1,11 @@
 import { cache } from 'react';
 
-import { ExtendedNode } from '@/types';
 import { nodeModel } from '@/utils';
 import prisma from 'lib/prisma';
 
 import { getTagSearchSchema } from './schema';
+
+import type { ExtendedNode } from '@/types';
 
 export const getSearchTags = cache(
   async (tenantId, tag): Promise<ExtendedNode[]> => {
@@ -18,15 +19,18 @@ export const getSearchTags = cache(
       const result = getTagSearchSchema.safeParse({ tenantId, tag });
       if (result.success === false) {
         const errors = result.error.formErrors.fieldErrors;
-        throw new Error('Invalid request' + errors);
+        throw new Error(`Invalid request${errors}`);
       } else {
-        const { tenantId, tag } = result.data;
+        const validatedData = result.data;
         const nodes = await prisma.node.findMany({
           where: {
-            tenantId: tenantId as string,
+            tenantId: validatedData.tenantId as string,
             tags: {
               some: {
-                label: { contains: tag as string, mode: 'insensitive' },
+                label: {
+                  contains: validatedData.tag as string,
+                  mode: 'insensitive',
+                },
               },
             },
           },

@@ -21,7 +21,7 @@ export default async function Page() {
   if (!me) return redirect(Routes.SITE.LOGIN);
 
   if (me.role === 'user') return redirect(Routes.SITE.HOME);
-  const tenantId = me.tenantId;
+  const { tenantId } = me;
 
   const nodesCount = await getNodesCount(tenantId);
   const usersCount = await getUsersCount(tenantId);
@@ -34,7 +34,7 @@ export default async function Page() {
   return (
     <main className="flex h-full min-h-screen flex-col bg-gray-1">
       <Header user={me} />
-      <div className="my-12 flex-grow">
+      <div className="my-12 grow">
         <Settings
           me={me}
           nodesCount={nodesCount}

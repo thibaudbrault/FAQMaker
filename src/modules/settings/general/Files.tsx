@@ -3,17 +3,19 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Tenant } from '@prisma/client';
 import { Upload } from 'lucide-react';
 import Image from 'next/image';
 import Dropzone from 'react-dropzone';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { v4 as uuid } from 'uuid';
-import { z } from 'zod';
 
 import { getSignedLogo, updateLogo } from '@/actions';
 import { Button } from '@/components';
 import { filesClientSchema } from '@/lib';
+
+import type { Tenant } from '@prisma/client';
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Props = {
   tenant: Tenant;
@@ -30,7 +32,7 @@ export const Files = ({ tenant }: Props) => {
     handleSubmit,
     control,
     reset,
-    formState: { isSubmitting, isDirty, isValid, errors },
+    formState: { isSubmitting, isDirty, isValid },
   } = useForm<Schema>({
     resolver: zodResolver(filesClientSchema),
     mode: 'onBlur',
@@ -53,7 +55,7 @@ export const Files = ({ tenant }: Props) => {
     formData.forEach((_value, key) => {
       formData.delete(key);
     });
-    const logoUrl = url + 'logos/' + logo;
+    const logoUrl = `${url}logos/${logo}`;
     formData.append('logoUrl', logoUrl);
     formData.append('id', tenant.id);
     await updateLogo(formData);
@@ -82,7 +84,7 @@ export const Files = ({ tenant }: Props) => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Controller
-          name={'logo'}
+          name="logo"
           control={control}
           render={({ field: { onChange, onBlur } }) => (
             <div className="w-full">
@@ -112,13 +114,13 @@ export const Files = ({ tenant }: Props) => {
                       <Image
                         src={previewImage}
                         alt={file?.name ?? 'Logo'}
-                        className="h-36 w-36 rounded-md border border-gray-7 object-cover"
+                        className="size-36 rounded-md border border-gray-7 object-cover"
                         width={144}
                         height={144}
                       />
                     ) : (
-                      <div className="flex h-36 w-36 items-center justify-center">
-                        <Upload className="h-20 w-20" />
+                      <div className="flex size-36 items-center justify-center">
+                        <Upload className="size-20" />
                       </div>
                     )}
                     <p className="text-xl font-semibold">

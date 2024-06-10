@@ -5,14 +5,16 @@ import { useEffect, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AtSign, UserIcon } from 'lucide-react';
 import Image from 'next/image';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { useForm } from 'react-hook-form';
 
 import { updateUser } from '@/actions';
 import { Button, Field, Input } from '@/components';
 import { useMediaQuery } from '@/hooks';
 import { updateUserClientSchema } from '@/lib';
-import { IUserUpdateFields, Me } from '@/types';
+
+import type { IUserUpdateFields, Me } from '@/types';
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Props = {
   me: Me;
@@ -39,9 +41,9 @@ export const UpdateProfile = ({ me }: Props) => {
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const formData = new FormData();
-    for (const key in data) {
+    Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
-    }
+    });
     formData.append('role', me.role);
     formData.append('id', me.id);
     formData.append('tenantId', me.tenantId);
@@ -54,13 +56,13 @@ export const UpdateProfile = ({ me }: Props) => {
         label: 'Name',
         value: 'name',
         type: 'text',
-        icon: <UserIcon className="h-5 w-5" />,
+        icon: <UserIcon className="size-5" />,
       },
       {
         label: 'Email',
         value: 'email',
         type: 'email',
-        icon: <AtSign className="h-5 w-5" />,
+        icon: <AtSign className="size-5" />,
       },
     ],
     [],
@@ -87,13 +89,13 @@ export const UpdateProfile = ({ me }: Props) => {
         {me.image ? (
           <Image
             src={me.image}
-            alt={'Profile picture'}
+            alt="Profile picture"
             width={isDesktop ? 128 : 80}
             height={isDesktop ? 128 : 80}
             className="row-start-2 self-center justify-self-center rounded-md"
           />
         ) : (
-          <UserIcon className="row-start-2 h-20 w-20 self-center justify-self-center rounded-md sm:h-32 sm:w-32" />
+          <UserIcon className="row-start-2 size-20 self-center justify-self-center rounded-md sm:size-32" />
         )}
         <ul className="col-span-3 row-start-2 flex list-none flex-col gap-2">
           {fields.map((field) => (

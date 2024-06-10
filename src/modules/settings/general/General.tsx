@@ -1,9 +1,9 @@
-import { Integrations as IntegrationsType, Tenant } from '@prisma/client';
-
 import { Company } from './Company';
 import { Data } from './Data';
 import { Files } from './Files';
 import { Integrations } from './Integrations';
+
+import type { Integrations as IntegrationsType, Tenant } from '@prisma/client';
 
 type Props = {
   tenant: Tenant;
@@ -35,7 +35,6 @@ export const General = ({
       )}
       <section className="w-full">
         <Data
-          tenantId={tenant.id}
           plan={tenant.plan}
           nodesCount={nodesCount}
           usersCount={usersCount}

@@ -1,7 +1,5 @@
 'use client';
 
-import { $Enums, User } from '@prisma/client';
-
 import { deleteUser } from '@/actions';
 import { Avatar, AvatarFallback, AvatarImage, Button } from '@/components';
 
@@ -9,12 +7,25 @@ import { CreateUser } from './Create';
 import { FileInput } from './FileInput';
 import { UpdateUser } from './Update';
 
+import type { $Enums, User } from '@prisma/client';
+
 type Props = {
   userId: string;
   tenantId: string;
   plan: $Enums.Plan;
   users: User[] | null;
   usersCount: number;
+};
+
+const UserAvatar = ({ id, email, image }) => {
+  const placeholderImage = `https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${id}&radius=50`;
+  const avatar = image ?? placeholderImage;
+  return (
+    <Avatar className="m-3 size-9">
+      <AvatarImage src={avatar} />
+      <AvatarFallback>{email[0].toUpperCase()}</AvatarFallback>
+    </Avatar>
+  );
 };
 
 export const Users = ({ userId, tenantId, plan, users, usersCount }: Props) => {
@@ -66,9 +77,9 @@ export const Users = ({ userId, tenantId, plan, users, usersCount }: Props) => {
       ))}
       <CreateUser tenantId={tenantId} usersCount={usersCount} />
       <div className="flex items-center gap-4">
-        <div className="h-px flex-grow bg-gray-6" />
+        <div className="h-px grow bg-gray-6" />
         <p className="text-center text-xl font-bold uppercase">or</p>
-        <div className="h-px flex-grow bg-gray-6" />
+        <div className="h-px grow bg-gray-6" />
       </div>
       <FileInput
         tenantId={tenantId}
@@ -77,16 +88,5 @@ export const Users = ({ userId, tenantId, plan, users, usersCount }: Props) => {
         usersCount={usersCount}
       />
     </ul>
-  );
-};
-
-const UserAvatar = ({ id, email, image }) => {
-  const placeholderImage = `https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${id}&radius=50`;
-  const avatar = image ?? placeholderImage;
-  return (
-    <Avatar className="m-3 h-9 w-9">
-      <AvatarImage src={avatar} />
-      <AvatarFallback>{email[0].toUpperCase()}</AvatarFallback>
-    </Avatar>
   );
 };

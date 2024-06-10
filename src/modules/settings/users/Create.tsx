@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AtSign, PlusCircle } from 'lucide-react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { Controller, useForm } from 'react-hook-form';
 
 import { createUser } from '@/actions';
 import {
@@ -32,12 +31,105 @@ import {
 import { useMediaQuery } from '@/hooks';
 import { createUserClientSchema } from '@/lib';
 
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
+
 type Props = {
   tenantId: string;
   usersCount: number;
 };
 
 type Schema = z.infer<typeof createUserClientSchema>;
+
+const Form = ({ tenantId, usersCount }: Props) => {
+  const [disabled, setDisabled] = useState<boolean>(true);
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isValid, isSubmitting },
+  } = useForm<Schema>({
+    resolver: zodResolver(createUserClientSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      email: '',
+      role: 'user',
+    },
+  });
+
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
+    const formData = new FormData();
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
+    });
+    formData.append('tenantId', tenantId);
+    await createUser(formData);
+    formData.append('usersCount', String(usersCount));
+  };
+
+  useEffect(() => {
+    setDisabled(isSubmitting || !isValid);
+  }, [isSubmitting, isValid]);
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col items-center gap-4"
+    >
+      <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
+        <Field label="Email" value="email" error={errors.email?.message}>
+          <Input
+            {...register('email')}
+            withIcon
+            icon={<AtSign className="size-5" />}
+            type="email"
+            id="email"
+            placeholder="Email"
+          />
+        </Field>
+        <div className="flex flex-col gap-1">
+          <Label
+            htmlFor="role"
+            className="lowercase"
+            style={{ fontVariant: 'small-caps' }}
+          >
+            Role
+          </Label>
+          <Controller
+            control={control}
+            name="role"
+            rules={{ required: true }}
+            render={({ field: { onChange } }) => (
+              <Select defaultValue="user" onValueChange={onChange}>
+                <SelectTrigger id="role">
+                  <SelectValue placeholder="Select a role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="user" className="pl-8">
+                    User
+                  </SelectItem>
+                  <SelectItem value="admin" className="pl-8">
+                    Admin
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+          />
+        </div>
+      </fieldset>
+      <Button
+        variant={disabled ? 'disabled' : 'primary'}
+        weight="semibold"
+        className="lowercase"
+        style={{ fontVariant: 'small-caps' }}
+        disabled={disabled}
+      >
+        Add
+      </Button>
+    </form>
+  );
+};
 
 export const CreateUser = ({ tenantId, usersCount }: Props) => {
   const isDesktop = useMediaQuery('(min-width: 640px)');
@@ -94,95 +186,5 @@ export const CreateUser = ({ tenantId, usersCount }: Props) => {
         </div>
       </DrawerContent>
     </Drawer>
-  );
-};
-
-const Form = ({ tenantId, usersCount }: Props) => {
-  const [disabled, setDisabled] = useState<boolean>(true);
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors, isValid, isSubmitting },
-  } = useForm<Schema>({
-    resolver: zodResolver(createUserClientSchema),
-    mode: 'onBlur',
-    defaultValues: {
-      email: '',
-      role: 'user',
-    },
-  });
-
-  const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    for (const key in data) {
-      formData.append(key, data[key]);
-    }
-    formData.append('tenantId', tenantId);
-    await createUser(formData);
-    formData.append('usersCount', String(usersCount));
-  };
-
-  useEffect(() => {
-    setDisabled(isSubmitting || !isValid);
-  }, [isSubmitting, isValid]);
-
-  return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col items-center gap-4"
-    >
-      <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
-        <Field label="Email" value="email" error={errors.email?.message}>
-          <Input
-            {...register('email')}
-            withIcon
-            icon={<AtSign className="h-5 w-5" />}
-            type="email"
-            id="email"
-            placeholder="Email"
-          />
-        </Field>
-        <div className="flex flex-col gap-1">
-          <Label
-            htmlFor="role"
-            className="lowercase"
-            style={{ fontVariant: 'small-caps' }}
-          >
-            Role
-          </Label>
-          <Controller
-            control={control}
-            name="role"
-            rules={{ required: true }}
-            render={({ field: { onChange } }) => (
-              <Select defaultValue="user" onValueChange={onChange}>
-                <SelectTrigger id="role">
-                  <SelectValue placeholder="Select a role" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="user" className="pl-8">
-                    User
-                  </SelectItem>
-                  <SelectItem value="admin" className="pl-8">
-                    Admin
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            )}
-          />
-        </div>
-      </fieldset>
-      <Button
-        variant={disabled ? 'disabled' : 'primary'}
-        weight="semibold"
-        className="lowercase"
-        style={{ fontVariant: 'small-caps' }}
-        disabled={disabled}
-      >
-        Add
-      </Button>
-    </form>
   );
 };

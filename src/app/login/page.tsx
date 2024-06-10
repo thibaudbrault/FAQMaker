@@ -3,6 +3,31 @@ import Link from 'next/link';
 import { LoginButton } from '@/components';
 import { Routes } from '@/utils';
 
+const errors = {
+  Signin: 'Try signing with a different account.',
+  OAuthSignin: 'Try signing with a different account.',
+  OAuthCallback: 'Try signing with a different account.',
+  OAuthCreateAccount: 'Try signing with a different account.',
+  EmailCreateAccount: 'Try signing with a different account.',
+  Callback: 'Try signing with a different account.',
+  OAuthAccountNotLinked:
+    'To confirm your identity, sign in with the same account you used originally.',
+  EmailSignin: 'Check your email address.',
+  CredentialsSignin:
+    'Sign in failed. Check the details you provided are correct.',
+  AccessDenied: 'User not found.',
+  default: 'Unable to sign in.',
+};
+
+type ErrorProps = {
+  error: string;
+};
+
+const LoginError = ({ error }: ErrorProps) => {
+  const errorMessage = error && (errors[error] ?? errors.default);
+  return <div className="text-center text-red-9">{errorMessage}</div>;
+};
+
 export default async function Page({ searchParams }) {
   const { error, callbackUrl } = searchParams;
 
@@ -31,28 +56,3 @@ export default async function Page({ searchParams }) {
     </div>
   );
 }
-
-const errors = {
-  Signin: 'Try signing with a different account.',
-  OAuthSignin: 'Try signing with a different account.',
-  OAuthCallback: 'Try signing with a different account.',
-  OAuthCreateAccount: 'Try signing with a different account.',
-  EmailCreateAccount: 'Try signing with a different account.',
-  Callback: 'Try signing with a different account.',
-  OAuthAccountNotLinked:
-    'To confirm your identity, sign in with the same account you used originally.',
-  EmailSignin: 'Check your email address.',
-  CredentialsSignin:
-    'Sign in failed. Check the details you provided are correct.',
-  AccessDenied: 'User not found.',
-  default: 'Unable to sign in.',
-};
-
-type ErrorProps = {
-  error: string;
-};
-
-const LoginError = ({ error }: ErrorProps) => {
-  const errorMessage = error && (errors[error] ?? errors.default);
-  return <div className="text-center text-red-9">{errorMessage}</div>;
-};

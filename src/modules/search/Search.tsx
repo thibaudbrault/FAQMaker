@@ -1,8 +1,7 @@
 'use client';
 
-import { MouseEvent } from 'react';
+import type { MouseEvent } from 'react';
 
-import { Tag } from '@prisma/client';
 import { SearchIcon, TagIcon } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
@@ -15,6 +14,8 @@ import {
   Input,
   Label,
 } from '@/components';
+
+import type { Tag } from '@prisma/client';
 
 type Props = {
   tags: Tag[];
@@ -89,7 +90,8 @@ export const Search = ({ tags }: Props) => {
                 key={tag.id}
               >
                 <button
-                  className="h-full w-full text-start"
+                  className="size-full text-start"
+                  type="button"
                   onClick={(e: MouseEvent<HTMLButtonElement>) =>
                     handleTagSearch(e.currentTarget.innerHTML)
                   }
@@ -97,7 +99,9 @@ export const Search = ({ tags }: Props) => {
                   {tag.label}
                 </button>
                 {currentTag === tag.label && (
-                  <button onClick={handleResetTag}>x</button>
+                  <button onClick={handleResetTag} type="button">
+                    x
+                  </button>
                 )}
               </DropdownMenuItem>
             ))}

@@ -3,8 +3,9 @@ import { cache } from 'react';
 import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { Me } from '@/types';
 import prisma from 'lib/prisma';
+
+import type { Me } from '@/types';
 
 export const getMe = cache(async (): Promise<Me | null> => {
   try {

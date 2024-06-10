@@ -3,14 +3,16 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { Controller, useForm } from 'react-hook-form';
 
 import { createAnswer, updateAnswer } from '@/actions';
 import { BackButton, Button, Editor } from '@/components';
 import { answerClientSchema } from '@/lib';
-import { ExtendedNode, Me } from '@/types';
 import { Limits } from '@/utils';
+
+import type { ExtendedNode, Me } from '@/types';
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Props = {
   me: Me;
@@ -40,9 +42,9 @@ export default function Answer({ me, node }: Props) {
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const formData = new FormData();
-    for (const key in data) {
+    Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
-    }
+    });
     if (node?.answer) {
       formData.append('id', node.answer.id);
       await updateAnswer(formData);

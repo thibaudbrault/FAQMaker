@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 
-import { $Enums, Tag } from '@prisma/client';
-
 import { deleteTag } from '@/actions';
 import { Button } from '@/components';
 
 import { CreateTag } from './Create';
+
+import type { $Enums, Tag } from '@prisma/client';
 
 type Props = {
   tenantId: string;

@@ -29,36 +29,35 @@ export async function updateLogo(formData: FormData) {
       if (result.success === false) {
         const errors = result.error.flatten().fieldErrors;
         return { error: errors };
-      } else {
-        const { logoUrl, id } = result.data;
-        const { logo: oldLogo } = await prisma.tenant.findUnique({
-          where: { id },
-          select: {
-            logo: true,
-          },
-        });
-        if (oldLogo) {
-          const storage = new Storage({
-            projectId: process.env.PROJECT_ID,
-            credentials: {
-              client_email: process.env.CLIENT_EMAIL,
-              private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
-            },
-          });
-          const bucket = storage.bucket(bucketName);
-          const fileName = oldLogo.replace(
-            'https://storage.googleapis.com/faqmaker/',
-            '',
-          );
-          bucket.file(fileName).delete();
-        }
-        await prisma.tenant.update({
-          where: { id },
-          data: {
-            logo: logoUrl,
-          },
-        });
       }
+      const { logoUrl, id } = result.data;
+      const { logo: oldLogo } = await prisma.tenant.findUnique({
+        where: { id },
+        select: {
+          logo: true,
+        },
+      });
+      if (oldLogo) {
+        const storage = new Storage({
+          projectId: process.env.PROJECT_ID,
+          credentials: {
+            client_email: process.env.CLIENT_EMAIL,
+            private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+          },
+        });
+        const bucket = storage.bucket(bucketName);
+        const fileName = oldLogo.replace(
+          'https://storage.googleapis.com/faqmaker/',
+          '',
+        );
+        bucket.file(fileName).delete();
+      }
+      await prisma.tenant.update({
+        where: { id },
+        data: {
+          logo: logoUrl,
+        },
+      });
     } else {
       return { error: 'Not signed in' };
     }

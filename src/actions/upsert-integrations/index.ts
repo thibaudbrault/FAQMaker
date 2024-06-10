@@ -28,17 +28,16 @@ export async function upsertIntegrations(formData: FormData) {
       if (result.success === false) {
         const errors = result.error.flatten().fieldErrors;
         return { error: errors };
-      } else {
-        const { slack, tenantId } = result.data;
-        await prisma.integrations.upsert({
-          where: { tenantId },
-          update: { slack },
-          create: {
-            slack,
-            tenantId,
-          },
-        });
       }
+      const { slack, tenantId } = result.data;
+      await prisma.integrations.upsert({
+        where: { tenantId },
+        update: { slack },
+        create: {
+          slack,
+          tenantId,
+        },
+      });
     } else {
       return { error: 'Not signed in' };
     }

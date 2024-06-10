@@ -16,7 +16,6 @@ export const Routes = {
       CONFIRM: '/register/confirm',
       PLAN: '/register/plan',
     },
-    _500: '/500',
   },
   API: {
     USERS: {
@@ -56,12 +55,6 @@ export const Routes = {
 export const Redirects = {
   NOT_FOUND: {
     notFound: true,
-  },
-  _500: {
-    redirect: {
-      permanent: false,
-      destination: Routes.SITE._500,
-    },
   },
   LOGIN: {
     redirect: {

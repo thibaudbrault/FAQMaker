@@ -3,18 +3,20 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Tag } from '@prisma/client';
 import { HelpCircle } from 'lucide-react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { useForm } from 'react-hook-form';
 
 import { updateNode } from '@/actions';
 import { BackButton, Button, Field, Input } from '@/components';
 import { useMediaQuery } from '@/hooks';
 import { createQuestionSchema } from '@/lib';
 import { TagsList } from '@/modules';
-import { ExtendedNode, Me } from '@/types';
 import { Limits, arraysAreEqual } from '@/utils';
+
+import type { ExtendedNode, Me } from '@/types';
+import type { Tag } from '@prisma/client';
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Props = {
   me: Me;
@@ -55,14 +57,15 @@ export default function Edit({ me, node, tags }: Props) {
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const formData = new FormData();
-    for (const key in data) {
+    Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
-    }
+    });
     formData.append('id', node.id);
     formData.append('tenantId', me.tenantId);
     formData.append('userId', me.id);
     formData.append('questionId', node.question.id);
-    await updateNode(selectedTags, formData);
+    formData.append('tags', JSON.stringify(selectedTags));
+    await updateNode(formData);
   };
 
   const tagsId = node?.tags?.map((tag) => tag.id);
@@ -77,7 +80,7 @@ export default function Edit({ me, node, tags }: Props) {
       <BackButton />
       <div className="flex flex-col gap-4 rounded-md bg-gray-3 p-4">
         <form
-          className="flex flex-col items-center justify-center gap-4 "
+          className="flex flex-col items-center justify-center gap-4"
           onSubmit={handleSubmit(onSubmit)}
         >
           <fieldset className="mx-auto flex w-11/12 flex-col gap-4">

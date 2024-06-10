@@ -1,10 +1,11 @@
 import { cache } from 'react';
 
-import { ExtendedNode } from '@/types';
 import { OFFSET, nodeModel } from '@/utils';
 import prisma from 'lib/prisma';
 
 import { getNodesSchema } from './schema';
+
+import type { ExtendedNode } from '@/types';
 
 type Props = {
   tenantId: string;
@@ -20,7 +21,7 @@ export const getPaginatedNodes = cache(
       const result = getNodesSchema.safeParse(body);
       if (result.success === false) {
         const errors = result.error.formErrors.fieldErrors;
-        throw new Error('Invalid request' + errors);
+        throw new Error(`Invalid request${errors}`);
       } else {
         const { tenantId, page } = result.data;
         const nodes = await prisma.node.findMany({

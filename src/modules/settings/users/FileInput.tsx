@@ -3,11 +3,9 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { $Enums, User } from '@prisma/client';
 import { FileUp } from 'lucide-react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { usePapaParse } from 'react-papaparse';
-import { z } from 'zod';
 
 import { createUsers } from '@/actions';
 import {
@@ -28,6 +26,10 @@ import {
 } from '@/components';
 import { useMediaQuery } from '@/hooks';
 import { csvUploadClientSchema } from '@/lib';
+
+import type { $Enums, User } from '@prisma/client';
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Props = {
   tenantId: string;
@@ -160,7 +162,7 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
           type="text"
           id="column"
           placeholder="Column name"
-          className="rounded-none rounded-tr-md px-1  outline-none md:rounded-none"
+          className="rounded-none rounded-tr-md px-1 outline-none md:rounded-none"
         />
         {isDesktop ? (
           <Dialog>
@@ -189,8 +191,8 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                       <p className="pb-2 font-semibold">Already exists</p>
                       <ul className="list-none text-sm italic">
                         {existingUsersArray &&
-                          existingUsersArray.map((user, index) => (
-                            <li key={index}>{user}</li>
+                          existingUsersArray.map((user) => (
+                            <li key={user}>{user}</li>
                           ))}
                       </ul>
                     </div>
@@ -201,8 +203,8 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                         <p className="pb-2 font-semibold">New</p>
                         <ul className="flex list-none flex-col gap-1 text-sm italic">
                           {newUsersArray &&
-                            newUsersArray.map((user, index) => (
-                              <li key={index}>{user}</li>
+                            newUsersArray.map((user) => (
+                              <li key={user}>{user}</li>
                             ))}
                         </ul>
                       </>
@@ -215,8 +217,8 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                       <p className="pb-2 font-semibold">Not added</p>
                       <ul className="flex list-none flex-col gap-1 text-sm italic line-through">
                         {removedUsersArray &&
-                          removedUsersArray.map((user, index) => (
-                            <li key={index}>{user}</li>
+                          removedUsersArray.map((user) => (
+                            <li key={user}>{user}</li>
                           ))}
                       </ul>
                     </div>
@@ -277,8 +279,8 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                           <p className="pb-2 font-semibold">Already exists</p>
                           <ul className="list-none text-sm italic">
                             {existingUsersArray &&
-                              existingUsersArray.map((user, index) => (
-                                <li key={index}>{user}</li>
+                              existingUsersArray.map((user) => (
+                                <li key={user}>{user}</li>
                               ))}
                           </ul>
                         </div>
@@ -289,8 +291,8 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                             <p className="pb-2 font-semibold">New</p>
                             <ul className="flex list-none flex-col gap-1 text-sm italic">
                               {newUsersArray &&
-                                newUsersArray.map((user, index) => (
-                                  <li key={index}>{user}</li>
+                                newUsersArray.map((user) => (
+                                  <li key={user}>{user}</li>
                                 ))}
                             </ul>
                           </>
@@ -303,8 +305,8 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                           <p className="pb-2 font-semibold">Not added</p>
                           <ul className="flex list-none flex-col gap-1 text-sm italic line-through">
                             {removedUsersArray &&
-                              removedUsersArray.map((user, index) => (
-                                <li key={index}>{user}</li>
+                              removedUsersArray.map((user) => (
+                                <li key={user}>{user}</li>
                               ))}
                           </ul>
                         </div>

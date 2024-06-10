@@ -1,6 +1,7 @@
 'use client';
 
-import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import type { ElementRef, ComponentPropsWithoutRef } from 'react';
+import { forwardRef } from 'react';
 
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 
@@ -30,7 +31,7 @@ const TabsTrigger = forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      'inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5  text-sm font-semibold lowercase transition-all hover:bg-gray-4 active:bg-gray-5 data-[state=active]:bg-gray-5 data-[state=active]:text-gray-12 data-[state=active]:shadow-sm data-[state=active]:shadow-tealA-7 sm:text-base md:text-xl',
+      'inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-semibold lowercase transition-all hover:bg-gray-4 active:bg-gray-5 data-[state=active]:bg-gray-5 data-[state=active]:text-gray-12 data-[state=active]:shadow-sm data-[state=active]:shadow-tealA-7 sm:text-base md:text-xl',
       className,
     )}
     {...props}

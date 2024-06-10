@@ -1,8 +1,8 @@
-import { Integrations, Tag, Tenant, User } from '@prisma/client';
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
 import { General, Payment, Tags, Users } from '@/modules';
-import { Me } from '@/types';
+
+import type { Me } from '@/types';
+import type { Integrations, Tag, Tenant, User } from '@prisma/client';
 
 type Props = {
   me: Me;
@@ -50,9 +50,9 @@ export default function Settings({
       </h2>
       <Tabs defaultValue="general" className="mt-6 w-full">
         <TabsList className="mx-auto mb-4 w-full justify-center overflow-x-scroll sm:w-fit md:overflow-x-hidden">
-          {tabs.map((tab, index) => (
+          {tabs.map((tab) => (
             <TabsTrigger
-              key={index}
+              key={tab.value}
               value={tab.value}
               style={{ fontVariant: 'small-caps' }}
             >

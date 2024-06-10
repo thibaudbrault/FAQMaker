@@ -1,10 +1,11 @@
 import { cache } from 'react';
 
-import { ExtendedNode } from '@/types';
 import { nodeModel } from '@/utils';
 import prisma from 'lib/prisma';
 
 import { getSearchSchema } from './schema';
+
+import type { ExtendedNode } from '@/types';
 
 export const getSearchNodes = cache(
   async (tenantId, query): Promise<ExtendedNode[]> => {
@@ -18,14 +19,17 @@ export const getSearchNodes = cache(
       const result = getSearchSchema.safeParse({ tenantId, query });
       if (result.success === false) {
         const errors = result.error.formErrors.fieldErrors;
-        throw new Error('Invalid request' + errors);
+        throw new Error(`Invalid request${errors}`);
       } else {
-        const { tenantId, query } = result.data;
+        const validatedData = result.data;
         const nodes = await prisma.node.findMany({
           where: {
-            tenantId: tenantId as string,
+            tenantId: validatedData.tenantId as string,
             question: {
-              text: { contains: query as string, mode: 'insensitive' },
+              text: {
+                contains: validatedData.query as string,
+                mode: 'insensitive',
+              },
             },
           },
           orderBy: { createdAt: 'desc' },

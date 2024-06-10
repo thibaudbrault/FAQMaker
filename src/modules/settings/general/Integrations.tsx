@@ -3,14 +3,16 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Integrations as IntegrationsType } from '@prisma/client';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { useForm } from 'react-hook-form';
 
 import { upsertIntegrations } from '@/actions';
 import { Button, Field, Input } from '@/components';
 import { integrationsClientSchema } from '@/lib';
-import { IIntegrations } from '@/types';
+
+import type { IIntegrations } from '@/types';
+import type { Integrations as IntegrationsType } from '@prisma/client';
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Props = {
   tenantId: string;
@@ -35,9 +37,9 @@ export function Integrations({ tenantId, integrations }: Props) {
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const formData = new FormData();
-    for (const key in data) {
+    Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
-    }
+    });
     formData.append('tenantId', tenantId);
     await upsertIntegrations(formData);
   };

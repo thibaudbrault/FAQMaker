@@ -10,8 +10,9 @@ import { useForm } from 'react-hook-form';
 
 import { Button, errorToast, successToast } from '@/components';
 import { registerAtom } from '@/store';
-import { IPlan } from '@/types';
 import { Routes, getStripe } from '@/utils';
+
+import type { IPlan } from '@/types';
 
 export default function Form() {
   const [state, setState] = useAtom(registerAtom);
@@ -111,10 +112,10 @@ export default function Form() {
         <p className="text-sm text-gray-12">Choose the right plan for you</p>
       </div>
       <section className="grid grid-cols-1 justify-evenly gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {plans.map((plan, index) => (
+        {plans.map((plan) => (
           <form
             onSubmit={handleSubmit(() => saveData(plan.value, plan.lookup_key))}
-            key={index}
+            key={plan.value}
             className="w-full overflow-hidden rounded-md bg-grayA-3 p-4 text-center text-gray-12 shadow-sm shadow-tealA-7 transition-all duration-300 hover:shadow-tealA-8"
           >
             <div>
@@ -131,15 +132,15 @@ export default function Form() {
             </p>
             <div className="mb-10 text-lg">
               <ul className="list-none text-right">
-                {plan.benefits.map((benefit, index) => (
-                  <li key={index} className="flex gap-2">
+                {plan.benefits.map((benefit) => (
+                  <li key={benefit} className="flex gap-2">
                     <Check className="text-teal-9" />
                     <p>{benefit}</p>
                   </li>
                 ))}
-                {plan.drawbacks?.map((drawback, index) => (
+                {plan.drawbacks?.map((drawback) => (
                   <li
-                    key={index}
+                    key={drawback}
                     className="flex gap-2 text-gray-11 opacity-70"
                   >
                     <Minus className="text-gray-11" />

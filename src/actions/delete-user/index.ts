@@ -26,12 +26,11 @@ export async function deleteUser(formData: FormData) {
       if (result.success === false) {
         const errors = result.error.flatten().fieldErrors;
         return { error: errors };
-      } else {
-        const { id, tenantId } = result.data;
-        await prisma.user.delete({
-          where: { id, tenantId },
-        });
       }
+      const { id, tenantId } = result.data;
+      await prisma.user.delete({
+        where: { id, tenantId },
+      });
     } else {
       return { error: 'Not signed in' };
     }

@@ -1,4 +1,4 @@
-import { Answer, Node, Question, Tag, User } from '@prisma/client';
+import type { Answer, Node, Question, Tag, User } from '@prisma/client';
 
 type ExtendedQuestion = Question & {
   user: User;

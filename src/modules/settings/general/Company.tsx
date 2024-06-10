@@ -3,14 +3,16 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Tenant } from '@prisma/client';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { useForm } from 'react-hook-form';
 
 import { updateTenant } from '@/actions';
 import { Button, Field, Input } from '@/components';
 import { updateTenantClientSchema } from '@/lib';
-import { ITenantUpdateFields } from '@/types';
+
+import type { ITenantUpdateFields } from '@/types';
+import type { Tenant } from '@prisma/client';
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Props = {
   tenant: Tenant;
@@ -36,9 +38,9 @@ export function Company({ tenant }: Props) {
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const formData = new FormData();
-    for (const key in data) {
+    Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
-    }
+    });
     formData.append('id', tenant.id);
     await updateTenant(formData);
   };

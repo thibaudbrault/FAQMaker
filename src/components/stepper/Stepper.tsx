@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BadgeCheck } from 'lucide-react';
 
-import { TSteps } from '@/types';
+import type { TSteps } from '@/types';
 
 type Props = {
   steps: TSteps[];
@@ -17,7 +17,7 @@ export const Stepper = ({ steps, currentStep }: Props) => {
           <div key={step.id} className="flex items-center text-gray-12">
             {step.id < currentStep ? (
               <p className="flex items-center gap-1">
-                <BadgeCheck className="h-full w-full" aria-hidden="true" />
+                <BadgeCheck className="size-full" aria-hidden="true" />
                 {step.label}
               </p>
             ) : (

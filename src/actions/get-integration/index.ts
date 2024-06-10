@@ -1,8 +1,8 @@
 import { cache } from 'react';
 
-import { Integrations } from '@prisma/client';
-
 import prisma from 'lib/prisma';
+
+import type { Integrations } from '@prisma/client';
 
 export const getIntegration = cache(
   async (tenantId: string): Promise<Integrations | null> => {

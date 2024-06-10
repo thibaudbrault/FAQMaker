@@ -29,17 +29,16 @@ export async function updateTenant(formData: FormData) {
       if (result.success === false) {
         const errors = result.error.flatten().fieldErrors;
         return { error: errors };
-      } else {
-        const { company, id, email, domain } = result.data;
-        await prisma.tenant.update({
-          where: { id },
-          data: {
-            company,
-            email,
-            domain: domain || '',
-          },
-        });
       }
+      const { company, id, email, domain } = result.data;
+      await prisma.tenant.update({
+        where: { id },
+        data: {
+          company,
+          email,
+          domain: domain || '',
+        },
+      });
     } else {
       return { error: 'Not signed in' };
     }

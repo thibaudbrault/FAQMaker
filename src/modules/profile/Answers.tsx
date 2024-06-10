@@ -4,8 +4,10 @@ import { MoveRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import { NodeWithQuestionAndAnswer } from '@/hooks';
 import { Routes } from '@/utils';
+
+import type { NodeWithQuestionAndAnswer } from '@/types';
+
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
@@ -24,11 +26,11 @@ export const UserAnswers = ({ nodes }: Props) => {
         Answers
       </h2>
       {nodes && nodes.length > 0 ? (
-        <ul className="flex list-none flex-col gap-2 ">
-          {nodes.map((node, index) => (
+        <ul className="flex list-none flex-col gap-2">
+          {nodes.map((node) => (
             <li
               className="flex items-center justify-between rounded-md px-3 py-2 shadow-sm"
-              key={index}
+              key={node.id}
             >
               <MarkdownPreview
                 source={node.answer.text}

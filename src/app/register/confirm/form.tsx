@@ -6,8 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAtom } from 'jotai';
 import { MoveLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { useForm } from 'react-hook-form';
 
 import { createTenant } from '@/actions';
 import { Button } from '@/components';
@@ -15,6 +14,9 @@ import { useCreateCustomer } from '@/hooks';
 import { registerCompleteClientSchema } from '@/lib';
 import { registerAtom } from '@/store';
 import { Routes } from '@/utils';
+
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Schema = z.infer<typeof registerCompleteClientSchema>;
 

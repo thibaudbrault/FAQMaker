@@ -16,8 +16,10 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components';
-import { ExtendedNode } from '@/types';
 import { Routes, dateOptions } from '@/utils';
+
+import type { ExtendedNode } from '@/types';
+
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
@@ -68,6 +70,8 @@ export default function Question({ node }: Props) {
             <TooltipTrigger asChild>
               <button
                 className="text-gray-12 hover:text-gray-11"
+                type="button"
+                aria-label="Copy to clipboard"
                 onClick={() =>
                   navigator.clipboard.writeText(
                     `${process.env.NEXT_PUBLIC_SITE_URL}${pathname}`,

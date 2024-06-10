@@ -29,16 +29,15 @@ export async function createAnswer(formData: FormData) {
       if (result.success === false) {
         const errors = result.error.flatten().fieldErrors;
         return { error: errors };
-      } else {
-        const { text, nodeId, userId } = result.data;
-        await prisma.answer.create({
-          data: {
-            nodeId,
-            userId,
-            text,
-          },
-        });
       }
+      const { text, nodeId, userId } = result.data;
+      await prisma.answer.create({
+        data: {
+          nodeId,
+          userId,
+          text,
+        },
+      });
     } else {
       return { error: 'Not signed in' };
     }

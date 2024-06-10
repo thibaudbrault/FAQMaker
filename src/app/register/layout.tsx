@@ -1,8 +1,9 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import { Stepper } from '@/components';
 import { ThemeToggle } from '@/modules';
-import { TSteps } from '@/types';
+
+import type { TSteps } from '@/types';
 
 type Props = {
   children: ReactNode;
@@ -36,7 +37,7 @@ export default function AuthLayout({
           {children}
         </div>
       ) : (
-        <>{children}</>
+        children
       )}
     </main>
   );

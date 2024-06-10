@@ -29,21 +29,20 @@ export async function createTag(formData: FormData) {
       if (result.success === false) {
         const errors = result.error.flatten().fieldErrors;
         return { error: errors };
-      } else {
-        const { label, tenantId, plan, tagsCount } = result.data;
-        if (
-          (plan === 'free' && tagsCount >= 3) ||
-          (plan === 'startup' && tagsCount >= 10)
-        ) {
-          return { error: 'You reached the maximum number of tags.' };
-        }
-        await prisma.tag.create({
-          data: {
-            label,
-            tenantId,
-          },
-        });
       }
+      const { label, tenantId, plan, tagsCount } = result.data;
+      if (
+        (plan === 'free' && tagsCount >= 3) ||
+        (plan === 'startup' && tagsCount >= 10)
+      ) {
+        return { error: 'You reached the maximum number of tags.' };
+      }
+      await prisma.tag.create({
+        data: {
+          label,
+          tenantId,
+        },
+      });
     } else {
       return { error: 'Not signed in' };
     }

@@ -4,7 +4,8 @@ import Image from 'next/image';
 import { signIn } from 'next-auth/react';
 
 import googleIcon from '@/assets/google.svg';
-import { Button } from '@/components';
+
+import { Button } from './Button';
 
 type Props = {
   callbackUrl: string;

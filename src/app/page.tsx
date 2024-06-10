@@ -20,7 +20,7 @@ export default async function Page({ searchParams }) {
     redirect(Routes.SITE.LOGIN);
   }
 
-  const tenantId = me.tenantId;
+  const { tenantId } = me;
   const page = Number(searchParams?.page) || 0;
   const query = searchParams.query || '';
   const tag = searchParams.tag || '';
@@ -35,7 +35,7 @@ export default async function Page({ searchParams }) {
   return (
     <main className="flex h-full min-h-screen flex-col bg-gray-1">
       <Header user={me} />
-      <div className="my-12 flex-grow">
+      <div className="my-12 grow">
         <Home
           initialNodes={initialNodes}
           filteredNodes={filteredNodes}

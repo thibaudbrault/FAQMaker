@@ -1,12 +1,13 @@
 'use client';
 
-import { Tag } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 
 import { Pagination } from '@/components';
 import { List, Search } from '@/modules';
-import { ExtendedNode } from '@/types';
 import { OFFSET } from '@/utils';
+
+import type { ExtendedNode } from '@/types';
+import type { Tag } from '@prisma/client';
 
 type Props = {
   initialNodes: ExtendedNode[];

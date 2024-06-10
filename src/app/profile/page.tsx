@@ -16,7 +16,7 @@ export default async function Page() {
   return (
     <main className="flex h-full min-h-screen flex-col bg-gray-1">
       <Header user={me} />
-      <div className="my-12 flex-grow">
+      <div className="my-12 grow">
         <Profile me={me} questions={questions} answers={answers} />
       </div>
       <Footer company={me.tenant.company} />

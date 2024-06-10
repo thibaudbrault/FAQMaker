@@ -15,7 +15,7 @@ export default function Loading() {
           <li className="h-28 w-full animate-pulse rounded-md bg-gray-3 shadow-gray-9" />
         </ul>
       </section>
-      <footer className="absolute bottom-0 left-0 right-0 flex w-full items-center justify-between border-t border-t-gray-6 bg-gray-2 px-8 py-2 text-xs text-gray-12">
+      <footer className="absolute inset-x-0 bottom-0 flex w-full items-center justify-between border-t border-t-gray-6 bg-gray-2 px-8 py-2 text-xs text-gray-12">
         <p className="text-sm font-bold">FAQMaker</p>
       </footer>
     </main>
