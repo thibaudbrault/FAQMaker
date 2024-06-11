@@ -12,25 +12,32 @@ import { createUsersSchema } from './schema';
 type CreateUsersData = {
   tenantId: string;
   usersCount: string | number;
+  usersArray: string;
 };
 
-export async function createUsers(newUsersArray, formData) {
+type ErrorObject = {
+  email: string;
+  message: string;
+};
+
+export async function createUsers(usersArray, formData) {
   try {
     if (!formData) {
       return { error: 'Data not provided' };
     }
     const data = Object.fromEntries(formData) as CreateUsersData;
     data.usersCount = Number(data.usersCount);
+    data.usersArray = usersArray;
     const session = await getServerSession(authOptions);
     if (session) {
-      const result = createUsersSchema.safeParse({ ...data, newUsersArray });
+      const result = createUsersSchema.safeParse({ ...data });
       if (result.success === false) {
         const errors = result.error.flatten().fieldErrors;
         return { error: errors };
       }
-      const { newUsersArray, usersCount, tenantId } = result.data;
-      const errors = [];
-      for (const email of newUsersArray) {
+      const { usersArray, usersCount, tenantId } = result.data;
+      const errors: ErrorObject[] = [];
+      for (const email of usersArray) {
         if (!email) {
           errors.push({
             email,
@@ -55,13 +62,16 @@ export async function createUsers(newUsersArray, formData) {
           });
           continue;
         }
-        const { plan } = await prisma.tenant.findUnique({
+        const tenant = await prisma.tenant.findUnique({
           where: { id: tenantId },
           select: { plan: true },
         });
+        if (!tenant) {
+          return { error: 'Plan not found' };
+        }
         if (
-          (plan === 'free' && usersCount >= 5) ||
-          (plan === 'startup' && usersCount >= 100)
+          (tenant.plan === 'free' && usersCount >= 5) ||
+          (tenant.plan === 'startup' && usersCount >= 100)
         ) {
           errors.push({
             email,

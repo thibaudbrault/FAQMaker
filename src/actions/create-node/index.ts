@@ -29,7 +29,7 @@ export const slackNotification = async (body) => {
   }
   const { url, text } = result.data;
   const webhook = new IncomingWebhook(url);
-  await webhook.send({
+  const message = await webhook.send({
     text,
     blocks: [
       {
@@ -55,6 +55,10 @@ export const slackNotification = async (body) => {
       },
     ],
   });
+  if (!message.text) {
+    return { error: 'Slack notifications not sent' };
+  }
+  return undefined;
 };
 
 export const createNode = async (integrations, formData) => {
@@ -108,9 +112,9 @@ export const createNode = async (integrations, formData) => {
           message: 'Question created successfully',
         };
       }
-    } else {
-      return { error: 'Not signed in' };
+      return { message: 'Question created successfully' };
     }
+    return { error: 'Not signed in' };
   } catch (error) {
     return { error: 'Error creating question' };
   }

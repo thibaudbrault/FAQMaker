@@ -52,7 +52,7 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
   const fileInput = useRef(null);
   const { readRemoteFile } = usePapaParse();
   const emails = users.map((user) => user.email);
-  const newUsersArray = newUsers
+  const usersArray = newUsers
     ?.filter((user) => !emails.includes(user))
     .splice(0, limit);
   const removedUsersArray = newUsers
@@ -114,7 +114,7 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
     const formData = new FormData();
     formData.append('tenantId', tenantId);
     formData.append('usersCount', String(usersCount));
-    await createUsers(newUsersArray, formData);
+    await createUsers(usersArray, formData);
   };
 
   useEffect(() => {
@@ -198,12 +198,12 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                     </div>
                   )}
                   <div className="rounded-md bg-green-600/30 p-2">
-                    {newUsersArray.length > 0 ? (
+                    {usersArray.length > 0 ? (
                       <>
                         <p className="pb-2 font-semibold">New</p>
                         <ul className="flex list-none flex-col gap-1 text-sm italic">
-                          {newUsersArray &&
-                            newUsersArray.map((user) => (
+                          {usersArray &&
+                            usersArray.map((user) => (
                               <li key={user}>{user}</li>
                             ))}
                         </ul>
@@ -225,15 +225,13 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                   )}
                   <div className="flex justify-center">
                     <Button
-                      variant={
-                        newUsersArray.length === 0 ? 'disabled' : 'primary'
-                      }
+                      variant={usersArray.length === 0 ? 'disabled' : 'primary'}
                       weight="semibold"
                       style={{ fontVariant: 'small-caps' }}
                       className="lowercase"
                       type="button"
                       onClick={onSubmit}
-                      disabled={newUsersArray.length === 0}
+                      disabled={usersArray.length === 0}
                     >
                       Submit
                     </Button>
@@ -286,12 +284,12 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                         </div>
                       )}
                       <div className="rounded-md bg-green-600/30 p-2">
-                        {newUsersArray.length > 0 ? (
+                        {usersArray.length > 0 ? (
                           <>
                             <p className="pb-2 font-semibold">New</p>
                             <ul className="flex list-none flex-col gap-1 text-sm italic">
-                              {newUsersArray &&
-                                newUsersArray.map((user) => (
+                              {usersArray &&
+                                usersArray.map((user) => (
                                   <li key={user}>{user}</li>
                                 ))}
                             </ul>
@@ -314,14 +312,14 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                       <div className="flex justify-center">
                         <Button
                           variant={
-                            newUsersArray.length === 0 ? 'disabled' : 'primary'
+                            usersArray.length === 0 ? 'disabled' : 'primary'
                           }
                           weight="semibold"
                           style={{ fontVariant: 'small-caps' }}
                           className="lowercase"
                           type="button"
                           onClick={onSubmit}
-                          disabled={newUsersArray.length === 0}
+                          disabled={usersArray.length === 0}
                         >
                           Submit
                         </Button>
