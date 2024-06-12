@@ -23,6 +23,9 @@ export interface IUserCreateFields extends IFields {
   value: 'email';
 }
 
+export interface IUserLoginFields extends IFields {
+  value: 'email' | 'password';
+}
 export interface IUserUpdateFields extends IFields {
   value: 'name' | 'email';
 }

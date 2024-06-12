@@ -11,6 +11,12 @@ export const userEmailClientSchema = z.object({
     .optional(),
 });
 
+export const userLoginClientSchema = userEmailClientSchema.merge(
+  z.object({
+    password: z.string().trim().min(1, { message: 'Password is required' }),
+  }),
+);
+
 export const userRoleClientSchema = z.object({
   role: z.enum(ROLE).optional(),
 });
