@@ -11,9 +11,9 @@ const nextConfig = removeImports({
       'storage.googleapis.com',
     ],
   },
-  experimental: {
-    swcPlugins: [['@swc-jotai/react-refresh', {}]],
-  },
+  // experimental: {
+  //   swcPlugins: [['@swc-jotai/react-refresh', {}]],
+  // },
   webpack: (config) => {
     config.experiments = { ...config.experiments, topLevelAwait: true };
     return config;
