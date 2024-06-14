@@ -1,9 +1,8 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import prisma from 'lib/prisma';
 
 import 'server-only';
@@ -28,7 +27,7 @@ export async function createUsers(usersArray, formData) {
     const data = Object.fromEntries(formData) as CreateUsersData;
     data.usersCount = Number(data.usersCount);
     data.usersArray = usersArray;
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (session) {
       const result = createUsersSchema.safeParse({ ...data });
       if (result.success === false) {

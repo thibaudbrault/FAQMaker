@@ -23,6 +23,7 @@ export * from './get-user-answers';
 export * from './get-user-questions';
 export * from './get-users';
 export * from './get-users-count';
+export * from './login';
 export * from './update-answer';
 export * from './update-logo';
 export * from './update-node';

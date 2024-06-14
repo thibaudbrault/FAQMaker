@@ -1,15 +1,17 @@
 import { cache } from 'react';
 
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import prisma from 'lib/prisma';
 
 import type { Me } from '@/types';
 
 export const getMe = cache(async (): Promise<Me | null> => {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
+    if (!session) {
+      return null;
+    }
     const id = session?.user?.id;
     if (!id) {
       throw new Error('ID not found');

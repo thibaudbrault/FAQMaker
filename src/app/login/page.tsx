@@ -2,15 +2,15 @@
 
 import Link from 'next/link';
 
-import { Button, Field, Input, LoginButton, Password } from '@/components';
-import { Routes } from '@/utils';
+import { emailSignIn } from '@/actions';
+import { Button, Field, Input, LoginButton } from '@/components';
 import { useMediaQuery } from '@/hooks';
-import { userLoginClientSchema } from '@/lib';
-import { IUserLoginFields, IUserUpdateFields } from '@/types';
+import { userEmailClientSchema } from '@/lib';
+import { Routes } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UserIcon, AtSign, Lock } from 'lucide-react';
-import { useState, useMemo, useEffect } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { AtSign } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const errors = {
@@ -33,7 +33,7 @@ type ErrorProps = {
   error: string;
 };
 
-type Schema = z.infer<typeof userLoginClientSchema>;
+type Schema = z.infer<typeof userEmailClientSchema>;
 
 const LoginError = ({ error }: ErrorProps) => {
   const errorMessage = error && (errors[error] ?? errors.default);
@@ -50,11 +50,10 @@ export default async function Page({ searchParams }) {
     handleSubmit,
     formState: { isSubmitting, isDirty, errors, isValid },
   } = useForm<Schema>({
-    resolver: zodResolver(userLoginClientSchema),
+    resolver: zodResolver(userEmailClientSchema),
     mode: 'onBlur',
     defaultValues: {
       email: '',
-      password: '',
     },
   });
 
@@ -63,7 +62,7 @@ export default async function Page({ searchParams }) {
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
     });
-    // await updateUser(formData);
+    await emailSignIn(formData);
   };
 
   useEffect(() => {
@@ -86,41 +85,23 @@ export default async function Page({ searchParams }) {
         className="flex flex-col items-center gap-4"
       >
         <fieldset className="flex w-full flex-col gap-4">
-          <ul className="col-span-3 row-start-2 flex list-none flex-col gap-2">
-            <li key={'email'} className="flex flex-col gap-1">
-              <Field
-                label={'Email'}
-                value={'email'}
-                error={errors.email?.message}
-              >
-                <Input
-                  {...register('email')}
-                  defaultValue={''}
-                  withIcon
-                  icon={<AtSign className="size-5" />}
-                  type={'email'}
-                  id={'email'}
-                  placeholder={'Email'}
-                />
-              </Field>
-            </li>
-            <li key={'password'} className="flex flex-col gap-1">
-              <Field
-                label={'Password'}
-                value={'password'}
-                error={errors.password?.message}
-              >
-                <Password
-                  {...register('password')}
-                  defaultValue={''}
-                  lockIcon={<Lock className="size-5" />}
-                  type={'password'}
-                  id={'password'}
-                  placeholder={'Password'}
-                />
-              </Field>
-            </li>
-          </ul>
+          <div className="col-span-3 row-start-2 flex list-none flex-col gap-2">
+            <Field
+              label={'Email'}
+              value={'email'}
+              error={errors.email?.message}
+            >
+              <Input
+                {...register('email')}
+                defaultValue={''}
+                withIcon
+                icon={<AtSign className="size-5" />}
+                type={'email'}
+                id={'email'}
+                placeholder={'Email'}
+              />
+            </Field>
+          </div>
         </fieldset>
         <Button
           variant={disabled ? 'disabled' : 'primary'}
@@ -130,7 +111,7 @@ export default async function Page({ searchParams }) {
           style={{ fontVariant: 'small-caps' }}
           disabled={disabled}
         >
-          Update
+          Send link
         </Button>
       </form>
       <div className="flex items-center justify-center py-8">

@@ -1,6 +1,7 @@
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
+import ResendProvider from 'next-auth/providers/resend';
 import { Routes } from './utils';
 import prisma from 'lib/prisma';
 
@@ -11,6 +12,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
+    }),
+    ResendProvider({
+      apiKey: process.env.RESEND_API_KEY,
+      from: 'auth@faqmaker.co',
     }),
   ],
   pages: {

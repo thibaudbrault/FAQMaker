@@ -2,10 +2,9 @@
 
 import { Storage } from '@google-cloud/storage';
 import { redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import Stripe from 'stripe';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
@@ -28,7 +27,7 @@ export async function deleteTenant(formData: FormData) {
       return { error: 'Data not provided' };
     }
     const data = Object.fromEntries(formData) as DeleteTenantData;
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (session) {
       const result = deleteTenantSchema(data.company).safeParse(data);
       if (result.success === false) {

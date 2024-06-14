@@ -2,10 +2,9 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import slugify from 'slugify';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
@@ -30,7 +29,7 @@ export async function updateNode(formData: FormData) {
     if (data.tags) {
       data.tags = JSON.parse(data.tags);
     }
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (session) {
       const result = updateNodeSchema.safeParse({ ...data });
       if (result.success === false) {

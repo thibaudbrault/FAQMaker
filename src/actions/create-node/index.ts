@@ -3,10 +3,9 @@
 import { IncomingWebhook } from '@slack/webhook';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import slugify from 'slugify';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { Routes, dateOptions, timeOptions } from '@/utils';
 import prisma from 'lib/prisma';
 
@@ -70,7 +69,7 @@ export const createNode = async (integrations, formData) => {
     if (data.tags) {
       data.tags = JSON.parse(data.tags);
     }
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (session) {
       const result = createNodeSchema.safeParse({ ...data });
       if (result.success === false) {
@@ -112,9 +111,9 @@ export const createNode = async (integrations, formData) => {
           message: 'Question created successfully',
         };
       }
-      return { message: 'Question created successfully' };
+    } else {
+      return { error: 'Not signed in' };
     }
-    return { error: 'Not signed in' };
   } catch (error) {
     return { error: 'Error creating question' };
   }
