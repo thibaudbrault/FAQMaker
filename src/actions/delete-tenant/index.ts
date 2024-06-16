@@ -2,7 +2,9 @@
 
 import { Storage } from '@google-cloud/storage';
 import { redirect } from 'next/navigation';
-import { auth } from '@/auth';
+import { getServerSession } from 'next-auth';
+
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import Stripe from 'stripe';
 
 import { Routes } from '@/utils';
@@ -27,7 +29,7 @@ export async function deleteTenant(formData: FormData) {
       return { error: 'Data not provided' };
     }
     const data = Object.fromEntries(formData) as DeleteTenantData;
-    const session = await auth();
+    const session = await getServerSession(authOptions);
     if (session) {
       const result = deleteTenantSchema(data.company).safeParse(data);
       if (result.success === false) {

@@ -2,7 +2,9 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { auth } from '@/auth';
+import { getServerSession } from 'next-auth';
+
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
@@ -21,7 +23,7 @@ export async function upsertIntegrations(formData: FormData) {
       return { error: 'Data not provided' };
     }
     const data = Object.fromEntries(formData) as UpsertIntegrationsData;
-    const session = await auth();
+    const session = await getServerSession(authOptions);
     if (session) {
       const result = upsertIntegrationsSchema.safeParse(data);
       if (result.success === false) {

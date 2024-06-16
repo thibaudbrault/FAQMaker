@@ -2,7 +2,9 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { auth } from '@/auth';
+import { getServerSession } from 'next-auth';
+
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import slugify from 'slugify';
 
 import { Routes } from '@/utils';
@@ -29,7 +31,7 @@ export async function updateNode(formData: FormData) {
     if (data.tags) {
       data.tags = JSON.parse(data.tags);
     }
-    const session = await auth();
+    const session = await getServerSession(authOptions);
     if (session) {
       const result = updateNodeSchema.safeParse({ ...data });
       if (result.success === false) {

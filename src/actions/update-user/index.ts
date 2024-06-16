@@ -1,7 +1,9 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { auth } from '@/auth';
+import { getServerSession } from 'next-auth';
+
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 import prisma from 'lib/prisma';
 
@@ -22,7 +24,7 @@ export async function updateUser(formData: FormData) {
       return { error: 'Data not provided' };
     }
     const data = Object.fromEntries(formData) as UpdateUserData;
-    const session = await auth();
+    const session = await getServerSession(authOptions);
     if (session) {
       const result = updateUserSchema.safeParse(data);
       if (result.success === false) {

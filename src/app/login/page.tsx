@@ -62,7 +62,7 @@ export default async function Page({ searchParams }) {
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
     });
-    await emailSignIn(formData);
+    // await emailSignIn(formData);
   };
 
   useEffect(() => {
