@@ -1,5 +1,6 @@
 export * from './answer';
 export * from './integrations';
+export * from './favorite';
 export * from './other';
 export * from './question';
 export * from './register';

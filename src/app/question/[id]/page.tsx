@@ -18,7 +18,7 @@ export default async function Page({ params }) {
     <main className="flex h-full min-h-screen flex-col bg-gray-1">
       <Header user={me} />
       <div className="my-12 grow">
-        <Question node={node} />
+        <Question node={node} userId={me.id} />
       </div>
       <Footer company={me.tenant.company} />
     </main>

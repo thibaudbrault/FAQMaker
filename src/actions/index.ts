@@ -1,4 +1,5 @@
 export * from './create-answer';
+export * from './create-favorite';
 export * from './create-node';
 export * from './create-tag';
 export * from './create-tenant';

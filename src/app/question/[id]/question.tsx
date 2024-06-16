@@ -1,6 +1,6 @@
 'use client';
 
-import { HelpCircle, PenSquare, LinkIcon } from 'lucide-react';
+import { HelpCircle, PenSquare, LinkIcon, Heart, Bookmark } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -19,6 +19,11 @@ import {
 import { Routes, dateOptions } from '@/utils';
 
 import type { ExtendedNode } from '@/types';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { createFavorite } from '@/actions';
+import { favoriteClientSchema } from '@/lib';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
@@ -26,10 +31,31 @@ const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
 
 type Props = {
   node: ExtendedNode;
+  userId: string;
 };
 
-export default function Question({ node }: Props) {
+type Schema = z.infer<typeof favoriteClientSchema>;
+
+export default function Question({ node, userId }: Props) {
   const pathname = usePathname();
+
+  const { handleSubmit } = useForm<Schema>({
+    resolver: zodResolver(favoriteClientSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      nodeId: node.id,
+      userId: userId,
+    },
+  });
+
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
+    const formData = new FormData();
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
+    });
+    await createFavorite(formData);
+  };
+
   return (
     <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
       <div className="flex items-center justify-between">
@@ -66,23 +92,40 @@ export default function Question({ node }: Props) {
       <div className="rounded-md bg-gray-3 p-4">
         <div className="mb-1 flex items-center justify-between">
           <h2 className="text-3xl font-semibold">{node.question.text}</h2>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                className="text-gray-12 hover:text-gray-11"
-                type="button"
-                aria-label="Copy to clipboard"
-                onClick={() =>
-                  navigator.clipboard.writeText(
-                    `${process.env.NEXT_PUBLIC_SITE_URL}${pathname}`,
-                  )
-                }
-              >
-                <LinkIcon />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>Copy url</TooltipContent>
-          </Tooltip>
+          <div className="flex items-center gap-1">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <input hidden type="text" value={node.id} name="nodeId" />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    className="text-gray-12 hover:text-gray-11"
+                    type="button"
+                    aria-label="Favorite"
+                  >
+                    <Bookmark />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>Favorite</TooltipContent>
+              </Tooltip>
+            </form>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  className="text-gray-12 hover:text-gray-11"
+                  type="button"
+                  aria-label="Copy to clipboard"
+                  onClick={() =>
+                    navigator.clipboard.writeText(
+                      `${process.env.NEXT_PUBLIC_SITE_URL}${pathname}`,
+                    )
+                  }
+                >
+                  <LinkIcon />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>Copy URL</TooltipContent>
+            </Tooltip>
+          </div>
         </div>
         <ul className="flex list-none gap-2 text-xs">
           {node.tags.map((tag) => (

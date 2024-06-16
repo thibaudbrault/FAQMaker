@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation';
 
-import { getMe } from '@/actions';
-import { getNode } from '@/lib';
+import { getMe, getNode } from '@/actions';
 import { Footer, Header } from '@/modules';
 import { Routes } from '@/utils';
 
