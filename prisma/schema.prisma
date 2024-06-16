@@ -37,19 +37,21 @@ model User {
   answers   Answer[]
   accounts  Account[]
   sessions  Session[]
+  favorites  Favorite[]
 
   @@index([tenantId])
 }
 
 model Node {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id        String     @id @default(cuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   question  Question?
   answer    Answer?
   tags      Tag[]
-  tenant    Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   tenantId  String
+  favorites  Favorite[]
 
   @@index([tenantId])
 }
@@ -91,6 +93,17 @@ model Tag {
   tenantId String
 
   @@index([tenantId])
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  node      Node     @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+  nodeId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+
+  @@unique([userId, nodeId])
 }
 
 model Integrations {
