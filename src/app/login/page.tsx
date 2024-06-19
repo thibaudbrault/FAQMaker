@@ -1,17 +1,19 @@
 'use client';
 
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-import { emailSignIn } from '@/actions';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AtSign } from 'lucide-react';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+
 import { Button, Field, Input, LoginButton } from '@/components';
 import { useMediaQuery } from '@/hooks';
 import { userEmailClientSchema } from '@/lib';
 import { Routes } from '@/utils';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { AtSign } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
+
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 const errors = {
   Signin: 'Try signing with a different account.',
@@ -86,19 +88,15 @@ export default async function Page({ searchParams }) {
       >
         <fieldset className="flex w-full flex-col gap-4">
           <div className="col-span-3 row-start-2 flex list-none flex-col gap-2">
-            <Field
-              label={'Email'}
-              value={'email'}
-              error={errors.email?.message}
-            >
+            <Field label="Email" value="email" error={errors.email?.message}>
               <Input
                 {...register('email')}
-                defaultValue={''}
+                defaultValue=""
                 withIcon
                 icon={<AtSign className="size-5" />}
-                type={'email'}
-                id={'email'}
-                placeholder={'Email'}
+                type="email"
+                id="email"
+                placeholder="Email"
               />
             </Field>
           </div>

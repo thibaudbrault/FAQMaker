@@ -1,10 +1,13 @@
 'use client';
 
-import { HelpCircle, PenSquare, LinkIcon, Heart, Bookmark } from 'lucide-react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { HelpCircle, PenSquare, LinkIcon, Bookmark } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 
+import { createFavorite } from '@/actions';
 import {
   BackButton,
   Badge,
@@ -16,14 +19,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components';
+import { favoriteClientSchema } from '@/lib';
 import { Routes, dateOptions } from '@/utils';
 
 import type { ExtendedNode } from '@/types';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { createFavorite } from '@/actions';
-import { favoriteClientSchema } from '@/lib';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
@@ -44,7 +45,7 @@ export default function Question({ node, userId }: Props) {
     mode: 'onBlur',
     defaultValues: {
       nodeId: node.id,
-      userId: userId,
+      userId,
     },
   });
 
