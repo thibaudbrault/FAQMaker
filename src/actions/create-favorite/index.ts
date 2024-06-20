@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import { authActionClient } from '@/lib/safe-actions';
 import prisma from 'lib/prisma';

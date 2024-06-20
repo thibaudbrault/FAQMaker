@@ -49,8 +49,8 @@ export default function Edit({ me, node, tags }: Props) {
   const text = watch('text');
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    data.tags = selectedTags;
-    await updateNode(data);
+    const updatedData = { ...data, selectedTags };
+    await updateNode(updatedData);
   };
 
   const tagsId = node?.tags?.map((tag) => tag.id);

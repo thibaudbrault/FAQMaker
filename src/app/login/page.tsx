@@ -8,7 +8,6 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
 import { Button, Field, Input, LoginButton } from '@/components';
-import { useMediaQuery } from '@/hooks';
 import { userEmailClientSchema } from '@/lib';
 import { Routes } from '@/utils';
 
@@ -42,7 +41,7 @@ const LoginError = ({ error }: ErrorProps) => {
   return <div className="text-center text-red-9">{errorMessage}</div>;
 };
 
-export default async function Page({ searchParams }) {
+export default function Page({ searchParams }) {
   const { error, callbackUrl } = searchParams;
   const [disabled, setDisabled] = useState<boolean>(true);
 

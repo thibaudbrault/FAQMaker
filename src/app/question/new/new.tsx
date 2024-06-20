@@ -31,7 +31,7 @@ export default function New({ me, tags, integrations }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const isDesktop = useMediaQuery('(min-width: 640px)');
-  const withAnswer = true;
+  // const withAnswer = true;
 
   const {
     register,
@@ -50,12 +50,12 @@ export default function New({ me, tags, integrations }: Props) {
   const text = watch('text');
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    data.tags = selectedTags;
-    await createNode(data);
+    const updatedData = { ...data, tags: selectedTags };
+    await createNode(updatedData);
   };
 
-  const onSubmitWithAnswer: SubmitHandler<Schema> = (data) => {
-    const values = { ...data, withAnswer };
+  const onSubmitWithAnswer: SubmitHandler<Schema> = (_data) => {
+    // const values = { ...data, withAnswer };
   };
 
   useEffect(() => {
