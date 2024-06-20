@@ -7,10 +7,9 @@ import { AtSign, UserIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 
-import { updateUser } from '@/actions';
+import { updateUser, updateUserSchema } from '@/actions';
 import { Button, Field, Input } from '@/components';
 import { useMediaQuery } from '@/hooks';
-import { updateUserClientSchema } from '@/lib';
 
 import type { IUserUpdateFields, Me } from '@/types';
 import type { SubmitHandler } from 'react-hook-form';
@@ -20,7 +19,7 @@ type Props = {
   me: Me;
 };
 
-type Schema = z.infer<typeof updateUserClientSchema>;
+type Schema = z.infer<typeof updateUserSchema>;
 
 export const UpdateProfile = ({ me }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -31,23 +30,18 @@ export const UpdateProfile = ({ me }: Props) => {
     handleSubmit,
     formState: { isSubmitting, isDirty, errors, isValid },
   } = useForm<Schema>({
-    resolver: zodResolver(updateUserClientSchema),
+    resolver: zodResolver(updateUserSchema),
     mode: 'onBlur',
     defaultValues: {
       name: me.name ?? '',
       email: me.email,
+      role: me.role,
+      tenantId: me.tenantId,
     },
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    formData.append('role', me.role);
-    formData.append('id', me.id);
-    formData.append('tenantId', me.tenantId);
-    await updateUser(formData);
+    await updateUser(data);
   };
 
   const fields: IUserUpdateFields[] = useMemo(

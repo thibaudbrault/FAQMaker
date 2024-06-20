@@ -13,6 +13,7 @@ import { questionClientSchema } from '@/lib';
 import { TagsList } from '@/modules';
 import { Limits } from '@/utils';
 
+import type { createNodeSchema } from '@/actions';
 import type { Me } from '@/types';
 import type { Integrations, Tag } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
@@ -24,7 +25,7 @@ type Props = {
   integrations: Integrations;
 };
 
-type Schema = z.infer<typeof questionClientSchema>;
+type Schema = z.infer<typeof createNodeSchema>;
 
 export default function New({ me, tags, integrations }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -43,18 +44,14 @@ export default function New({ me, tags, integrations }: Props) {
     defaultValues: {
       text: '',
       tenantId: me.tenantId,
-      userId: me.id,
+      integrations,
     },
   });
   const text = watch('text');
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    formData.append('tags', JSON.stringify(selectedTags));
-    await createNode(integrations, formData);
+    data.tags = selectedTags;
+    await createNode(data);
   };
 
   const onSubmitWithAnswer: SubmitHandler<Schema> = (data) => {

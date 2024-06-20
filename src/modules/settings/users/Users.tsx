@@ -30,10 +30,7 @@ const UserAvatar = ({ id, email, image }) => {
 
 export const Users = ({ userId, tenantId, plan, users, usersCount }: Props) => {
   const handleDeleteUser = async (id: string) => {
-    const formData = new FormData();
-    formData.append('id', id);
-    formData.append('tenantId', tenantId);
-    await deleteUser(formData);
+    await deleteUser({ id, tenantId });
   };
 
   return (

@@ -15,7 +15,7 @@ import { Routes } from '@/utils';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
 
-const errors = {
+const loginErrors = {
   Signin: 'Try signing with a different account.',
   OAuthSignin: 'Try signing with a different account.',
   OAuthCallback: 'Try signing with a different account.',
@@ -38,14 +38,13 @@ type ErrorProps = {
 type Schema = z.infer<typeof userEmailClientSchema>;
 
 const LoginError = ({ error }: ErrorProps) => {
-  const errorMessage = error && (errors[error] ?? errors.default);
+  const errorMessage = error && (loginErrors[error] ?? loginErrors.default);
   return <div className="text-center text-red-9">{errorMessage}</div>;
 };
 
 export default async function Page({ searchParams }) {
   const { error, callbackUrl } = searchParams;
   const [disabled, setDisabled] = useState<boolean>(true);
-  const isDesktop = useMediaQuery('(min-width: 640px)');
 
   const {
     register,

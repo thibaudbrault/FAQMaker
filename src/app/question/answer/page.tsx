@@ -18,7 +18,7 @@ export default async function Page({ searchParams }) {
     <main className="flex h-full min-h-screen flex-col bg-gray-1">
       <Header user={me} />
       <div className="my-12 grow">
-        <Answer me={me} node={node} />
+        <Answer node={node} />
       </div>
       <Footer company={me.tenant.company} />
     </main>

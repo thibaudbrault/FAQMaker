@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
-import { createFavorite } from '@/actions';
+import { createFavorite, createFavoriteSchema } from '@/actions';
 import {
   BackButton,
   Badge,
@@ -19,7 +19,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components';
-import { favoriteClientSchema } from '@/lib';
 import { Routes, dateOptions } from '@/utils';
 
 import type { ExtendedNode } from '@/types';
@@ -32,29 +31,23 @@ const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
 
 type Props = {
   node: ExtendedNode;
-  userId: string;
 };
 
-type Schema = z.infer<typeof favoriteClientSchema>;
+type Schema = z.infer<typeof createFavoriteSchema>;
 
-export default function Question({ node, userId }: Props) {
+export default function Question({ node }: Props) {
   const pathname = usePathname();
 
   const { handleSubmit } = useForm<Schema>({
-    resolver: zodResolver(favoriteClientSchema),
+    resolver: zodResolver(createFavoriteSchema),
     mode: 'onBlur',
     defaultValues: {
       nodeId: node.id,
-      userId,
     },
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    await createFavorite(formData);
+    await createFavorite(data);
   };
 
   return (

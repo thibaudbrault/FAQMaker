@@ -3,47 +3,42 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { MoveLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
-import { createTenant } from '@/actions';
+import { createTenant, createTenantSchema } from '@/actions';
 import { Button } from '@/components';
-import { useCreateCustomer } from '@/hooks';
-import { registerCompleteClientSchema } from '@/lib';
 import { registerAtom } from '@/store';
 import { Routes } from '@/utils';
 
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
 
-type Schema = z.infer<typeof registerCompleteClientSchema>;
+type Schema = z.infer<typeof createTenantSchema>;
 
 export default function Form() {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const [state, setState] = useAtom(registerAtom);
+  // const [state, setState] = useAtom(registerAtom);
+  const state = useAtomValue(registerAtom);
   const router = useRouter();
   const {
     handleSubmit,
     formState: { isSubmitting, isValid },
   } = useForm<Schema>({
-    resolver: zodResolver(registerCompleteClientSchema),
+    resolver: zodResolver(createTenantSchema),
     defaultValues: state,
   });
 
-  const {
-    data: customerId,
-    mutateAsync: mutateCustomer,
-    isSuccess: customerIsSuccess,
-  } = useCreateCustomer();
+  // const {
+  //   data: customerId,
+  //   mutateAsync: mutateCustomer,
+  //   isSuccess: customerIsSuccess,
+  // } = useCreateCustomer();
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    for (const key in data) {
-      formData.append(key, data[key]);
-    }
-    await createTenant(formData);
+    await createTenant(data);
     // await mutateCustomer(data);
   };
 

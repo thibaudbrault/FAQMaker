@@ -5,9 +5,8 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Flame } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
-import { deleteTenant } from '@/actions';
+import { deleteTenant, deleteTenantSchema } from '@/actions';
 import {
   Button,
   Dialog,
@@ -21,6 +20,7 @@ import {
 } from '@/components';
 
 import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Props = {
   tenantId: string;
@@ -28,9 +28,7 @@ type Props = {
 };
 
 export const Delete = ({ tenantId, company }: Props) => {
-  const deleteSchema = z.object({
-    text: z.literal(`DELETE ${company}`),
-  });
+  const deleteSchema = deleteTenantSchema(company);
   type Schema = z.infer<typeof deleteSchema>;
 
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -43,16 +41,15 @@ export const Delete = ({ tenantId, company }: Props) => {
   } = useForm<Schema>({
     resolver: zodResolver(deleteSchema),
     mode: 'onBlur',
+    defaultValues: {
+      text: '',
+      id: tenantId,
+      company,
+    },
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    formData.append('id', tenantId);
-    formData.append('company', company);
-    await deleteTenant(formData);
+    await deleteTenant(data);
   };
 
   useEffect(() => {

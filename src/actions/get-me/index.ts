@@ -6,6 +6,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import prisma from 'lib/prisma';
 
 import type { Me } from '@/types';
+import type { Session } from 'next-auth';
 
 export const getMe = cache(async (): Promise<Me | null> => {
   try {
@@ -26,3 +27,24 @@ export const getMe = cache(async (): Promise<Me | null> => {
     throw new Error('Error fetching user');
   }
 });
+
+export const getUserId = cache(
+  async (session: Session): Promise<string | null> => {
+    try {
+      const id = session?.user?.id;
+      if (!id) {
+        throw new Error('ID not found');
+      }
+      const user = await prisma.user.findUnique({
+        where: { id },
+        select: {
+          id: true,
+        },
+      });
+      const userId = user?.id ?? null;
+      return userId as string;
+    } catch (error) {
+      throw new Error('Error fetching user');
+    }
+  },
+);

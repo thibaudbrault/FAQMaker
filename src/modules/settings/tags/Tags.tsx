@@ -20,10 +20,7 @@ export const Tags = ({ tenantId, plan, tags, tagsCount }: Props) => {
   const [limit, setLimit] = useState<number>(3);
 
   const handleDeleteTag = async (id: string) => {
-    const formData = new FormData();
-    formData.append('tenantId', tenantId);
-    formData.append('id', id);
-    await deleteTag(formData);
+    await deleteTag({ id, tenantId });
   };
 
   useEffect(() => {

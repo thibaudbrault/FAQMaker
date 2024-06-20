@@ -5,9 +5,8 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import { updateTenant } from '@/actions';
+import { updateTenant, updateTenantSchema } from '@/actions';
 import { Button, Field, Input } from '@/components';
-import { updateTenantClientSchema } from '@/lib';
 
 import type { ITenantUpdateFields } from '@/types';
 import type { Tenant } from '@prisma/client';
@@ -18,7 +17,7 @@ type Props = {
   tenant: Tenant;
 };
 
-type Schema = z.infer<typeof updateTenantClientSchema>;
+type Schema = z.infer<typeof updateTenantSchema>;
 
 export function Company({ tenant }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -27,22 +26,18 @@ export function Company({ tenant }: Props) {
     handleSubmit,
     formState: { isSubmitting, isDirty, isValid, errors },
   } = useForm<Schema>({
-    resolver: zodResolver(updateTenantClientSchema),
+    resolver: zodResolver(updateTenantSchema),
     mode: 'onBlur',
     defaultValues: {
       company: tenant.company,
       email: tenant.email,
       domain: tenant.domain,
+      id: tenant.id,
     },
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    formData.append('id', tenant.id);
-    await updateTenant(formData);
+    await updateTenant(data);
   };
 
   const fields: ITenantUpdateFields[] = [

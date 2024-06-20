@@ -1,50 +1,29 @@
-'use server';
+'use server'
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authActionClient } from '@/lib/safe-actions';
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
 import 'server-only';
 import { updateAnswerSchema } from './schema';
 
-type UpdateAnswerData = {
-  text: string;
-  id: string;
-  userId: string;
-};
+export * from './schema';
 
-export async function updateAnswer(formData: FormData) {
-  try {
-    if (!formData) {
-      return { error: 'Data not provided' };
-    }
-    const data = Object.fromEntries(formData) as UpdateAnswerData;
-    const session = await getServerSession(authOptions);
-    if (session) {
-      const result = updateAnswerSchema.safeParse(data);
-      if (result.success === false) {
-        const errors = result.error.flatten().fieldErrors;
-        return { error: errors };
-      }
-      const { text, id, userId } = result.data;
-      await prisma.answer.update({
-        where: { id },
-        data: {
-          text,
-          userId,
-        },
-      });
-    } else {
-      return { error: 'Not signed in' };
-    }
-  } catch (error) {
-    return { error: 'Error updating answer' };
-  }
-  revalidatePath(Routes.SITE.HOME);
-  redirect(Routes.SITE.HOME);
-  return { message: 'Answer updated successfully' };
-}
+export const updateAnswer = authActionClient
+  .metadata({ actionName: 'updateAnswer' })
+  .schema(updateAnswerSchema)
+  .action(async ({ parsedInput: { text, id }, ctx: { userId } }) => {
+    await prisma.answer.update({
+      where: { id },
+      data: {
+        text,
+        userId,
+      },
+    });
+    revalidatePath(Routes.SITE.HOME);
+    redirect(Routes.SITE.HOME);
+    return { message: 'Answer updated successfully' };
+  });

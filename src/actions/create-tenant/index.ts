@@ -1,34 +1,22 @@
-'use server';
+'use server'
 
-import { Resend } from 'resend';
+// import { Resend } from 'resend';
 
+import { actionClient } from '@/lib/safe-actions';
 import prisma from 'lib/prisma';
 
 import 'server-only';
 import { createTenantSchema } from './schema';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-const { data: domains } = await resend.domains.list();
+export * from './schema';
 
-type CreateTenantData = {
-  company: string;
-  companyEmail: string;
-  domain: string;
-  email: string;
-};
+// const resend = new Resend(process.env.RESEND_API_KEY);
+// const { data: domains } = await resend.domains.list();
 
-export async function createTenant(formData: FormData) {
-  try {
-    if (!formData) {
-      return { error: 'Data not provided' };
-    }
-    const data = Object.fromEntries(formData) as CreateTenantData;
-    const result = createTenantSchema.safeParse(data);
-    if (result.success === false) {
-      const errors = result.error.formErrors.fieldErrors;
-      return { error: errors };
-    }
-    const { company, companyEmail, email, domain } = result.data;
+export const createTenant = actionClient
+  .metadata({ actionName: 'createTenant' })
+  .schema(createTenantSchema)
+  .action(async ({ parsedInput: { company, companyEmail, email, domain } }) => {
     const tenantExists = await prisma.tenant.findUnique({
       where: { email: companyEmail },
     });
@@ -69,8 +57,5 @@ export async function createTenant(formData: FormData) {
     //   subject: 'Welcome to FAQMaker',
     //   react: RegisterEmailTemplate(),
     // });
-  } catch (error) {
-    return { error: 'Error creating account' };
-  }
-  return { message: 'Account created successfully' };
-}
+    return { message: 'Account created successfully' };
+  });

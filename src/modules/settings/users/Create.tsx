@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AtSign, PlusCircle } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { createUser } from '@/actions';
+import { createUser, createUserSchema } from '@/actions';
 import {
   Button,
   Dialog,
@@ -29,7 +29,6 @@ import {
   SelectValue,
 } from '@/components';
 import { useMediaQuery } from '@/hooks';
-import { createUserClientSchema } from '@/lib';
 
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
@@ -39,7 +38,7 @@ type Props = {
   usersCount: number;
 };
 
-type Schema = z.infer<typeof createUserClientSchema>;
+type Schema = z.infer<typeof createUserSchema>;
 
 const Form = ({ tenantId, usersCount }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -50,22 +49,18 @@ const Form = ({ tenantId, usersCount }: Props) => {
     control,
     formState: { errors, isValid, isSubmitting },
   } = useForm<Schema>({
-    resolver: zodResolver(createUserClientSchema),
+    resolver: zodResolver(createUserSchema),
     mode: 'onBlur',
     defaultValues: {
       email: '',
       role: 'user',
+      tenantId,
+      usersCount,
     },
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    formData.append('tenantId', tenantId);
-    await createUser(formData);
-    formData.append('usersCount', String(usersCount));
+    await createUser(data);
   };
 
   useEffect(() => {

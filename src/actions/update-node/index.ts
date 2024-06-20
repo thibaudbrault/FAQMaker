@@ -1,43 +1,26 @@
-'use server';
+'use server'
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
 import slugify from 'slugify';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authActionClient } from '@/lib/safe-actions';
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
 import 'server-only';
 import { updateNodeSchema } from './schema';
 
-type UpdateNodeData = {
-  text: string;
-  id: string;
-  userId: string;
-  tenantId: string;
-  questionId: string;
-  tags: string;
-};
+export * from './schema';
 
-export async function updateNode(formData: FormData) {
-  try {
-    if (!formData) {
-      return { error: 'Data not provided' };
-    }
-    const data = Object.fromEntries(formData) as UpdateNodeData;
-    if (data.tags) {
-      data.tags = JSON.parse(data.tags);
-    }
-    const session = await getServerSession(authOptions);
-    if (session) {
-      const result = updateNodeSchema.safeParse({ ...data });
-      if (result.success === false) {
-        const errors = result.error.flatten().fieldErrors;
-        return { error: errors };
-      }
-      const { tenantId, questionId, text, userId, tags, id } = result.data;
+export const updateNode = authActionClient
+  .metadata({ actionName: 'updateNode' })
+  .schema(updateNodeSchema)
+  .action(
+    async ({
+      parsedInput: { tenantId, questionId, text, tags, id },
+      ctx: { userId },
+    }) => {
       const duplicateQuestion = await prisma.node.findFirst({
         where: {
           tenantId,
@@ -71,13 +54,8 @@ export async function updateNode(formData: FormData) {
           },
         },
       });
-    } else {
-      return { error: 'Not signed in' };
-    }
-  } catch (error) {
-    return { error: 'Error updating question' };
-  }
-  revalidatePath(Routes.SITE.HOME);
-  redirect(Routes.SITE.HOME);
-  return { message: 'Question updated successfully' };
-}
+      revalidatePath(Routes.SITE.HOME);
+      redirect(Routes.SITE.HOME);
+      return { message: 'Question updated successfully' };
+    },
+  );

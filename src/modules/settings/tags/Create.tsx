@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { PlusCircle, Tag as TagIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
-import { createTag } from '@/actions';
+import { createTag, createTagSchema } from '@/actions';
 import {
   Button,
   Dialog,
@@ -21,7 +21,6 @@ import {
   Input,
 } from '@/components';
 import { useMediaQuery } from '@/hooks';
-import { createTagClientSchema } from '@/lib';
 
 import type { $Enums } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
@@ -33,7 +32,7 @@ type Props = {
   tagsCount: number;
 };
 
-type Schema = z.infer<typeof createTagClientSchema>;
+type Schema = z.infer<typeof createTagSchema>;
 
 const Form = ({ tenantId, plan, tagsCount }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -43,22 +42,18 @@ const Form = ({ tenantId, plan, tagsCount }: Props) => {
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
   } = useForm<Schema>({
-    resolver: zodResolver(createTagClientSchema),
+    resolver: zodResolver(createTagSchema),
     mode: 'onBlur',
     defaultValues: {
       label: '',
+      tagsCount,
+      plan,
+      tenantId,
     },
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    formData.append('tagsCount', String(tagsCount));
-    formData.append('plan', plan);
-    formData.append('tenantId', tenantId);
-    await createTag(formData);
+    await createTag(data);
   };
 
   useEffect(() => {

@@ -96,7 +96,7 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
       complete: (results) => {
         let columnIndex: number = 0;
         const newUsersArray = [];
-        results.data.map((data) => {
+        results.data.forEach((data) => {
           columnIndex = Object.keys(data).indexOf(field);
           newUsersArray.push(Object.values(data));
         });

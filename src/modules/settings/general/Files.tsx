@@ -13,6 +13,7 @@ import { getSignedLogo, updateLogo } from '@/actions';
 import { Button } from '@/components';
 import { filesClientSchema } from '@/lib';
 
+import type { UpdateLogo } from '@/actions';
 import type { Tenant } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
@@ -56,9 +57,11 @@ export const Files = ({ tenant }: Props) => {
       formData.delete(key);
     });
     const logoUrl = `${url}logos/${logo}`;
-    formData.append('logoUrl', logoUrl);
-    formData.append('id', tenant.id);
-    await updateLogo(formData);
+    const logoData: UpdateLogo = {
+      logoUrl,
+      id: tenant.id,
+    };
+    await updateLogo(logoData);
   };
 
   const handleReset = () => {

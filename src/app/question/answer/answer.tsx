@@ -4,24 +4,30 @@ import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { createAnswer, updateAnswer } from '@/actions';
+import {
+  createAnswer,
+  createAnswerSchema,
+  updateAnswer,
+  updateAnswerSchema,
+} from '@/actions';
 import { BackButton, Button, Editor } from '@/components';
-import { answerClientSchema } from '@/lib';
 import { Limits } from '@/utils';
 
-import type { ExtendedNode, Me } from '@/types';
+import type { ExtendedNode } from '@/types';
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 type Props = {
-  me: Me;
   node: ExtendedNode;
 };
 
-type Schema = z.infer<typeof answerClientSchema>;
+const answerSchema = z.union([createAnswerSchema, updateAnswerSchema]);
+type Schema = z.infer<typeof answerSchema>;
+type CreateAnswer = z.infer<typeof createAnswerSchema>;
+type UpdateAnswer = z.infer<typeof updateAnswerSchema>;
 
-export default function Answer({ me, node }: Props) {
+export default function Answer({ node }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
 
   const {
@@ -30,27 +36,28 @@ export default function Answer({ me, node }: Props) {
     watch,
     formState: { isSubmitting, errors, isValid, isDirty },
   } = useForm<Schema>({
-    resolver: zodResolver(answerClientSchema),
+    resolver: zodResolver(answerSchema),
     mode: 'onBlur',
     defaultValues: {
       text: node?.answer?.text ?? '',
-      userId: me.id,
     },
   });
 
   const text = watch('text');
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
     if (node?.answer) {
-      formData.append('id', node.answer.id);
-      await updateAnswer(formData);
+      const updateData: UpdateAnswer = {
+        text: data.text,
+        id: node.answer.id,
+      };
+      await updateAnswer(updateData);
     } else {
-      formData.append('nodeId', node.id);
-      await createAnswer(formData);
+      const createData: CreateAnswer = {
+        text: data.text,
+        nodeId: node.id,
+      };
+      await createAnswer(createData);
     }
   };
 

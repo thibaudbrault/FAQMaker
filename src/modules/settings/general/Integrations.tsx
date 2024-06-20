@@ -5,9 +5,8 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import { upsertIntegrations } from '@/actions';
+import { upsertIntegrations, upsertIntegrationsSchema } from '@/actions';
 import { Button, Field, Input } from '@/components';
-import { integrationsClientSchema } from '@/lib';
 
 import type { IIntegrations } from '@/types';
 import type { Integrations as IntegrationsType } from '@prisma/client';
@@ -19,7 +18,7 @@ type Props = {
   integrations: IntegrationsType;
 };
 
-type Schema = z.infer<typeof integrationsClientSchema>;
+type Schema = z.infer<typeof upsertIntegrationsSchema>;
 
 export function Integrations({ tenantId, integrations }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -28,20 +27,16 @@ export function Integrations({ tenantId, integrations }: Props) {
     handleSubmit,
     formState: { errors, isSubmitting, isDirty, isValid },
   } = useForm<Schema>({
-    resolver: zodResolver(integrationsClientSchema),
+    resolver: zodResolver(upsertIntegrationsSchema),
     mode: 'onBlur',
     defaultValues: {
       slack: integrations?.slack ?? '',
+      tenantId,
     },
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    formData.append('tenantId', tenantId);
-    await upsertIntegrations(formData);
+    await upsertIntegrations(data);
   };
 
   const fields: IIntegrations[] = [

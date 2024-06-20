@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AtSign, UserIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { updateUser } from '@/actions';
+import { updateUser, updateUserSchema } from '@/actions';
 import {
   Button,
   Dialog,
@@ -29,7 +29,6 @@ import {
   SelectValue,
 } from '@/components';
 import { useMediaQuery } from '@/hooks';
-import { updateUserClientSchema } from '@/lib';
 
 import type { User } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
@@ -40,7 +39,7 @@ type Props = {
   tenantId: string;
 };
 
-type Schema = z.infer<typeof updateUserClientSchema>;
+type Schema = z.infer<typeof updateUserSchema>;
 
 const Form = ({ user, tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -51,23 +50,18 @@ const Form = ({ user, tenantId }: Props) => {
     control,
     formState: { isSubmitting, isDirty, isValid, errors },
   } = useForm<Schema>({
-    resolver: zodResolver(updateUserClientSchema),
+    resolver: zodResolver(updateUserSchema),
     mode: 'onBlur',
     defaultValues: {
-      name: user.name,
+      name: user.name ?? '',
       email: user.email,
       role: user.role,
+      tenantId,
     },
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    formData.append('id', user.id);
-    formData.append('tenantId', tenantId);
-    await updateUser(formData);
+    await updateUser(data);
   };
 
   useEffect(() => {
@@ -85,7 +79,7 @@ const Form = ({ user, tenantId }: Props) => {
             <Input
               {...register('name')}
               withIcon
-              defaultValue={user.name}
+              defaultValue={user.name ?? ''}
               icon={<UserIcon className="size-5" />}
               type="name"
               id="name"

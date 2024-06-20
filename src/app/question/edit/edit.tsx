@@ -6,10 +6,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { HelpCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
-import { updateNode } from '@/actions';
+import { updateNode, updateNodeSchema } from '@/actions';
 import { BackButton, Button, Field, Input } from '@/components';
 import { useMediaQuery } from '@/hooks';
-import { createQuestionSchema } from '@/lib';
 import { TagsList } from '@/modules';
 import { Limits, arraysAreEqual } from '@/utils';
 
@@ -24,7 +23,7 @@ type Props = {
   tags: Tag[];
 };
 
-type Schema = z.infer<typeof createQuestionSchema>;
+type Schema = z.infer<typeof updateNodeSchema>;
 
 export default function Edit({ me, node, tags }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -37,35 +36,21 @@ export default function Edit({ me, node, tags }: Props) {
     watch,
     formState: { isSubmitting, isDirty, isValid, errors },
   } = useForm<Schema>({
-    resolver: zodResolver(createQuestionSchema),
+    resolver: zodResolver(updateNodeSchema),
     mode: 'onBlur',
     defaultValues: {
       text: node?.question.text,
+      id: node.id,
+      tenantId: me.tenantId,
+      questionId: node.question.id,
     },
   });
 
   const text = watch('text');
 
-  //   const { mutate } = useUpdateNode(
-  //     id,
-  //     me.tenantId,
-  //     me.id,
-  //     selectedTags,
-  //     router,
-  //     node?.question.id,
-  //   );
-
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    formData.append('id', node.id);
-    formData.append('tenantId', me.tenantId);
-    formData.append('userId', me.id);
-    formData.append('questionId', node.question.id);
-    formData.append('tags', JSON.stringify(selectedTags));
-    await updateNode(formData);
+    data.tags = selectedTags;
+    await updateNode(data);
   };
 
   const tagsId = node?.tags?.map((tag) => tag.id);

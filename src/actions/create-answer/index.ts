@@ -1,50 +1,29 @@
-'use server';
+'use server'
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authActionClient } from '@/lib/safe-actions';
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
 import 'server-only';
 import { createAnswerSchema } from './schema';
 
-type CreateAnswerData = {
-  text: string;
-  nodeId: string;
-  userId: string;
-};
+export * from './schema';
 
-export async function createAnswer(formData: FormData) {
-  try {
-    if (!formData) {
-      return { error: 'Data not provided' };
-    }
-    const data = Object.fromEntries(formData) as CreateAnswerData;
-    const session = await getServerSession(authOptions);
-    if (session) {
-      const result = createAnswerSchema.safeParse(data);
-      if (result.success === false) {
-        const errors = result.error.flatten().fieldErrors;
-        return { error: errors };
-      }
-      const { text, nodeId, userId } = result.data;
-      await prisma.answer.create({
-        data: {
-          nodeId,
-          userId,
-          text,
-        },
-      });
-    } else {
-      return { error: 'Not signed in' };
-    }
-  } catch (error) {
-    return { error: 'Error creating answer' };
-  }
-  revalidatePath(Routes.SITE.HOME);
-  redirect(Routes.SITE.HOME);
-  return { message: 'Answer created successfully' };
-}
+export const createAnswer = authActionClient
+  .metadata({ actionName: 'createAnswer' })
+  .schema(createAnswerSchema)
+  .action(async ({ parsedInput: { text, nodeId }, ctx: { userId } }) => {
+    await prisma.answer.create({
+      data: {
+        nodeId,
+        userId,
+        text,
+      },
+    });
+    revalidatePath(Routes.SITE.HOME);
+    redirect(Routes.SITE.HOME);
+    return { message: 'Answer created successfully' };
+  });
