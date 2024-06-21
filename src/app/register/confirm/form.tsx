@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 import { createTenant, createTenantSchema } from '@/actions';
-import { Button } from '@/components';
+import { Button, resultToast } from '@/components';
 import { registerAtom } from '@/store';
 import { Routes } from '@/utils';
 
@@ -38,7 +38,8 @@ export default function Form() {
   // } = useCreateCustomer();
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    await createTenant(data);
+    const result = await createTenant(data);
+    resultToast(result?.serverError, result?.data?.message);
     // await mutateCustomer(data);
   };
 

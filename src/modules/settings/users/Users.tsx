@@ -1,7 +1,13 @@
 'use client';
 
 import { deleteUser } from '@/actions';
-import { Avatar, AvatarFallback, AvatarImage, Button } from '@/components';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Button,
+  resultToast,
+} from '@/components';
 
 import { CreateUser } from './Create';
 import { FileInput } from './FileInput';
@@ -30,7 +36,8 @@ const UserAvatar = ({ id, email, image }) => {
 
 export const Users = ({ userId, tenantId, plan, users, usersCount }: Props) => {
   const handleDeleteUser = async (id: string) => {
-    await deleteUser({ id, tenantId });
+    const result = await deleteUser({ id, tenantId });
+    resultToast(result?.serverError, result?.data?.message);
   };
 
   return (

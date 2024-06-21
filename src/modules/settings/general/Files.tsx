@@ -10,7 +10,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { v4 as uuid } from 'uuid';
 
 import { getSignedLogo, updateLogo } from '@/actions';
-import { Button } from '@/components';
+import { Button, resultToast } from '@/components';
 import { filesClientSchema } from '@/lib';
 
 import type { UpdateLogo } from '@/actions';
@@ -38,7 +38,7 @@ export const Files = ({ tenant }: Props) => {
     resolver: zodResolver(filesClientSchema),
     mode: 'onBlur',
     defaultValues: {
-      logo: null,
+      logo: undefined,
     },
   });
 
@@ -61,7 +61,8 @@ export const Files = ({ tenant }: Props) => {
       logoUrl,
       id: tenant.id,
     };
-    await updateLogo(logoData);
+    const result = await updateLogo(logoData);
+    resultToast(result?.serverError, 'Logo updated successfully');
   };
 
   const handleReset = () => {

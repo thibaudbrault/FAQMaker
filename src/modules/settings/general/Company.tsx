@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import { updateTenant, updateTenantSchema } from '@/actions';
-import { Button, Field, Input } from '@/components';
+import { Button, Field, Input, resultToast } from '@/components';
 
 import type { ITenantUpdateFields } from '@/types';
 import type { Tenant } from '@prisma/client';
@@ -37,7 +37,8 @@ export function Company({ tenant }: Props) {
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    await updateTenant(data);
+    const result = await updateTenant(data);
+    resultToast(result?.serverError, 'Tenant updated successfully');
   };
 
   const fields: ITenantUpdateFields[] = [

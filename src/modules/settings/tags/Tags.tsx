@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { deleteTag } from '@/actions';
-import { Button } from '@/components';
+import { Button, resultToast } from '@/components';
 
 import { CreateTag } from './Create';
 
@@ -20,7 +20,8 @@ export const Tags = ({ tenantId, plan, tags, tagsCount }: Props) => {
   const [limit, setLimit] = useState<number>(3);
 
   const handleDeleteTag = async (id: string) => {
-    await deleteTag({ id, tenantId });
+    const result = await deleteTag({ id, tenantId });
+    resultToast(result?.serverError, result?.data?.message);
   };
 
   useEffect(() => {

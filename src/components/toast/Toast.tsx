@@ -28,3 +28,16 @@ export const promiseToast = (
     },
   });
 };
+
+export const resultToast = (
+  error: string | undefined,
+  success: string | undefined,
+) => {
+  if (error) {
+    return errorToast(error);
+  }
+  if (success) {
+    return successToast(success);
+  }
+  return null;
+};

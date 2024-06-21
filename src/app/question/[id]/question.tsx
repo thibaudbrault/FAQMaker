@@ -18,6 +18,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
+  resultToast,
 } from '@/components';
 import { Routes, dateOptions } from '@/utils';
 
@@ -47,7 +48,8 @@ export default function Question({ node }: Props) {
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    await createFavorite(data);
+    const result = await createFavorite(data);
+    resultToast(result?.serverError, result?.data?.message);
   };
 
   return (

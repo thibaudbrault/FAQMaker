@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import { upsertIntegrations, upsertIntegrationsSchema } from '@/actions';
-import { Button, Field, Input } from '@/components';
+import { Button, Field, Input, resultToast } from '@/components';
 
 import type { IIntegrations } from '@/types';
 import type { Integrations as IntegrationsType } from '@prisma/client';
@@ -36,7 +36,8 @@ export function Integrations({ tenantId, integrations }: Props) {
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    await upsertIntegrations(data);
+    const result = await upsertIntegrations(data);
+    resultToast(result?.serverError, 'Integrations updated successfully');
   };
 
   const fields: IIntegrations[] = [

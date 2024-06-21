@@ -19,6 +19,7 @@ import {
   DrawerTrigger,
   Field,
   Input,
+  resultToast,
 } from '@/components';
 import { useMediaQuery } from '@/hooks';
 
@@ -53,7 +54,8 @@ const Form = ({ tenantId, plan, tagsCount }: Props) => {
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    await createTag(data);
+    const result = await createTag(data);
+    resultToast(result?.serverError, 'Tag created successfully');
   };
 
   useEffect(() => {

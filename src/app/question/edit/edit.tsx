@@ -7,7 +7,7 @@ import { HelpCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { updateNode, updateNodeSchema } from '@/actions';
-import { BackButton, Button, Field, Input } from '@/components';
+import { BackButton, Button, Field, Input, resultToast } from '@/components';
 import { useMediaQuery } from '@/hooks';
 import { TagsList } from '@/modules';
 import { Limits, arraysAreEqual } from '@/utils';
@@ -50,7 +50,8 @@ export default function Edit({ me, node, tags }: Props) {
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const updatedData = { ...data, selectedTags };
-    await updateNode(updatedData);
+    const result = await updateNode(updatedData);
+    resultToast(result?.serverError, 'Question updated successfully');
   };
 
   const tagsId = node?.tags?.map((tag) => tag.id);

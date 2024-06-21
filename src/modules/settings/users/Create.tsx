@@ -27,6 +27,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  resultToast,
 } from '@/components';
 import { useMediaQuery } from '@/hooks';
 
@@ -60,7 +61,8 @@ const Form = ({ tenantId, usersCount }: Props) => {
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    await createUser(data);
+    const result = await createUser(data);
+    resultToast(result?.serverError, result?.data?.message);
   };
 
   useEffect(() => {

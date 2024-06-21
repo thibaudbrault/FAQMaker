@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 
 import { updateUser, updateUserSchema } from '@/actions';
-import { Button, Field, Input } from '@/components';
+import { Button, Field, Input, resultToast } from '@/components';
 import { useMediaQuery } from '@/hooks';
 
 import type { IUserUpdateFields, Me } from '@/types';
@@ -41,7 +41,8 @@ export const UpdateProfile = ({ me }: Props) => {
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    await updateUser(data);
+    const result = await updateUser(data);
+    resultToast(result?.serverError, result?.data?.message);
   };
 
   const fields: IUserUpdateFields[] = useMemo(

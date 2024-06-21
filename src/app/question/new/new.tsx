@@ -6,14 +6,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { HelpCircle, MoveRight } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
-import { createNode } from '@/actions';
-import { BackButton, Button, Field, Input } from '@/components';
+import { createNode, createNodeSchema } from '@/actions';
+import { BackButton, Button, Field, Input, resultToast } from '@/components';
 import { useMediaQuery } from '@/hooks';
-import { questionClientSchema } from '@/lib';
 import { TagsList } from '@/modules';
 import { Limits } from '@/utils';
 
-import type { createNodeSchema } from '@/actions';
 import type { Me } from '@/types';
 import type { Integrations, Tag } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
@@ -31,7 +29,7 @@ export default function New({ me, tags, integrations }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const isDesktop = useMediaQuery('(min-width: 640px)');
-  // const withAnswer = true;
+  const withAnswer = false;
 
   const {
     register,
@@ -39,19 +37,21 @@ export default function New({ me, tags, integrations }: Props) {
     watch,
     formState: { isSubmitting, errors, isValid },
   } = useForm<Schema>({
-    resolver: zodResolver(questionClientSchema),
+    resolver: zodResolver(createNodeSchema),
     mode: 'onBlur',
     defaultValues: {
       text: '',
       tenantId: me.tenantId,
       integrations,
+      withAnswer,
     },
   });
   const text = watch('text');
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const updatedData = { ...data, tags: selectedTags };
-    await createNode(updatedData);
+    const result = await createNode(updatedData);
+    resultToast(result?.serverError, 'Question created successfully');
   };
 
   const onSubmitWithAnswer: SubmitHandler<Schema> = (_data) => {
@@ -66,7 +66,10 @@ export default function New({ me, tags, integrations }: Props) {
     <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
       <BackButton />
       <div className="flex flex-col gap-4 rounded-md bg-gray-3 p-4">
-        <form className="flex flex-col items-center gap-4">
+        <form
+          className="flex flex-col items-center gap-4"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <fieldset className="mx-auto flex w-11/12 flex-col gap-4">
             <div className="w-full text-center">
               <legend
@@ -106,7 +109,8 @@ export default function New({ me, tags, integrations }: Props) {
               className="lowercase"
               style={{ fontVariant: 'small-caps' }}
               disabled={disabled}
-              onClick={handleSubmit(onSubmit)}
+              type="submit"
+              // onClick={handleSubmit(onSubmit)}
             >
               Submit
             </Button>
