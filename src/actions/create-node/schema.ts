@@ -15,9 +15,11 @@ export const createNodeSchema = z.object({
     .min(3, { message: 'Question must be at least 3 characters long' })
     .max(100, { message: 'Question must be under 100 characters long' }),
   tenantId: z.string().cuid2(),
-  tags: z.array(z.string().cuid2()),
+  tags: z.array(z.string().cuid2()).optional(),
   withAnswer: z.boolean().optional(),
-  integrations: z.object({
-    slack: z.string().trim().url({ message: 'Invalid URL' }),
-  }),
+  integrations: z
+    .object({
+      slack: z.string().trim().url({ message: 'Invalid URL' }).optional(),
+    })
+    .nullable(),
 });
