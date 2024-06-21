@@ -5,8 +5,16 @@ import { z } from 'zod';
 import { getUserId } from '@/actions/get-me';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
+export class ActionError extends Error {}
+
 export const actionClient = createSafeActionClient({
   defaultValidationErrorsShape: 'flattened',
+  handleReturnedServerError(e) {
+    if (e instanceof ActionError) {
+      return e.message;
+    }
+    return 'Something went wrong';
+  },
   defineMetadataSchema() {
     return z.object({
       actionName: z.string(),
