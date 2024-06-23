@@ -27,9 +27,9 @@ import {
 import { Routes, dateOptions } from '@/utils';
 
 import type { ExtendedNode } from '@/types';
+import type { Favorite } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
-import { Favorite } from '@prisma/client';
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,

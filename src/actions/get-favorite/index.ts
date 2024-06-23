@@ -1,7 +1,8 @@
 import { cache } from 'react';
 
-import { Favorite } from '@prisma/client';
 import prisma from 'lib/prisma';
+
+import type { Favorite } from '@prisma/client';
 
 export const getFavorite = cache(
   async (userId: string, nodeId: string): Promise<Favorite> => {
