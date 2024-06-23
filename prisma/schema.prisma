@@ -67,8 +67,7 @@ model Question {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 
-  @@index([nodeId])
-  @@index([userId])
+  @@index([nodeId, userId])
 }
 
 model Answer {
@@ -81,8 +80,7 @@ model Answer {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 
-  @@index([nodeId])
-  @@index([userId])
+  @@index([nodeId, userId])
 }
 
 model Tag {
@@ -104,6 +102,7 @@ model Favorite {
   userId    String
 
   @@unique([userId, nodeId])
+  @@index([userId, nodeId])
 }
 
 model Integrations {
@@ -140,7 +139,6 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])

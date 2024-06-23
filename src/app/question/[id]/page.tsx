@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-import { getMe, getNode } from '@/actions';
+import { getFavorite, getMe, getNode } from '@/actions';
 import { Footer, Header } from '@/modules';
 import { Routes } from '@/utils';
 
@@ -10,15 +10,16 @@ export default async function Page({ params }) {
   const me = await getMe();
 
   if (!me) return redirect(Routes.SITE.LOGIN);
-  const { tenantId } = me;
+  const { tenantId, id: userId } = me;
   const { id } = params;
 
   const node = await getNode(tenantId, id);
+  const favorite = await getFavorite(userId, node.id);
   return (
     <main className="flex h-full min-h-screen flex-col bg-gray-1">
       <Header user={me} />
       <div className="my-12 grow">
-        <Question node={node} />
+        <Question node={node} favorite={favorite} />
       </div>
       <Footer company={me.tenant.company} />
     </main>

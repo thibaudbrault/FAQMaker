@@ -7,7 +7,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
-import { createFavorite, createFavoriteSchema } from '@/actions';
+import {
+  createFavorite,
+  createFavoriteSchema,
+  deleteFavorite,
+} from '@/actions';
 import {
   BackButton,
   Badge,
@@ -25,6 +29,7 @@ import { Routes, dateOptions } from '@/utils';
 import type { ExtendedNode } from '@/types';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
+import { Favorite } from '@prisma/client';
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
@@ -32,11 +37,12 @@ const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
 
 type Props = {
   node: ExtendedNode;
+  favorite: Favorite;
 };
 
 type Schema = z.infer<typeof createFavoriteSchema>;
 
-export default function Question({ node }: Props) {
+export default function Question({ node, favorite }: Props) {
   const pathname = usePathname();
 
   const { handleSubmit } = useForm<Schema>({
@@ -48,8 +54,13 @@ export default function Question({ node }: Props) {
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const result = await createFavorite(data);
-    resultToast(result?.serverError, result?.data?.message);
+    if (favorite?.nodeId === node.id) {
+      const result = await deleteFavorite(data);
+      resultToast(result?.serverError, result?.data?.message);
+    } else {
+      const result = await createFavorite(data);
+      resultToast(result?.serverError, result?.data?.message);
+    }
   };
 
   return (
@@ -88,20 +99,25 @@ export default function Question({ node }: Props) {
       <div className="rounded-md bg-gray-3 p-4">
         <div className="mb-1 flex items-center justify-between">
           <h2 className="text-3xl font-semibold">{node.question.text}</h2>
-          <div className="flex items-center gap-1">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <input hidden type="text" value={node.id} name="nodeId" />
+          <div className="flex items-center gap-2">
+            <form onSubmit={handleSubmit(onSubmit)} className="h-6">
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
-                    className="text-gray-12 hover:text-gray-11"
-                    type="button"
+                    className={`${favorite?.nodeId === node.id ? 'text-teal-9' : 'text-gray-12 hover:text-gray-11'}`}
+                    type="submit"
                     aria-label="Favorite"
                   >
-                    <Bookmark />
+                    <Bookmark
+                      className={`${favorite?.nodeId === node.id ? 'fill-teal-9' : ''}`}
+                    />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent>Favorite</TooltipContent>
+                <TooltipContent>
+                  {favorite?.nodeId === node.id
+                    ? 'Remove from favorites'
+                    : 'Add to favorites'}
+                </TooltipContent>
               </Tooltip>
             </form>
             <Tooltip>
