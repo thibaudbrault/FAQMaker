@@ -12,7 +12,7 @@ import type { $Enums, Tag } from '@prisma/client';
 type Props = {
   tenantId: string;
   plan: $Enums.Plan;
-  tags: Tag[];
+  tags: Tag[] | null;
   tagsCount: number;
 };
 
@@ -32,7 +32,7 @@ export const Tags = ({ tenantId, plan, tags, tagsCount }: Props) => {
 
   return (
     <section className="mx-auto w-11/12 md:w-3/4">
-      {tags.length > 0 ? (
+      {tags && tags.length > 0 ? (
         <ul className="my-6 flex list-none flex-wrap gap-4">
           {tags.map((tag) => (
             <li
@@ -58,7 +58,7 @@ export const Tags = ({ tenantId, plan, tags, tagsCount }: Props) => {
         <p className="my-6 text-center italic">No tags</p>
       )}
       <CreateTag tenantId={tenantId} plan={plan} tagsCount={tagsCount} />
-      {tags.length > 0 && plan !== 'enterprise' && (
+      {tags && tags.length > 0 && plan !== 'enterprise' && (
         <p className="mt-1 text-xs text-gray-11">
           Tags limit: <span className="font-semibold">{tags.length}</span> /{' '}
           <span className="font-semibold">{limit}</span>
