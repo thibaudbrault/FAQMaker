@@ -19,7 +19,7 @@ type Props = {
   userId: string;
   tenantId: string;
   plan: $Enums.Plan;
-  users: User[] | null;
+  users: User[];
   usersCount: number;
 };
 

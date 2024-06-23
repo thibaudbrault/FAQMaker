@@ -27,10 +27,8 @@ export const getUserAnswers = cache(
           },
         },
       });
-
       if (!answers) return [];
-
-      return answers;
+      return answers as NodeWithQuestionAndAnswer[];
     } catch (error) {
       throw new Error('Error fetching answers');
     }

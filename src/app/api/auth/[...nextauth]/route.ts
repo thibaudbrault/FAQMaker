@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({ profile, account }) {
-      if (!profile || !account) {
+      if (!profile?.email || !account) {
         return false;
       }
       const maybeUser = await prisma.user.findUnique({

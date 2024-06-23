@@ -15,7 +15,7 @@ import type { z } from 'zod';
 
 type Props = {
   tenantId: string;
-  integrations: IntegrationsType;
+  integrations: IntegrationsType | null;
 };
 
 type Schema = z.infer<typeof upsertIntegrationsSchema>;

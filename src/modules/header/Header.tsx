@@ -52,7 +52,7 @@ export const Header = ({ user }: Props) => {
                   className="flex items-center gap-1 hover:text-gray-11"
                 >
                   <Avatar className="size-6">
-                    <AvatarImage src={user.image} />
+                    <AvatarImage src={user.image ?? ''} />
                     <AvatarFallback>{user.email[0]}</AvatarFallback>
                   </Avatar>
                 </Link>

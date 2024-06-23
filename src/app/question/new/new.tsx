@@ -20,7 +20,7 @@ import type { z } from 'zod';
 type Props = {
   me: Me;
   tags: Tag[];
-  integrations: Integrations;
+  integrations: Integrations | null;
 };
 
 type Schema = z.infer<typeof createNodeSchema>;

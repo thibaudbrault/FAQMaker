@@ -7,7 +7,7 @@ import type { Integrations as IntegrationsType, Tenant } from '@prisma/client';
 
 type Props = {
   tenant: Tenant;
-  integrations: IntegrationsType;
+  integrations: IntegrationsType | null;
   nodesCount: number;
   usersCount: number;
 };

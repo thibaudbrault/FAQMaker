@@ -9,7 +9,7 @@ type Props = {
   usersCount: number;
   nodesCount: number;
   tagsCount: number;
-  tenant: Tenant | null;
+  tenant: Tenant;
   integrations: Integrations | null;
   tags: Tag[] | null;
   users: User[] | null;
@@ -87,7 +87,7 @@ export default function Settings({
             userId={me.id}
             usersCount={usersCount}
             tenantId={me.tenantId}
-            plan={tenant?.plan}
+            plan={tenant.plan}
           />
         </TabsContent>
         <TabsContent value="payment" className="flex flex-col gap-4">
