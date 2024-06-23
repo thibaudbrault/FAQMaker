@@ -1,4 +1,11 @@
-import type { Answer, Node, Question, Tag, User } from '@prisma/client';
+import type {
+  Answer,
+  Favorite,
+  Node,
+  Question,
+  Tag,
+  User,
+} from '@prisma/client';
 
 type ExtendedQuestion = Question & {
   user: User;
@@ -28,5 +35,11 @@ export type NodeWithQuestionAndAnswer = Node & {
 export type QuestionWithNodeId = Question & {
   node: {
     id: string;
+  };
+};
+
+export type ExtendedFavorite = Favorite & {
+  node: Node & {
+    question: Question;
   };
 };

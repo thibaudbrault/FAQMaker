@@ -1,9 +1,15 @@
 'use client';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
-import { UpdateProfile, UserAnswers, UserQuestions } from '@/modules';
+import {
+  UpdateProfile,
+  UserAnswers,
+  UserFavorites,
+  UserQuestions,
+} from '@/modules';
 
 import type {
+  ExtendedFavorite,
   Me,
   NodeWithQuestionAndAnswer,
   QuestionWithNodeId,
@@ -13,9 +19,10 @@ type Props = {
   me: Me;
   questions?: QuestionWithNodeId[];
   answers?: NodeWithQuestionAndAnswer[];
+  favorites?: ExtendedFavorite[];
 };
 
-export default function Profile({ me, questions, answers }: Props) {
+export default function Profile({ me, questions, answers, favorites }: Props) {
   const tabs = [
     {
       value: 'profile',
@@ -28,6 +35,10 @@ export default function Profile({ me, questions, answers }: Props) {
     {
       value: 'answers',
       label: 'Answers',
+    },
+    {
+      value: 'favorites',
+      label: 'Favorites',
     },
   ];
 
@@ -54,6 +65,9 @@ export default function Profile({ me, questions, answers }: Props) {
           </TabsContent>
           <TabsContent value="answers">
             <UserAnswers nodes={answers} />
+          </TabsContent>
+          <TabsContent value="favorites">
+            <UserFavorites favorites={favorites} />
           </TabsContent>
         </div>
       </Tabs>

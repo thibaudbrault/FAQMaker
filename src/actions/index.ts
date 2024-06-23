@@ -10,6 +10,7 @@ export * from './delete-tag';
 export * from './delete-tenant';
 export * from './delete-user';
 export * from './get-favorite';
+export * from './get-favorites';
 export * from './get-integration';
 export * from './get-me';
 export * from './get-node';
