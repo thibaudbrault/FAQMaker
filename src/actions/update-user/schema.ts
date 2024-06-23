@@ -8,8 +8,9 @@ export const updateUserSchema = z.object({
     .string()
     .trim()
     .min(1, { message: 'User email is required' })
-    .email({ message: 'Invalid email' }),
+    .email({ message: 'Invalid email' })
+    .optional(),
   name: z.string().trim().optional(),
-  role: z.enum(ROLE),
+  role: z.enum(ROLE).optional(),
   id: z.string().cuid2(),
 });
