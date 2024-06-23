@@ -21,7 +21,7 @@
     "generate": "prisma generate",
     "push": "prisma db push",
     "format": "prisma format",
-    "type": "tsc --noEmit --pretty",
+    "type": "tsc --noEmit",
     "lint": "eslint \"src/**/*.+(ts|js|tsx)\"",
     "lint:fix": "eslint \"src/**/*.+(ts|js|tsx)\" --fix",
     "prettier": "prettier \"src/**/*.+(ts|js|tsx)\"",
