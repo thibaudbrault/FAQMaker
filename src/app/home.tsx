@@ -6,7 +6,7 @@ import { Pagination } from '@/components';
 import { List, Search } from '@/modules';
 import { OFFSET } from '@/utils';
 
-import type { ExtendedNode } from '@/types';
+import type { ExtendedFavorites, ExtendedNode } from '@/types';
 import type { Tag } from '@prisma/client';
 
 type Props = {
@@ -15,6 +15,7 @@ type Props = {
   filteredTags: ExtendedNode[];
   nodesCount: number;
   tags: Tag[];
+  favorites: ExtendedFavorites[];
 };
 
 export default function Home({
@@ -23,6 +24,7 @@ export default function Home({
   filteredTags,
   nodesCount,
   tags,
+  favorites,
 }: Props) {
   const searchParams = useSearchParams();
   const query = searchParams.get('query') || '';
@@ -53,7 +55,7 @@ export default function Home({
   return (
     <>
       <Search tags={tags} />
-      <List nodes={nodes} message={message} />
+      <List nodes={nodes} message={message} favorites={favorites} />
       {nodesCount > OFFSET && (nodes.length === OFFSET || page !== 0) && (
         <Pagination nodesLength={nodesCount} />
       )}

@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 
 import {
+  getFavorites,
   getMe,
   getNodesCount,
   getPaginatedNodes,
@@ -20,7 +21,7 @@ export default async function Page({ searchParams }) {
     redirect(Routes.SITE.LOGIN);
   }
 
-  const { tenantId } = me;
+  const { tenantId, id: userId } = me;
   const page = Number(searchParams?.page) || 0;
   const query = searchParams.query || '';
   const tag = searchParams.tag || '';
@@ -31,6 +32,7 @@ export default async function Page({ searchParams }) {
   const filteredTags = await getSearchTags(tenantId, tag);
   const nodesCount = await getNodesCount(tenantId);
   const tags = await getTags(tenantId);
+  const favorites = await getFavorites(userId);
 
   return (
     <main className="flex h-full min-h-screen flex-col bg-gray-1">
@@ -42,6 +44,7 @@ export default async function Page({ searchParams }) {
           filteredTags={filteredTags}
           nodesCount={nodesCount}
           tags={tags}
+          favorites={favorites}
         />
       </div>
       <Footer company={me.tenant.company} />
