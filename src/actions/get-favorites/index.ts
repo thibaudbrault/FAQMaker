@@ -2,10 +2,10 @@ import { cache } from 'react';
 
 import prisma from 'lib/prisma';
 
-import type { ExtendedFavorite } from '@/types';
+import type { ExtendedFavorites } from '@/types';
 
 export const getFavorites = cache(
-  async (userId: string): Promise<ExtendedFavorite[]> => {
+  async (userId: string): Promise<ExtendedFavorites[]> => {
     try {
       if (!userId) {
         throw new Error('User not found');
@@ -23,7 +23,7 @@ export const getFavorites = cache(
 
       if (!favorites) return [];
 
-      return favorites;
+      return favorites as ExtendedFavorites[];
     } catch (error) {
       throw new Error('Error fetching favorites');
     }

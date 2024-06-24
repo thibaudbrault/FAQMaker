@@ -9,7 +9,7 @@ import {
 } from '@/modules';
 
 import type {
-  ExtendedFavorite,
+  ExtendedFavorites,
   Me,
   NodeWithQuestionAndAnswer,
   QuestionWithNodeId,
@@ -19,7 +19,7 @@ type Props = {
   me: Me;
   questions?: QuestionWithNodeId[];
   answers?: NodeWithQuestionAndAnswer[];
-  favorites?: ExtendedFavorite[];
+  favorites?: ExtendedFavorites[];
 };
 
 export default function Profile({ me, questions, answers, favorites }: Props) {

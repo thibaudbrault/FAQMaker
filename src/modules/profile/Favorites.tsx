@@ -2,14 +2,13 @@ import Link from 'next/link';
 
 import { Routes, dateOptions } from '@/utils';
 
-import type { ExtendedFavorite } from '@/types';
+import type { ExtendedFavorites } from '@/types';
 
 type Props = {
-  favorites?: ExtendedFavorite[];
+  favorites?: ExtendedFavorites[];
 };
 
 export const UserFavorites = ({ favorites }: Props) => {
-  console.log('🚀 ~ UserFavorites ~ favorites:', favorites);
   return (
     <>
       <h2

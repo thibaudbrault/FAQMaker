@@ -38,7 +38,7 @@ export type QuestionWithNodeId = Question & {
   };
 };
 
-export type ExtendedFavorite = Favorite & {
+export type ExtendedFavorites = Favorite & {
   node: Node & {
     question: Question;
   };
