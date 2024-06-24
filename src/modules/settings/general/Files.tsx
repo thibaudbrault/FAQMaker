@@ -11,7 +11,7 @@ import { v4 as uuid } from 'uuid';
 
 import { getSignedLogo, updateLogo } from '@/actions';
 import { Button, resultToast } from '@/components';
-import { filesClientSchema } from '@/lib';
+import { filesSchema } from '@/lib/validations';
 
 import type { UpdateLogo } from '@/actions';
 import type { Tenant } from '@prisma/client';
@@ -22,7 +22,7 @@ type Props = {
   tenant: Tenant;
 };
 
-type Schema = z.infer<typeof filesClientSchema>;
+type Schema = z.infer<typeof filesSchema>;
 
 export const Files = ({ tenant }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -35,7 +35,7 @@ export const Files = ({ tenant }: Props) => {
     reset,
     formState: { isSubmitting, isDirty, isValid },
   } = useForm<Schema>({
-    resolver: zodResolver(filesClientSchema),
+    resolver: zodResolver(filesSchema),
     mode: 'onBlur',
     defaultValues: {
       logo: undefined,

@@ -25,7 +25,7 @@ import {
   Input,
 } from '@/components';
 import { useMediaQuery } from '@/hooks';
-import { csvUploadClientSchema } from '@/lib';
+import { csvUploadSchema } from '@/lib/validations';
 
 import type { $Enums, User } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
@@ -38,7 +38,7 @@ type Props = {
   usersCount: number;
 };
 
-type Schema = z.infer<typeof csvUploadClientSchema>;
+type Schema = z.infer<typeof csvUploadSchema>;
 
 export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
   const isDesktop = useMediaQuery('(min-width: 640px)');
@@ -66,7 +66,7 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<Schema>({
-    resolver: zodResolver(csvUploadClientSchema),
+    resolver: zodResolver(csvUploadSchema),
     defaultValues: {
       name: '',
     },

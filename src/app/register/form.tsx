@@ -7,8 +7,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
+import { createTenantCompanySchema } from '@/actions';
 import { Button, Field, Input } from '@/components';
-import { registerCompanyClientSchema } from '@/lib';
 import { registerAtom } from '@/store';
 import { Routes } from '@/utils';
 
@@ -16,7 +16,7 @@ import type { ITenantCreateFields } from '@/types';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
 
-type Schema = z.infer<typeof registerCompanyClientSchema>;
+type Schema = z.infer<typeof createTenantCompanySchema>;
 
 export default function Form() {
   const [state, setState] = useAtom(registerAtom);
@@ -27,7 +27,7 @@ export default function Form() {
     register,
     formState: { errors, isValid },
   } = useForm<Schema>({
-    resolver: zodResolver(registerCompanyClientSchema),
+    resolver: zodResolver(createTenantCompanySchema),
     mode: 'onBlur',
     defaultValues: state,
   });

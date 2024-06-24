@@ -7,15 +7,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
+import { createTenantUserSchema } from '@/actions';
 import { Button, Field, Input } from '@/components';
-import { registerUserClientSchema } from '@/lib';
 import { registerAtom } from '@/store';
 import { Routes } from '@/utils';
 
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
 
-type Schema = z.infer<typeof registerUserClientSchema>;
+type Schema = z.infer<typeof createTenantUserSchema>;
 
 export default function Form() {
   const [state, setState] = useAtom(registerAtom);
@@ -26,7 +26,7 @@ export default function Form() {
     handleSubmit,
     formState: { isValid, errors },
   } = useForm<Schema>({
-    resolver: zodResolver(registerUserClientSchema),
+    resolver: zodResolver(createTenantUserSchema),
     mode: 'onBlur',
     defaultValues: state,
   });

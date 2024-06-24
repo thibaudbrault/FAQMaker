@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
 import { Button, Field, Input, LoginButton } from '@/components';
-import { userEmailClientSchema } from '@/lib';
+import { userEmailSchema } from '@/lib/validations';
 import { Routes } from '@/utils';
 
 import type { SubmitHandler } from 'react-hook-form';
@@ -34,7 +34,7 @@ type ErrorProps = {
   error: string;
 };
 
-type Schema = z.infer<typeof userEmailClientSchema>;
+type Schema = z.infer<typeof userEmailSchema>;
 
 const LoginError = ({ error }: ErrorProps) => {
   const errorMessage = error && (loginErrors[error] ?? loginErrors.default);
@@ -50,7 +50,7 @@ export default function Page({ searchParams }) {
     handleSubmit,
     formState: { isSubmitting, isDirty, errors, isValid },
   } = useForm<Schema>({
-    resolver: zodResolver(userEmailClientSchema),
+    resolver: zodResolver(userEmailSchema),
     mode: 'onBlur',
     defaultValues: {
       email: '',
