@@ -1,7 +1,13 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { HelpCircle, PenSquare, LinkIcon, Bookmark } from 'lucide-react';
+import {
+  HelpCircle,
+  PenSquare,
+  LinkIcon,
+  Bookmark,
+  BookmarkCheck,
+} from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -104,13 +110,15 @@ export default function Question({ node, favorite }: Props) {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
-                    className={`${favorite?.nodeId === node.id ? 'text-teal-9' : 'text-gray-12 hover:text-gray-11'}`}
+                    className={`text-gray-12 ${favorite?.nodeId === node.id ? '' : 'hover:text-gray-11'}`}
                     type="submit"
                     aria-label="Favorite"
                   >
-                    <Bookmark
-                      className={`${favorite?.nodeId === node.id ? 'fill-teal-9' : ''}`}
-                    />
+                    {favorite?.nodeId === node.id ? (
+                      <BookmarkCheck className="fill-teal-9" />
+                    ) : (
+                      <Bookmark />
+                    )}
                   </button>
                 </TooltipTrigger>
                 <TooltipContent>
