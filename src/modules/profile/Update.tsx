@@ -67,7 +67,6 @@ export const UpdateProfile = ({ me }: Props) => {
   useEffect(() => {
     setDisabled(isSubmitting || !isDirty || !isValid);
   }, [isDirty, isSubmitting, isValid]);
-  console.log('🚀 ~ UpdateProfile ~ isValid:', isValid);
 
   return (
     <form
