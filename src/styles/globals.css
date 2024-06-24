@@ -18,7 +18,7 @@
 @import '@radix-ui/colors/red-dark-alpha';
 
 * {
-  @apply transition-all duration-300 ease-in-out;
+  @apply transition-colors duration-300 ease-in-out;
 }
 
 td,
