@@ -1,7 +1,5 @@
 import { toast } from 'sonner';
 
-import type { AxiosResponse } from 'axios';
-
 export const errorToast = (error?: string) => {
   return toast.error(error || `Something went wrong`);
 };
@@ -17,7 +15,7 @@ export const promiseToast = (
 ) => {
   return toast.promise(promise, {
     loading,
-    success: (data: AxiosResponse['data']) => {
+    success: (data) => {
       return `${data.message}`;
     },
     error: (data) => {
