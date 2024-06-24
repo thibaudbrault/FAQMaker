@@ -1,12 +1,17 @@
 'use server';
 
 // import { Resend } from 'resend';
+import Stripe from 'stripe';
 
 import { ActionError, actionClient } from '@/lib/safe-actions';
 import prisma from 'lib/prisma';
 
 import 'server-only';
 import { createTenantSchema } from './schema';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2023-10-16',
+});
 
 // const resend = new Resend(process.env.RESEND_API_KEY);
 // const { data: domains } = await resend.domains.list();
@@ -55,5 +60,32 @@ export const createTenant = actionClient
     //   subject: 'Welcome to FAQMaker',
     //   react: RegisterEmailTemplate(),
     // });
-    return { message: 'Account created successfully' };
+    const customerExists = await stripe.customers.search({
+      query: `email:'${companyEmail}'`,
+    });
+    if (customerExists.data.length > 0) {
+      throw new ActionError(
+        'A customer with the same company email already exists',
+      );
+    }
+    const customer = await stripe.customers.create({
+      email: companyEmail,
+      name: company,
+    });
+    if (!customer) {
+      throw new ActionError('There was a problem creating the customer');
+    }
+    const updatedTenant = await prisma.tenant.update({
+      where: { email: companyEmail },
+      data: {
+        customerId: customer.id,
+      },
+    });
+    if (!updatedTenant) {
+      throw new ActionError('There was a problem updating the tenant');
+    }
+    return {
+      customerId: customer.id,
+      message: 'Your account has successfully been created',
+    };
   });
