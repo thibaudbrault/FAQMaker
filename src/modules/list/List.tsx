@@ -1,5 +1,7 @@
 'use client';
 
+import EmojiData from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   BadgeCheck,
@@ -21,6 +23,9 @@ import {
 import {
   Badge,
   Button,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -58,6 +63,10 @@ export const List = ({ nodes, message, favorites }: Props) => {
       const result = await createFavorite(data);
       resultToast(result?.serverError, result?.data?.message);
     }
+  };
+
+  const onEmojiSelect = (emoji) => {
+    console.log(emoji.native);
   };
 
   return (
@@ -180,16 +189,25 @@ export const List = ({ nodes, message, favorites }: Props) => {
                 )}
                 <hr className="mx-auto mb-6 mt-3 h-px w-3/4 border-none bg-gray-6" />
                 <div className="mb-6 flex items-center gap-2 px-6">
-                  {/* <Popover>
+                  <Popover>
                     <PopoverTrigger asChild>
-                      <Button variant="ghost" size="small" font="small" weight="semibold">
+                      <Button
+                        variant="ghost"
+                        size="small"
+                        font="small"
+                        weight="semibold"
+                      >
                         {String.fromCodePoint('0x1f604')} React
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent>
-                      <Picker data={data} onEmojiSelect={console.log} showPreview={false} />
+                      <Picker
+                        data={EmojiData}
+                        onEmojiSelect={onEmojiSelect}
+                        showPreview={false}
+                      />
                     </PopoverContent>
-                  </Popover> */}
+                  </Popover>
                   <form onSubmit={handleSubmit(onSubmit)} className="h-6">
                     <input
                       type="hidden"
