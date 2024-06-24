@@ -26,12 +26,7 @@ export async function POST(req: NextRequest) {
         { status: 500 },
       );
     }
-    const result = tenantIdSchema.safeParse(body);
-    if (result.success === false) {
-      const errors = result.error.flatten().fieldErrors;
-      return NextResponse.json({ error: errors }, { status: 500 });
-    }
-    const { tenantId } = result.data;
+    const { tenantId } = body;
     const { customerId, plan } = await prisma.tenant.findUnique({
       where: { id: tenantId },
       select: {
