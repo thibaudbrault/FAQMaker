@@ -19,8 +19,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 export const createTenant = actionClient
   .metadata({ actionName: 'createTenant' })
   .schema(createTenantSchema)
-  .action(async ({ parsedInput: { company, companyEmail, email, domain } }) => {
-    const tenantExists = await prisma.tenant.findUnique({
+  .action(async ({ parsedInput: { company, companyEmail, email } }) => {
+    console.log(companyEmail, company, email);
+    const tenantExists = await prisma.tenant.findFirst({
       where: { email: companyEmail },
     });
     if (tenantExists) {
@@ -38,7 +39,6 @@ export const createTenant = actionClient
       data: {
         company,
         email: companyEmail,
-        domain,
       },
     });
     if (!tenant) {
@@ -76,7 +76,7 @@ export const createTenant = actionClient
       throw new ActionError('There was a problem creating the customer');
     }
     const updatedTenant = await prisma.tenant.update({
-      where: { email: companyEmail },
+      where: { email: companyEmail, id: tenant.id },
       data: {
         customerId: customer.id,
       },

@@ -39,7 +39,7 @@ export default function Form() {
       const checkoutSession = await response.json();
       if (response.ok) {
         await stripe?.redirectToCheckout({
-          sessionId: checkoutSession.data.id,
+          sessionId: checkoutSession.id,
         });
       } else {
         errorToast(checkoutSession.error);
