@@ -31,7 +31,6 @@ export function Company({ tenant }: Props) {
     defaultValues: {
       company: tenant.company,
       email: tenant.email,
-      domain: tenant.domain,
       id: tenant.id,
     },
   });
@@ -51,11 +50,6 @@ export function Company({ tenant }: Props) {
       label: 'Email',
       value: 'email',
       type: 'email',
-    },
-    {
-      label: 'Domain',
-      value: 'domain',
-      type: 'text',
     },
   ];
 

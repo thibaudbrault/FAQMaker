@@ -13,13 +13,12 @@ import { updateTenantSchema } from './schema';
 export const updateTenant = authActionClient
   .metadata({ actionName: 'updateTenant' })
   .schema(updateTenantSchema)
-  .action(async ({ parsedInput: { company, id, email, domain } }) => {
+  .action(async ({ parsedInput: { company, id, email } }) => {
     await prisma.tenant.update({
       where: { id },
       data: {
         company,
         email,
-        domain: domain || '',
       },
     });
     revalidatePath(Routes.SITE.SETTINGS);

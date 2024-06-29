@@ -13,7 +13,6 @@ model Tenant {
   email          String        
   plan           Plan          @default(free)
   company        String
-  domain         String?       
   logo           String?       
   customerId     String?       
   isActive       Boolean       @default(false)
@@ -23,7 +22,7 @@ model Tenant {
   tags           Tag[]
   integrations   Integrations?
 
-  @@unique([email, domain, logo, customerId])
+  @@unique([email, logo, customerId])
 }
 
 model User {

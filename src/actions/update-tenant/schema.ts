@@ -7,6 +7,5 @@ export const updateTenantSchema = z.object({
     .trim()
     .min(1, { message: 'Email is required' })
     .email({ message: 'Invalid email' }),
-  domain: z.string().trim().nullable(),
   id: z.string().cuid2(),
 });

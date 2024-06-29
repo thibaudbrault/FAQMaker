@@ -7,7 +7,6 @@ export const createTenantCompanySchema = z.object({
     .trim()
     .min(1, { message: 'Company email is required' })
     .email({ message: 'Invalid email' }),
-  domain: z.string().trim().nullable(),
 });
 
 export const createTenantUserSchema = z.object({

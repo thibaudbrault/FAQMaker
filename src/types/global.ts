@@ -31,11 +31,11 @@ export interface IUserUpdateFields extends IFields {
 }
 
 export interface ITenantCreateFields extends IFields {
-  value: 'company' | 'companyEmail' | 'domain';
+  value: 'company' | 'companyEmail';
 }
 
 export interface ITenantUpdateFields extends IFields {
-  value: 'company' | 'email' | 'domain';
+  value: 'company' | 'email';
 }
 
 export interface IIntegrations extends IFields {

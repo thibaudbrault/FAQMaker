@@ -48,12 +48,6 @@ export default function Form() {
       value: 'companyEmail',
       type: 'email',
     },
-    {
-      label: 'Domain',
-      value: 'domain',
-      type: 'text',
-      info: `Fill this field if you have a personalized domain name used for your users' email`,
-    },
   ];
 
   return (

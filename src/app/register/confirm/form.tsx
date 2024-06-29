@@ -69,14 +69,6 @@ export default function Form() {
             <p className="text-sm">Email</p>
             <p className="col-span-3 font-bold">{state.companyEmail}</p>
           </div>
-          <div className="grid grid-cols-4 grid-rows-1 gap-4">
-            <p className="text-sm">Domain</p>
-            <p
-              className={`col-span-3 ${state.domain ? 'font-bold' : 'italic'}`}
-            >
-              {state.domain || 'No domain'}
-            </p>
-          </div>
         </div>
         <div>
           <p className="mb-2 text-xl font-bold">User</p>
