@@ -54,8 +54,10 @@ export default function New({ me, tags, integrations }: Props) {
     resultToast(result?.serverError, 'Question created successfully');
   };
 
-  const onSubmitWithAnswer: SubmitHandler<Schema> = (_data) => {
-    // const values = { ...data, withAnswer };
+  const onSubmitWithAnswer: SubmitHandler<Schema> = async (data) => {
+    const updatedData = { ...data, tags: selectedTags, withAnswer: true };
+    const result = await createNode(updatedData);
+    resultToast(result?.serverError, 'Question created successfully');
   };
 
   useEffect(() => {
@@ -110,7 +112,6 @@ export default function New({ me, tags, integrations }: Props) {
               style={{ fontVariant: 'small-caps' }}
               disabled={disabled}
               type="submit"
-              // onClick={handleSubmit(onSubmit)}
             >
               Submit
             </Button>
@@ -121,6 +122,7 @@ export default function New({ me, tags, integrations }: Props) {
               className="lowercase"
               style={{ fontVariant: 'small-caps' }}
               disabled={disabled}
+              type="submit"
               onClick={handleSubmit(onSubmitWithAnswer)}
             >
               Answer

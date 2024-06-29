@@ -57,7 +57,7 @@ export const createNode = authActionClient
   .schema(createNodeSchema)
   .action(
     async ({
-      parsedInput: { text, tenantId, tags, integrations },
+      parsedInput: { text, tenantId, tags, integrations, withAnswer },
       ctx: { userId },
     }) => {
       const duplicateQuestion = await prisma.node.findFirst({
@@ -73,7 +73,7 @@ export const createNode = authActionClient
         };
         await slackNotification(slackBody);
       }
-      await prisma.node.create({
+      const node = await prisma.node.create({
         data: {
           tenant: { connect: { id: tenantId } },
           question: {
@@ -88,12 +88,9 @@ export const createNode = authActionClient
           },
         },
       });
-      // if (withAnswer) {
-      //   return {
-      //     node,
-      //     message: 'Question created successfully',
-      //   };
-      // }
+      if (withAnswer) {
+        redirect(`${Routes.SITE.ANSWER}?id=${node.id}`);
+      }
       revalidatePath(Routes.SITE.HOME);
       redirect(Routes.SITE.HOME);
     },
