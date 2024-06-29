@@ -1,13 +1,17 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+// import { Resend } from 'resend';
 
 import { ActionError, authActionClient } from '@/lib/safe-actions';
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
+// import { NewUserEmailTemplate } from '@/components';
 import 'server-only';
 import { createUserSchema } from './schema';
+
+// const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const createUser = authActionClient
   .metadata({ actionName: 'createUser' })
@@ -30,13 +34,23 @@ export const createUser = authActionClient
     ) {
       throw new ActionError('You reached the maximum number of users');
     }
-    await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
         email,
         role,
         tenantId,
       },
     });
+    if (!newUser) {
+      throw new ActionError('User could not be created');
+    }
+    // const { data: domains } = await resend.domains.list();
+    // await resend.emails.send({
+    //   from: `noreply@${domains?.data[0].name}`,
+    //   to: [email],
+    //   subject: 'Welcome to FAQMaker',
+    //   react: NewUserEmailTemplate(),
+    // });
     revalidatePath(Routes.SITE.SETTINGS);
     return { message: 'User created successfully' };
   });
