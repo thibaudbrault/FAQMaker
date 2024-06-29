@@ -2,12 +2,12 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import EmailProvider from 'next-auth/providers/email';
-import nodemailer from 'nodemailer';
 
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
 import type { NextAuthOptions } from 'next-auth';
+import { sendVerificationRequest } from '@/lib';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -35,6 +35,7 @@ export const authOptions: NextAuthOptions = {
     //     },
     //   },
     //   from: process.env.EMAIL_FROM,
+    //   sendVerificationRequest,
     // }),
   ],
   pages: {
@@ -49,33 +50,33 @@ export const authOptions: NextAuthOptions = {
       const maybeUser = await prisma.user.findUnique({
         where: { email: profile.email },
       });
-      if (!maybeUser) {
-        const domain = profile.email?.split('@')[1];
-        const tenant = await prisma.tenant.findUnique({ where: { domain } });
-        if (!tenant) return false;
-        const usersCount = await prisma.user.count({
-          where: { tenantId: tenant.id },
-        });
-        if (
-          (tenant.plan === 'free' && usersCount >= 5) ||
-          (tenant.plan === 'startup' && usersCount >= 100)
-        ) {
-          return false;
-        }
-        const newUser = await prisma.user.create({
-          data: {
-            name: profile.name,
-            email: profile.email,
-            image: profile.picture,
-            role: 'user',
-            tenant: { connect: { id: tenant.id } },
-          },
-        });
-        if (!newUser) {
-          return false;
-        }
-        return true;
-      }
+      // if (!maybeUser) {
+      //   const domain = profile.email?.split('@')[1];
+      //   const tenant = await prisma.tenant.findUnique({ where: { domain } });
+      //   if (!tenant) return false;
+      //   const usersCount = await prisma.user.count({
+      //     where: { tenantId: tenant.id },
+      //   });
+      //   if (
+      //     (tenant.plan === 'free' && usersCount >= 5) ||
+      //     (tenant.plan === 'startup' && usersCount >= 100)
+      //   ) {
+      //     return false;
+      //   }
+      //   const newUser = await prisma.user.create({
+      //     data: {
+      //       name: profile.name,
+      //       email: profile.email,
+      //       image: profile.picture,
+      //       role: 'user',
+      //       tenant: { connect: { id: tenant.id } },
+      //     },
+      //   });
+      //   if (!newUser) {
+      //     return false;
+      //   }
+      //   return true;
+      // }
       if (
         account.provider === 'google' &&
         (!maybeUser.name || !maybeUser.image)

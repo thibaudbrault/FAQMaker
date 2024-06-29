@@ -1,18 +1,9 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-
-import { zodResolver } from '@hookform/resolvers/zod';
-import { AtSign } from 'lucide-react';
 import Link from 'next/link';
-import { useForm } from 'react-hook-form';
 
-import { Button, Field, Input, LoginButton } from '@/components';
-import { userEmailSchema } from '@/lib/validations';
+import { LoginButton } from '@/components';
 import { Routes } from '@/utils';
 
-import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
+import EmailForm from './EmailForm';
 
 const loginErrors = {
   Signin: 'Try signing with a different account.',
@@ -34,8 +25,6 @@ type ErrorProps = {
   error: string;
 };
 
-type Schema = z.infer<typeof userEmailSchema>;
-
 const LoginError = ({ error }: ErrorProps) => {
   const errorMessage = error && (loginErrors[error] ?? loginErrors.default);
   return <div className="text-center text-red-9">{errorMessage}</div>;
@@ -43,31 +32,6 @@ const LoginError = ({ error }: ErrorProps) => {
 
 export default function Page({ searchParams }) {
   const { error, callbackUrl } = searchParams;
-  const [disabled, setDisabled] = useState<boolean>(true);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting, isDirty, errors, isValid },
-  } = useForm<Schema>({
-    resolver: zodResolver(userEmailSchema),
-    mode: 'onBlur',
-    defaultValues: {
-      email: '',
-    },
-  });
-
-  const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    // await emailSignIn(formData);
-  };
-
-  useEffect(() => {
-    setDisabled(isSubmitting || !isDirty || !isValid);
-  }, [isDirty, isSubmitting, isValid]);
 
   return (
     <div className="flex w-full flex-col gap-4">
@@ -80,36 +44,7 @@ export default function Page({ searchParams }) {
         </h2>
         <p className="text-sm text-gray-11">Use your associated account</p>
       </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-center gap-4"
-      >
-        <fieldset className="flex w-full flex-col gap-4">
-          <div className="col-span-3 row-start-2 flex list-none flex-col gap-2">
-            <Field label="Email" value="email" error={errors.email?.message}>
-              <Input
-                {...register('email')}
-                defaultValue=""
-                withIcon
-                icon={<AtSign className="size-5" />}
-                type="email"
-                id="email"
-                placeholder="Email"
-              />
-            </Field>
-          </div>
-        </fieldset>
-        <Button
-          variant={disabled ? 'disabled' : 'primary'}
-          weight="semibold"
-          className="lowercase"
-          size="full"
-          style={{ fontVariant: 'small-caps' }}
-          disabled={disabled}
-        >
-          Send link
-        </Button>
-      </form>
+      <EmailForm />
       <div className="flex items-center justify-center py-8">
         <hr className="mr-2 w-full" />
         <span className="text-center text-xl font-semibold">OR</span>
