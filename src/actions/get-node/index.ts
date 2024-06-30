@@ -2,7 +2,7 @@ import { cache } from 'react';
 
 import { redirect } from 'next/navigation';
 
-import { Routes, nodeModelWithDate } from '@/utils';
+import { Routes, nodeModel } from '@/utils';
 import prisma from 'lib/prisma';
 
 import type { ExtendedNode } from '@/types';
@@ -15,7 +15,7 @@ export const getNode = cache(
       }
       const node = await prisma.node.findUnique({
         where: { id: id as string, tenantId: tenantId as string },
-        include: nodeModelWithDate,
+        include: nodeModel,
       });
       if (!node) return redirect(Routes.SITE.HOME);
       return node as ExtendedNode;
