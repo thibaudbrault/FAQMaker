@@ -20,6 +20,6 @@ export const sendVerificationRequest = async (
              <p><a href="${url}"><b>Sign in</b></a></p>`,
     });
   } catch (error) {
-    console.log({ error });
+    console.error({ error });
   }
 };
