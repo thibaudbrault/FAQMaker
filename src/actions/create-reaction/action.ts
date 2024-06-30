@@ -12,10 +12,10 @@ import { createReactionSchema } from './schema';
 export const createReaction = authActionClient
   .metadata({ actionName: 'createReaction' })
   .schema(createReactionSchema)
-  .action(async ({ parsedInput: { nodeId, reaction }, ctx: { userId } }) => {
+  .action(async ({ parsedInput: { nodeId, shortcode }, ctx: { userId } }) => {
     await prisma.reaction.create({
       data: {
-        reaction,
+        shortcode,
         nodeId,
         userId,
       },
