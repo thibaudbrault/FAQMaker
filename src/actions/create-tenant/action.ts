@@ -20,7 +20,6 @@ export const createTenant = actionClient
   .metadata({ actionName: 'createTenant' })
   .schema(createTenantSchema)
   .action(async ({ parsedInput: { company, companyEmail, email } }) => {
-    console.log(companyEmail, company, email);
     const tenantExists = await prisma.tenant.findFirst({
       where: { email: companyEmail },
     });
