@@ -10,11 +10,11 @@ generator client {
 model Tenant {
   id             String        @id @default(cuid())
   createdAt      DateTime      @default(now())
-  email          String        
+  email          String
   plan           Plan          @default(free)
   company        String
-  logo           String?       
-  customerId     String?       
+  logo           String?
+  customerId     String?
   isActive       Boolean       @default(false)
   subscriptionId String?
   users          User[]
@@ -29,7 +29,7 @@ model User {
   id        String     @id @default(cuid())
   createdAt DateTime   @default(now())
   name      String?
-  email     String 
+  email     String
   image     String?
   role      Role       @default(user)
   tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
@@ -38,7 +38,7 @@ model User {
   answers   Answer[]
   accounts  Account[]
   sessions  Session[]
-  favorites  Favorite[]
+  favorites Favorite[]
   reactions Reaction[]
 
   @@unique([email])
@@ -54,7 +54,7 @@ model Node {
   tags      Tag[]
   tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   tenantId  String
-  favorites  Favorite[]
+  favorites Favorite[]
   reactions Reaction[]
 
   @@index([tenantId])
@@ -112,11 +112,11 @@ model Favorite {
 }
 
 model Reaction {
-  id String @id @default(cuid())
-  emoji String
-  node      Node     @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+  id        String @id @default(cuid())
+  shortcode String
+  node      Node   @relation(fields: [nodeId], references: [id], onDelete: Cascade)
   nodeId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 
   @@unique([userId, nodeId])
@@ -158,14 +158,14 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
 model Session {
   id           String   @id @default(cuid())
-  sessionToken String   
+  sessionToken String
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
