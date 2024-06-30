@@ -24,6 +24,7 @@ export const nodeModel = {
     },
   },
   tags: true,
+  reactions: true,
 };
 
 export const nodeModelWithDate = {
@@ -55,4 +56,5 @@ export const nodeModelWithDate = {
     },
   },
   tags: true,
+  reactions: true,
 };
