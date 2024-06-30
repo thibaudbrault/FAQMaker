@@ -1,10 +1,9 @@
-import type { ReactNode } from 'react';
+import type { InputHTMLAttributes, ReactNode } from 'react';
 import { forwardRef } from 'react';
 
 import { cn } from '@/utils';
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   withIcon?: boolean;
   icon?: ReactNode;
 }
