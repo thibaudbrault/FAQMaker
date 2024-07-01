@@ -12,11 +12,19 @@ import { deletePinSchema } from './schema';
 export const deletePin = authActionClient
   .metadata({ actionName: 'deletePin' })
   .schema(deletePinSchema)
-  .action(async ({ parsedInput: { nodeId } }) => {
+  .action(async ({ parsedInput: { nodeId, tenantId } }) => {
     await prisma.node.update({
       where: { id: nodeId },
       data: {
         isPinned: false,
+      },
+    });
+    await prisma.tenant.update({
+      where: { id: tenantId },
+      data: {
+        pinnedAmount: {
+          decrement: 1,
+        },
       },
     });
     revalidatePath(Routes.SITE.HOME);
