@@ -19,6 +19,6 @@ export const createFavorite = authActionClient
         userId,
       },
     });
-    revalidatePath(`${Routes.SITE.QUESTION}/${nodeId}`);
+    revalidatePath(Routes.SITE.HOME);
     return { message: 'Question added to favorites' };
   });

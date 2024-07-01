@@ -16,6 +16,6 @@ export const deleteFavorite = authActionClient
     await prisma.favorite.deleteMany({
       where: { nodeId, userId },
     });
-    revalidatePath(`${Routes.SITE.QUESTION}/${nodeId}`);
+    revalidatePath(Routes.SITE.HOME);
     return { message: 'Question removed from favorites' };
   });
