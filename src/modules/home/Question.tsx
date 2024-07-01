@@ -18,11 +18,10 @@ import { useForm } from 'react-hook-form';
 
 import {
   createFavorite,
-  createFavoriteSchema,
-  upsertReaction,
-  deleteFavorite,
   createPin,
+  deleteFavorite,
   deletePin,
+  upsertReaction,
 } from '@/actions';
 import {
   Badge,
@@ -35,9 +34,15 @@ import {
   TooltipTrigger,
   resultToast,
 } from '@/components';
+import { favoriteSchema, pinSchema } from '@/lib';
 import { Routes, dateOptions, timeOptions } from '@/utils';
 
-import type { createPinSchema } from '@/actions';
+import type {
+  createFavoriteSchema,
+  deleteFavoriteSchema,
+  deletePinSchema,
+  createPinSchema,
+} from '@/actions';
 import type { ExtendedFavorites, ExtendedNode } from '@/types';
 import type { $Enums } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
@@ -53,30 +58,40 @@ type Props = {
   role: $Enums.Role;
 };
 
-type SchemaFavorite = z.infer<typeof createFavoriteSchema>;
-type SchemaPin = z.infer<typeof createPinSchema>;
+type SchemaFavorite = z.infer<typeof favoriteSchema>;
+type CreateFavorite = z.infer<typeof createFavoriteSchema>;
+type DeleteFavorite = z.infer<typeof deleteFavoriteSchema>;
+
+type SchemaPin = z.infer<typeof pinSchema>;
+type CreatePin = z.infer<typeof createPinSchema>;
+type DeletePin = z.infer<typeof deletePinSchema>;
 
 export default function Question({ node, favorites, role }: Props) {
-  const { handleSubmit, register } = useForm<SchemaFavorite>({
-    resolver: zodResolver(createFavoriteSchema),
-  });
+  const { handleSubmit: handleSubmitFavorite, register: registerFavorite } =
+    useForm<SchemaFavorite>({
+      resolver: zodResolver(favoriteSchema),
+    });
+  const { handleSubmit: handleSubmitPin, register: registerPin } =
+    useForm<SchemaPin>({
+      resolver: zodResolver(pinSchema),
+    });
 
   const onSubmitFavorite: SubmitHandler<SchemaFavorite> = async (data) => {
     if (favorites.some((favorite) => favorite.nodeId === data.nodeId)) {
-      const result = await deleteFavorite(data);
+      const result = await deleteFavorite(data as DeleteFavorite);
       resultToast(result?.serverError, result?.data?.message);
     } else {
-      const result = await createFavorite(data);
+      const result = await createFavorite(data as CreateFavorite);
       resultToast(result?.serverError, result?.data?.message);
     }
   };
 
   const onSubmitPin: SubmitHandler<SchemaPin> = async (data) => {
     if (node.isPinned) {
-      const result = await deletePin(data);
+      const result = await deletePin(data as DeletePin);
       resultToast(result?.serverError, result?.data?.message);
     } else {
-      const result = await createPin(data);
+      const result = await createPin(data as CreatePin);
       resultToast(result?.serverError, result?.data?.message);
     }
   };
@@ -223,10 +238,13 @@ export default function Question({ node, favorites, role }: Props) {
               />
             </PopoverContent>
           </Popover>
-          <form onSubmit={handleSubmit(onSubmitFavorite)} className="h-6">
+          <form
+            onSubmit={handleSubmitFavorite(onSubmitFavorite)}
+            className="h-6"
+          >
             <input
               type="hidden"
-              {...register('nodeId', { value: node.id })}
+              {...registerFavorite('nodeId', { value: node.id })}
               hidden
               readOnly
             />
@@ -252,10 +270,10 @@ export default function Question({ node, favorites, role }: Props) {
             </Tooltip>
           </form>
           {role !== 'user' && (
-            <form onSubmit={handleSubmit(onSubmitPin)} className="h-6">
+            <form onSubmit={handleSubmitPin(onSubmitPin)} className="h-6">
               <input
                 type="hidden"
-                {...register('nodeId', { value: node.id })}
+                {...registerPin('nodeId', { value: node.id })}
                 hidden
                 readOnly
               />

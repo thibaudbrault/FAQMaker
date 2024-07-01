@@ -4,27 +4,21 @@ import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { createAnswer, updateAnswer } from '@/actions';
 import { BackButton, Button, Editor, resultToast } from '@/components';
+import { answerSchema } from '@/lib';
 import { Limits } from '@/utils';
 
 import type { createAnswerSchema, updateAnswerSchema } from '@/actions';
 import type { ExtendedNode } from '@/types';
 import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Props = {
   node: ExtendedNode;
 };
 
-const answerSchema = z.object({
-  text: z
-    .string()
-    .trim()
-    .min(1, { message: 'Answer is required' })
-    .max(1000, { message: 'Answer must be under 1000 characters long' }),
-});
 type Schema = z.infer<typeof answerSchema>;
 type CreateAnswer = z.infer<typeof createAnswerSchema>;
 type UpdateAnswer = z.infer<typeof updateAnswerSchema>;

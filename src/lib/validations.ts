@@ -2,6 +2,22 @@ import { z } from 'zod';
 
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/utils';
 
+export const answerSchema = z.object({
+  text: z
+    .string()
+    .trim()
+    .min(1, { message: 'Answer is required' })
+    .max(1000, { message: 'Answer must be under 1000 characters long' }),
+});
+
+export const favoriteSchema = z.object({
+  nodeId: z.string().cuid2(),
+});
+
+export const pinSchema = z.object({
+  nodeId: z.string().cuid2(),
+});
+
 export const userEmailSchema = z.object({
   email: z
     .string()
