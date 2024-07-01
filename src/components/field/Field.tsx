@@ -11,7 +11,6 @@ type Props = {
   value: string;
   error?: string;
   info?: string;
-  hasLimit?: boolean;
   limit?: number;
   curLength?: number;
 };
@@ -22,7 +21,6 @@ export const Field = ({
   value,
   error,
   info,
-  hasLimit,
   limit,
   curLength,
 }: Props) => {
@@ -57,7 +55,7 @@ export const Field = ({
             {error}
           </small>
         )}
-        {hasLimit && (
+        {limit && (
           <small className="col-start-2 justify-self-end text-xs text-gray-11">
             {curLength} / {limit} characters
           </small>

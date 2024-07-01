@@ -41,6 +41,7 @@ const Form = ({ tenantId, plan, tagsCount }: Props) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting, isValid },
   } = useForm<Schema>({
     resolver: zodResolver(createTagSchema),
@@ -68,7 +69,13 @@ const Form = ({ tenantId, plan, tagsCount }: Props) => {
       className="flex flex-col items-center gap-2"
     >
       <fieldset className="mx-auto flex w-11/12 flex-col gap-1">
-        <Field label="Label" value="label" error={errors.label?.message}>
+        <Field
+          label="Label"
+          value="label"
+          error={errors.label?.message}
+          curLength={watch('label')?.length}
+          limit={50}
+        >
           <Input
             {...register('label')}
             withIcon

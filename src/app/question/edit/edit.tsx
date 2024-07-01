@@ -82,7 +82,6 @@ export default function Edit({ me, node, tags }: Props) {
               label="Question"
               value="text"
               error={errors?.text?.message}
-              hasLimit
               limit={Limits.QUESTION}
               curLength={text.length}
             >

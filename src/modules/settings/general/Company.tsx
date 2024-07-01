@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 
 import { updateTenant, updateTenantSchema } from '@/actions';
 import { Button, Field, Input, resultToast } from '@/components';
+import { Limits } from '@/utils';
 
 import type { ITenantUpdateFields } from '@/types';
 import type { Tenant } from '@prisma/client';
@@ -24,6 +25,7 @@ export function Company({ tenant }: Props) {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { isSubmitting, isDirty, isValid, errors },
   } = useForm<Schema>({
     resolver: zodResolver(updateTenantSchema),
@@ -45,11 +47,13 @@ export function Company({ tenant }: Props) {
       label: 'Company',
       value: 'company',
       type: 'text',
+      limit: Limits.COMPANY,
     },
     {
       label: 'Email',
       value: 'email',
       type: 'email',
+      limit: Limits.EMAIL,
     },
   ];
 
@@ -76,6 +80,8 @@ export function Company({ tenant }: Props) {
                 label={field.label}
                 value={field.value}
                 error={errors[field.value]?.message}
+                curLength={watch(field.value)?.length}
+                limit={field.limit}
               >
                 <Input
                   {...register(field.value)}

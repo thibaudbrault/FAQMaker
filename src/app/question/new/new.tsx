@@ -85,7 +85,6 @@ export default function New({ me, tags, integrations }: Props) {
               label="Question"
               value="text"
               error={errors?.text?.message}
-              hasLimit
               limit={Limits.QUESTION}
               curLength={text.length}
             >

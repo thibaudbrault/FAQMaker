@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { updateUser, updateUserSchema } from '@/actions';
 import { Button, Field, Input, resultToast } from '@/components';
 import { useMediaQuery } from '@/hooks';
+import { Limits } from '@/utils';
 
 import type { IUserUpdateFields, Me } from '@/types';
 import type { SubmitHandler } from 'react-hook-form';
@@ -28,6 +29,7 @@ export const UpdateProfile = ({ me }: Props) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { isSubmitting, isDirty, errors, isValid },
   } = useForm<Schema>({
     resolver: zodResolver(updateUserSchema),
@@ -52,12 +54,14 @@ export const UpdateProfile = ({ me }: Props) => {
         label: 'Name',
         value: 'name',
         type: 'text',
+        limit: Limits.NAME,
         icon: <UserIcon className="size-5" />,
       },
       {
         label: 'Email',
         value: 'email',
         type: 'email',
+        limit: Limits.EMAIL,
         icon: <AtSign className="size-5" />,
       },
     ],
@@ -100,6 +104,8 @@ export const UpdateProfile = ({ me }: Props) => {
                 label={field.label}
                 value={field.value}
                 error={errors[field.value]?.message}
+                curLength={watch(field.value)?.length}
+                limit={field.limit}
               >
                 <Input
                   {...register(field.value)}

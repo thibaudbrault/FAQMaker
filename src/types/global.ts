@@ -17,6 +17,7 @@ interface IFields {
   icon?: ReactElement;
   error?: string;
   info?: string;
+  limit?: number;
 }
 
 export interface IUserCreateFields extends IFields {
