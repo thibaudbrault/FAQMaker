@@ -1,5 +1,8 @@
 'use client';
 
+import { useEffect } from 'react';
+
+import { useSetAtom } from 'jotai';
 import { AlignJustify, LogOut, Settings } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,6 +20,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components';
+import { userAtom } from '@/store';
 import { Routes } from '@/utils';
 
 import { ThemeToggle } from '../theme';
@@ -28,6 +32,12 @@ type Props = {
 };
 
 export const Header = ({ user }: Props) => {
+  const setUser = useSetAtom(userAtom);
+
+  useEffect(() => {
+    setUser(user);
+  }, [user]);
+
   return (
     <header className="flex items-center justify-between border-b border-b-gray-6 bg-gray-2 px-4 py-2 text-gray-12 md:px-8 md:py-4">
       <Link href={Routes.SITE.HOME} className="flex items-center gap-2">

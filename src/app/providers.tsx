@@ -1,6 +1,7 @@
 'use client';
 
 import '@/styles/globals.css';
+import { Provider } from 'jotai';
 import { Inter, Merriweather } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
 import { Toaster } from 'sonner';
@@ -20,29 +21,31 @@ const inter = Inter({
 
 export default function Providers({ children }) {
   return (
-    <SessionProvider>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <Toaster
-          closeButton
-          richColors
-          position="top-center"
-          toastOptions={{
-            style: { fontSize: '1rem' },
-          }}
-        />
-        <TooltipProvider>
-          <div
-            className={`relative h-full min-h-screen text-gray-12 ${merriweather.variable} ${inter.variable}`}
-          >
-            {children}
-          </div>
-        </TooltipProvider>
-      </ThemeProvider>
-    </SessionProvider>
+    <Provider>
+      <SessionProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Toaster
+            closeButton
+            richColors
+            position="top-center"
+            toastOptions={{
+              style: { fontSize: '1rem' },
+            }}
+          />
+          <TooltipProvider>
+            <div
+              className={`relative h-full min-h-screen text-gray-12 ${merriweather.variable} ${inter.variable}`}
+            >
+              {children}
+            </div>
+          </TooltipProvider>
+        </ThemeProvider>
+      </SessionProvider>
+    </Provider>
   );
 }
