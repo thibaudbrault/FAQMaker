@@ -16,6 +16,7 @@ export const favoriteSchema = z.object({
 
 export const pinSchema = z.object({
   nodeId: z.string().cuid2(),
+  tenantId: z.string().cuid2(),
 });
 
 export const userEmailSchema = z.object({
