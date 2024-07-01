@@ -279,6 +279,12 @@ export default function Question({ node, favorites, role }: Props) {
                 hidden
                 readOnly
               />
+              <input
+                type="hidden"
+                {...registerPin('tenantId', { value: node.tenantId })}
+                hidden
+                readOnly
+              />
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
