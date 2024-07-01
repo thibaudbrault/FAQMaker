@@ -10,6 +10,7 @@ import {
   Bookmark,
   BookmarkCheck,
   ChevronDown,
+  Pin,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -20,6 +21,8 @@ import {
   createFavoriteSchema,
   upsertReaction,
   deleteFavorite,
+  createPin,
+  deletePin,
 } from '@/actions';
 import {
   Badge,
@@ -34,7 +37,9 @@ import {
 } from '@/components';
 import { Routes, dateOptions, timeOptions } from '@/utils';
 
+import type { createPinSchema } from '@/actions';
 import type { ExtendedFavorites, ExtendedNode } from '@/types';
+import type { $Enums } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
 
@@ -45,22 +50,33 @@ const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
 type Props = {
   node: ExtendedNode;
   favorites: ExtendedFavorites[];
+  role: $Enums.Role;
 };
 
-type Schema = z.infer<typeof createFavoriteSchema>;
+type SchemaFavorite = z.infer<typeof createFavoriteSchema>;
+type SchemaPin = z.infer<typeof createPinSchema>;
 
-export default function Question({ node, favorites }: Props) {
-  const { handleSubmit, register } = useForm<Schema>({
+export default function Question({ node, favorites, role }: Props) {
+  const { handleSubmit, register } = useForm<SchemaFavorite>({
     resolver: zodResolver(createFavoriteSchema),
-    mode: 'onBlur',
   });
 
-  const onSubmit: SubmitHandler<Schema> = async (data) => {
+  const onSubmitFavorite: SubmitHandler<SchemaFavorite> = async (data) => {
     if (favorites.some((favorite) => favorite.nodeId === data.nodeId)) {
       const result = await deleteFavorite(data);
       resultToast(result?.serverError, result?.data?.message);
     } else {
       const result = await createFavorite(data);
+      resultToast(result?.serverError, result?.data?.message);
+    }
+  };
+
+  const onSubmitPin: SubmitHandler<SchemaPin> = async (data) => {
+    if (node.isPinned) {
+      const result = await deletePin(data);
+      resultToast(result?.serverError, result?.data?.message);
+    } else {
+      const result = await createPin(data);
       resultToast(result?.serverError, result?.data?.message);
     }
   };
@@ -207,7 +223,7 @@ export default function Question({ node, favorites }: Props) {
               />
             </PopoverContent>
           </Popover>
-          <form onSubmit={handleSubmit(onSubmit)} className="h-6">
+          <form onSubmit={handleSubmit(onSubmitFavorite)} className="h-6">
             <input
               type="hidden"
               {...register('nodeId', { value: node.id })}
@@ -235,6 +251,32 @@ export default function Question({ node, favorites }: Props) {
               </TooltipContent>
             </Tooltip>
           </form>
+          {role !== 'user' && (
+            <form onSubmit={handleSubmit(onSubmitPin)} className="h-6">
+              <input
+                type="hidden"
+                {...register('nodeId', { value: node.id })}
+                hidden
+                readOnly
+              />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    className={`text-gray-12 ${node.isPinned ? '' : 'hover:text-gray-11'}`}
+                    type="submit"
+                    aria-label="Favorite"
+                  >
+                    <Pin
+                      className={`rotate-45 ${node.isPinned ? 'fill-teal-9' : ''}`}
+                    />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {node.isPinned ? 'Unpin question' : 'Pin question'}
+                </TooltipContent>
+              </Tooltip>
+            </form>
+          )}
         </div>
       </details>
     </li>

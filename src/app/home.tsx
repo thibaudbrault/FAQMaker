@@ -7,7 +7,7 @@ import { List, Search } from '@/modules';
 import { OFFSET } from '@/utils';
 
 import type { ExtendedFavorites, ExtendedNode } from '@/types';
-import type { Tag } from '@prisma/client';
+import type { $Enums, Tag } from '@prisma/client';
 
 type Props = {
   initialNodes: ExtendedNode[];
@@ -16,6 +16,7 @@ type Props = {
   nodesCount: number;
   tags: Tag[];
   favorites: ExtendedFavorites[];
+  role: $Enums.Role;
 };
 
 export default function Home({
@@ -25,6 +26,7 @@ export default function Home({
   nodesCount,
   tags,
   favorites,
+  role,
 }: Props) {
   const searchParams = useSearchParams();
   const query = searchParams.get('query') || '';
@@ -55,7 +57,7 @@ export default function Home({
   return (
     <>
       <Search tags={tags} />
-      <List nodes={nodes} message={message} favorites={favorites} />
+      <List nodes={nodes} message={message} favorites={favorites} role={role} />
       {nodesCount > OFFSET && (nodes.length === OFFSET || page !== 0) && (
         <Pagination nodesLength={nodesCount} />
       )}

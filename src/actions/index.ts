@@ -1,6 +1,7 @@
 export { createAnswer, createAnswerSchema } from './create-answer';
 export { createFavorite, createFavoriteSchema } from './create-favorite';
 export { createNode, createNodeSchema } from './create-node';
+export { createPin, createPinSchema } from './create-pin';
 export { createTag, createTagSchema } from './create-tag';
 export {
   createTenant,
@@ -11,6 +12,7 @@ export {
 export { createUser, createUserSchema } from './create-user';
 export { createUsers, createUsersSchema } from './create-users';
 export { deleteFavorite, deleteFavoriteSchema } from './delete-favorite';
+export { deletePin, deletePinSchema } from './delete-pin';
 export { deleteTag, deleteTagSchema } from './delete-tag';
 export { deleteTenant, deleteTenantSchema } from './delete-tenant';
 export { deleteUser, deleteUserSchema } from './delete-user';
