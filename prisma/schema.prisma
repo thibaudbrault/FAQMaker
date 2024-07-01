@@ -114,6 +114,7 @@ model Favorite {
 model Reaction {
   id        String @id @default(cuid())
   shortcode String
+  count     Int    @default(1)
   node      Node   @relation(fields: [nodeId], references: [id], onDelete: Cascade)
   nodeId    String
   user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)

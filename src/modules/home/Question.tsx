@@ -18,7 +18,7 @@ import { useForm } from 'react-hook-form';
 import {
   createFavorite,
   createFavoriteSchema,
-  createReaction,
+  upsertReaction,
   deleteFavorite,
 } from '@/actions';
 import {
@@ -67,7 +67,7 @@ export default function Question({ node, favorites }: Props) {
 
   const onEmojiSelect = async (emoji, nodeId) => {
     const data = { shortcode: emoji.shortcodes, nodeId };
-    await createReaction(data);
+    await upsertReaction(data);
   };
 
   return (

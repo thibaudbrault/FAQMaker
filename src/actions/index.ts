@@ -1,7 +1,6 @@
 export { createAnswer, createAnswerSchema } from './create-answer';
 export { createFavorite, createFavoriteSchema } from './create-favorite';
 export { createNode, createNodeSchema } from './create-node';
-export { createReaction, createReactionSchema } from './create-reaction';
 export { createTag, createTagSchema } from './create-tag';
 export {
   createTenant,
@@ -44,3 +43,5 @@ export {
   upsertIntegrations,
   upsertIntegrationsSchema,
 } from './upsert-integrations';
+
+export { upsertReaction, upsertReactionSchema } from './upsert-reaction';
