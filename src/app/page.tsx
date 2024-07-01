@@ -21,7 +21,7 @@ export default async function Page({ searchParams }) {
     redirect(Routes.SITE.LOGIN);
   }
 
-  const { tenantId, id: userId, role } = me;
+  const { tenantId, id: userId } = me;
   const page = Number(searchParams?.page) || 0;
   const query = searchParams.query || '';
   const tag = searchParams.tag || '';
@@ -45,7 +45,6 @@ export default async function Page({ searchParams }) {
           nodesCount={nodesCount}
           tags={tags}
           favorites={favorites}
-          role={role}
         />
       </div>
       <Footer company={me.tenant.company} />

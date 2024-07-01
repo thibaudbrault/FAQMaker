@@ -3,6 +3,7 @@
 import EmojiData from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useAtomValue } from 'jotai';
 import {
   BadgeCheck,
   BadgeHelp,
@@ -35,16 +36,16 @@ import {
   resultToast,
 } from '@/components';
 import { favoriteSchema, pinSchema } from '@/lib';
+import { userAtom } from '@/store';
 import { Routes, dateOptions, timeOptions } from '@/utils';
 
 import type {
   createFavoriteSchema,
+  createPinSchema,
   deleteFavoriteSchema,
   deletePinSchema,
-  createPinSchema,
 } from '@/actions';
 import type { ExtendedFavorites, ExtendedNode } from '@/types';
-import type { $Enums } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
 
@@ -55,7 +56,6 @@ const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
 type Props = {
   node: ExtendedNode;
   favorites: ExtendedFavorites[];
-  role: $Enums.Role;
 };
 
 type SchemaFavorite = z.infer<typeof favoriteSchema>;
@@ -66,7 +66,8 @@ type SchemaPin = z.infer<typeof pinSchema>;
 type CreatePin = z.infer<typeof createPinSchema>;
 type DeletePin = z.infer<typeof deletePinSchema>;
 
-export default function Question({ node, favorites, role }: Props) {
+export default function Question({ node, favorites }: Props) {
+  const user = useAtomValue(userAtom);
   const { handleSubmit: handleSubmitFavorite, register: registerFavorite } =
     useForm<SchemaFavorite>({
       resolver: zodResolver(favoriteSchema),
@@ -271,7 +272,7 @@ export default function Question({ node, favorites, role }: Props) {
               </TooltipContent>
             </Tooltip>
           </form>
-          {role !== 'user' && (
+          {user?.role !== 'user' && (
             <form onSubmit={handleSubmitPin(onSubmitPin)} className="h-6">
               <input
                 type="hidden"
