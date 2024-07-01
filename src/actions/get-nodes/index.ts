@@ -26,7 +26,14 @@ export const getPaginatedNodes = cache(
         const { tenantId, page } = result.data;
         const nodes = await prisma.node.findMany({
           where: { tenantId: tenantId as string },
-          orderBy: { createdAt: 'desc' },
+          orderBy: [
+            {
+              isPinned: 'desc',
+            },
+            {
+              createdAt: 'desc',
+            },
+          ],
           skip: page * OFFSET,
           take: OFFSET,
           include: nodeModel,
