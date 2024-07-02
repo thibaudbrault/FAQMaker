@@ -56,7 +56,9 @@ export const Field = ({
           </small>
         )}
         {limit && (
-          <small className="col-start-2 justify-self-end text-xs text-gray-11">
+          <small
+            className={`col-start-2 justify-self-end text-xs ${curLength > limit ? 'text-red-10' : 'text-gray-11'}`}
+          >
             {curLength} / {limit} characters
           </small>
         )}

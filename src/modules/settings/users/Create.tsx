@@ -30,6 +30,7 @@ import {
   resultToast,
 } from '@/components';
 import { useMediaQuery } from '@/hooks';
+import { Limits } from '@/utils';
 
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
@@ -48,6 +49,7 @@ const Form = ({ tenantId, usersCount }: Props) => {
     register,
     handleSubmit,
     control,
+    watch,
     formState: { errors, isValid, isSubmitting },
   } = useForm<Schema>({
     resolver: zodResolver(createUserSchema),
@@ -75,7 +77,13 @@ const Form = ({ tenantId, usersCount }: Props) => {
       className="flex flex-col items-center gap-4"
     >
       <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
-        <Field label="Email" value="email" error={errors.email?.message}>
+        <Field
+          label="Email"
+          value="email"
+          error={errors.email?.message}
+          limit={Limits.EMAIL}
+          curLength={watch('email').length}
+        >
           <Input
             {...register('email')}
             withIcon
