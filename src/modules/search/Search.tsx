@@ -65,7 +65,7 @@ export const Search = ({ tags }: Props) => {
           icon={<SearchIcon />}
           type="search"
           id="search"
-          placeholder="Search"
+          placeholder="Question title"
           className="py-2"
           defaultValue={searchParams.get('query')?.toString()}
           onChange={(e) => handleSearch(e.target.value)}
