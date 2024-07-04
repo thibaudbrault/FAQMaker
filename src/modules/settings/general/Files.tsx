@@ -13,7 +13,6 @@ import { getSignedLogo, updateLogo } from '@/actions';
 import { Button, resultToast } from '@/components';
 import { filesSchema } from '@/lib/validations';
 
-import type { UpdateLogo } from '@/actions';
 import type { Tenant } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
