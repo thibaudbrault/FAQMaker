@@ -4,9 +4,10 @@ import '@/styles/globals.css';
 import { Provider } from 'jotai';
 import { Inter, Merriweather } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
+import { ThemeProvider } from 'next-themes';
 import { Toaster } from 'sonner';
 
-import { ThemeProvider, TooltipProvider } from '@/components';
+import { TooltipProvider } from '@/components';
 
 const merriweather = Merriweather({
   subsets: ['latin'],
