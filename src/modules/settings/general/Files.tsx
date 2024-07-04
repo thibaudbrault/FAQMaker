@@ -7,7 +7,6 @@ import { Upload } from 'lucide-react';
 import Image from 'next/image';
 import Dropzone from 'react-dropzone';
 import { Controller, useForm } from 'react-hook-form';
-import { v4 as uuid } from 'uuid';
 
 import { getSignedLogo, updateLogo } from '@/actions';
 import { Button, resultToast } from '@/components';
@@ -43,7 +42,7 @@ export const Files = ({ tenant }: Props) => {
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const formData = new FormData();
-    const randomId = uuid();
+    const randomId = crypto.randomUUID();
     const logo = encodeURIComponent(randomId + data.logo.name);
     formData.append('logo', logo);
     const { url, fields } = await getSignedLogo(formData);
