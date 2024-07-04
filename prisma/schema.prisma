@@ -10,11 +10,11 @@ generator client {
 model Tenant {
   id             String        @id @default(cuid())
   createdAt      DateTime      @default(now())
-  email          String
+  email          String        @unique
   plan           Plan          @default(free)
   company        String
-  logo           String?
-  customerId     String?
+  logo           String?       @unique
+  customerId     String?       @unique
   isActive       Boolean       @default(false)
   subscriptionId String?
   users          User[]
@@ -22,18 +22,16 @@ model Tenant {
   tags           Tag[]
   integrations   Integrations?
   pinnedAmount   Int           @default(0)
-
-  @@unique([email, logo, customerId])
 }
 
 model User {
-  id        String     @id @default(cuid())
-  createdAt DateTime   @default(now())
+  id        String         @id @default(cuid())
+  createdAt DateTime       @default(now())
   name      String?
-  email     String
+  email     String         @unique
   image     String?
-  role      Role       @default(user)
-  tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  role      Role           @default(user)
+  tenant    Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   tenantId  String
   questions Question[]
   answers   Answer[]
@@ -42,7 +40,6 @@ model User {
   favorites Favorite[]
   reactions ReactionUser[]
 
-  @@unique([email])
   @@index([tenantId])
 }
 
@@ -69,11 +66,10 @@ model Question {
   text      String
   slug      String
   node      Node     @relation(fields: [nodeId], references: [id], onDelete: Cascade)
-  nodeId    String
+  nodeId    String   @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 
-  @@unique([nodeId])
   @@index([nodeId, userId])
 }
 
@@ -83,11 +79,10 @@ model Answer {
   updatedAt DateTime @updatedAt
   text      String
   node      Node     @relation(fields: [nodeId], references: [id], onDelete: Cascade)
-  nodeId    String
+  nodeId    String   @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 
-  @@unique([nodeId])
   @@index([nodeId, userId])
 }
 
@@ -114,20 +109,20 @@ model Favorite {
 }
 
 model Reaction {
-  id        String @id @default(cuid())
+  id        String         @id @default(cuid())
   shortcode String
-  emoji     String @default("")
-  count     Int    @default(1)
-  node      Node   @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+  emoji     String         @default("")
+  count     Int            @default(1)
+  node      Node           @relation(fields: [nodeId], references: [id], onDelete: Cascade)
   nodeId    String
-  users      ReactionUser[]
+  users     ReactionUser[]
 
   @@unique([shortcode, nodeId])
   @@index([nodeId])
 }
 
 model ReactionUser {
-  id String @id @default(cuid())
+  id         String   @id @default(cuid())
   reaction   Reaction @relation(fields: [reactionId], references: [id], onDelete: Cascade)
   reactionId String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -141,9 +136,8 @@ model Integrations {
   id       String @id @default(cuid())
   slack    String
   tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  tenantId String
+  tenantId String @unique
 
-  @@unique([tenantId])
   @@index([tenantId])
 }
 
