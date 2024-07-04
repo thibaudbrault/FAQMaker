@@ -98,7 +98,7 @@ export default function Question({ node, favorites }: Props) {
   };
 
   const onEmojiSelect = async (emoji, nodeId) => {
-    const data = { shortcode: emoji.shortcodes, nodeId };
+    const data = { shortcode: emoji, nodeId };
     await upsertReaction(data);
   };
 
@@ -135,14 +135,14 @@ export default function Question({ node, favorites }: Props) {
               {!node.answer && (
                 <Tooltip>
                   <TooltipTrigger>
-                    <BadgeHelp className="size-4 text-teal-9" />
+                    <BadgeHelp className="size-4 fill-teal-9 text-gray-12" />
                   </TooltipTrigger>
                   <TooltipContent>Unanswered</TooltipContent>
                 </Tooltip>
               )}
               <Tooltip>
                 <TooltipTrigger>
-                  <BadgeInfo className="size-4 text-teal-9" />
+                  <BadgeInfo className="size-4 fill-teal-9 text-gray-12" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Asked by {node.question.user.name}</p>
@@ -163,7 +163,7 @@ export default function Question({ node, favorites }: Props) {
               {node.answer && (
                 <Tooltip>
                   <TooltipTrigger>
-                    <BadgeCheck className="size-4 text-teal-9" />
+                    <BadgeCheck className="size-4 fill-teal-9 text-gray-12" />
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Answered by {node.answer.user.name}</p>
@@ -183,7 +183,16 @@ export default function Question({ node, favorites }: Props) {
                 </Tooltip>
               )}
               {node.reactions.map((reaction) => (
-                <p key={reaction.id}>{reaction.shortcode}</p>
+                <Button
+                  key={reaction.id}
+                  variant="ghost"
+                  size="small"
+                  font="base"
+                  onClick={() => onEmojiSelect(reaction.shortcode, node.id)}
+                >
+                  <span className="mr-1">{reaction.shortcode}</span>
+                  <span>{reaction.count}</span>
+                </Button>
               ))}
             </div>
           </div>
@@ -236,7 +245,9 @@ export default function Question({ node, favorites }: Props) {
             <PopoverContent>
               <Picker
                 data={EmojiData}
-                onEmojiSelect={(emoji) => onEmojiSelect(emoji, node.id)}
+                onEmojiSelect={(emoji) =>
+                  onEmojiSelect(emoji.shortcodes, node.id)
+                }
                 showPreview={false}
               />
             </PopoverContent>
