@@ -97,8 +97,8 @@ export default function Question({ node, favorites }: Props) {
     }
   };
 
-  const onEmojiSelect = async (emoji, nodeId) => {
-    const data = { shortcode: emoji, nodeId };
+  const onEmojiSelect = async (shortcode, emoji, nodeId) => {
+    const data = { shortcode, emoji, nodeId };
     await upsertReaction(data);
   };
 
@@ -188,10 +188,12 @@ export default function Question({ node, favorites }: Props) {
                   variant="ghost"
                   size="small"
                   font="base"
-                  onClick={() => onEmojiSelect(reaction.shortcode, node.id)}
+                  onClick={() =>
+                    onEmojiSelect(reaction.shortcode, reaction.emoji, node.id)
+                  }
                 >
-                  <span className="mr-1">{reaction.shortcode}</span>
-                  <span>{reaction.count}</span>
+                  <span className="mr-1">{reaction.emoji}</span>
+                  <span className="font-semibold">{reaction.count}</span>
                 </Button>
               ))}
             </div>
@@ -246,7 +248,7 @@ export default function Question({ node, favorites }: Props) {
               <Picker
                 data={EmojiData}
                 onEmojiSelect={(emoji) =>
-                  onEmojiSelect(emoji.shortcodes, node.id)
+                  onEmojiSelect(emoji.shortcodes, emoji.native, node.id)
                 }
                 showPreview={false}
               />
