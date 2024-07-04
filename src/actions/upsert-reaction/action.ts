@@ -14,7 +14,6 @@ export const upsertReaction = authActionClient
   .schema(upsertReactionSchema)
   .action(
     async ({ parsedInput: { nodeId, shortcode, emoji }, ctx: { userId } }) => {
-      console.log(nodeId);
       const reactionExists = await prisma.reaction.findFirst({
         where: { shortcode, nodeId },
       });
