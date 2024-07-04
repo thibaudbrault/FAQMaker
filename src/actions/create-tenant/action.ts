@@ -4,13 +4,14 @@
 import Stripe from 'stripe';
 
 import { ActionError, actionClient } from '@/lib/safe-actions';
+import { STRIPE_VERSION } from '@/utils';
 import prisma from 'lib/prisma';
 
 import 'server-only';
 import { createTenantSchema } from './schema';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
+  apiVersion: STRIPE_VERSION,
 });
 
 // const resend = new Resend(process.env.RESEND_API_KEY);

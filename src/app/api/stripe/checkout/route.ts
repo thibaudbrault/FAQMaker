@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-import { Routes } from '@/utils';
+import { Routes, STRIPE_VERSION } from '@/utils';
 
 import type { NextRequest } from 'next/server';
 import { createCheckoutSchema } from '@/lib/validations';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
+  apiVersion: STRIPE_VERSION,
 });
 
 export async function POST(req: NextRequest) {

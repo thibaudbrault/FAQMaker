@@ -4,13 +4,13 @@ import { Storage } from '@google-cloud/storage';
 import { redirect } from 'next/navigation';
 import Stripe from 'stripe';
 
-import { Routes } from '@/utils';
+import { Routes, STRIPE_VERSION } from '@/utils';
 import prisma from 'lib/prisma';
 
 import 'server-only';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
+  apiVersion: STRIPE_VERSION,
 });
 
 // export const deleteTenant = authActionClient

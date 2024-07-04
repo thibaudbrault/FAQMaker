@@ -9,3 +9,4 @@ export const ACCEPTED_IMAGE_TYPES = [
 ];
 export const ROLE = ['user', 'admin', 'tenant'] as const;
 export const PLAN = ['free', 'startup', 'enterprise'] as const;
+export const STRIPE_VERSION = '2024-06-20';
