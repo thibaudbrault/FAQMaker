@@ -241,7 +241,7 @@ export default function Question({ node, favorites }: Props) {
                 font="small"
                 weight="semibold"
               >
-                {String.fromCodePoint('0x1f604')} React
+                {String.fromCodePoint(0x1f604)} React
               </Button>
             </PopoverTrigger>
             <PopoverContent>
