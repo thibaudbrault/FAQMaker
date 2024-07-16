@@ -25,73 +25,51 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
-    // EmailProvider({
-    //   server: {
-    //     host: process.env.EMAIL_SERVER_HOST,
-    //     port: process.env.EMAIL_SERVER_PORT,
-    //     auth: {
-    //       user: process.env.EMAIL_SERVER_USER,
-    //       pass: process.env.EMAIL_SERVER_PASSWORD,
-    //     },
-    //   },
-    //   from: process.env.EMAIL_FROM,
-    //   sendVerificationRequest,
-    // }),
+    EmailProvider({
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
+      },
+      from: process.env.EMAIL_FROM,
+      sendVerificationRequest,
+    }),
   ],
   pages: {
     signIn: Routes.SITE.LOGIN,
     error: Routes.SITE.LOGIN,
   },
   callbacks: {
-    async signIn({ profile, account }) {
-      if (!profile?.email || !account) {
+    async signIn({ profile, account, user }) {
+      if (!account || !user) {
         return false;
       }
-      const maybeUser = await prisma.user.findUnique({
-        where: { email: profile.email },
+      const userExists = await prisma.user.findUnique({
+        where: { email: user?.email },
       });
-      // if (!maybeUser) {
-      //   const domain = profile.email?.split('@')[1];
-      //   const tenant = await prisma.tenant.findUnique({ where: { domain } });
-      //   if (!tenant) return false;
-      //   const usersCount = await prisma.user.count({
-      //     where: { tenantId: tenant.id },
-      //   });
-      //   if (
-      //     (tenant.plan === 'free' && usersCount >= 5) ||
-      //     (tenant.plan === 'startup' && usersCount >= 100)
-      //   ) {
-      //     return false;
-      //   }
-      //   const newUser = await prisma.user.create({
-      //     data: {
-      //       name: profile.name,
-      //       email: profile.email,
-      //       image: profile.picture,
-      //       role: 'user',
-      //       tenant: { connect: { id: tenant.id } },
-      //     },
-      //   });
-      //   if (!newUser) {
-      //     return false;
-      //   }
-      //   return true;
-      // }
+      if (!userExists) {
+        return false;
+      }
       if (
-        account.provider === 'google' &&
-        (!maybeUser.name || !maybeUser.image)
+        account?.provider === 'google' &&
+        (!userExists.name || !userExists.image)
       ) {
         await prisma.user.update({
-          where: { id: maybeUser.id },
+          where: { id: userExists?.id },
           data: {
-            name: profile.name,
-            image: profile.picture,
+            name: profile?.name,
+            image: profile?.picture,
           },
         });
       }
       return true;
     },
     async jwt({ token, account, user }) {
+      console.log('🚀 ~ jwt ~ user:', user);
+      console.log('🚀 ~ jwt ~ account:', account);
       if (account) {
         token.accessToken = account.access_token;
         token.id = user.id;
