@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AtSign } from 'lucide-react';
+import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
-import { emailSignIn } from '@/actions';
-import { Button, Field, Input } from '@/components';
+import { Button, Field, Input, successToast } from '@/components';
 import { userEmailSchema } from '@/lib/validations';
 
 import type { SubmitHandler } from 'react-hook-form';
@@ -31,11 +31,9 @@ export default function EmailForm() {
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    await emailSignIn(formData);
+    const { email } = data;
+    await signIn('email', { email });
+    successToast(`Link sent to ${data.email}`);
   };
 
   useEffect(() => {

@@ -35,7 +35,6 @@ export { getUserAnswers } from './get-user-answers';
 export { getUserQuestions } from './get-user-questions';
 export { getUsers } from './get-users';
 export { getUsersCount } from './get-users-count';
-export { emailSignIn } from './login';
 export { updateAnswer, updateAnswerSchema } from './update-answer';
 export { updateLogo, updateLogoSchema } from './update-logo';
 export { updateNode, updateNodeSchema } from './update-node';
