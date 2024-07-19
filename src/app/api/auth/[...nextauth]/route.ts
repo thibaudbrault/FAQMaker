@@ -67,9 +67,10 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
+    async redirect({ url, baseUrl }) {
+      return baseUrl;
+    },
     async jwt({ token, account, user }) {
-      console.log('🚀 ~ jwt ~ user:', user);
-      console.log('🚀 ~ jwt ~ account:', account);
       if (account) {
         token.accessToken = account.access_token;
         token.id = user.id;
