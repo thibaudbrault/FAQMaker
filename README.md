@@ -21,7 +21,7 @@ Explore the exciting features and functionalities available in FAQMaker.
 
 FAQMaker is built using a stack of cutting-edge technologies.
 
-![My Skills](https://skillicons.dev/icons?i=react,next,svelte,ts,tailwind,prisma,githubactions)
+![My Skills](https://skillicons.dev/icons?i=react,next,ts,tailwind,prisma,githubactions)
 
 ## License
 
