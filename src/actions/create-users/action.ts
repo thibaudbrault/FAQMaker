@@ -99,7 +99,7 @@ export async function createUsers(usersArray, formData) {
     if (errors.length > 0) {
       return { message: 'Some users could not be created', errors };
     }
-  } catch (error) {
+  } catch {
     return { error: 'Error creating users' };
   }
 

@@ -93,7 +93,7 @@ export const Delete = ({ tenantId, company }: Props) => {
                 className="lowercase"
                 style={{ fontVariant: 'small-caps' }}
                 type="button"
-                // @ts-ignore
+                // @ts-expect-error Value of text must always be DELETE {company name} according to Zod schema
                 onClick={() => setValue('text', '')}
               >
                 Cancel

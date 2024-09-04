@@ -19,7 +19,7 @@ export const getUserQuestions = cache(
       if (!questions) return [];
 
       return questions;
-    } catch (error) {
+    } catch {
       throw new Error('Error fetching questions');
     }
   },

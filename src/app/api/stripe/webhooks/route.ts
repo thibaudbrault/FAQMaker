@@ -1,10 +1,12 @@
+/* eslint-disable no-case-declarations */
+
 import { Stripe } from 'stripe';
 
+import { STRIPE_VERSION } from '@/utils';
 import prisma from 'lib/prisma';
 
 import type { IPlan } from '@/types';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { STRIPE_VERSION } from '@/utils';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: STRIPE_VERSION,
@@ -99,6 +101,7 @@ export default async function handler(
               email: customer.email,
             },
           });
+          break;
         case 'payment_intent.payment_failed':
           data = event.data.object as Stripe.PaymentIntent;
           console.log(`❌ Payment failed: ${data.last_payment_error?.message}`);

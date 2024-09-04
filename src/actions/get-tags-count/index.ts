@@ -14,7 +14,7 @@ export const getTagsCount = cache(async (tenantId: string): Promise<number> => {
     if (!tags) return 0;
 
     return tags;
-  } catch (error) {
+  } catch {
     throw new Error('Error fetching tags count');
   }
 });

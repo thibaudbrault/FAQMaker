@@ -17,7 +17,7 @@ export const getIntegration = cache(
       if (!integrations) return null;
 
       return integrations;
-    } catch (error) {
+    } catch {
       throw new Error('Error fetching integrations');
     }
   },

@@ -41,7 +41,7 @@ export const getPaginatedNodes = cache(
         if (!nodes) return [];
         return nodes as ExtendedNode[];
       }
-    } catch (error) {
+    } catch {
       throw new Error('Error fetching nodes');
     }
   },
@@ -61,7 +61,7 @@ export const getAllNodes = cache(async (tenantId: string) => {
     if (!nodes) return null;
 
     return nodes;
-  } catch (error) {
+  } catch {
     return { error: 'Error fetching nodes' };
   }
 });

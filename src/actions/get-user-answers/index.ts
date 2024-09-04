@@ -29,7 +29,7 @@ export const getUserAnswers = cache(
       });
       if (!answers) return [];
       return answers as NodeWithQuestionAndAnswer[];
-    } catch (error) {
+    } catch {
       throw new Error('Error fetching answers');
     }
   },

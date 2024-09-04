@@ -19,7 +19,7 @@ export const getNode = cache(
       });
       if (!node) return redirect(Routes.SITE.HOME);
       return node as ExtendedNode;
-    } catch (error) {
+    } catch {
       throw new Error('Error fetching node');
     }
   },

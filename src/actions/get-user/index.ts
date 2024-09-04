@@ -11,7 +11,7 @@ export const getUser = cache(async (id: string) => {
       where: { id },
     });
     return user;
-  } catch (error) {
+  } catch {
     return { error: 'Error fetching user' };
   }
 });

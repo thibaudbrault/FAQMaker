@@ -14,7 +14,7 @@ export const getUsers = cache(async (tenantId: string): Promise<User[]> => {
     });
     if (!users) return [];
     return users;
-  } catch (error) {
+  } catch {
     throw new Error('Error fetching users');
   }
 });

@@ -14,7 +14,7 @@ export const getTags = cache(async (tenantId: string): Promise<Tag[]> => {
     });
     if (!tags) return [];
     return tags;
-  } catch (error) {
+  } catch {
     throw new Error('Error fetching tags');
   }
 });

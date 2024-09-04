@@ -15,7 +15,7 @@ export const getUsersCount = cache(
       if (!users) return 0;
 
       return users;
-    } catch (error) {
+    } catch {
       throw new Error('Error fetching users count');
     }
   },

@@ -25,7 +25,7 @@ export const getMe = cache(async (): Promise<Me | null> => {
       return null;
     }
     return me as Me;
-  } catch (error) {
+  } catch {
     throw new Error('Error fetching user');
   }
 });
@@ -45,7 +45,7 @@ export const getUserId = cache(
       });
       const userId = user?.id ?? null;
       return userId as string;
-    } catch (error) {
+    } catch {
       throw new Error('Error fetching user');
     }
   },

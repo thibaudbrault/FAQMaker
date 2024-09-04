@@ -48,7 +48,7 @@ export async function getSignedLogo(formData: FormData) {
       };
     }
     return { error: 'Not signed in' };
-  } catch (error) {
+  } catch {
     return { error: 'Error updating logo' };
   }
 }

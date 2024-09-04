@@ -15,7 +15,7 @@ export const getNodesCount = cache(
       if (!nodes) return 0;
 
       return nodes;
-    } catch (error) {
+    } catch {
       throw new Error('Error fetching nodes count');
     }
   },

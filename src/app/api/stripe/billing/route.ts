@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
+import { STRIPE_VERSION } from '@/utils';
 import prisma from 'lib/prisma';
 
 import type { NextRequest } from 'next/server';
-import { STRIPE_VERSION } from '@/utils';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: STRIPE_VERSION,
@@ -122,7 +122,7 @@ export async function POST(req: NextRequest) {
       configuration: configuration.id,
     });
     return NextResponse.json({ url, customerId, plan });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       {
         error: 'Error creating billing session',

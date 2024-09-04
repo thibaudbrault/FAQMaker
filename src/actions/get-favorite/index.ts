@@ -17,7 +17,7 @@ export const getFavorite = cache(
         },
       });
       return favorite as Favorite;
-    } catch (error) {
+    } catch {
       throw new Error('Error fetching favorite');
     }
   },

@@ -24,7 +24,7 @@ export const getFavorites = cache(
       if (!favorites) return [];
 
       return favorites as ExtendedFavorites[];
-    } catch (error) {
+    } catch {
       throw new Error('Error fetching favorites');
     }
   },

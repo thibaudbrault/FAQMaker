@@ -10,6 +10,7 @@ export const successToast = (text: string) => {
 };
 
 export const promiseToast = (
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any*/
   promise: Promise<any> | (() => Promise<any>),
   loading: string,
 ) => {

@@ -19,7 +19,7 @@ export const getTenant = cache(async (tenantId: string): Promise<Tenant> => {
     if (!tenant) redirect(Routes.SITE.HOME);
 
     return tenant;
-  } catch (error) {
+  } catch {
     throw new Error('Error fetching tenant');
   }
 });

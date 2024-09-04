@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
+import { createCheckoutSchema } from '@/lib/validations';
 import { Routes, STRIPE_VERSION } from '@/utils';
 
 import type { NextRequest } from 'next/server';
-import { createCheckoutSchema } from '@/lib/validations';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: STRIPE_VERSION,
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
       automatic_tax: { enabled: true },
     });
     return NextResponse.json({ id: session.id });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Error creating checkout session' },
       { status: 500 },

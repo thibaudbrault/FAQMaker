@@ -40,7 +40,7 @@ export const getSearchTags = cache(
         if (!nodes) return [];
         return nodes as ExtendedNode[];
       }
-    } catch (error) {
+    } catch {
       throw new Error('Error fetching results');
     }
   },
