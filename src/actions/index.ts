@@ -23,7 +23,6 @@ export { getMe } from './get-me';
 export { getNode } from './get-node';
 export { getPaginatedNodes } from './get-nodes';
 export { getNodesCount } from './get-nodes-count';
-export { getReactions } from './get-reactions';
 export { getSearchNodes } from './get-search-nodes';
 export { getSearchTags } from './get-search-tags';
 export { getSignedLogo } from './get-signed-logo';
@@ -44,5 +43,3 @@ export {
   upsertIntegrations,
   upsertIntegrationsSchema,
 } from './upsert-integrations';
-
-export { upsertReaction, upsertReactionSchema } from './upsert-reaction';

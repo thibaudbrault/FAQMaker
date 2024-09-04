@@ -1,7 +1,5 @@
 'use client';
 
-import EmojiData from '@emoji-mart/data';
-import Picker from '@emoji-mart/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAtomValue } from 'jotai';
 import {
@@ -22,14 +20,10 @@ import {
   createPin,
   deleteFavorite,
   deletePin,
-  upsertReaction,
 } from '@/actions';
 import {
   Badge,
   Button,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -95,11 +89,6 @@ export default function Question({ node, favorites }: Props) {
       const result = await createPin(data as CreatePin);
       resultToast(result?.serverError, result?.data?.message);
     }
-  };
-
-  const onEmojiSelect = async (shortcode, emoji, nodeId) => {
-    const data = { shortcode, emoji, nodeId };
-    await upsertReaction(data);
   };
 
   return (
@@ -182,20 +171,6 @@ export default function Question({ node, favorites }: Props) {
                   </TooltipContent>
                 </Tooltip>
               )}
-              {node.reactions.map((reaction) => (
-                <Button
-                  key={reaction.id}
-                  variant="ghost"
-                  size="small"
-                  font="base"
-                  onClick={() =>
-                    onEmojiSelect(reaction.shortcode, reaction.emoji, node.id)
-                  }
-                >
-                  <span className="mr-1">{reaction.emoji}</span>
-                  <span className="font-semibold">{reaction.count}</span>
-                </Button>
-              ))}
             </div>
           </div>
           <ChevronDown />
@@ -233,27 +208,6 @@ export default function Question({ node, favorites }: Props) {
         )}
         <hr className="mx-auto mb-6 mt-3 h-px w-3/4 border-none bg-gray-6" />
         <div className="mb-6 flex items-center gap-2 px-6">
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="ghost"
-                size="small"
-                font="small"
-                weight="semibold"
-              >
-                {String.fromCodePoint(0x1f604)} React
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent>
-              <Picker
-                data={EmojiData}
-                onEmojiSelect={(emoji) =>
-                  onEmojiSelect(emoji.shortcodes, emoji.native, node.id)
-                }
-                showPreview={false}
-              />
-            </PopoverContent>
-          </Popover>
           <form
             onSubmit={handleSubmitFavorite(onSubmitFavorite)}
             className="h-6"

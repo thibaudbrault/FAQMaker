@@ -39,7 +39,6 @@ model User {
   accounts  Account[]
   sessions  Session[]
   favorites Favorite[]
-  reactions ReactionUser[]
 
   @@index([tenantId])
 }
@@ -54,7 +53,6 @@ model Node {
   tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   tenantId  String
   favorites Favorite[]
-  reactions Reaction[]
   isPinned  Boolean    @default(false)
 
   @@index([tenantId])
@@ -107,30 +105,6 @@ model Favorite {
 
   @@unique([userId, nodeId])
   @@index([userId, nodeId])
-}
-
-model Reaction {
-  id        String         @id @default(cuid())
-  shortcode String
-  emoji     String         @default("")
-  count     Int            @default(1)
-  node      Node           @relation(fields: [nodeId], references: [id], onDelete: Cascade)
-  nodeId    String
-  users     ReactionUser[]
-
-  @@unique([shortcode, nodeId])
-  @@index([nodeId])
-}
-
-model ReactionUser {
-  id         String   @id @default(cuid())
-  reaction   Reaction @relation(fields: [reactionId], references: [id], onDelete: Cascade)
-  reactionId String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String
-
-  @@unique([reactionId, userId])
-  @@index([reactionId, userId])
 }
 
 model Integrations {

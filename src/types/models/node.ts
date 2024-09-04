@@ -3,7 +3,6 @@ import type {
   Favorite,
   Node,
   Question,
-  Reaction,
   Tag,
   User,
 } from '@prisma/client';
@@ -20,7 +19,6 @@ export type ExtendedNode = Node & {
   question: ExtendedQuestion;
   answer: ExtendedAnswer;
   tags: Tag[];
-  reactions: Reaction[];
 };
 
 export type NodeWithQuestionAndAnswer = Node & {
