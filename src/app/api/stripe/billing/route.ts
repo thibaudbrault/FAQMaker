@@ -27,13 +27,17 @@ export async function POST(req: NextRequest) {
       );
     }
     const { tenantId } = body;
-    const { customerId, plan } = await prisma.tenant.findUnique({
+    const tenant = await prisma.tenant.findUnique({
       where: { id: tenantId },
       select: {
         customerId: true,
         plan: true,
       },
     });
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tenant not found' }, { status: 400 });
+    }
+    const { customerId, plan } = tenant;
     const usersCount = await prisma.user.count({
       where: { tenantId },
     });
