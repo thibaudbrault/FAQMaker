@@ -1,25 +1,27 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 
-import { $Enums } from '@prisma/client';
-
-import { Button, Loader } from '@/components';
-import { useDeleteTag, useTags } from '@/hooks';
+import { deleteTag } from '@/actions';
+import { Button, resultToast } from '@/components';
 
 import { CreateTag } from './Create';
+
+import type { $Enums, Tag } from '@prisma/client';
 
 type Props = {
   tenantId: string;
   plan: $Enums.Plan;
+  tags: Tag[] | null;
+  tagsCount: number;
 };
 
-export const Tags = ({ tenantId, plan }: Props) => {
+export const Tags = ({ tenantId, plan, tags, tagsCount }: Props) => {
   const [limit, setLimit] = useState<number>(3);
 
-  const { data: tags, isPending } = useTags(tenantId);
-  const { mutate, isPending: isTagLoading } = useDeleteTag(tenantId);
-
-  const handleDeleteTag = (id: string) => {
-    mutate({ id });
+  const handleDeleteTag = async (id: string) => {
+    const result = await deleteTag({ id, tenantId });
+    resultToast(result?.serverError, result?.data?.message);
   };
 
   useEffect(() => {
@@ -28,13 +30,9 @@ export const Tags = ({ tenantId, plan }: Props) => {
     }
   }, [plan]);
 
-  if (isPending || isTagLoading) {
-    return <Loader size="screen" />;
-  }
-
   return (
     <section className="mx-auto w-11/12 md:w-3/4">
-      {tags.length > 0 ? (
+      {tags && tags.length > 0 ? (
         <ul className="my-6 flex list-none flex-wrap gap-4">
           {tags.map((tag) => (
             <li
@@ -59,8 +57,8 @@ export const Tags = ({ tenantId, plan }: Props) => {
       ) : (
         <p className="my-6 text-center italic">No tags</p>
       )}
-      <CreateTag tenantId={tenantId} />
-      {tags.length > 0 && plan !== 'enterprise' && (
+      <CreateTag tenantId={tenantId} plan={plan} tagsCount={tagsCount} />
+      {tags && tags.length > 0 && plan !== 'enterprise' && (
         <p className="mt-1 text-xs text-gray-11">
           Tags limit: <span className="font-semibold">{tags.length}</span> /{' '}
           <span className="font-semibold">{limit}</span>

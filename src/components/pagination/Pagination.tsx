@@ -1,17 +1,28 @@
-import { Dispatch, SetStateAction } from 'react';
+'use client';
 
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import ReactPaginate from 'react-paginate';
 
 import { OFFSET } from '@/utils';
 
 type Props = {
-  setPage: Dispatch<SetStateAction<number>>;
   nodesLength: number;
 };
 
-export const Pagination = ({ setPage, nodesLength }: Props) => {
+export const Pagination = ({ nodesLength }: Props) => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
+
   const handlePageChange = (data: { selected: number }) => {
-    setPage(data.selected);
+    const params = new URLSearchParams(searchParams);
+    const page = data.selected;
+    if (page > 0) {
+      params.set('page', page.toString());
+    } else {
+      params.delete('page');
+    }
+    replace(`${pathname}?${params.toString()}`);
   };
 
   return (

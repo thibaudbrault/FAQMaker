@@ -1,3 +1,5 @@
+'use client';
+
 import { SunIcon, MoonIcon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
@@ -32,9 +34,9 @@ export const ThemeToggle = () => {
       <DropdownMenuTrigger asChild>
         <Button size="icon" className="text-gray-12 hover:text-gray-11">
           {theme === 'light' ? (
-            <SunIcon className="h-6 w-6" />
+            <SunIcon className="size-6" />
           ) : (
-            <MoonIcon className="h-6 w-6" />
+            <MoonIcon className="size-6" />
           )}
           <span className="sr-only">Toggle theme</span>
         </Button>

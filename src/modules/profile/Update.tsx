@@ -1,21 +1,26 @@
+'use client';
+
 import { useEffect, useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AtSign, UserIcon } from 'lucide-react';
 import Image from 'next/image';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { useForm } from 'react-hook-form';
 
-import { Button, Field, Input } from '@/components';
-import { useMediaQuery, useUpdateUser } from '@/hooks';
-import { updateUserClientSchema } from '@/lib';
-import { IUserUpdateFields, UserWithTenant } from '@/types';
+import { updateUser, updateUserSchema } from '@/actions';
+import { Button, Field, Input, resultToast } from '@/components';
+import { useMediaQuery } from '@/hooks';
+import { Limits } from '@/utils';
+
+import type { IUserUpdateFields, Me } from '@/types';
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Props = {
-  me: UserWithTenant;
+  me: Me;
 };
 
-type Schema = z.infer<typeof updateUserClientSchema>;
+type Schema = z.infer<typeof updateUserSchema>;
 
 export const UpdateProfile = ({ me }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -24,20 +29,23 @@ export const UpdateProfile = ({ me }: Props) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { isSubmitting, isDirty, errors, isValid },
   } = useForm<Schema>({
-    resolver: zodResolver(updateUserClientSchema),
+    resolver: zodResolver(updateUserSchema),
     mode: 'onBlur',
     defaultValues: {
       name: me.name ?? '',
       email: me.email,
+      role: me.role,
+      tenantId: me.tenantId,
+      id: me.id,
     },
   });
 
-  const { mutate } = useUpdateUser(me.id, me.tenantId);
-
-  const onSubmit: SubmitHandler<Schema> = (values) => {
-    mutate(values);
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
+    const result = await updateUser(data);
+    resultToast(result?.serverError, result?.data?.message);
   };
 
   const fields: IUserUpdateFields[] = useMemo(
@@ -46,13 +54,15 @@ export const UpdateProfile = ({ me }: Props) => {
         label: 'Name',
         value: 'name',
         type: 'text',
-        icon: <UserIcon className="h-5 w-5" />,
+        limit: Limits.NAME,
+        icon: <UserIcon className="size-5" />,
       },
       {
         label: 'Email',
         value: 'email',
         type: 'email',
-        icon: <AtSign className="h-5 w-5" />,
+        limit: Limits.EMAIL,
+        icon: <AtSign className="size-5" />,
       },
     ],
     [],
@@ -79,13 +89,13 @@ export const UpdateProfile = ({ me }: Props) => {
         {me.image ? (
           <Image
             src={me.image}
-            alt={'Profile picture'}
+            alt="Profile picture"
             width={isDesktop ? 128 : 80}
             height={isDesktop ? 128 : 80}
             className="row-start-2 self-center justify-self-center rounded-md"
           />
         ) : (
-          <UserIcon className="row-start-2 h-20 w-20 self-center justify-self-center rounded-md sm:h-32 sm:w-32" />
+          <UserIcon className="row-start-2 size-20 self-center justify-self-center rounded-md sm:size-32" />
         )}
         <ul className="col-span-3 row-start-2 flex list-none flex-col gap-2">
           {fields.map((field) => (
@@ -94,6 +104,8 @@ export const UpdateProfile = ({ me }: Props) => {
                 label={field.label}
                 value={field.value}
                 error={errors[field.value]?.message}
+                curLength={watch(field.value)?.length}
+                limit={field.limit}
               >
                 <Input
                   {...register(field.value)}

@@ -1,46 +1,43 @@
+'use client';
+
 import { MoveRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import { Loader } from '@/components';
-import { NodeWithQuestionAndAnswer } from '@/hooks';
+import { Routes } from '@/utils';
+
+import type { NodeWithQuestionAndAnswer } from '@/types';
+
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 });
 
 type Props = {
   nodes?: NodeWithQuestionAndAnswer[];
-  isPending: boolean;
 };
 
-export const UserAnswers = ({ nodes, isPending }: Props) => {
-  if (isPending) {
-    return <Loader size="items" />;
-  }
-
+export const UserAnswers = ({ nodes }: Props) => {
   return (
     <>
       <h2
-        className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
+        className="mb-4 text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
         style={{ fontVariant: 'small-caps' }}
       >
         Answers
       </h2>
       {nodes && nodes.length > 0 ? (
-        <ul className="flex list-none flex-col gap-2 ">
-          {nodes.map((node, index) => (
+        <ul className="flex list-none flex-col gap-2">
+          {nodes.map((node) => (
             <li
-              className="flex items-center justify-between rounded-md px-3 py-2 shadow-sm"
-              key={index}
+              className="flex items-center justify-between rounded-md px-3 py-2 shadow-sm hover:shadow-teal-6"
+              key={node.id}
             >
-              <MarkdownPreview source={node.answer.text} />
+              <MarkdownPreview
+                source={node.answer.text}
+                className="!bg-transparent"
+              />
 
-              <Link
-                href={{
-                  pathname: '/question/[id]',
-                  query: { id: node.question.id },
-                }}
-              >
+              <Link href={`${Routes.SITE.QUESTION.INDEX}/${node.question.id}`}>
                 <MoveRight />
               </Link>
             </li>

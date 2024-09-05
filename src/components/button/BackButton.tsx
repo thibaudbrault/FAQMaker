@@ -1,5 +1,7 @@
+'use client';
+
 import { MoveLeft } from 'lucide-react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 import { Button } from './Button';
 
@@ -14,7 +16,7 @@ export const BackButton = () => {
       size="small"
       className="lowercase"
       style={{ fontVariant: 'small-caps' }}
-      onClick={() => router.back()}
+      onClick={() => router.push('/')}
     >
       <MoveLeft />
       Go back

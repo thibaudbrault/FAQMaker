@@ -1,3 +1,5 @@
+'use client';
+
 import '@uiw/react-md-editor/markdown-editor.css';
 
 import dynamic from 'next/dynamic';
@@ -8,6 +10,7 @@ import { useMediaQuery } from '@/hooks';
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
 type Props = {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any*/
   onChange: (...event: any[]) => void;
   value: string;
 };

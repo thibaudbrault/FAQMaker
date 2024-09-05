@@ -1,61 +1,56 @@
-import { useEffect, useMemo, useState } from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Integrations as IntegrationsType } from '@prisma/client';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
-import { Button, Field, Input, Loader } from '@/components';
-import { useIntegration, useUpsertIntegrations } from '@/hooks';
-import { integrationsClientSchema } from '@/lib';
-import { IIntegrations } from '@/types';
+import { upsertIntegrations, upsertIntegrationsSchema } from '@/actions';
+import { Button, Field, Input, resultToast } from '@/components';
+
+import type { IIntegrations } from '@/types';
+import type { Integrations as IntegrationsType } from '@prisma/client';
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Props = {
   tenantId: string;
+  integrations: IntegrationsType | null;
 };
 
-type Schema = z.infer<typeof integrationsClientSchema>;
+type Schema = z.infer<typeof upsertIntegrationsSchema>;
 
-export const Integrations = ({ tenantId }: Props) => {
-  const { data: integrations, isPending } = useIntegration(tenantId);
-
+export function Integrations({ tenantId, integrations }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isDirty, isValid },
   } = useForm<Schema>({
-    resolver: zodResolver(integrationsClientSchema),
+    resolver: zodResolver(upsertIntegrationsSchema),
     mode: 'onBlur',
     defaultValues: {
       slack: integrations?.slack ?? '',
+      tenantId,
     },
   });
 
-  const { mutate } = useUpsertIntegrations(tenantId);
-
-  const onSubmit = (values: IntegrationsType) => {
-    mutate(values);
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
+    const result = await upsertIntegrations(data);
+    resultToast(result?.serverError, 'Integrations updated successfully');
   };
 
-  const fields: IIntegrations[] = useMemo(
-    () => [
-      {
-        label: 'Slack',
-        value: 'slack',
-        type: 'url',
-      },
-    ],
-    [],
-  );
+  const fields: IIntegrations[] = [
+    {
+      label: 'Slack',
+      value: 'slack',
+      type: 'url',
+    },
+  ];
 
   useEffect(() => {
     setDisabled(isSubmitting || !isDirty || !isValid);
   }, [isDirty, isSubmitting, isValid]);
-
-  if (isPending) {
-    return <Loader size="items" />;
-  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -99,4 +94,4 @@ export const Integrations = ({ tenantId }: Props) => {
       </form>
     </div>
   );
-};
+}

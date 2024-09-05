@@ -1,36 +1,44 @@
-import { $Enums } from '@prisma/client';
+'use client';
 
+import { deleteUser } from '@/actions';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
   Button,
-  Loader,
+  resultToast,
 } from '@/components';
-import { useDeleteUser, useUsers } from '@/hooks';
 
 import { CreateUser } from './Create';
 import { FileInput } from './FileInput';
 import { UpdateUser } from './Update';
 
+import type { $Enums, User } from '@prisma/client';
+
 type Props = {
   userId: string;
   tenantId: string;
   plan: $Enums.Plan;
+  users: User[];
+  usersCount: number;
 };
 
-export const Users = ({ userId, tenantId, plan }: Props) => {
-  const { data: users, isPending } = useUsers(tenantId);
+const UserAvatar = ({ id, email, image }) => {
+  const placeholderImage = `https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${id}&radius=50`;
+  const avatar = image ?? placeholderImage;
+  return (
+    <Avatar className="m-3 size-9">
+      <AvatarImage src={avatar} />
+      <AvatarFallback>{email[0].toUpperCase()}</AvatarFallback>
+    </Avatar>
+  );
+};
 
-  const { mutate, isPending: isUserLoading } = useDeleteUser(tenantId);
-
-  const handleDeleteUser = (id: string) => {
-    mutate({ id });
+export const Users = ({ userId, tenantId, plan, users, usersCount }: Props) => {
+  const handleDeleteUser = async (id: string) => {
+    const result = await deleteUser({ id, tenantId });
+    resultToast(result?.serverError, result?.data?.message);
   };
-
-  if (isPending || isUserLoading) {
-    return <Loader size="page" />;
-  }
 
   return (
     <ul className="flex list-none flex-col gap-4">
@@ -71,24 +79,18 @@ export const Users = ({ userId, tenantId, plan }: Props) => {
           </div>
         </li>
       ))}
-      <CreateUser tenantId={tenantId} />
+      <CreateUser tenantId={tenantId} usersCount={usersCount} />
       <div className="flex items-center gap-4">
-        <div className="h-px flex-grow bg-gray-6" />
+        <div className="h-px grow bg-gray-6" />
         <p className="text-center text-xl font-bold uppercase">or</p>
-        <div className="h-px flex-grow bg-gray-6" />
+        <div className="h-px grow bg-gray-6" />
       </div>
-      <FileInput tenantId={tenantId} users={users} plan={plan} />
+      <FileInput
+        tenantId={tenantId}
+        users={users}
+        plan={plan}
+        usersCount={usersCount}
+      />
     </ul>
-  );
-};
-
-const UserAvatar = ({ id, email, image }) => {
-  const placeholderImage = `https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${id}&radius=50`;
-  const avatar = image ?? placeholderImage;
-  return (
-    <Avatar className="m-3 h-9 w-9">
-      <AvatarImage src={avatar} />
-      <AvatarFallback>{email[0].toUpperCase()}</AvatarFallback>
-    </Avatar>
   );
 };

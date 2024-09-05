@@ -1,4 +1,5 @@
-import { ButtonHTMLAttributes, forwardRef } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
+import { forwardRef } from 'react';
 
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
@@ -9,26 +10,26 @@ const button = cva('transition-all duration-300', {
   variants: {
     variant: {
       primary: [
-        'bg-teal-9 hover:bg-teal-10 text-white shadow-sm shadow-transparent',
+        'bg-teal-9 text-white shadow-sm shadow-transparent hover:bg-teal-10',
       ],
       ghost: [
-        'bg-gray-3 hover:bg-gray-4 shadow-sm shadow-grayA-8 text-gray-12',
+        'bg-gray-3 text-gray-12 shadow-sm shadow-grayA-8 hover:bg-gray-4',
       ],
       secondary: [
-        'bg-transparent text-tealA-11 shadow shadow-sm shadow-tealA-7 hover:shadow-tealA-8',
+        'bg-transparent text-tealA-11 shadow-sm shadow-tealA-7 hover:shadow-tealA-8',
       ],
       disabled: [
-        'bg-teal-surfaceLight dark:bg-teal-surfaceDark shadow-sm text-tealA-11 shadow-tealA-7 hover:shadow-tealA-8',
+        'bg-teal-surfaceLight text-tealA-11 shadow-sm shadow-tealA-7 hover:shadow-tealA-8 dark:bg-teal-surfaceDark',
       ],
       disabledDestructive: [
-        'bg-red-surfaceLight dark:bg-red-surfaceDark shadow-sm text-redA-11 shadow-redA-7 hover:shadow-redA-8',
+        'bg-red-surfaceLight text-redA-11 shadow-sm shadow-redA-7 hover:shadow-redA-8 dark:bg-red-surfaceDark',
       ],
       destructive: [
-        'bg-red-9 hover:bg-red-10 text-white shadow-sm shadow-transparent',
+        'bg-red-9 text-white shadow-sm shadow-transparent hover:bg-red-10',
       ],
     },
     icon: {
-      withIcon: ['flex justify-center items-center gap-1'],
+      withIcon: ['flex items-center justify-center gap-1'],
     },
     font: {
       small: ['text-sm'],
@@ -46,10 +47,10 @@ const button = cva('transition-all duration-300', {
       semibold: ['font-semibold'],
     },
     size: {
-      small: ['py-1 px-2 w-fit'],
-      medium: ['py-2 px-4 w-fit'],
-      full: ['py-2 w-full'],
-      icon: ['h-6 w-6'],
+      small: ['w-fit px-2 py-1'],
+      medium: ['w-fit px-4 py-2'],
+      full: ['w-full py-2'],
+      icon: ['size-6'],
     },
   },
   defaultVariants: {

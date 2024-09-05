@@ -1,79 +1,65 @@
-import { useEffect, useMemo, useState } from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Tenant } from '@prisma/client';
-import { useRouter } from 'next/router';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { useForm } from 'react-hook-form';
 
-import { Button, Field, Input } from '@/components';
-import { useUpdateTenant } from '@/hooks';
-import { updateTenantClientSchema } from '@/lib';
-import { ITenantUpdateFields } from '@/types';
+import { updateTenant, updateTenantSchema } from '@/actions';
+import { Button, Field, Input, resultToast } from '@/components';
+import { Limits } from '@/utils';
+
+import type { ITenantUpdateFields } from '@/types';
+import type { Tenant } from '@prisma/client';
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Props = {
   tenant: Tenant;
 };
 
-type Schema = z.infer<typeof updateTenantClientSchema>;
+type Schema = z.infer<typeof updateTenantSchema>;
 
-export const Company = ({ tenant }: Props) => {
+export function Company({ tenant }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const router = useRouter();
   const {
     register,
     handleSubmit,
     watch,
-    reset,
     formState: { isSubmitting, isDirty, isValid, errors },
   } = useForm<Schema>({
-    resolver: zodResolver(updateTenantClientSchema),
+    resolver: zodResolver(updateTenantSchema),
     mode: 'onBlur',
     defaultValues: {
       company: tenant.company,
       email: tenant.email,
-      domain: tenant.domain,
+      id: tenant.id,
     },
   });
-  const domainValue = watch('domain');
 
-  const { mutate } = useUpdateTenant(tenant.id, router);
-
-  const onSubmit: SubmitHandler<Schema> = (values) => {
-    mutate(values);
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
+    const result = await updateTenant(data);
+    resultToast(result?.serverError, 'Tenant updated successfully');
   };
 
-  const fields: ITenantUpdateFields[] = useMemo(
-    () => [
-      {
-        label: 'Company',
-        value: 'company',
-        type: 'text',
-      },
-      {
-        label: 'Email',
-        value: 'email',
-        type: 'email',
-      },
-      {
-        label: 'Domain',
-        value: 'domain',
-        type: 'text',
-      },
-    ],
-    [],
-  );
+  const fields: ITenantUpdateFields[] = [
+    {
+      label: 'Company',
+      value: 'company',
+      type: 'text',
+      limit: Limits.COMPANY,
+    },
+    {
+      label: 'Email',
+      value: 'email',
+      type: 'email',
+      limit: Limits.EMAIL,
+    },
+  ];
 
   useEffect(() => {
-    if (domainValue === '') {
-      reset({
-        domain: tenant.domain,
-      });
-    }
     setDisabled(isSubmitting || !isDirty || !isValid);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDirty, isSubmitting, isValid, domainValue]);
+  }, [isDirty, isSubmitting, isValid]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -94,6 +80,8 @@ export const Company = ({ tenant }: Props) => {
                 label={field.label}
                 value={field.value}
                 error={errors[field.value]?.message}
+                curLength={watch(field.value)?.length}
+                limit={field.limit}
               >
                 <Input
                   {...register(field.value)}
@@ -117,4 +105,4 @@ export const Company = ({ tenant }: Props) => {
       </form>
     </div>
   );
-};
+}

@@ -1,4 +1,7 @@
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react';
+'use client';
+
+import type { ComponentPropsWithoutRef, ElementRef } from 'react';
+import { forwardRef } from 'react';
 
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 

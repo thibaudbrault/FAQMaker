@@ -1,11 +1,12 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Flame } from 'lucide-react';
-import { useRouter } from 'next/router';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { useForm } from 'react-hook-form';
 
+import { deleteTenant, deleteTenantSchema } from '@/actions';
 import {
   Button,
   Dialog,
@@ -17,7 +18,9 @@ import {
   DialogTrigger,
   Input,
 } from '@/components';
-import { useDeleteTenant } from '@/hooks';
+
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Props = {
   tenantId: string;
@@ -25,13 +28,10 @@ type Props = {
 };
 
 export const Delete = ({ tenantId, company }: Props) => {
-  const deleteSchema = z.object({
-    text: z.literal(`DELETE ${company}`),
-  });
+  const deleteSchema = deleteTenantSchema(company);
   type Schema = z.infer<typeof deleteSchema>;
 
   const [disabled, setDisabled] = useState<boolean>(true);
-  const router = useRouter();
 
   const {
     register,
@@ -41,13 +41,15 @@ export const Delete = ({ tenantId, company }: Props) => {
   } = useForm<Schema>({
     resolver: zodResolver(deleteSchema),
     mode: 'onBlur',
+    defaultValues: {
+      text: '',
+      id: tenantId,
+      company,
+    },
   });
 
-  const { mutate } = useDeleteTenant(tenantId, company, router);
-
-  const onSubmit: SubmitHandler<Schema> = (values) => {
-    // @ts-ignore
-    mutate(values);
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
+    await deleteTenant(data);
   };
 
   useEffect(() => {
@@ -91,7 +93,7 @@ export const Delete = ({ tenantId, company }: Props) => {
                 className="lowercase"
                 style={{ fontVariant: 'small-caps' }}
                 type="button"
-                // @ts-ignore
+                // @ts-expect-error Value of text must always be DELETE {company name} according to Zod schema
                 onClick={() => setValue('text', '')}
               >
                 Cancel

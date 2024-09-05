@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import { HelpCircle } from 'lucide-react';
 
@@ -11,7 +11,6 @@ type Props = {
   value: string;
   error?: string;
   info?: string;
-  hasLimit?: boolean;
   limit?: number;
   curLength?: number;
 };
@@ -22,7 +21,6 @@ export const Field = ({
   value,
   error,
   info,
-  hasLimit,
   limit,
   curLength,
 }: Props) => {
@@ -42,7 +40,7 @@ export const Field = ({
         {info && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <HelpCircle className="h-3 w-3" />
+              <HelpCircle className="size-3" />
             </TooltipTrigger>
             <TooltipContent>
               <p>{info}</p>
@@ -57,8 +55,10 @@ export const Field = ({
             {error}
           </small>
         )}
-        {hasLimit && (
-          <small className="col-start-2 justify-self-end text-xs text-gray-11">
+        {limit && (
+          <small
+            className={`col-start-2 justify-self-end text-xs ${curLength > limit ? 'text-red-10' : 'text-gray-11'}`}
+          >
             {curLength} / {limit} characters
           </small>
         )}
