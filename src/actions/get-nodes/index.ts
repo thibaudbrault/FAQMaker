@@ -50,7 +50,7 @@ export const getPaginatedNodes = cache(
 export const getAllNodes = cache(async (tenantId: string) => {
   try {
     if (!tenantId) {
-      return { error: 'Tenant not found' };
+      throw new Error('Tenant not found');
     }
     const nodes = await prisma.node.findMany({
       where: { tenantId },
@@ -62,6 +62,6 @@ export const getAllNodes = cache(async (tenantId: string) => {
 
     return nodes;
   } catch {
-    return { error: 'Error fetching nodes' };
+    throw new Error('Error fetching nodes');
   }
 });
