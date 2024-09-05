@@ -3,9 +3,9 @@
 import { Storage } from '@google-cloud/storage';
 import { getServerSession } from 'next-auth';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-
 import 'server-only';
+import { authOptions } from '@/lib/auth';
+
 import { upsertLogoSchema } from './schema';
 
 const bucketName = 'faqmaker';

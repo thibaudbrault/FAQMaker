@@ -3,7 +3,8 @@ import { createSafeActionClient } from 'next-safe-action';
 import { z } from 'zod';
 
 import { getUserId } from '@/actions/get-me';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+
+import { authOptions } from './auth';
 
 export class ActionError extends Error {}
 
