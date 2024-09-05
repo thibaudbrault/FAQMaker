@@ -1,47 +1,29 @@
 /* eslint-disable no-case-declarations */
 
+import { headers } from 'next/headers';
+import { NextRequest, NextResponse } from 'next/server';
 import { Stripe } from 'stripe';
 
 import { STRIPE_VERSION } from '@/utils';
 import prisma from 'lib/prisma';
 
 import type { IPlan } from '@/types';
-import type { NextApiRequest, NextApiResponse } from 'next';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: STRIPE_VERSION,
 });
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
-const STRIPE_SIGNATURE_HEADER = 'stripe-signature';
 
-async function buffer(readable) {
-  const chunks = [];
-  for await (const chunk of readable) {
-    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
-  }
-  return Buffer.concat(chunks);
-}
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  const body = await buffer(req);
-  const signature = req.headers[STRIPE_SIGNATURE_HEADER];
+export default async function handler(req: NextRequest) {
+  const body = await req.text();
+  const signature = headers().get('Stripe-Signature') as string;
 
   let event: Stripe.Event;
 
   try {
     event = stripe.webhooks.constructEvent(body, signature!, webhookSecret);
   } catch (error) {
-    console.error(`Webhook signature verification failed.`, error.message);
-    return res.status(500).json({ error: error.message });
+    return NextResponse.json({ error: error.message }, { status: 400 });
   }
 
   const permittedEvents: string[] = [
@@ -121,13 +103,17 @@ export default async function handler(
           });
           break;
         default:
-          throw new Error(`Unhandled event: ${event.type}`);
+          return NextResponse.json(
+            { message: `Unhandled event: ${event.type}` },
+            { status: 400 },
+          );
       }
     } catch (error) {
-      if (error instanceof Error) {
-        return res.status(500).json({ error: error.message });
-      }
+      return NextResponse.json(
+        { error: `Webhook error: ${error.message}` },
+        { status: 500 },
+      );
     }
   }
-  return res.status(200).json({ message: 'Received' });
+  return new NextResponse('Received');
 }
