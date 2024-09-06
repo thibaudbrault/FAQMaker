@@ -26,11 +26,9 @@ type Props = {
   tenantId: string;
   company: string;
 };
+type Schema = z.infer<typeof deleteTenantSchema>;
 
 export const Delete = ({ tenantId, company }: Props) => {
-  const deleteSchema = deleteTenantSchema(company);
-  type Schema = z.infer<typeof deleteSchema>;
-
   const [disabled, setDisabled] = useState<boolean>(true);
 
   const {
@@ -39,7 +37,7 @@ export const Delete = ({ tenantId, company }: Props) => {
     setValue,
     formState: { isSubmitting, isValid },
   } = useForm<Schema>({
-    resolver: zodResolver(deleteSchema),
+    resolver: zodResolver(deleteTenantSchema),
     mode: 'onBlur',
     defaultValues: {
       text: '',
@@ -93,7 +91,6 @@ export const Delete = ({ tenantId, company }: Props) => {
                 className="lowercase"
                 style={{ fontVariant: 'small-caps' }}
                 type="button"
-                // @ts-expect-error Value of text must always be DELETE {company name} according to Zod schema
                 onClick={() => setValue('text', '')}
               >
                 Cancel
