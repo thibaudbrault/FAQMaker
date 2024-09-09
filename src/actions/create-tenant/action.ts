@@ -7,7 +7,6 @@ import { ActionError, actionClient } from '@/lib/safe-actions';
 import { STRIPE_VERSION } from '@/utils';
 import prisma from 'lib/prisma';
 
-import 'server-only';
 import { createTenantSchema } from './schema';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {

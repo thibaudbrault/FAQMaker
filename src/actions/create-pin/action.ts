@@ -6,7 +6,6 @@ import { ActionError, authActionClient } from '@/lib/safe-actions';
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
-import 'server-only';
 import { createPinSchema } from './schema';
 
 export const createPin = authActionClient

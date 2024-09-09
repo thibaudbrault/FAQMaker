@@ -8,7 +8,6 @@ import { authActionClient } from '@/lib/safe-actions';
 import { Routes, bucketName } from '@/utils';
 import prisma from 'lib/prisma';
 
-import 'server-only';
 import { updateLogoSchema } from './schema';
 
 export const updateLogo = authActionClient

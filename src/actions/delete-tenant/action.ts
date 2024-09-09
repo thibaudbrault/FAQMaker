@@ -7,8 +7,6 @@ import Stripe from 'stripe';
 import { Routes, STRIPE_VERSION } from '@/utils';
 import prisma from 'lib/prisma';
 
-import 'server-only';
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: STRIPE_VERSION,
 });
