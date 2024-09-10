@@ -8,7 +8,6 @@ import { authActionClient } from '@/lib/safe-actions';
 import { Routes, STRIPE_VERSION } from '@/utils';
 import prisma from 'lib/prisma';
 
-import 'server-only';
 import { deleteTenantSchema } from './schema';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {

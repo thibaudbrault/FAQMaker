@@ -7,7 +7,6 @@ import { authActionClient } from '@/lib/safe-actions';
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
-import 'server-only';
 import { updateAnswerSchema } from './schema';
 
 export const updateAnswer = authActionClient

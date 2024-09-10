@@ -3,7 +3,6 @@
 import { Storage } from '@google-cloud/storage';
 import { getServerSession } from 'next-auth';
 
-import 'server-only';
 import { authOptions } from '@/lib/auth';
 
 import { upsertLogoSchema } from './schema';

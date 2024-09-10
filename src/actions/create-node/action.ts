@@ -9,7 +9,6 @@ import { ActionError, authActionClient } from '@/lib/safe-actions';
 import { Routes, dateOptions, timeOptions } from '@/utils';
 import prisma from 'lib/prisma';
 
-import 'server-only';
 import { createNodeSchema, slackIntegrationSchema } from './schema';
 
 export const slackNotification = async (body) => {

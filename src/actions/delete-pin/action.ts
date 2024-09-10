@@ -6,7 +6,6 @@ import { authActionClient } from '@/lib/safe-actions';
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
-import 'server-only';
 import { deletePinSchema } from './schema';
 
 export const deletePin = authActionClient

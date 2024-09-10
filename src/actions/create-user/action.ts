@@ -8,7 +8,6 @@ import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
 // import { NewUserEmailTemplate } from '@/components';
-import 'server-only';
 import { createUserSchema } from './schema';
 
 // const resend = new Resend(process.env.RESEND_API_KEY);
