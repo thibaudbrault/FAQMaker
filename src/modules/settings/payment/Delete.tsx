@@ -97,7 +97,7 @@ export const Delete = ({ tenantId, company }: Props) => {
               </Button>
             </DialogClose>
             <Button
-              variant={disabled ? 'disabledDestructive' : 'destructive'}
+              variant="destructive"
               weight="semibold"
               className="lowercase"
               style={{ fontVariant: 'small-caps' }}

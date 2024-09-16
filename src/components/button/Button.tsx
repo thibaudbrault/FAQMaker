@@ -10,22 +10,16 @@ const button = cva('transition-all duration-300', {
   variants: {
     variant: {
       primary: [
-        'bg-teal-9 text-white shadow-sm shadow-transparent hover:bg-teal-10',
+        'bg-teal-9 text-white shadow-sm shadow-transparent hover:bg-teal-10 disabled:bg-teal-surfaceLight disabled:text-tealA-11 disabled:shadow-sm disabled:shadow-tealA-7 disabled:hover:shadow-tealA-8 disabled:dark:bg-teal-surfaceDark',
       ],
       ghost: [
-        'bg-gray-3 text-gray-12 shadow-sm shadow-grayA-8 hover:bg-gray-4',
+        'bg-gray-3 text-gray-12 shadow-sm shadow-grayA-8 hover:bg-gray-4 disabled:shadow-transparent disabled:bg-transparent',
       ],
       secondary: [
         'bg-transparent text-tealA-11 shadow-sm shadow-tealA-7 hover:shadow-tealA-8',
       ],
-      disabled: [
-        'bg-teal-surfaceLight text-tealA-11 shadow-sm shadow-tealA-7 hover:shadow-tealA-8 dark:bg-teal-surfaceDark',
-      ],
-      disabledDestructive: [
-        'bg-red-surfaceLight text-redA-11 shadow-sm shadow-redA-7 hover:shadow-redA-8 dark:bg-red-surfaceDark',
-      ],
       destructive: [
-        'bg-red-9 text-white shadow-sm shadow-transparent hover:bg-red-10',
+        'bg-red-6 text-white shadow-sm shadow-transparent hover:bg-red-5 disabled:bg-red-surfaceLight disabled:text-redA-11 disabled:shadow-sm disabled:shadow-redA-7 disabled:hover:shadow-redA-8 disabled:dark:bg-red-surfaceDark',
       ],
     },
     icon: {

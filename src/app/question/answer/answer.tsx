@@ -100,7 +100,7 @@ export default function Answer({ node }: Props) {
             </div>
           </div>
           <Button
-            variant={disabled ? 'disabled' : 'primary'}
+            variant="primary"
             type="submit"
             weight="semibold"
             className="lowercase"

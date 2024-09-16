@@ -87,7 +87,7 @@ const Form = ({ tenantId, plan, tagsCount }: Props) => {
         </Field>
       </fieldset>
       <Button
-        variant={disabled ? 'disabled' : 'primary'}
+        variant="primary"
         weight="semibold"
         className="lowercase"
         style={{ fontVariant: 'small-caps' }}

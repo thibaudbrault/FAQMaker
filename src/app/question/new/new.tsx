@@ -105,7 +105,7 @@ export default function New({ me, tags, integrations }: Props) {
           </fieldset>
           <div className="flex items-center justify-center gap-4">
             <Button
-              variant={disabled ? 'disabled' : 'primary'}
+              variant="primary"
               weight="semibold"
               className="lowercase"
               style={{ fontVariant: 'small-caps' }}
@@ -115,7 +115,7 @@ export default function New({ me, tags, integrations }: Props) {
               Submit
             </Button>
             <Button
-              variant={disabled ? 'disabled' : 'ghost'}
+              variant="ghost"
               icon="withIcon"
               weight="semibold"
               className="lowercase"

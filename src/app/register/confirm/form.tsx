@@ -94,7 +94,7 @@ export default function Form() {
           Previous
         </Button>
         <Button
-          variant={disabled ? 'disabled' : 'primary'}
+          variant="primary"
           size="full"
           font="large"
           weight="bold"

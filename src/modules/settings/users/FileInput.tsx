@@ -168,7 +168,7 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
           <Dialog>
             <DialogTrigger asChild>
               <Button
-                variant={disabled ? 'disabled' : 'primary'}
+                variant="primary"
                 size="full"
                 font="large"
                 weight="semibold"
@@ -225,7 +225,7 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                   )}
                   <div className="flex justify-center">
                     <Button
-                      variant={usersArray.length === 0 ? 'disabled' : 'primary'}
+                      variant="primary"
                       weight="semibold"
                       style={{ fontVariant: 'small-caps' }}
                       className="lowercase"
@@ -252,7 +252,7 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
           <Drawer>
             <DrawerTrigger asChild>
               <Button
-                variant={disabled ? 'disabled' : 'primary'}
+                variant="primary"
                 size="full"
                 font="large"
                 weight="semibold"
@@ -311,9 +311,7 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                       )}
                       <div className="flex justify-center">
                         <Button
-                          variant={
-                            usersArray.length === 0 ? 'disabled' : 'primary'
-                          }
+                          variant="primary"
                           weight="semibold"
                           style={{ fontVariant: 'small-caps' }}
                           className="lowercase"

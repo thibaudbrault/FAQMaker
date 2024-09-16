@@ -86,7 +86,7 @@ export default function Form() {
         ))}
       </fieldset>
       <Button
-        variant={!isValid ? 'disabled' : 'primary'}
+        variant="primary"
         size="full"
         icon="withIcon"
         font="large"

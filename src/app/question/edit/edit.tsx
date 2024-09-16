@@ -100,11 +100,7 @@ export default function Edit({ me, node, tags }: Props) {
             setSelectedTags={setSelectedTags}
           />
           <Button
-            variant={
-              disabled && arraysAreEqual(tagsId, selectedTags)
-                ? 'disabled'
-                : 'primary'
-            }
+            variant="primary"
             type="submit"
             weight="semibold"
             className="lowercase"

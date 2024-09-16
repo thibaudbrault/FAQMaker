@@ -60,7 +60,7 @@ export default function EmailForm() {
         </div>
       </fieldset>
       <Button
-        variant={disabled ? 'disabled' : 'primary'}
+        variant="primary"
         weight="semibold"
         className="lowercase"
         size="full"

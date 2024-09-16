@@ -77,7 +77,7 @@ export default function Form() {
           Previous
         </Button>
         <Button
-          variant={!isValid ? 'disabled' : 'primary'}
+          variant="primary"
           size="full"
           icon="withIcon"
           font="large"

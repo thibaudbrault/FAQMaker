@@ -27,7 +27,7 @@ export const TagsList = ({ tags, selectedTags, setSelectedTags }: Props) => {
         {tags.map((tag) => (
           <li key={tag.id}>
             <Button
-              variant={selectedTags.includes(tag.id) ? 'primary' : 'disabled'}
+              variant="primary"
               rounded="base"
               font="small"
               size="small"
