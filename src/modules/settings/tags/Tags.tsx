@@ -24,7 +24,6 @@ import { CreateTag } from './Create';
 
 import type { $Enums, Tag } from '@prisma/client';
 
-
 type Props = {
   tenantId: string;
   plan: $Enums.Plan;
