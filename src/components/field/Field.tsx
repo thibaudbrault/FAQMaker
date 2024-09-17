@@ -27,13 +27,12 @@ export const Field = ({
   return (
     <div
       key={value}
-      className="flex flex-col gap-1 [&_svg]:focus-within:text-tealA-8"
+      className="flex flex-col gap-2 [&_svg]:focus-within:text-teal-10"
     >
       <div className="flex items-center gap-1">
         <Label
           htmlFor={value}
-          className={`lowercase ${error && 'text-red-9'}`}
-          style={{ fontVariant: 'small-caps' }}
+          className={`text-sm font-medium capitalize ${error && 'text-red-9'}`}
         >
           {label}
         </Label>

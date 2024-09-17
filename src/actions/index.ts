@@ -37,9 +37,6 @@ export { getUsersCount } from './get-users-count';
 export { updateAnswer, updateAnswerSchema } from './update-answer';
 export { updateLogo, updateLogoSchema } from './update-logo';
 export { updateNode, updateNodeSchema } from './update-node';
+export { updateTag, updateTagSchema } from './update-tag';
 export { updateTenant, updateTenantSchema } from './update-tenant';
 export { updateUser, updateUserSchema } from './update-user';
-export {
-  upsertIntegrations,
-  upsertIntegrationsSchema,
-} from './upsert-integrations';

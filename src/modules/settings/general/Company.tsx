@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -10,17 +10,18 @@ import { Button, Field, Input, resultToast } from '@/components';
 import { Limits } from '@/utils';
 
 import type { ITenantUpdateFields } from '@/types';
-import type { Tenant } from '@prisma/client';
+import type { Integrations, Tenant } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
 
 type Props = {
   tenant: Tenant;
+  integrations: Integrations | null;
 };
 
 type Schema = z.infer<typeof updateTenantSchema>;
 
-export function Company({ tenant }: Props) {
+export function Company({ tenant, integrations }: Props) {
   const [disabled, setDisabled] = useState<boolean>(true);
   const {
     register,
@@ -33,6 +34,7 @@ export function Company({ tenant }: Props) {
     defaultValues: {
       company: tenant.company,
       email: tenant.email,
+      slack: integrations?.slack ?? '',
       id: tenant.id,
     },
   });
@@ -62,9 +64,9 @@ export function Company({ tenant }: Props) {
   }, [isDirty, isSubmitting, isValid]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="space-y-4">
       <h2
-        className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
+        className="text-xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
       >
         Company
@@ -73,28 +75,40 @@ export function Company({ tenant }: Props) {
         className="flex flex-col items-center gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <fieldset className="flex w-full flex-col gap-2 md:flex-row">
-          {fields.map((field) => (
-            <div key={field.value} className="flex flex-1 flex-col">
-              <Field
-                label={field.label}
-                value={field.value}
-                error={errors[field.value]?.message}
-                curLength={watch(field.value)?.length}
-                limit={field.limit}
-              >
+        <fieldset className="flex w-full flex-col">
+          <div className="space-y-1">
+            {fields.map((field) => (
+              <Fragment key={field.value}>
+                <Field
+                  label={field.label}
+                  value={field.value}
+                  error={errors[field.value]?.message}
+                  curLength={watch(field.value)?.length}
+                  limit={field.limit}
+                >
+                  <Input
+                    {...register(field.value)}
+                    type={field.type}
+                    id={field.value}
+                    placeholder={field.label}
+                  />
+                </Field>
+              </Fragment>
+            ))}
+            {tenant.plan !== 'free' && (
+              <Field label="Slack" value="slack" error={errors.slack?.message}>
                 <Input
-                  {...register(field.value)}
-                  type={field.type}
-                  id={field.value}
-                  placeholder={field.label}
+                  {...register('slack')}
+                  type="text"
+                  id="slack"
+                  placeholder="https://hooks.slack.com/services/"
                 />
               </Field>
-            </div>
-          ))}
+            )}
+          </div>
         </fieldset>
         <Button
-          variant={disabled ? 'disabled' : 'primary'}
+          variant="primary"
           weight="semibold"
           className="lowercase"
           style={{ fontVariant: 'small-caps' }}

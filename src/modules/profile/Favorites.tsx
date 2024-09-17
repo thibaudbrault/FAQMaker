@@ -10,9 +10,9 @@ type Props = {
 
 export const UserFavorites = ({ favorites }: Props) => {
   return (
-    <>
+    <section className="space-y-4">
       <h2
-        className="mb-4 text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
+        className="text-xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
       >
         Favorites
@@ -42,6 +42,6 @@ export const UserFavorites = ({ favorites }: Props) => {
       ) : (
         <p className="text-center italic">No answers</p>
       )}
-    </>
+    </section>
   );
 };

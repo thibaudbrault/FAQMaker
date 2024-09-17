@@ -73,69 +73,69 @@ export const UpdateProfile = ({ me }: Props) => {
   }, [isDirty, isSubmitting, isValid]);
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col items-center gap-4"
-    >
-      <fieldset className="flex w-full flex-col gap-4 sm:grid sm:grid-cols-4">
-        <div className="col-span-4 w-full text-center">
-          <legend
-            className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
-            style={{ fontVariant: 'small-caps' }}
-          >
-            Informations
-          </legend>
-        </div>
-        {me.image ? (
-          <Image
-            src={me.image}
-            alt="Profile picture"
-            width={isDesktop ? 128 : 80}
-            height={isDesktop ? 128 : 80}
-            className="row-start-2 self-center justify-self-center rounded-md"
-          />
-        ) : (
-          <UserIcon className="row-start-2 size-20 self-center justify-self-center rounded-md sm:size-32" />
-        )}
-        <ul className="col-span-3 row-start-2 flex list-none flex-col gap-2">
-          {fields.map((field) => (
-            <li key={field.value} className="flex flex-col gap-1">
-              <Field
-                label={field.label}
-                value={field.value}
-                error={errors[field.value]?.message}
-                curLength={watch(field.value)?.length}
-                limit={field.limit}
-              >
-                <Input
-                  {...register(field.value)}
-                  defaultValue={me[field.value] ?? ''}
-                  withIcon
-                  icon={field.icon}
-                  type={field.type}
-                  id={field.value}
-                  placeholder={field.label}
-                />
-              </Field>
-            </li>
-          ))}
-          <li>
-            <span className="lowercase" style={{ fontVariant: 'small-caps' }}>
-              Role:
-            </span>{' '}
-            <b className="capitalize">{me.role}</b>
-          </li>
-        </ul>
-      </fieldset>
-      <Button
-        variant={disabled ? 'disabled' : 'primary'}
-        weight="semibold"
-        className="lowercase"
+    <section className="space-y-4">
+      <h2
+        className="text-xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
-        disabled={disabled}
       >
-        Update
-      </Button>
-    </form>
+        Information
+      </h2>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col items-center gap-4"
+      >
+        <fieldset className="flex w-full gap-8">
+          {me.image ? (
+            <Image
+              src={me.image}
+              alt="Profile picture"
+              width={isDesktop ? 128 : 80}
+              height={isDesktop ? 128 : 80}
+              className="row-start-2 self-center justify-self-center rounded-md"
+            />
+          ) : (
+            <UserIcon className="row-start-2 size-20 self-center justify-self-center rounded-md sm:size-32" />
+          )}
+          <ul className="flex grow list-none flex-col gap-2">
+            {fields.map((field) => (
+              <li key={field.value} className="flex flex-col gap-1">
+                <Field
+                  label={field.label}
+                  value={field.value}
+                  error={errors[field.value]?.message}
+                  curLength={watch(field.value)?.length}
+                  limit={field.limit}
+                >
+                  <Input
+                    {...register(field.value)}
+                    defaultValue={me[field.value] ?? ''}
+                    withIcon
+                    icon={field.icon}
+                    type={field.type}
+                    id={field.value}
+                    placeholder={field.label}
+                  />
+                </Field>
+              </li>
+            ))}
+            <li>
+              <span className="lowercase" style={{ fontVariant: 'small-caps' }}>
+                Role:
+              </span>{' '}
+              <b className="capitalize">{me.role}</b>
+            </li>
+          </ul>
+        </fieldset>
+        <Button
+          variant="primary"
+          weight="semibold"
+          className="lowercase"
+          style={{ fontVariant: 'small-caps' }}
+          disabled={disabled}
+        >
+          Update
+        </Button>
+      </form>
+    </section>
   );
 };

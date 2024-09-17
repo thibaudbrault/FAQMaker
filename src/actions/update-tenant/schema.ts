@@ -14,5 +14,9 @@ export const updateTenantSchema = z.object({
     .min(1, { message: 'Email is required' })
     .max(Limits.EMAIL, { message: 'Email is too long' })
     .email({ message: 'Invalid email' }),
+  slack: z.union([
+    z.literal(''),
+    z.string().trim().url({ message: 'Invalid URL' }),
+  ]),
   id: z.string().cuid2(),
 });

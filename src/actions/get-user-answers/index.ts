@@ -16,6 +16,7 @@ export const getUserAnswers = cache(
           answer: {
             select: {
               text: true,
+              updatedAt: true,
             },
           },
           question: {

@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Dropzone from 'react-dropzone';
 import { Controller, useForm } from 'react-hook-form';
 
-import { getSignedLogo, updateLogo } from '@/actions';
+import { getSignedLogo, updateLogo, updateLogoSchema } from '@/actions';
 import { Button, resultToast } from '@/components';
 import { filesSchema } from '@/lib/validations';
 
@@ -21,6 +21,7 @@ type Props = {
 };
 
 type Schema = z.infer<typeof filesSchema>;
+type UpdateLogoType = z.infer<typeof updateLogoSchema>;
 
 export const Files = ({ tenant }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -55,7 +56,7 @@ export const Files = ({ tenant }: Props) => {
       formData.delete(key);
     });
     const logoUrl = `${url}logos/${logo}`;
-    const logoData: UpdateLogo = {
+    const logoData: UpdateLogoType = {
       logoUrl,
       id: tenant.id,
     };
@@ -74,15 +75,15 @@ export const Files = ({ tenant }: Props) => {
   }, [isDirty, isSubmitting, isValid]);
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col gap-4">
       <h2
-        className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
+        className="text-xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
       >
         Logo
       </h2>
       <form
-        className="mx-auto flex w-11/12 flex-col items-center gap-4"
+        className="flex flex-col items-center gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Controller
@@ -153,7 +154,7 @@ export const Files = ({ tenant }: Props) => {
           )}
         />
         <Button
-          variant={disabled ? 'disabled' : 'primary'}
+          variant="primary"
           weight="semibold"
           className="lowercase"
           style={{ fontVariant: 'small-caps' }}

@@ -43,20 +43,32 @@ export default function Profile({ me, questions, answers, favorites }: Props) {
   ];
 
   return (
-    <section className="flex flex-col gap-4">
-      <Tabs defaultValue="profile" className="mt-6 w-full">
-        <TabsList className="mx-auto mb-4 w-full justify-center overflow-x-scroll sm:w-fit md:overflow-x-hidden">
-          {tabs.map((tab) => (
-            <TabsTrigger
-              key={tab.value}
-              value={tab.value}
-              style={{ fontVariant: 'small-caps' }}
-            >
-              {tab.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-        <div className="mx-auto flex w-full flex-col gap-4 rounded-md bg-gray-3 p-4 md:w-3/4">
+    <section className="mx-auto my-12 w-9/12 grow space-y-6">
+      <div className="space-y-0.5">
+        <h2 className="text-3xl font-bold">Profile</h2>
+        <p className="text-gray-11">
+          Manage your account information and find your questions / answers.
+        </p>
+      </div>
+      <hr className="my-6 h-px border-none bg-gray-6" />
+      <Tabs
+        defaultValue="profile"
+        className="mt-6 flex h-full w-full grow space-x-6"
+      >
+        <aside className="h-full w-1/5">
+          <TabsList className="flex w-full flex-col bg-transparent">
+            {tabs.map((tab) => (
+              <TabsTrigger
+                key={tab.value}
+                value={tab.value}
+                style={{ fontVariant: 'small-caps' }}
+              >
+                {tab.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </aside>
+        <div className="flex-1">
           <TabsContent value="profile">
             <UpdateProfile me={me} />
           </TabsContent>

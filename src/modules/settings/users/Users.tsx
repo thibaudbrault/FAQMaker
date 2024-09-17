@@ -41,44 +41,53 @@ export const Users = ({ userId, tenantId, plan, users, usersCount }: Props) => {
   };
 
   return (
-    <ul className="flex list-none flex-col gap-4">
-      {users?.map((user) => (
-        <li
-          key={user.id}
-          className="rounded-md bg-gray-3 p-6 shadow-sm shadow-tealA-7 hover:shadow-tealA-8"
-        >
-          <div className="flex w-full flex-col justify-between gap-2 md:flex-row md:gap-0">
-            <div className="flex items-center justify-start">
-              <UserAvatar id={user.id} email={user.email} image={user.image} />
-              <div className="flex flex-col items-start">
-                <h2
-                  className={`text-2xl ${
-                    user.role !== 'user' ? 'text-teal-11' : ''
-                  }`}
-                >
-                  <b>{user.name}</b>
-                </h2>
-                <p>{user.email}</p>
+    <section className="space-y-4">
+      <h2
+        className="text-xl font-semibold lowercase"
+        style={{ fontVariant: 'small-caps' }}
+      >
+        Users
+      </h2>
+      <ul className="list-none space-y-2">
+        {users?.map((user) => (
+          <li key={user.id} className="rounded-md px-6 py-4 hover:bg-gray-4">
+            <div className="flex w-full flex-col justify-between gap-2 md:flex-row md:gap-0">
+              <div className="flex items-center justify-start">
+                <UserAvatar
+                  id={user.id}
+                  email={user.email}
+                  image={user.image}
+                />
+                <div className="flex flex-col items-start">
+                  <h2
+                    className={`text-xl font-semibold ${
+                      user.role !== 'user' ? 'text-teal-11' : ''
+                    }`}
+                  >
+                    <b>{user.name}</b>
+                  </h2>
+                  <small className="text-gray-11">{user.email}</small>
+                </div>
+              </div>
+              <div className="flex items-center justify-center gap-2">
+                <UpdateUser user={user} tenantId={tenantId} />
+                {(user.role === 'user' || user.id !== userId) && (
+                  <Button
+                    variant="destructive"
+                    size="small"
+                    weight="semibold"
+                    className="lowercase"
+                    style={{ fontVariant: 'small-caps' }}
+                    onClick={() => handleDeleteUser(user.id)}
+                  >
+                    Delete
+                  </Button>
+                )}
               </div>
             </div>
-            <div className="flex items-center justify-center gap-2">
-              <UpdateUser user={user} tenantId={tenantId} />
-              {(user.role === 'user' || user.id !== userId) && (
-                <Button
-                  variant="secondary"
-                  size="small"
-                  weight="semibold"
-                  className="lowercase"
-                  style={{ fontVariant: 'small-caps' }}
-                  onClick={() => handleDeleteUser(user.id)}
-                >
-                  Delete
-                </Button>
-              )}
-            </div>
-          </div>
-        </li>
-      ))}
+          </li>
+        ))}
+      </ul>
       <CreateUser tenantId={tenantId} usersCount={usersCount} />
       <div className="flex items-center gap-4">
         <div className="h-px grow bg-gray-6" />
@@ -91,6 +100,6 @@ export const Users = ({ userId, tenantId, plan, users, usersCount }: Props) => {
         plan={plan}
         usersCount={usersCount}
       />
-    </ul>
+    </section>
   );
 };

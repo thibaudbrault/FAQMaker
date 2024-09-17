@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AtSign, PlusCircle } from 'lucide-react';
+import { AtSign, Mail, PlusCircle } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { createUser, createUserSchema } from '@/actions';
@@ -125,12 +125,16 @@ const Form = ({ tenantId, usersCount }: Props) => {
       </fieldset>
       <Button
         variant="primary"
+        size="medium"
+        font="large"
+        icon="withIcon"
         weight="semibold"
         className="lowercase"
         style={{ fontVariant: 'small-caps' }}
         disabled={disabled}
       >
-        Add
+        <Mail />
+        Invite
       </Button>
     </form>
   );
