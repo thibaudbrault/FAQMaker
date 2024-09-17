@@ -78,7 +78,7 @@ export const UpdateProfile = ({ me }: Props) => {
         className="text-xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
       >
-        Information
+        Profile
       </h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
