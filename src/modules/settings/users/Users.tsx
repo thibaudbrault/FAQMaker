@@ -91,8 +91,8 @@ export const Users = ({ userId, tenantId, plan, users, usersCount }: Props) => {
           </li>
         ))}
       </ul>
-      <CreateUser tenantId={tenantId} usersCount={usersCount} />
-      <div className="flex items-center gap-4">
+      <CreateUser tenantId={tenantId} usersCount={usersCount} plan={plan} />
+      <div className="flex items-center gap-4 py-8">
         <div className="h-px grow bg-divider" />
         <p className="text-center text-xl font-bold uppercase">or</p>
         <div className="h-px grow bg-divider" />
