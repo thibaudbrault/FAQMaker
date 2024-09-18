@@ -175,7 +175,7 @@ export default function Question({ node, favorites }: Props) {
           </div>
           <ChevronDown />
         </summary>
-        <hr className="mx-auto mb-6 mt-3 h-px w-3/4 border-none bg-gray-6" />
+        <hr className="mx-auto mb-6 mt-3 h-px w-3/4 border-none bg-divider" />
         {node.answer ? (
           <div className="mb-6 px-6">
             <MarkdownPreview
@@ -206,7 +206,7 @@ export default function Question({ node, favorites }: Props) {
             </Button>
           </div>
         )}
-        <hr className="mx-auto mb-6 mt-3 h-px w-3/4 border-none bg-gray-6" />
+        <hr className="mx-auto mb-6 mt-3 h-px w-3/4 border-none bg-divider" />
         <div className="mb-6 flex items-center gap-2 px-6">
           <form
             onSubmit={handleSubmitFavorite(onSubmitFavorite)}

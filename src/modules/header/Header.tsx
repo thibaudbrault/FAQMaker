@@ -144,7 +144,7 @@ export const Header = ({ user }: Props) => {
               >
                 Logout
               </button>
-              <hr className="mx-auto my-2 h-px w-3/4 border-none bg-gray-6" />
+              <hr className="mx-auto my-2 h-px w-3/4 border-none bg-divider" />
               <Button
                 variant="primary"
                 size="medium"

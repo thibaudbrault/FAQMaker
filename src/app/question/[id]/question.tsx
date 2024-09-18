@@ -156,7 +156,7 @@ export default function Question({ node, favorite }: Props) {
             </li>
           ))}
         </ul>
-        <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-6" />
+        <hr className="mx-auto my-6 h-px w-3/4 border-none bg-divider" />
         {node.answer ? (
           <MarkdownPreview
             className="mx-auto w-11/12 !bg-transparent text-left"
@@ -165,7 +165,7 @@ export default function Question({ node, favorite }: Props) {
         ) : (
           <p className="text-center italic">No answer</p>
         )}
-        <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-6" />
+        <hr className="mx-auto my-6 h-px w-3/4 border-none bg-divider" />
         <div className="flex justify-between">
           <div className="text-xs">
             <p>

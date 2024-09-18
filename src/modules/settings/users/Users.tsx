@@ -90,9 +90,9 @@ export const Users = ({ userId, tenantId, plan, users, usersCount }: Props) => {
       </ul>
       <CreateUser tenantId={tenantId} usersCount={usersCount} />
       <div className="flex items-center gap-4">
-        <div className="h-px grow bg-gray-6" />
+        <div className="h-px grow bg-divider" />
         <p className="text-center text-xl font-bold uppercase">or</p>
-        <div className="h-px grow bg-gray-6" />
+        <div className="h-px grow bg-divider" />
       </div>
       <FileInput
         tenantId={tenantId}

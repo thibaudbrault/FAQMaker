@@ -12,7 +12,7 @@ export const General = ({ tenant, integrations }: Props) => {
   return (
     <div className="flex flex-col">
       <Company tenant={tenant} integrations={integrations} />
-      <hr className="my-4 h-px border-none bg-gray-6" />
+      <hr className="my-4 h-px border-none bg-divider" />
       <Files tenant={tenant} />
     </div>
   );

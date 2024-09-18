@@ -50,7 +50,7 @@ export default function Profile({ me, questions, answers, favorites }: Props) {
           Manage your account information and find your questions / answers.
         </p>
       </div>
-      <hr className="my-6 h-px border-none bg-gray-6" />
+      <hr className="my-6 h-px border-none bg-divider" />
       <Tabs
         defaultValue="profile"
         className="mt-6 flex h-full w-full grow space-x-6"

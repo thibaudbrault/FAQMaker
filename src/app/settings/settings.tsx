@@ -46,7 +46,7 @@ export default function Settings({
           Manage your account settings and invite users.
         </p>
       </div>
-      <hr className="my-6 h-px border-none bg-gray-6" />
+      <hr className="my-6 h-px border-none bg-divider" />
       <Tabs defaultValue="general" className="mt-6 w-full">
         <div className="flex space-x-6">
           <aside className="w-1/5">
