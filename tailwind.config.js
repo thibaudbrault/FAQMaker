@@ -13,6 +13,41 @@ module.exports = {
       boxShadow: {
         sm: '0 0 0 1px',
       },
+      backgroundColor: {
+        divider: 'var(--gray-6)',
+        primary: {
+          DEFAULT: 'var(--gray-1)',
+          foreground: {
+            DEFAULT: 'var(--gray-3)',
+            hover: 'var(--gray-4)',
+            active: 'var(--gray-4)',
+          },
+          negative: {
+            DEFAULT: 'var(--gray-12)',
+            hover: 'var(--gray-11)',
+            disabled: 'var(--gray-10)'
+          }
+        },
+        destructive: {
+          DEFAULT: 'var(--red-6)',
+          hover: 'var(--red-5)',
+          disabled: {
+            DEFAULT: '#fff5f5cc',
+            dark: '#2f151780'
+          }
+        },
+      },
+      textColor: {
+        primary: {
+          DEFAULT: 'var(--gray-12)',
+          muted: 'var(--gray-11)',
+          negative: 'var(--gray-1)'
+        },
+        destructive: {
+          DEFAULT: 'var(--red-9)',
+          hover: 'var(--red-10)'
+        }
+      },
       colors: {
         teal: {
           1: 'var(--teal-1)',
