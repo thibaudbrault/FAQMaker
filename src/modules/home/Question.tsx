@@ -93,7 +93,7 @@ export default function Question({ node, favorites }: Props) {
 
   return (
     <li
-      className={`relative rounded-md border bg-gray-3 text-gray-12 shadow-gray-9 transition-all duration-300 hover:shadow-lg ${node.isPinned ? 'border-teal-6' : 'border-transparent'}`}
+      className={`relative rounded-md border bg-gray-3 text-primary shadow-gray-9 transition-all duration-300 hover:shadow-lg ${node.isPinned ? 'border-teal-6' : 'border-transparent'}`}
     >
       <details>
         <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-6 py-3">
@@ -124,14 +124,14 @@ export default function Question({ node, favorites }: Props) {
               {!node.answer && (
                 <Tooltip>
                   <TooltipTrigger>
-                    <BadgeHelp className="size-4 fill-teal-9 text-gray-12" />
+                    <BadgeHelp className="size-4 fill-teal-9 text-primary" />
                   </TooltipTrigger>
                   <TooltipContent>Unanswered</TooltipContent>
                 </Tooltip>
               )}
               <Tooltip>
                 <TooltipTrigger>
-                  <BadgeInfo className="size-4 fill-teal-9 text-gray-12" />
+                  <BadgeInfo className="size-4 fill-teal-9 text-primary" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Asked by {node.question.user.name}</p>
@@ -152,7 +152,7 @@ export default function Question({ node, favorites }: Props) {
               {node.answer && (
                 <Tooltip>
                   <TooltipTrigger>
-                    <BadgeCheck className="size-4 fill-teal-9 text-gray-12" />
+                    <BadgeCheck className="size-4 fill-teal-9 text-primary" />
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Answered by {node.answer.user.name}</p>
@@ -221,7 +221,7 @@ export default function Question({ node, favorites }: Props) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
-                  className={`text-gray-12 ${favorites.some((favorite) => favorite.nodeId === node.id) ? '' : 'hover:text-gray-11'}`}
+                  className={`text-primary ${favorites.some((favorite) => favorite.nodeId === node.id) ? '' : 'hover:text-primary-muted'}`}
                   type="submit"
                   aria-label="Favorite"
                 >
@@ -256,7 +256,7 @@ export default function Question({ node, favorites }: Props) {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
-                    className={`text-gray-12 ${node.isPinned ? '' : 'hover:text-gray-11'}`}
+                    className={`text-primary ${node.isPinned ? '' : 'hover:text-primary-muted'}`}
                     type="submit"
                     aria-label="Favorite"
                   >

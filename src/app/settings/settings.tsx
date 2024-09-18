@@ -42,7 +42,7 @@ export default function Settings({
     <section className="block space-y-6">
       <div className="space-y-0.5">
         <h2 className="text-3xl font-bold">Settings</h2>
-        <p className="text-gray-11">
+        <p className="text-primary-muted">
           Manage your account settings and invite users.
         </p>
       </div>

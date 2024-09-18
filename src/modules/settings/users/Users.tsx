@@ -66,7 +66,7 @@ export const Users = ({ userId, tenantId, plan, users, usersCount }: Props) => {
                   >
                     <b>{user.name}</b>
                   </h2>
-                  <small className="text-gray-11">{user.email}</small>
+                  <small className="text-primary-muted">{user.email}</small>
                 </div>
               </div>
               <div className="flex items-center justify-center gap-2">

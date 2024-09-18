@@ -26,7 +26,7 @@ export const UserFavorites = ({ favorites }: Props) => {
               href={`${Routes.SITE.QUESTION.INDEX}/${favorite.nodeId}`}
             >
               <h3 className="font-semibold">{favorite.node.question.text}</h3>
-              <small className="text-gray-11">
+              <small className="text-primary-muted">
                 Asked on{' '}
                 {new Date(favorite.node.question.createdAt).toLocaleDateString(
                   undefined,

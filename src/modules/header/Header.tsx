@@ -39,7 +39,7 @@ export const Header = ({ user }: Props) => {
   }, [user]);
 
   return (
-    <header className="flex items-center justify-between border-b border-b-gray-6 bg-gray-2 px-4 py-2 text-gray-12 md:px-8 md:py-4">
+    <header className="flex items-center justify-between border-b border-b-gray-6 bg-gray-2 px-4 py-2 text-primary md:px-8 md:py-4">
       <Link href={Routes.SITE.HOME} className="flex items-center gap-2">
         {user.tenant.logo && (
           <Image
@@ -59,7 +59,7 @@ export const Header = ({ user }: Props) => {
               <TooltipTrigger asChild>
                 <Link
                   href={Routes.SITE.PROFILE}
-                  className="flex items-center gap-1 hover:text-gray-11"
+                  className="flex items-center gap-1 hover:text-primary-muted"
                 >
                   <Avatar className="size-6">
                     <AvatarImage src={user.image ?? ''} />
@@ -78,7 +78,7 @@ export const Header = ({ user }: Props) => {
                 <TooltipTrigger asChild>
                   <Link
                     href={Routes.SITE.SETTINGS}
-                    className="hover:text-gray-11"
+                    className="hover:text-primary-muted"
                   >
                     <Settings />
                   </Link>
@@ -95,7 +95,7 @@ export const Header = ({ user }: Props) => {
               <TooltipTrigger asChild>
                 <button
                   onClick={() => signOut()}
-                  className="hover:text-gray-11"
+                  className="hover:text-primary-muted"
                   type="button"
                   aria-label="Log out"
                 >

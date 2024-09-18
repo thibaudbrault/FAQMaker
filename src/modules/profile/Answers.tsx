@@ -37,7 +37,7 @@ export const UserAnswers = ({ nodes }: Props) => {
                 source={node.answer.text}
                 className="!bg-transparent"
               />
-              <small className="text-gray-11">
+              <small className="text-primary-muted">
                 Answered on{' '}
                 {new Date(node.answer.updatedAt).toLocaleDateString(
                   undefined,

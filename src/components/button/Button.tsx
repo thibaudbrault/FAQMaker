@@ -10,10 +10,10 @@ const button = cva('transition-all duration-300', {
   variants: {
     variant: {
       primary: [
-        'bg-gray-12 text-gray-1 shadow-sm shadow-transparent disabled:bg-gray-10 disabled:text-gray-12 disabled:shadow-sm disabled:shadow-grayA-7 disabled:hover:shadow-grayA-8 disabled:dark:bg-gray-surfaceDark',
+        'bg-gray-12 text-primary-negative shadow-sm shadow-transparent disabled:bg-gray-10 disabled:text-primary disabled:shadow-sm disabled:shadow-grayA-7 disabled:hover:shadow-grayA-8 disabled:dark:bg-gray-surfaceDark',
       ],
       ghost: [
-        'bg-gray-3 text-gray-12 shadow-sm shadow-grayA-8 hover:bg-gray-4 disabled:shadow-transparent disabled:bg-transparent',
+        'bg-gray-3 text-primary shadow-sm shadow-grayA-8 hover:bg-gray-4 disabled:shadow-transparent disabled:bg-transparent',
       ],
       secondary: [
         'bg-transparent text-tealA-11 shadow-sm shadow-tealA-7 hover:shadow-tealA-8',

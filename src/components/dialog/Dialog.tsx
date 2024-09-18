@@ -50,7 +50,7 @@ const DialogContent = forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 text-gray-12 hover:text-destructive-hover">
+      <DialogPrimitive.Close className="absolute right-4 top-4 text-primary hover:text-destructive-hover">
         <X className="size-4" />
         <span className="sr-only">Close</span>
       </DialogPrimitive.Close>

@@ -46,7 +46,7 @@ export default function Profile({ me, questions, answers, favorites }: Props) {
     <section className="mx-auto my-12 w-9/12 grow space-y-6">
       <div className="space-y-0.5">
         <h2 className="text-3xl font-bold">Profile</h2>
-        <p className="text-gray-11">
+        <p className="text-primary-muted">
           Manage your account information and find your questions / answers.
         </p>
       </div>

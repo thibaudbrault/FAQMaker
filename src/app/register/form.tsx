@@ -63,7 +63,7 @@ export default function Form() {
           >
             Company
           </legend>
-          <p className="text-sm text-gray-11">Your company details</p>
+          <p className="text-sm text-primary-muted">Your company details</p>
         </div>
         {fields.map((field) => (
           <div key={field.value} className="flex flex-1 flex-col">

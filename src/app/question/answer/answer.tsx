@@ -94,7 +94,7 @@ export default function Answer({ node }: Props) {
                   {errors.text.message}
                 </small>
               )}
-              <small className="col-start-2 justify-self-end text-xs text-gray-11">
+              <small className="col-start-2 justify-self-end text-xs text-primary-muted">
                 {text.length} / {Limits.ANSWER}
               </small>
             </div>

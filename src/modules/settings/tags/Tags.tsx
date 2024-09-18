@@ -146,7 +146,7 @@ export const Tags = ({ tenantId, plan, tags, tagsCount }: Props) => {
         )}
         <CreateTag tenantId={tenantId} plan={plan} tagsCount={tagsCount} />
         {tags && tags.length > 0 && plan !== 'enterprise' && (
-          <p className="mt-1 text-xs text-gray-11">
+          <p className="mt-1 text-xs text-primary-muted">
             Tags limit: <span className="font-semibold">{tags.length}</span> /{' '}
             <span className="font-semibold">{limit}</span>
           </p>

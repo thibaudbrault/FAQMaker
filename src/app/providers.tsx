@@ -40,7 +40,7 @@ export default function Providers({ children }) {
           />
           <TooltipProvider>
             <div
-              className={`relative h-full min-h-screen text-gray-12 ${merriweather.variable} ${inter.variable}`}
+              className={`relative h-full min-h-screen text-primary ${merriweather.variable} ${inter.variable}`}
             >
               {children}
             </div>

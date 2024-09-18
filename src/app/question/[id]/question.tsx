@@ -75,7 +75,7 @@ export default function Question({ node, favorite }: Props) {
         <BackButton />
         <DropdownMenu>
           <DropdownMenuTrigger
-            className="w-fit rounded-md bg-gray-3 px-4 py-2 font-bold uppercase text-gray-12 hover:bg-gray-4"
+            className="w-fit rounded-md bg-gray-3 px-4 py-2 font-bold uppercase text-primary hover:bg-gray-4"
             style={{ fontVariant: 'small-caps' }}
           >
             Edit
@@ -110,7 +110,7 @@ export default function Question({ node, favorite }: Props) {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
-                    className={`text-gray-12 ${favorite?.nodeId === node.id ? '' : 'hover:text-gray-11'}`}
+                    className={`text-primary ${favorite?.nodeId === node.id ? '' : 'hover:text-primary-muted'}`}
                     type="submit"
                     aria-label="Favorite"
                   >
@@ -131,7 +131,7 @@ export default function Question({ node, favorite }: Props) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
-                  className="text-gray-12 hover:text-gray-11"
+                  className="text-primary hover:text-primary-muted"
                   type="button"
                   aria-label="Copy to clipboard"
                   onClick={() =>

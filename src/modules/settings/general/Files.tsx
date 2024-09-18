@@ -131,7 +131,7 @@ export const Files = ({ tenant }: Props) => {
                     </p>
                     <button
                       type="button"
-                      className="text-sm text-gray-11 hover:text-gray-12"
+                      className="text-sm text-primary-muted hover:text-primary"
                       onClick={open}
                     >
                       Choose a file or drag and drop

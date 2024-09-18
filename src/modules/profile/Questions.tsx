@@ -28,7 +28,7 @@ export const UserQuestions = ({ questions }: Props) => {
               href={`${Routes.SITE.QUESTION.INDEX}/${question.node.id}`}
             >
               <h3 className="font-semibold">{question.text}</h3>
-              <small className="text-gray-11">
+              <small className="text-primary-muted">
                 Asked on{' '}
                 {new Date(question.createdAt).toLocaleDateString(
                   undefined,

@@ -42,7 +42,9 @@ export default function Page({ searchParams }) {
         >
           Login
         </h2>
-        <p className="text-sm text-gray-11">Use your associated account</p>
+        <p className="text-sm text-primary-muted">
+          Use your associated account
+        </p>
       </div>
       <EmailForm />
       <div className="flex items-center justify-center py-8">

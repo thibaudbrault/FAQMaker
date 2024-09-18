@@ -74,7 +74,7 @@ export const Search = ({ tags }: Props) => {
       {tags.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger
-            className="w-fit rounded-md bg-gray-3 px-4 py-2 font-bold uppercase text-gray-12 hover:bg-gray-4"
+            className="w-fit rounded-md bg-gray-3 px-4 py-2 font-bold uppercase text-primary hover:bg-gray-4"
             style={{ fontVariant: 'small-caps' }}
           >
             <TagIcon />

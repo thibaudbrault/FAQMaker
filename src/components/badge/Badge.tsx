@@ -8,8 +8,8 @@ import { cn } from '@/utils';
 const badge = cva('text-xs font-semibold', {
   variants: {
     variant: {
-      primary: ['bg-gray-12 text-center text-gray-1'],
-      disabled: ['bg-gray-11 text-center text-gray-1'],
+      primary: ['bg-gray-12 text-center text-primary-negative'],
+      disabled: ['bg-gray-11 text-center text-primary-negative'],
     },
     rounded: {
       full: ['rounded-full'],
