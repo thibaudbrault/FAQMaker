@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PlusCircle, Tag as TagIcon } from 'lucide-react';
+import { Tag as TagIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { createTag, createTagSchema } from '@/actions';
@@ -101,6 +101,16 @@ const Form = ({ tenantId, plan, tagsCount }: Props) => {
 
 export const CreateTag = ({ tenantId, plan, tagsCount }: Props) => {
   const isDesktop = useMediaQuery('(min-width: 640px)');
+  const [disabled, setDisabled] = useState(false);
+
+  useEffect(() => {
+    if (
+      (plan === 'free' && tagsCount >= 3) ||
+      (plan === 'startup' && tagsCount >= 10)
+    ) {
+      setDisabled(true);
+    }
+  }, [tagsCount, plan]);
 
   if (isDesktop) {
     return (
@@ -108,14 +118,13 @@ export const CreateTag = ({ tenantId, plan, tagsCount }: Props) => {
         <DialogTrigger asChild>
           <Button
             variant="primary"
-            icon="withIcon"
             font="large"
             size="full"
             weight="bold"
             className="lowercase"
             style={{ fontVariant: 'small-caps' }}
+            disabled={disabled}
           >
-            <PlusCircle />
             New tag
           </Button>
         </DialogTrigger>
@@ -134,14 +143,13 @@ export const CreateTag = ({ tenantId, plan, tagsCount }: Props) => {
       <DrawerTrigger asChild>
         <Button
           variant="primary"
-          icon="withIcon"
           font="large"
           size="full"
           weight="bold"
           className="lowercase"
           style={{ fontVariant: 'small-caps' }}
+          disabled={disabled}
         >
-          <PlusCircle />
           New tag
         </Button>
       </DrawerTrigger>
