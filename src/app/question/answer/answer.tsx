@@ -90,7 +90,7 @@ export default function Answer({ node }: Props) {
             />
             <div className="grid grid-cols-2 gap-2">
               {errors.text && (
-                <small className="col-start-1 justify-self-start text-sm text-red-9">
+                <small className="col-start-1 justify-self-start text-sm text-destructive">
                   {errors.text.message}
                 </small>
               )}

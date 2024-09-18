@@ -32,7 +32,7 @@ export const Field = ({
       <div className="flex items-center gap-1">
         <Label
           htmlFor={value}
-          className={`text-sm font-medium capitalize ${error && 'text-red-9'}`}
+          className={`text-sm font-medium capitalize ${error && 'text-destructive'}`}
         >
           {label}
         </Label>
@@ -50,13 +50,13 @@ export const Field = ({
       {children}
       <div className="grid grid-cols-2 gap-2">
         {error && (
-          <small className="col-start-1 justify-self-start text-xs text-red-9">
+          <small className="col-start-1 justify-self-start text-xs text-destructive">
             {error}
           </small>
         )}
         {limit && (
           <small
-            className={`col-start-2 justify-self-end text-xs ${curLength > limit ? 'text-red-10' : 'text-gray-11'}`}
+            className={`col-start-2 justify-self-end text-xs ${curLength > limit ? 'text-destructive' : 'text-gray-11'}`}
           >
             {curLength} / {limit} characters
           </small>

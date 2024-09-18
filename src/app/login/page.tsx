@@ -27,7 +27,7 @@ type ErrorProps = {
 
 const LoginError = ({ error }: ErrorProps) => {
   const errorMessage = error && (loginErrors[error] ?? loginErrors.default);
-  return <div className="text-center text-red-9">{errorMessage}</div>;
+  return <div className="text-center text-destructive">{errorMessage}</div>;
 };
 
 export default function Page({ searchParams }) {
