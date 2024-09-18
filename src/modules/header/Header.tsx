@@ -39,7 +39,7 @@ export const Header = ({ user }: Props) => {
   }, [user]);
 
   return (
-    <header className="flex items-center justify-between border-b border-b-gray-6 bg-gray-2 px-4 py-2 text-primary md:px-8 md:py-4">
+    <header className="flex items-center justify-between border-b border-b-gray-6 bg-primary-foreground px-4 py-2 text-primary md:px-8 md:py-4">
       <Link href={Routes.SITE.HOME} className="flex items-center gap-2">
         {user.tenant.logo && (
           <Image

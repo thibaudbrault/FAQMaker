@@ -30,7 +30,7 @@ export const UserAnswers = ({ nodes }: Props) => {
           {nodes.map((node) => (
             <Link
               href={`${Routes.SITE.QUESTION.INDEX}/${node.question.id}`}
-              className="flex items-center justify-between rounded-md px-3 py-2 hover:bg-gray-4"
+              className="flex items-center justify-between rounded-md px-3 py-2 hover:bg-primary-foreground-hover"
               key={node.id}
             >
               <MarkdownPreview

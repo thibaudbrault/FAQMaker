@@ -81,7 +81,7 @@ export const Tags = ({ tenantId, plan, tags, tagsCount }: Props) => {
             {tags.map((tag) => (
               <li
                 key={tag.id}
-                className="flex w-fit items-center gap-2 rounded-md bg-gray-4 shadow-sm shadow-gray-6"
+                className="flex w-fit items-center gap-2 rounded-md bg-primary-foreground shadow-sm shadow-gray-6 hover:bg-primary-foreground-hover"
               >
                 <Dialog>
                   <DialogTrigger>

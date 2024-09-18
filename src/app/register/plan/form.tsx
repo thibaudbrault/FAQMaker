@@ -126,7 +126,7 @@ export default function Form() {
                 ${plan.price}/<sub className="text-xs">mo</sub>
               </p>
             </div>
-            <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-9" />
+            <hr className="mx-auto my-6 h-px w-3/4 border-none bg-divider" />
             <p className="mb-2 text-sm font-bold text-primary">
               {plan.message}
             </p>

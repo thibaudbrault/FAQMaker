@@ -50,7 +50,10 @@ export const Users = ({ userId, tenantId, plan, users, usersCount }: Props) => {
       </h2>
       <ul className="list-none space-y-2">
         {users?.map((user) => (
-          <li key={user.id} className="rounded-md px-6 py-4 hover:bg-gray-4">
+          <li
+            key={user.id}
+            className="rounded-md px-6 py-4 hover:bg-primary-foreground-hover"
+          >
             <div className="flex w-full flex-col justify-between gap-2 md:flex-row md:gap-0">
               <div className="flex items-center justify-start">
                 <UserAvatar

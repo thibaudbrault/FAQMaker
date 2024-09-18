@@ -8,8 +8,7 @@ import { cn } from '@/utils';
 const badge = cva('text-xs font-semibold', {
   variants: {
     variant: {
-      primary: ['bg-gray-12 text-center text-primary-negative'],
-      disabled: ['bg-gray-11 text-center text-primary-negative'],
+      primary: ['bg-primary-negative text-center text-primary-negative'],
     },
     rounded: {
       full: ['rounded-full'],
@@ -17,6 +16,11 @@ const badge = cva('text-xs font-semibold', {
     size: {
       small: ['min-w-[40px] px-2'],
     },
+  },
+  defaultVariants: {
+    variant: 'primary',
+    rounded: 'full',
+    size: 'small',
   },
 });
 export interface BadgeProps

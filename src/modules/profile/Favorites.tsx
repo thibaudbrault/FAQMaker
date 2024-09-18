@@ -21,7 +21,7 @@ export const UserFavorites = ({ favorites }: Props) => {
         <div className="flex flex-col gap-2">
           {favorites.map((favorite) => (
             <Link
-              className="flex items-center justify-between rounded-md px-3 py-2 hover:bg-gray-4"
+              className="flex items-center justify-between rounded-md px-3 py-2 hover:bg-primary-foreground-hover"
               key={favorite.id}
               href={`${Routes.SITE.QUESTION.INDEX}/${favorite.nodeId}`}
             >

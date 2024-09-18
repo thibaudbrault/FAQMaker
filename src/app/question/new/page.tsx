@@ -15,7 +15,7 @@ export default async function Page() {
   const integrations = await getIntegration(tenantId);
   const tags = await getTags(tenantId);
   return (
-    <main className="flex h-full min-h-screen flex-col bg-gray-1">
+    <main className="flex h-full min-h-screen flex-col bg-primary">
       <Header user={me} />
       <div className="my-12 grow">
         <New me={me} tags={tags} integrations={integrations} />

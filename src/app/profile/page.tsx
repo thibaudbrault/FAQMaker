@@ -20,7 +20,7 @@ export default async function Page() {
   const answers = await getUserAnswers(me.id);
   const favorites = await getFavorites(me.id);
   return (
-    <main className="flex h-full min-h-screen flex-col bg-gray-1">
+    <main className="flex h-full min-h-screen flex-col bg-primary">
       <Header user={me} />
       <Profile
         me={me}

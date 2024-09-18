@@ -93,7 +93,7 @@ export default function Question({ node, favorites }: Props) {
 
   return (
     <li
-      className={`relative rounded-md border bg-gray-3 text-primary shadow-gray-9 transition-all duration-300 hover:shadow-lg ${node.isPinned ? 'border-teal-6' : 'border-transparent'}`}
+      className={`relative rounded-md border bg-primary-foreground text-primary shadow-gray-9 transition-all duration-300 hover:shadow-lg ${node.isPinned ? 'border-teal-6' : 'border-transparent'}`}
     >
       <details>
         <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-6 py-3">
@@ -109,12 +109,7 @@ export default function Question({ node, favorites }: Props) {
             <ul className="flex list-none gap-4 text-xs">
               {node.tags.map((tag) => (
                 <li key={tag.id}>
-                  <Badge
-                    variant="primary"
-                    rounded="full"
-                    size="small"
-                    style={{ fontVariant: 'small-caps' }}
-                  >
+                  <Badge style={{ fontVariant: 'small-caps' }}>
                     {tag.label.toLowerCase()}
                   </Badge>
                 </li>

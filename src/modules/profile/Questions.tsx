@@ -23,7 +23,7 @@ export const UserQuestions = ({ questions }: Props) => {
         <div className="flex flex-col gap-2">
           {questions?.map((question) => (
             <Link
-              className="flex items-center justify-between rounded-md px-3 py-2 hover:bg-gray-4"
+              className="flex items-center justify-between rounded-md px-3 py-2 hover:bg-primary-foreground-hover"
               key={question.id}
               href={`${Routes.SITE.QUESTION.INDEX}/${question.node.id}`}
             >

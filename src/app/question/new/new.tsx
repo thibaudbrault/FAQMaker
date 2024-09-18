@@ -67,7 +67,7 @@ export default function New({ me, tags, integrations }: Props) {
   return (
     <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
       <BackButton />
-      <div className="flex flex-col gap-4 rounded-md bg-gray-3 p-4">
+      <div className="flex flex-col gap-4 rounded-md bg-primary-foreground p-4">
         <form
           className="flex flex-col items-center gap-4"
           onSubmit={handleSubmit(onSubmit)}

@@ -75,7 +75,7 @@ export default function Question({ node, favorite }: Props) {
         <BackButton />
         <DropdownMenu>
           <DropdownMenuTrigger
-            className="w-fit rounded-md bg-gray-3 px-4 py-2 font-bold uppercase text-primary hover:bg-gray-4"
+            className="w-fit rounded-md bg-primary-foreground px-4 py-2 font-bold uppercase text-primary hover:bg-primary-foreground-hover"
             style={{ fontVariant: 'small-caps' }}
           >
             Edit
@@ -102,7 +102,7 @@ export default function Question({ node, favorite }: Props) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md bg-gray-3 p-4">
+      <div className="rounded-md bg-primary-foreground p-4">
         <div className="mb-1 flex items-center justify-between">
           <h2 className="text-3xl font-semibold">{node.question.text}</h2>
           <div className="flex items-center gap-2">
@@ -150,9 +150,7 @@ export default function Question({ node, favorite }: Props) {
         <ul className="flex list-none gap-2 text-xs">
           {node.tags.map((tag) => (
             <li key={tag.id}>
-              <Badge variant="primary" rounded="full" size="small">
-                {tag.label}
-              </Badge>
+              <Badge>{tag.label}</Badge>
             </li>
           ))}
         </ul>
