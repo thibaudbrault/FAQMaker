@@ -131,28 +131,26 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
     <div className="flex flex-col gap-1">
       <form
         onSubmit={handleSubmit(onFileSubmit)}
-        className="grid grid-cols-2 grid-rows-1 md:grid-cols-3"
+        className="grid grid-cols-2 grid-rows-2"
       >
         <Button
-          variant="secondary"
+          variant={`${fileName ? 'primary' : 'ghost'}`}
           size="full"
           font="large"
-          icon="withIcon"
+          icon={true}
           weight="semibold"
-          className={`rounded-none rounded-tl-md lowercase md:rounded-l-md ${
-            fileName ? 'bg-teal-9 text-white' : ''
-          }`}
+          className={`rounded-none rounded-tl-md lowercase`}
           style={{ fontVariant: 'small-caps' }}
           onClick={handleButtonClick}
           type="button"
         >
           <FileUp />
-          {fileName ? `${fileName}` : 'Use a CSV'}
+          {fileName ? `${fileName.substring(0, 15 - 3) + '...'}` : 'Use a CSV'}
         </Button>
         <input
           type="file"
           id="file"
-          accept=".csv"
+          accept=".csv, .xlsx"
           onChange={handleFileUpload}
           ref={fileInput}
           className="hidden"
@@ -162,7 +160,7 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
           type="text"
           id="column"
           placeholder="Column name"
-          className="rounded-none rounded-tr-md px-1 outline-none md:rounded-none"
+          className="rounded-none rounded-tr-md px-1 outline-none"
         />
         {isDesktop ? (
           <Dialog>
@@ -172,7 +170,7 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                 size="full"
                 font="large"
                 weight="semibold"
-                className="col-span-2 rounded-none rounded-b-md lowercase md:col-start-3 md:rounded-l-none md:rounded-r-md"
+                className="col-span-2 rounded-none rounded-b-md lowercase"
                 style={{ fontVariant: 'small-caps' }}
                 disabled={disabled}
                 type="submit"
@@ -256,7 +254,7 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                 size="full"
                 font="large"
                 weight="semibold"
-                className="col-span-2 rounded-none rounded-b-md lowercase md:col-start-3 md:rounded-l-none md:rounded-r-md"
+                className="col-span-2 rounded-none rounded-b-md lowercase"
                 style={{ fontVariant: 'small-caps' }}
                 disabled={disabled}
                 type="submit"
