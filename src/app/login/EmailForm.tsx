@@ -59,14 +59,7 @@ export default function EmailForm() {
           </Field>
         </div>
       </fieldset>
-      <Button
-        variant="primary"
-        weight="semibold"
-        className="lowercase"
-        size="full"
-        style={{ fontVariant: 'small-caps' }}
-        disabled={disabled}
-      >
+      <Button variant="primary" size="full" disabled={disabled}>
         Send link
       </Button>
     </form>

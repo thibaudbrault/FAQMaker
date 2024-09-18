@@ -16,12 +16,10 @@ export const LoginButton = ({ callbackUrl }: Props) => {
     <Button
       variant="primary"
       size="full"
-      icon="withIcon"
+      icon={true}
       font="large"
       weight="bold"
       type="submit"
-      className="lowercase"
-      style={{ fontVariant: 'small-caps' }}
       onClick={() => signIn(`google`, { callbackUrl: callbackUrl ?? '/' })}
     >
       <Image src={googleIcon} alt="" width={28} height={28} />

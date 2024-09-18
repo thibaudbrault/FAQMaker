@@ -86,13 +86,7 @@ const Form = ({ tenantId, plan, tagsCount }: Props) => {
           />
         </Field>
       </fieldset>
-      <Button
-        variant="primary"
-        weight="semibold"
-        className="lowercase"
-        style={{ fontVariant: 'small-caps' }}
-        disabled={disabled}
-      >
+      <Button variant="primary" disabled={disabled}>
         Add
       </Button>
     </form>
@@ -121,8 +115,6 @@ export const CreateTag = ({ tenantId, plan, tagsCount }: Props) => {
             font="large"
             size="full"
             weight="bold"
-            className="lowercase"
-            style={{ fontVariant: 'small-caps' }}
             disabled={disabled}
           >
             New tag
@@ -146,8 +138,6 @@ export const CreateTag = ({ tenantId, plan, tagsCount }: Props) => {
           font="large"
           size="full"
           weight="bold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
           disabled={disabled}
         >
           New tag

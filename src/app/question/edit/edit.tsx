@@ -102,10 +102,7 @@ export default function Edit({ me, node, tags }: Props) {
           <Button
             variant="primary"
             type="submit"
-            weight="semibold"
-            className="lowercase"
             disabled={disabled && arraysAreEqual(tagsId, selectedTags)}
-            style={{ fontVariant: 'small-caps' }}
           >
             Update
           </Button>

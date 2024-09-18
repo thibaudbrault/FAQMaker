@@ -10,12 +10,9 @@ export const BackButton = () => {
   return (
     <Button
       variant="primary"
-      weight="semibold"
-      icon="withIcon"
+      icon={true}
       font="large"
       size="small"
-      className="lowercase"
-      style={{ fontVariant: 'small-caps' }}
       onClick={() => router.push('/')}
     >
       <MoveLeft />

@@ -108,15 +108,7 @@ export const Header = ({ user }: Props) => {
             </Tooltip>
           </li>
         </ul>
-        <Button
-          variant="ghost"
-          font="large"
-          size="small"
-          weight="semibold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-          asChild
-        >
+        <Button variant="ghost" font="large" size="small" asChild>
           <Link href={Routes.SITE.QUESTION.NEW}>New Question</Link>
         </Button>
       </div>
@@ -145,14 +137,7 @@ export const Header = ({ user }: Props) => {
                 Logout
               </button>
               <hr className="mx-auto my-2 h-px w-3/4 border-none bg-divider" />
-              <Button
-                variant="primary"
-                size="medium"
-                weight="semibold"
-                font="large"
-                className="lowercase"
-                style={{ fontVariant: 'small-caps' }}
-              >
+              <Button variant="primary" size="medium" font="large">
                 <Link href={Routes.SITE.QUESTION.NEW}>New Question</Link>
               </Button>
             </div>

@@ -142,9 +142,8 @@ export const Files = ({ tenant }: Props) => {
               <Button
                 variant="ghost"
                 rounded="bottom"
-                weight="semibold"
-                className="w-full border-2 border-t border-dashed border-t-grayA-8 lowercase shadow-none"
-                style={{ fontVariant: 'small-caps', borderTopStyle: 'solid' }}
+                className="w-full border-2 border-t border-dashed border-t-grayA-8 shadow-none"
+                style={{ borderTopStyle: 'solid' }}
                 onClick={handleReset}
                 type="button"
               >
@@ -153,13 +152,7 @@ export const Files = ({ tenant }: Props) => {
             </div>
           )}
         />
-        <Button
-          variant="primary"
-          weight="semibold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-          disabled={disabled}
-        >
+        <Button variant="primary" disabled={disabled}>
           Update
         </Button>
       </form>

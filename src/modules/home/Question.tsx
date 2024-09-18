@@ -185,8 +185,6 @@ export default function Question({ node, favorites }: Props) {
               size="medium"
               font="large"
               weight="bold"
-              className="lowercase"
-              style={{ fontVariant: 'small-caps' }}
               asChild
             >
               <Link

@@ -99,14 +99,7 @@ export default function Answer({ node }: Props) {
               </small>
             </div>
           </div>
-          <Button
-            variant="primary"
-            type="submit"
-            weight="semibold"
-            className="lowercase"
-            disabled={disabled}
-            style={{ fontVariant: 'small-caps' }}
-          >
+          <Button variant="primary" type="submit" disabled={disabled}>
             {node.answer ? 'Update' : 'Submit'}
           </Button>
         </form>

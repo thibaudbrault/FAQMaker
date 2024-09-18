@@ -130,10 +130,7 @@ const Form = ({ tenantId, usersCount, plan }: Props) => {
         variant="primary"
         size="medium"
         font="large"
-        icon="withIcon"
-        weight="semibold"
-        className="lowercase"
-        style={{ fontVariant: 'small-caps' }}
+        icon={true}
         disabled={disabled}
       >
         <Mail />
@@ -164,9 +161,6 @@ export const CreateUser = ({ tenantId, usersCount, plan }: Props) => {
             variant="primary"
             size="full"
             font="large"
-            weight="semibold"
-            className="lowercase"
-            style={{ fontVariant: 'small-caps' }}
             disabled={disabled}
           >
             New user
@@ -185,15 +179,7 @@ export const CreateUser = ({ tenantId, usersCount, plan }: Props) => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button
-          variant="primary"
-          size="full"
-          font="large"
-          weight="semibold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-          disabled={disabled}
-        >
+        <Button variant="primary" size="full" font="large" disabled={disabled}>
           New user
         </Button>
       </DrawerTrigger>

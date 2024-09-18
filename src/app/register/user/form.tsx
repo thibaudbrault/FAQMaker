@@ -65,11 +65,9 @@ export default function Form() {
         <Button
           variant="secondary"
           size="full"
-          icon="withIcon"
+          icon={true}
           font="large"
           weight="bold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
           type="button"
           onClick={() => router.push(Routes.SITE.REGISTER.INDEX)}
         >
@@ -79,11 +77,9 @@ export default function Form() {
         <Button
           variant="primary"
           size="full"
-          icon="withIcon"
+          icon={true}
           font="large"
           weight="bold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
           disabled={!isValid}
           type="submit"
         >

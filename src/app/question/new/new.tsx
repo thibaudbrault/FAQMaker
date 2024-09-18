@@ -104,22 +104,12 @@ export default function New({ me, tags, integrations }: Props) {
             />
           </fieldset>
           <div className="flex items-center justify-center gap-4">
-            <Button
-              variant="primary"
-              weight="semibold"
-              className="lowercase"
-              style={{ fontVariant: 'small-caps' }}
-              disabled={disabled}
-              type="submit"
-            >
+            <Button variant="primary" disabled={disabled} type="submit">
               Submit
             </Button>
             <Button
               variant="ghost"
-              icon="withIcon"
-              weight="semibold"
-              className="lowercase"
-              style={{ fontVariant: 'small-caps' }}
+              icon={true}
               disabled={disabled}
               type="submit"
               onClick={handleSubmit(onSubmitWithAnswer)}

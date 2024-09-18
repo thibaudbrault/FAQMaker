@@ -32,6 +32,7 @@ export const TagsList = ({ tags, selectedTags, setSelectedTags }: Props) => {
               font="small"
               size="small"
               type="button"
+              className="font-normal"
               onClick={() => handleSelection(tag.id)}
             >
               {tag.label}

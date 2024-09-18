@@ -116,10 +116,7 @@ export const Tags = ({ tenantId, plan, tags, tagsCount }: Props) => {
                           variant="primary"
                           type="submit"
                           size="full"
-                          weight="semibold"
-                          className="lowercase"
                           disabled={disabled}
-                          style={{ fontVariant: 'small-caps' }}
                         >
                           Update
                         </Button>
@@ -127,9 +124,6 @@ export const Tags = ({ tenantId, plan, tags, tagsCount }: Props) => {
                           variant="destructive"
                           type="button"
                           size="full"
-                          weight="semibold"
-                          className="lowercase"
-                          style={{ fontVariant: 'small-caps' }}
                           onClick={() => handleDeleteTag(tag.id)}
                         >
                           Delete

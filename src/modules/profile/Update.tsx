@@ -126,13 +126,7 @@ export const UpdateProfile = ({ me }: Props) => {
             </li>
           </ul>
         </fieldset>
-        <Button
-          variant="primary"
-          weight="semibold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-          disabled={disabled}
-        >
+        <Button variant="primary" disabled={disabled}>
           Update
         </Button>
       </form>

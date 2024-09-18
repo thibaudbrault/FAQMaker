@@ -78,9 +78,6 @@ export const Users = ({ userId, tenantId, plan, users, usersCount }: Props) => {
                   <Button
                     variant="destructive"
                     size="small"
-                    weight="semibold"
-                    className="lowercase"
-                    style={{ fontVariant: 'small-caps' }}
                     onClick={() => handleDeleteUser(user.id)}
                   >
                     Delete

@@ -20,11 +20,8 @@ export default function Error({
       <h2 className="text-5xl font-bold">Something went wrong!</h2>
       <Button
         variant="destructive"
-        weight="semibold"
         size="medium"
         font="large"
-        className="lowercase"
-        style={{ fontVariant: 'small-caps' }}
         onClick={() => reset()}
       >
         Try again

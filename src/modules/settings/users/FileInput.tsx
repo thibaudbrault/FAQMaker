@@ -138,9 +138,7 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
           size="full"
           font="large"
           icon={true}
-          weight="semibold"
-          className={`rounded-none rounded-tl-md lowercase`}
-          style={{ fontVariant: 'small-caps' }}
+          className={`rounded-none rounded-tl-md`}
           onClick={handleButtonClick}
           type="button"
         >
@@ -169,9 +167,7 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                 variant="primary"
                 size="full"
                 font="large"
-                weight="semibold"
-                className="col-span-2 rounded-none rounded-b-md lowercase"
-                style={{ fontVariant: 'small-caps' }}
+                className="col-span-2 rounded-none rounded-b-md"
                 disabled={disabled}
                 type="submit"
               >
@@ -224,9 +220,6 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                   <div className="flex justify-center">
                     <Button
                       variant="primary"
-                      weight="semibold"
-                      style={{ fontVariant: 'small-caps' }}
-                      className="lowercase"
                       type="button"
                       onClick={onSubmit}
                       disabled={usersArray.length === 0}
@@ -253,9 +246,7 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                 variant="primary"
                 size="full"
                 font="large"
-                weight="semibold"
-                className="col-span-2 rounded-none rounded-b-md lowercase"
-                style={{ fontVariant: 'small-caps' }}
+                className="col-span-2 rounded-none rounded-b-md"
                 disabled={disabled}
                 type="submit"
               >
@@ -310,7 +301,6 @@ export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
                       <div className="flex justify-center">
                         <Button
                           variant="primary"
-                          weight="semibold"
                           style={{ fontVariant: 'small-caps' }}
                           className="lowercase"
                           type="button"
