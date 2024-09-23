@@ -13,6 +13,10 @@ module.exports = {
       boxShadow: {
         sm: '0 0 0 1px',
       },
+      borderColor: {
+        primary: 'var(--gray-6)',
+        accent: 'var(--teal-6)'
+      },
       backgroundColor: {
         divider: 'var(--gray-6)',
         primary: {
@@ -21,12 +25,13 @@ module.exports = {
             DEFAULT: 'var(--gray-3)',
             hover: 'var(--gray-4)',
             active: 'var(--gray-4)',
+            alpha: 'var(--gray-a3)'
           },
           negative: {
             DEFAULT: 'var(--gray-12)',
             hover: 'var(--gray-11)',
             disabled: 'var(--gray-10)'
-          }
+          },
         },
         destructive: {
           DEFAULT: 'var(--red-6)',

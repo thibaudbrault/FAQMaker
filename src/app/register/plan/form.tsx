@@ -116,7 +116,7 @@ export default function Form() {
           <form
             onSubmit={handleSubmit(() => saveData(plan.value, plan.lookup_key))}
             key={plan.value}
-            className="w-full overflow-hidden rounded-md bg-grayA-3 p-4 text-center text-primary shadow-sm shadow-tealA-7 transition-all duration-300 hover:shadow-tealA-8"
+            className="w-full overflow-hidden rounded-md bg-primary-foreground-alpha p-4 text-center text-primary shadow-sm shadow-tealA-7 transition-all duration-300 hover:shadow-tealA-8"
           >
             <div>
               <h3 className="text-sm font-semibold uppercase text-tealA-11">

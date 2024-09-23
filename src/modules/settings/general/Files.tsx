@@ -103,7 +103,7 @@ export const Files = ({ tenant }: Props) => {
               >
                 {({ getRootProps, getInputProps, open, isDragActive }) => (
                   <div
-                    className={`relative flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-t-md border-2 border-b-0 border-dashed border-gray-12 px-4 py-8 ${isDragActive ? 'bg-grayA-3' : 'bg-transparent'}`}
+                    className={`relative flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-t-md border-2 border-b-0 border-dashed border-gray-12 px-4 py-8 ${isDragActive ? 'bg-primary-foreground-alpha' : 'bg-transparent'}`}
                     {...getRootProps()}
                   >
                     <input
@@ -117,7 +117,7 @@ export const Files = ({ tenant }: Props) => {
                       <Image
                         src={previewImage}
                         alt={file?.name ?? 'Logo'}
-                        className="size-36 rounded-md border border-gray-7 object-cover"
+                        className="size-36 rounded-md border border-primary object-cover"
                         width={144}
                         height={144}
                       />
