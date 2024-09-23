@@ -1,16 +1,17 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-// import { Resend } from 'resend';
+import { Resend } from 'resend';
 
+import { NewUserEmailTemplate } from '@/components';
 import { ActionError, authActionClient } from '@/lib/safe-actions';
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
-// import { NewUserEmailTemplate } from '@/components';
 import { createUserSchema } from './schema';
+import { getMe } from '../get-me';
 
-// const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const createUser = authActionClient
   .metadata({ actionName: 'createUser' })
@@ -39,13 +40,23 @@ export const createUser = authActionClient
       if (!newUser) {
         throw new ActionError('User could not be created');
       }
-      // const { data: domains } = await resend.domains.list();
-      // await resend.emails.send({
-      //   from: `noreply@${domains?.data[0].name}`,
-      //   to: [email],
-      //   subject: 'Welcome to FAQMaker',
-      //   react: NewUserEmailTemplate(),
-      // });
+      const tenant = await prisma.tenant.findFirst({
+        where: { id: tenantId },
+      });
+      const me = await getMe();
+      const { company } = tenant;
+      const { data: domains } = await resend.domains.list();
+      await resend.emails.send({
+        from: `FAQMaker - <noreply@${domains?.data[0].name}>`,
+        to: [email],
+        subject: `You're invited to FAQMaker`,
+        react: NewUserEmailTemplate({
+          company,
+          username: email,
+          invitedByUsername: me?.name,
+          invitedByEmail: me?.email,
+        }),
+      });
       revalidatePath(Routes.SITE.SETTINGS);
       return { message: 'User created successfully' };
     },
