@@ -15,7 +15,7 @@ const button = cva('transition-all duration-300 ease-in-out lowercase', {
         'bg-primary-foreground text-primary shadow-sm shadow-grayA-7 hover:bg-primary-foreground-hover disabled:shadow-transparent disabled:bg-transparent',
 
       secondary:
-        'bg-transparent text-tealA-11 shadow-sm shadow-tealA-7 hover:shadow-tealA-8',
+        'bg-transparent text-accent-secondary shadow-sm shadow-tealA-7 hover:shadow-tealA-8',
 
       destructive:
         'bg-destructive text-white shadow-sm shadow-transparent hover:bg-destructive-hover disabled:bg-destructive-disabled disabled:text-redA-11 disabled:shadow-sm disabled:shadow-redA-7 disabled:hover:shadow-redA-8 disabled:dark:bg-destructive-disabled-dark',

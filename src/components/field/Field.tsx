@@ -27,7 +27,7 @@ export const Field = ({
   return (
     <div
       key={value}
-      className="flex flex-col gap-2 [&_svg]:focus-within:text-teal-10"
+      className="flex flex-col gap-2 [&_svg]:focus-within:text-accent-focus"
     >
       <div className="flex items-center gap-1">
         <Label

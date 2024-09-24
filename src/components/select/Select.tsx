@@ -76,7 +76,7 @@ const SelectItem = forwardRef<
   >
     <span className="absolute left-2 flex size-3.5 items-center justify-center">
       <SelectPrimitive.ItemIndicator>
-        <Check className="size-4 text-teal-9" />
+        <Check className="size-4 text-accent" />
       </SelectPrimitive.ItemIndicator>
     </span>
 

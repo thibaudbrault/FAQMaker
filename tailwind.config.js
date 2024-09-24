@@ -48,6 +48,11 @@ module.exports = {
           muted: 'var(--gray-11)',
           negative: 'var(--gray-1)'
         },
+        accent: {
+          DEFAULT: 'var(--teal-9)',
+          focus: 'var(--teal-10)',
+          secondary: 'var(--teal-11)',
+        },
         destructive: {
           DEFAULT: 'var(--red-9)',
           hover: 'var(--red-10)'

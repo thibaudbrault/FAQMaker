@@ -52,7 +52,7 @@ export const Search = ({ tags }: Props) => {
 
   return (
     <section className="mx-auto flex w-11/12 items-end justify-center gap-8 md:w-3/4">
-      <div className="group/search flex w-full flex-col gap-1 [&_svg]:focus-within:text-tealA-8">
+      <div className="group/search flex w-full flex-col gap-1 [&_svg]:focus-within:text-accent-focus">
         <Label
           htmlFor="search"
           className="lowercase"

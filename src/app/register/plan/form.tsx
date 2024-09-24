@@ -119,7 +119,7 @@ export default function Form() {
             className="w-full overflow-hidden rounded-md bg-primary-foreground-alpha p-4 text-center text-primary shadow-sm shadow-tealA-7 transition-all duration-300 hover:shadow-tealA-8"
           >
             <div>
-              <h3 className="text-sm font-semibold uppercase text-tealA-11">
+              <h3 className="text-sm font-semibold uppercase text-accent-secondary">
                 {plan.label}
               </h3>
               <p className="mt-2 text-4xl font-bold">
@@ -134,7 +134,7 @@ export default function Form() {
               <ul className="list-none text-right">
                 {plan.benefits.map((benefit) => (
                   <li key={benefit} className="flex gap-2">
-                    <Check className="text-teal-9" />
+                    <Check className="text-accent" />
                     <p>{benefit}</p>
                   </li>
                 ))}
