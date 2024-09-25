@@ -57,13 +57,7 @@ export const Delete = ({ tenantId, company }: Props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          variant="destructive"
-          weight="semibold"
-          className="lowercase"
-          icon="withIcon"
-          style={{ fontVariant: 'small-caps' }}
-        >
+        <Button variant="destructive" icon={true}>
           <Flame />
           Delete account
         </Button>
@@ -77,7 +71,7 @@ export const Delete = ({ tenantId, company }: Props) => {
           account is permanent and will delete all your data forever.
         </p>
 
-        <p className="text-sm text-gray-11">
+        <p className="text-sm text-primary-muted">
           Type <span className="font-semibold">DELETE {company}</span> to
           confirm
         </p>
@@ -87,23 +81,13 @@ export const Delete = ({ tenantId, company }: Props) => {
             <DialogClose asChild>
               <Button
                 variant="ghost"
-                weight="semibold"
-                className="lowercase"
-                style={{ fontVariant: 'small-caps' }}
                 type="button"
                 onClick={() => setValue('text', '')}
               >
                 Cancel
               </Button>
             </DialogClose>
-            <Button
-              variant={disabled ? 'disabledDestructive' : 'destructive'}
-              weight="semibold"
-              className="lowercase"
-              style={{ fontVariant: 'small-caps' }}
-              type="submit"
-              disabled={disabled}
-            >
+            <Button variant="destructive" type="submit" disabled={disabled}>
               Delete
             </Button>
           </DialogFooter>

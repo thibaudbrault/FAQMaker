@@ -39,7 +39,7 @@ export const Header = ({ user }: Props) => {
   }, [user]);
 
   return (
-    <header className="flex items-center justify-between border-b border-b-gray-6 bg-gray-2 px-4 py-2 text-gray-12 md:px-8 md:py-4">
+    <header className="flex items-center justify-between border-b border-b-gray-6 bg-primary-foreground px-4 py-2 text-primary md:px-8 md:py-4">
       <Link href={Routes.SITE.HOME} className="flex items-center gap-2">
         {user.tenant.logo && (
           <Image
@@ -59,7 +59,7 @@ export const Header = ({ user }: Props) => {
               <TooltipTrigger asChild>
                 <Link
                   href={Routes.SITE.PROFILE}
-                  className="flex items-center gap-1 hover:text-gray-11"
+                  className="flex items-center gap-1 hover:text-primary-muted"
                 >
                   <Avatar className="size-6">
                     <AvatarImage src={user.image ?? ''} />
@@ -78,7 +78,7 @@ export const Header = ({ user }: Props) => {
                 <TooltipTrigger asChild>
                   <Link
                     href={Routes.SITE.SETTINGS}
-                    className="hover:text-gray-11"
+                    className="hover:text-primary-muted"
                   >
                     <Settings />
                   </Link>
@@ -95,7 +95,7 @@ export const Header = ({ user }: Props) => {
               <TooltipTrigger asChild>
                 <button
                   onClick={() => signOut()}
-                  className="hover:text-gray-11"
+                  className="hover:text-primary-muted"
                   type="button"
                   aria-label="Log out"
                 >
@@ -108,15 +108,7 @@ export const Header = ({ user }: Props) => {
             </Tooltip>
           </li>
         </ul>
-        <Button
-          variant="ghost"
-          font="large"
-          size="small"
-          weight="semibold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-          asChild
-        >
+        <Button variant="ghost" font="large" size="small" asChild>
           <Link href={Routes.SITE.QUESTION.NEW}>New Question</Link>
         </Button>
       </div>
@@ -144,15 +136,8 @@ export const Header = ({ user }: Props) => {
               >
                 Logout
               </button>
-              <hr className="mx-auto my-2 h-px w-3/4 border-none bg-gray-6" />
-              <Button
-                variant="primary"
-                size="medium"
-                weight="semibold"
-                font="large"
-                className="lowercase"
-                style={{ fontVariant: 'small-caps' }}
-              >
+              <hr className="mx-auto my-2 h-px w-3/4 border-none bg-divider" />
+              <Button variant="primary" size="medium" font="large">
                 <Link href={Routes.SITE.QUESTION.NEW}>New Question</Link>
               </Button>
             </div>

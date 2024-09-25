@@ -12,40 +12,35 @@ type Props = {
 
 export const UserQuestions = ({ questions }: Props) => {
   return (
-    <>
+    <section className="space-y-4">
       <h2
-        className="mb-4 text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
+        className="text-xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
       >
         Questions
       </h2>
       {questions && questions.length > 0 ? (
-        <ul className="flex list-none flex-col gap-2">
+        <div className="flex flex-col gap-2">
           {questions?.map((question) => (
-            <li
-              className="flex items-center justify-between rounded-md px-3 py-2 shadow-sm hover:shadow-teal-6"
+            <Link
+              className="flex items-center justify-between rounded-md px-3 py-2 hover:bg-primary-foreground-hover"
               key={question.id}
+              href={`${Routes.SITE.QUESTION.INDEX}/${question.node.id}`}
             >
-              <h3 className="text-xl font-semibold hover:underline md:text-2xl">
-                <Link
-                  href={`${Routes.SITE.QUESTION.INDEX}/${question.node.id}`}
-                >
-                  {question.text}
-                </Link>
-              </h3>
-              <p className="text-xs">
+              <h3 className="font-semibold">{question.text}</h3>
+              <small className="text-primary-muted">
                 Asked on{' '}
                 {new Date(question.createdAt).toLocaleDateString(
                   undefined,
                   dateOptions,
                 )}
-              </p>
-            </li>
+              </small>
+            </Link>
           ))}
-        </ul>
+        </div>
       ) : (
         <p className="text-center italic">No questions</p>
       )}
-    </>
+    </section>
   );
 };

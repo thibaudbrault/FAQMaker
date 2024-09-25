@@ -63,7 +63,7 @@ export default function Form() {
           >
             Company
           </legend>
-          <p className="text-sm text-gray-11">Your company details</p>
+          <p className="text-sm text-primary-muted">Your company details</p>
         </div>
         {fields.map((field) => (
           <div key={field.value} className="flex flex-1 flex-col">
@@ -86,13 +86,11 @@ export default function Form() {
         ))}
       </fieldset>
       <Button
-        variant={!isValid ? 'disabled' : 'primary'}
+        variant="primary"
         size="full"
-        icon="withIcon"
+        icon={true}
         font="large"
         weight="bold"
-        className="lowercase"
-        style={{ fontVariant: 'small-caps' }}
         disabled={!isValid}
       >
         Next

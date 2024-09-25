@@ -132,13 +132,7 @@ const Form = ({ user, tenantId }: Props) => {
           </div>
         )}
       </fieldset>
-      <Button
-        variant={disabled ? 'disabled' : 'primary'}
-        weight="semibold"
-        className="lowercase"
-        style={{ fontVariant: 'small-caps' }}
-        disabled={disabled}
-      >
+      <Button variant="primary" disabled={disabled}>
         Update
       </Button>
     </form>
@@ -152,13 +146,7 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button
-            variant="primary"
-            weight="semibold"
-            size="small"
-            className="lowercase"
-            style={{ fontVariant: 'small-caps' }}
-          >
+          <Button variant="primary" size="small">
             Modify
           </Button>
         </DialogTrigger>
@@ -175,13 +163,7 @@ export const UpdateUser = ({ user, tenantId }: Props) => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button
-          variant="primary"
-          weight="semibold"
-          size="small"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-        >
+        <Button variant="primary" size="small">
           Modify
         </Button>
       </DrawerTrigger>

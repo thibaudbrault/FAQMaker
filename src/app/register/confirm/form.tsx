@@ -57,7 +57,7 @@ export default function Form() {
           >
             Confirm
           </legend>
-          <p className="text-sm text-gray-11">Confirm the information</p>
+          <p className="text-sm text-primary-muted">Confirm the information</p>
         </div>
         <div>
           <p className="mb-2 text-xl font-bold">Company</p>
@@ -82,11 +82,9 @@ export default function Form() {
         <Button
           variant="secondary"
           size="full"
-          icon="withIcon"
+          icon={true}
           font="large"
           weight="bold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
           type="button"
           onClick={() => router.push(Routes.SITE.REGISTER.USER)}
         >
@@ -94,12 +92,10 @@ export default function Form() {
           Previous
         </Button>
         <Button
-          variant={disabled ? 'disabled' : 'primary'}
+          variant="primary"
           size="full"
           font="large"
           weight="bold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
           disabled={disabled}
         >
           Submit

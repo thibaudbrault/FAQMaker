@@ -3,7 +3,6 @@ import { redirect } from 'next/navigation';
 import {
   getIntegration,
   getMe,
-  getNodesCount,
   getTags,
   getTagsCount,
   getTenant,
@@ -23,7 +22,6 @@ export default async function Page() {
   if (me.role === 'user') return redirect(Routes.SITE.HOME);
   const { tenantId } = me;
 
-  const nodesCount = await getNodesCount(tenantId);
   const usersCount = await getUsersCount(tenantId);
   const tagsCount = await getTagsCount(tenantId);
   const tenant = await getTenant(tenantId);
@@ -32,12 +30,11 @@ export default async function Page() {
   const users = await getUsers(tenantId);
 
   return (
-    <main className="flex h-full min-h-screen flex-col bg-gray-1">
+    <main className="flex h-full min-h-screen flex-col bg-primary">
       <Header user={me} />
-      <div className="my-12 grow">
+      <div className="mx-auto my-12 w-9/12 grow">
         <Settings
           me={me}
-          nodesCount={nodesCount}
           tagsCount={tagsCount}
           usersCount={usersCount}
           tenant={tenant}

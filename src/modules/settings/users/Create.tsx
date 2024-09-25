@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AtSign, PlusCircle } from 'lucide-react';
+import { $Enums } from '@prisma/client';
+import { AtSign, Mail } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { createUser, createUserSchema } from '@/actions';
@@ -38,11 +39,12 @@ import type { z } from 'zod';
 type Props = {
   tenantId: string;
   usersCount: number;
+  plan: $Enums.Plan;
 };
 
 type Schema = z.infer<typeof createUserSchema>;
 
-const Form = ({ tenantId, usersCount }: Props) => {
+const Form = ({ tenantId, usersCount, plan }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
 
   const {
@@ -57,6 +59,7 @@ const Form = ({ tenantId, usersCount }: Props) => {
     defaultValues: {
       email: '',
       role: 'user',
+      plan,
       tenantId,
       usersCount,
     },
@@ -124,20 +127,31 @@ const Form = ({ tenantId, usersCount }: Props) => {
         </div>
       </fieldset>
       <Button
-        variant={disabled ? 'disabled' : 'primary'}
-        weight="semibold"
-        className="lowercase"
-        style={{ fontVariant: 'small-caps' }}
+        variant="primary"
+        size="medium"
+        font="large"
+        icon={true}
         disabled={disabled}
       >
-        Add
+        <Mail />
+        Invite
       </Button>
     </form>
   );
 };
 
-export const CreateUser = ({ tenantId, usersCount }: Props) => {
+export const CreateUser = ({ tenantId, usersCount, plan }: Props) => {
   const isDesktop = useMediaQuery('(min-width: 640px)');
+  const [disabled, setDisabled] = useState(false);
+
+  useEffect(() => {
+    if (
+      (plan === 'free' && usersCount >= 5) ||
+      (plan === 'startup' && usersCount >= 100)
+    ) {
+      setDisabled(true);
+    }
+  }, [usersCount, plan]);
 
   if (isDesktop) {
     return (
@@ -147,12 +161,8 @@ export const CreateUser = ({ tenantId, usersCount }: Props) => {
             variant="primary"
             size="full"
             font="large"
-            icon="withIcon"
-            weight="semibold"
-            className="lowercase"
-            style={{ fontVariant: 'small-caps' }}
+            disabled={disabled}
           >
-            <PlusCircle />
             New user
           </Button>
         </DialogTrigger>
@@ -160,7 +170,7 @@ export const CreateUser = ({ tenantId, usersCount }: Props) => {
           <DialogHeader>
             <DialogTitle>New user</DialogTitle>
           </DialogHeader>
-          <Form tenantId={tenantId} usersCount={usersCount} />
+          <Form tenantId={tenantId} usersCount={usersCount} plan={plan} />
         </DialogContent>
       </Dialog>
     );
@@ -169,16 +179,7 @@ export const CreateUser = ({ tenantId, usersCount }: Props) => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button
-          variant="primary"
-          size="full"
-          font="large"
-          icon="withIcon"
-          weight="semibold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-        >
-          <PlusCircle />
+        <Button variant="primary" size="full" font="large" disabled={disabled}>
           New user
         </Button>
       </DrawerTrigger>
@@ -187,7 +188,7 @@ export const CreateUser = ({ tenantId, usersCount }: Props) => {
           <DrawerHeader>
             <DrawerTitle className="text-2xl">New user</DrawerTitle>
           </DrawerHeader>
-          <Form tenantId={tenantId} usersCount={usersCount} />
+          <Form tenantId={tenantId} usersCount={usersCount} plan={plan} />
         </div>
       </DrawerContent>
     </Drawer>

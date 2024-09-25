@@ -67,7 +67,7 @@ export default function New({ me, tags, integrations }: Props) {
   return (
     <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
       <BackButton />
-      <div className="flex flex-col gap-4 rounded-md bg-gray-3 p-4">
+      <div className="flex flex-col gap-4 rounded-md bg-primary-foreground p-4">
         <form
           className="flex flex-col items-center gap-4"
           onSubmit={handleSubmit(onSubmit)}
@@ -104,22 +104,12 @@ export default function New({ me, tags, integrations }: Props) {
             />
           </fieldset>
           <div className="flex items-center justify-center gap-4">
-            <Button
-              variant={disabled ? 'disabled' : 'primary'}
-              weight="semibold"
-              className="lowercase"
-              style={{ fontVariant: 'small-caps' }}
-              disabled={disabled}
-              type="submit"
-            >
+            <Button variant="primary" disabled={disabled} type="submit">
               Submit
             </Button>
             <Button
-              variant={disabled ? 'disabled' : 'ghost'}
-              icon="withIcon"
-              weight="semibold"
-              className="lowercase"
-              style={{ fontVariant: 'small-caps' }}
+              variant="ghost"
+              icon={true}
               disabled={disabled}
               type="submit"
               onClick={handleSubmit(onSubmitWithAnswer)}

@@ -20,16 +20,14 @@ export default async function Page() {
   const answers = await getUserAnswers(me.id);
   const favorites = await getFavorites(me.id);
   return (
-    <main className="flex h-full min-h-screen flex-col bg-gray-1">
+    <main className="flex h-full min-h-screen flex-col bg-primary">
       <Header user={me} />
-      <div className="my-12 grow">
-        <Profile
-          me={me}
-          questions={questions}
-          answers={answers}
-          favorites={favorites}
-        />
-      </div>
+      <Profile
+        me={me}
+        questions={questions}
+        answers={answers}
+        favorites={favorites}
+      />
       <Footer company={me.tenant.company} />
     </main>
   );

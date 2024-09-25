@@ -1,10 +1,9 @@
 'use client';
 
-import { MoveRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import { Routes } from '@/utils';
+import { dateOptions, Routes } from '@/utils';
 
 import type { NodeWithQuestionAndAnswer } from '@/types';
 
@@ -17,35 +16,40 @@ type Props = {
 };
 
 export const UserAnswers = ({ nodes }: Props) => {
+  console.log(nodes);
   return (
-    <>
+    <section className="space-y-4">
       <h2
-        className="mb-4 text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
+        className="text-xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
       >
         Answers
       </h2>
       {nodes && nodes.length > 0 ? (
-        <ul className="flex list-none flex-col gap-2">
+        <div className="flex flex-col gap-2">
           {nodes.map((node) => (
-            <li
-              className="flex items-center justify-between rounded-md px-3 py-2 shadow-sm hover:shadow-teal-6"
+            <Link
+              href={`${Routes.SITE.QUESTION.INDEX}/${node.question.id}`}
+              className="flex items-center justify-between rounded-md px-3 py-2 hover:bg-primary-foreground-hover"
               key={node.id}
             >
               <MarkdownPreview
                 source={node.answer.text}
                 className="!bg-transparent"
               />
-
-              <Link href={`${Routes.SITE.QUESTION.INDEX}/${node.question.id}`}>
-                <MoveRight />
-              </Link>
-            </li>
+              <small className="text-primary-muted">
+                Answered on{' '}
+                {new Date(node.answer.updatedAt).toLocaleDateString(
+                  undefined,
+                  dateOptions,
+                )}
+              </small>
+            </Link>
           ))}
-        </ul>
+        </div>
       ) : (
         <p className="text-center italic">No answers</p>
       )}
-    </>
+    </section>
   );
 };

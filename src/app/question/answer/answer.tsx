@@ -66,7 +66,7 @@ export default function Answer({ node }: Props) {
   return (
     <section className="mx-auto flex w-11/12 flex-col gap-4 md:w-3/4">
       <BackButton />
-      <div className="flex flex-col gap-4 rounded-md bg-gray-3 p-4">
+      <div className="flex flex-col gap-4 rounded-md bg-primary-foreground p-4">
         <h2
           className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
           style={{ fontVariant: 'small-caps' }}
@@ -90,23 +90,16 @@ export default function Answer({ node }: Props) {
             />
             <div className="grid grid-cols-2 gap-2">
               {errors.text && (
-                <small className="col-start-1 justify-self-start text-sm text-red-9">
+                <small className="col-start-1 justify-self-start text-sm text-destructive">
                   {errors.text.message}
                 </small>
               )}
-              <small className="col-start-2 justify-self-end text-xs text-gray-11">
+              <small className="col-start-2 justify-self-end text-xs text-primary-muted">
                 {text.length} / {Limits.ANSWER}
               </small>
             </div>
           </div>
-          <Button
-            variant={disabled ? 'disabled' : 'primary'}
-            type="submit"
-            weight="semibold"
-            className="lowercase"
-            disabled={disabled}
-            style={{ fontVariant: 'small-caps' }}
-          >
+          <Button variant="primary" type="submit" disabled={disabled}>
             {node.answer ? 'Update' : 'Submit'}
           </Button>
         </form>

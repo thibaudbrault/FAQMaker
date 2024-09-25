@@ -93,7 +93,7 @@ export default function Question({ node, favorites }: Props) {
 
   return (
     <li
-      className={`relative rounded-md border bg-gray-3 text-gray-12 shadow-gray-9 transition-all duration-300 hover:shadow-lg ${node.isPinned ? 'border-teal-6' : 'border-transparent'}`}
+      className={`relative rounded-md border bg-primary-foreground text-primary transition-all duration-300 ${node.isPinned ? 'border-accent' : 'border-primary'}`}
     >
       <details>
         <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-6 py-3">
@@ -109,12 +109,7 @@ export default function Question({ node, favorites }: Props) {
             <ul className="flex list-none gap-4 text-xs">
               {node.tags.map((tag) => (
                 <li key={tag.id}>
-                  <Badge
-                    variant="primary"
-                    rounded="full"
-                    size="small"
-                    style={{ fontVariant: 'small-caps' }}
-                  >
+                  <Badge style={{ fontVariant: 'small-caps' }}>
                     {tag.label.toLowerCase()}
                   </Badge>
                 </li>
@@ -124,14 +119,14 @@ export default function Question({ node, favorites }: Props) {
               {!node.answer && (
                 <Tooltip>
                   <TooltipTrigger>
-                    <BadgeHelp className="size-4 fill-teal-9 text-gray-12" />
+                    <BadgeHelp className="size-4 fill-teal-9 text-primary" />
                   </TooltipTrigger>
                   <TooltipContent>Unanswered</TooltipContent>
                 </Tooltip>
               )}
               <Tooltip>
                 <TooltipTrigger>
-                  <BadgeInfo className="size-4 fill-teal-9 text-gray-12" />
+                  <BadgeInfo className="size-4 fill-teal-9 text-primary" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Asked by {node.question.user.name}</p>
@@ -152,7 +147,7 @@ export default function Question({ node, favorites }: Props) {
               {node.answer && (
                 <Tooltip>
                   <TooltipTrigger>
-                    <BadgeCheck className="size-4 fill-teal-9 text-gray-12" />
+                    <BadgeCheck className="size-4 fill-teal-9 text-primary" />
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Answered by {node.answer.user.name}</p>
@@ -175,7 +170,7 @@ export default function Question({ node, favorites }: Props) {
           </div>
           <ChevronDown />
         </summary>
-        <hr className="mx-auto mb-6 mt-3 h-px w-3/4 border-none bg-gray-6" />
+        <hr className="mx-auto mb-6 mt-3 h-px w-3/4 border-none bg-divider" />
         {node.answer ? (
           <div className="mb-6 px-6">
             <MarkdownPreview
@@ -190,8 +185,6 @@ export default function Question({ node, favorites }: Props) {
               size="medium"
               font="large"
               weight="bold"
-              className="lowercase"
-              style={{ fontVariant: 'small-caps' }}
               asChild
             >
               <Link
@@ -206,7 +199,7 @@ export default function Question({ node, favorites }: Props) {
             </Button>
           </div>
         )}
-        <hr className="mx-auto mb-6 mt-3 h-px w-3/4 border-none bg-gray-6" />
+        <hr className="mx-auto mb-6 mt-3 h-px w-3/4 border-none bg-divider" />
         <div className="mb-6 flex items-center gap-2 px-6">
           <form
             onSubmit={handleSubmitFavorite(onSubmitFavorite)}
@@ -221,7 +214,7 @@ export default function Question({ node, favorites }: Props) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
-                  className={`text-gray-12 ${favorites.some((favorite) => favorite.nodeId === node.id) ? '' : 'hover:text-gray-11'}`}
+                  className={`text-primary ${favorites.some((favorite) => favorite.nodeId === node.id) ? '' : 'hover:text-primary-muted'}`}
                   type="submit"
                   aria-label="Favorite"
                 >
@@ -256,7 +249,7 @@ export default function Question({ node, favorites }: Props) {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
-                    className={`text-gray-12 ${node.isPinned ? '' : 'hover:text-gray-11'}`}
+                    className={`text-primary ${node.isPinned ? '' : 'hover:text-primary-muted'}`}
                     type="submit"
                     aria-label="Favorite"
                   >

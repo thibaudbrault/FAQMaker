@@ -24,6 +24,7 @@ export type ExtendedNode = Node & {
 export type NodeWithQuestionAndAnswer = Node & {
   answer: {
     text: string;
+    updatedAt: Date;
   };
   question: {
     id: string;

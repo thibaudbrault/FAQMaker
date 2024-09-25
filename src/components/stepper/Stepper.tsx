@@ -11,10 +11,10 @@ type Props = {
 
 export const Stepper = ({ steps, currentStep }: Props) => {
   return (
-    <aside className="mx-auto flex w-11/12 items-center justify-between font-bold text-gray-12 md:w-[500px]">
+    <aside className="mx-auto flex w-11/12 items-center justify-between font-bold text-primary md:w-[500px]">
       {steps.map((step) => (
         <Fragment key={step.id}>
-          <div className="flex items-center text-gray-12">
+          <div className="flex items-center text-primary">
             {step.id < currentStep ? (
               <p className="flex items-center gap-1">
                 <BadgeCheck className="size-full" aria-hidden="true" />

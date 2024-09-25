@@ -7,5 +7,3 @@ export const updateLogoSchema = z.object({
     .regex(/^https:\/\/storage\.googleapis\.com\/faqmaker\/logos/),
   id: z.string().cuid2(),
 });
-
-export type UpdateLogo = z.infer<typeof updateLogoSchema>;

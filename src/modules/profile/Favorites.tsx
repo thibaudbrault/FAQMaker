@@ -10,38 +10,35 @@ type Props = {
 
 export const UserFavorites = ({ favorites }: Props) => {
   return (
-    <>
+    <section className="space-y-4">
       <h2
-        className="mb-4 text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
+        className="text-xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
       >
         Favorites
       </h2>
       {favorites && favorites.length > 0 ? (
-        <ul className="flex list-none flex-col gap-2">
+        <div className="flex flex-col gap-2">
           {favorites.map((favorite) => (
-            <li
-              className="flex items-center justify-between rounded-md px-3 py-2 shadow-sm hover:shadow-teal-6"
+            <Link
+              className="flex items-center justify-between rounded-md px-3 py-2 hover:bg-primary-foreground-hover"
               key={favorite.id}
+              href={`${Routes.SITE.QUESTION.INDEX}/${favorite.nodeId}`}
             >
-              <h3 className="text-xl font-semibold hover:underline md:text-2xl">
-                <Link href={`${Routes.SITE.QUESTION.INDEX}/${favorite.nodeId}`}>
-                  {favorite.node.question.text}
-                </Link>
-              </h3>
-              <p className="text-xs">
+              <h3 className="font-semibold">{favorite.node.question.text}</h3>
+              <small className="text-primary-muted">
                 Asked on{' '}
                 {new Date(favorite.node.question.createdAt).toLocaleDateString(
                   undefined,
                   dateOptions,
                 )}
-              </p>
-            </li>
+              </small>
+            </Link>
           ))}
-        </ul>
+        </div>
       ) : (
         <p className="text-center italic">No answers</p>
       )}
-    </>
+    </section>
   );
 };

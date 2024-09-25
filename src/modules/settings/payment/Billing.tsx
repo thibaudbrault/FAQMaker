@@ -32,13 +32,7 @@ export const Billing = ({ tenantId }: Props) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Button
-        icon="withIcon"
-        variant="primary"
-        weight="semibold"
-        className="lowercase"
-        style={{ fontVariant: 'small-caps' }}
-      >
+      <Button icon={true} variant="primary">
         <Banknote />
         Billing
       </Button>

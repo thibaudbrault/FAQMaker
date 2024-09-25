@@ -52,7 +52,7 @@ export const Search = ({ tags }: Props) => {
 
   return (
     <section className="mx-auto flex w-11/12 items-end justify-center gap-8 md:w-3/4">
-      <div className="group/search flex w-full flex-col gap-1 [&_svg]:focus-within:text-tealA-8">
+      <div className="group/search flex w-full flex-col gap-1 [&_svg]:focus-within:text-accent-focus">
         <Label
           htmlFor="search"
           className="lowercase"
@@ -74,7 +74,7 @@ export const Search = ({ tags }: Props) => {
       {tags.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger
-            className="w-fit rounded-md bg-gray-3 px-4 py-2 font-bold uppercase text-gray-12 hover:bg-gray-4"
+            className="w-fit rounded-md bg-primary-foreground px-4 py-2 font-bold uppercase text-primary hover:bg-primary-foreground-hover"
             style={{ fontVariant: 'small-caps' }}
           >
             <TagIcon />
@@ -84,8 +84,8 @@ export const Search = ({ tags }: Props) => {
               <DropdownMenuItem
                 className={
                   currentTag === tag.label
-                    ? 'bg-gray-12 text-white hover:bg-gray-12 dark:bg-gray-1 dark:hover:bg-gray-1'
-                    : 'bg-gray-1 dark:bg-gray-12'
+                    ? 'bg-primary-negative text-primary-negative hover:bg-primary-negative'
+                    : 'bg-primary'
                 }
                 key={tag.id}
               >

@@ -49,7 +49,7 @@ export default function Form() {
           >
             User
           </legend>
-          <p className="text-sm text-gray-11">Your connection mail</p>
+          <p className="text-sm text-primary-muted">Your connection mail</p>
         </div>
         <Field label="Email" value="email" error={errors.email?.message}>
           <Input
@@ -65,11 +65,9 @@ export default function Form() {
         <Button
           variant="secondary"
           size="full"
-          icon="withIcon"
+          icon={true}
           font="large"
           weight="bold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
           type="button"
           onClick={() => router.push(Routes.SITE.REGISTER.INDEX)}
         >
@@ -77,13 +75,11 @@ export default function Form() {
           Previous
         </Button>
         <Button
-          variant={!isValid ? 'disabled' : 'primary'}
+          variant="primary"
           size="full"
-          icon="withIcon"
+          icon={true}
           font="large"
           weight="bold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
           disabled={!isValid}
           type="submit"
         >

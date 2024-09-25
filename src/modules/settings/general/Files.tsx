@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Dropzone from 'react-dropzone';
 import { Controller, useForm } from 'react-hook-form';
 
-import { getSignedLogo, updateLogo } from '@/actions';
+import { getSignedLogo, updateLogo, updateLogoSchema } from '@/actions';
 import { Button, resultToast } from '@/components';
 import { filesSchema } from '@/lib/validations';
 
@@ -21,6 +21,7 @@ type Props = {
 };
 
 type Schema = z.infer<typeof filesSchema>;
+type UpdateLogoType = z.infer<typeof updateLogoSchema>;
 
 export const Files = ({ tenant }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -55,7 +56,7 @@ export const Files = ({ tenant }: Props) => {
       formData.delete(key);
     });
     const logoUrl = `${url}logos/${logo}`;
-    const logoData: UpdateLogo = {
+    const logoData: UpdateLogoType = {
       logoUrl,
       id: tenant.id,
     };
@@ -74,15 +75,15 @@ export const Files = ({ tenant }: Props) => {
   }, [isDirty, isSubmitting, isValid]);
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col gap-4">
       <h2
-        className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
+        className="text-xl font-semibold lowercase"
         style={{ fontVariant: 'small-caps' }}
       >
         Logo
       </h2>
       <form
-        className="mx-auto flex w-11/12 flex-col items-center gap-4"
+        className="flex flex-col items-center gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Controller
@@ -102,7 +103,7 @@ export const Files = ({ tenant }: Props) => {
               >
                 {({ getRootProps, getInputProps, open, isDragActive }) => (
                   <div
-                    className={`relative flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-t-md border-2 border-b-0 border-dashed border-gray-12 px-4 py-8 ${isDragActive ? 'bg-grayA-3' : 'bg-transparent'}`}
+                    className={`relative flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-t-md border-2 border-b-0 border-dashed border-gray-12 px-4 py-8 ${isDragActive ? 'bg-primary-foreground-alpha' : 'bg-transparent'}`}
                     {...getRootProps()}
                   >
                     <input
@@ -116,7 +117,7 @@ export const Files = ({ tenant }: Props) => {
                       <Image
                         src={previewImage}
                         alt={file?.name ?? 'Logo'}
-                        className="size-36 rounded-md border border-gray-7 object-cover"
+                        className="size-36 rounded-md border border-primary object-cover"
                         width={144}
                         height={144}
                       />
@@ -130,7 +131,7 @@ export const Files = ({ tenant }: Props) => {
                     </p>
                     <button
                       type="button"
-                      className="text-sm text-gray-11 hover:text-gray-12"
+                      className="text-sm text-primary-muted hover:text-primary"
                       onClick={open}
                     >
                       Choose a file or drag and drop
@@ -141,9 +142,8 @@ export const Files = ({ tenant }: Props) => {
               <Button
                 variant="ghost"
                 rounded="bottom"
-                weight="semibold"
-                className="w-full border-2 border-t border-dashed border-t-grayA-8 lowercase shadow-none"
-                style={{ fontVariant: 'small-caps', borderTopStyle: 'solid' }}
+                className="w-full border-2 border-t border-dashed border-t-grayA-8 shadow-none"
+                style={{ borderTopStyle: 'solid' }}
                 onClick={handleReset}
                 type="button"
               >
@@ -152,13 +152,7 @@ export const Files = ({ tenant }: Props) => {
             </div>
           )}
         />
-        <Button
-          variant={disabled ? 'disabled' : 'primary'}
-          weight="semibold"
-          className="lowercase"
-          style={{ fontVariant: 'small-caps' }}
-          disabled={disabled}
-        >
+        <Button variant="primary" disabled={disabled}>
           Update
         </Button>
       </form>

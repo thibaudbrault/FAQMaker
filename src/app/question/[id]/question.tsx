@@ -75,7 +75,7 @@ export default function Question({ node, favorite }: Props) {
         <BackButton />
         <DropdownMenu>
           <DropdownMenuTrigger
-            className="w-fit rounded-md bg-gray-3 px-4 py-2 font-bold uppercase text-gray-12 hover:bg-gray-4"
+            className="w-fit rounded-md bg-primary-foreground px-4 py-2 font-bold uppercase text-primary hover:bg-primary-foreground-hover"
             style={{ fontVariant: 'small-caps' }}
           >
             Edit
@@ -102,7 +102,7 @@ export default function Question({ node, favorite }: Props) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md bg-gray-3 p-4">
+      <div className="rounded-md bg-primary-foreground p-4">
         <div className="mb-1 flex items-center justify-between">
           <h2 className="text-3xl font-semibold">{node.question.text}</h2>
           <div className="flex items-center gap-2">
@@ -110,7 +110,7 @@ export default function Question({ node, favorite }: Props) {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
-                    className={`text-gray-12 ${favorite?.nodeId === node.id ? '' : 'hover:text-gray-11'}`}
+                    className={`text-primary ${favorite?.nodeId === node.id ? '' : 'hover:text-primary-muted'}`}
                     type="submit"
                     aria-label="Favorite"
                   >
@@ -131,7 +131,7 @@ export default function Question({ node, favorite }: Props) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
-                  className="text-gray-12 hover:text-gray-11"
+                  className="text-primary hover:text-primary-muted"
                   type="button"
                   aria-label="Copy to clipboard"
                   onClick={() =>
@@ -150,13 +150,11 @@ export default function Question({ node, favorite }: Props) {
         <ul className="flex list-none gap-2 text-xs">
           {node.tags.map((tag) => (
             <li key={tag.id}>
-              <Badge variant="primary" rounded="full" size="small">
-                {tag.label}
-              </Badge>
+              <Badge>{tag.label}</Badge>
             </li>
           ))}
         </ul>
-        <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-6" />
+        <hr className="mx-auto my-6 h-px w-3/4 border-none bg-divider" />
         {node.answer ? (
           <MarkdownPreview
             className="mx-auto w-11/12 !bg-transparent text-left"
@@ -165,7 +163,7 @@ export default function Question({ node, favorite }: Props) {
         ) : (
           <p className="text-center italic">No answer</p>
         )}
-        <hr className="mx-auto my-6 h-px w-3/4 border-none bg-gray-6" />
+        <hr className="mx-auto my-6 h-px w-3/4 border-none bg-divider" />
         <div className="flex justify-between">
           <div className="text-xs">
             <p>
