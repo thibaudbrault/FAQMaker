@@ -5,11 +5,16 @@ import { BadgeCheck } from 'lucide-react';
 import type { TSteps } from '@/types';
 
 type Props = {
-  steps: TSteps[];
   currentStep: number;
 };
 
-export const Stepper = ({ steps, currentStep }: Props) => {
+export const Stepper = ({ currentStep }: Props) => {
+  const steps: TSteps[] = [
+    { id: 1, label: 'Company' },
+    { id: 2, label: 'User' },
+    { id: 3, label: 'Confirm' },
+  ];
+
   return (
     <aside className="mx-auto flex w-11/12 items-center justify-between font-bold text-primary md:w-[500px]">
       {steps.map((step) => (
