@@ -57,6 +57,7 @@ const Form = ({ user, tenantId }: Props) => {
       email: user.email,
       role: user.role,
       tenantId,
+      id: user.id,
     },
   });
 
