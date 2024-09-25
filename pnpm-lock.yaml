@@ -20,6 +20,9 @@ dependencies:
   '@radix-ui/colors':
     specifier: ^3.0.0
     version: 3.0.0
+  '@radix-ui/react-alert-dialog':
+    specifier: ^1.1.1
+    version: 1.1.1(@types/react@18.3.8)(react-dom@18.2.0)(react@18.2.0)
   '@radix-ui/react-avatar':
     specifier: ^1.0.4
     version: 1.1.0(@types/react@18.3.8)(react-dom@18.2.0)(react@18.2.0)
@@ -82,7 +85,7 @@ dependencies:
     version: 0.438.0(react@18.2.0)
   next:
     specifier: 14.2.4
-    version: 14.2.4(@babel/core@7.25.2)(@playwright/test@1.47.2)(react-dom@18.2.0)(react@18.2.0)
+    version: 14.2.4(@babel/core@7.24.5)(@playwright/test@1.47.2)(react-dom@18.2.0)(react@18.2.0)
   next-auth:
     specifier: ^4.24.7
     version: 4.24.7(next@14.2.4)(react-dom@18.2.0)(react@18.2.0)
@@ -1178,6 +1181,30 @@ packages:
     resolution: {integrity: sha512-4Z8dn6Upk0qk4P74xBhZ6Hd/w0mPEzOOLxy4xiPXOXqjF7jZS0VAKk7/x/H6FyY2zCkYJqePf1G5KmkmNJ4RBA==}
     dev: false
 
+  /@radix-ui/react-alert-dialog@1.1.1(@types/react@18.3.8)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-wmCoJwj7byuVuiLKqDLlX7ClSUU0vd9sdCeM+2Ls+uf13+cpSJoMgwysHq1SGVVkJj5Xn0XWi1NoRCdkMpr6Mw==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@radix-ui/primitive': 1.1.0
+      '@radix-ui/react-compose-refs': 1.1.0(@types/react@18.3.8)(react@18.2.0)
+      '@radix-ui/react-context': 1.1.0(@types/react@18.3.8)(react@18.2.0)
+      '@radix-ui/react-dialog': 1.1.1(@types/react@18.3.8)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-primitive': 2.0.0(@types/react@18.3.8)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-slot': 1.1.0(@types/react@18.3.8)(react@18.2.0)
+      '@types/react': 18.3.8
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /@radix-ui/react-arrow@1.1.0(@types/react@18.3.8)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-FmlW1rCg7hBpEBwFbjHwCW6AmWLQM6g/v0Sn8XbP9NvmSZ2San1FpQeyPtufzOMSIx7Y4dzjlHoifhp+7NkZhw==}
     peerDependencies:
@@ -2213,7 +2240,7 @@ packages:
       '@sentry/vercel-edge': 7.119.0
       '@sentry/webpack-plugin': 1.21.0
       chalk: 3.0.0
-      next: 14.2.4(@babel/core@7.25.2)(@playwright/test@1.47.2)(react-dom@18.2.0)(react@18.2.0)
+      next: 14.2.4(@babel/core@7.24.5)(@playwright/test@1.47.2)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       resolve: 1.22.8
       rollup: 2.78.0
@@ -6336,7 +6363,7 @@ packages:
       '@panva/hkdf': 1.2.1
       cookie: 0.5.0
       jose: 4.15.9
-      next: 14.2.4(@babel/core@7.25.2)(@playwright/test@1.47.2)(react-dom@18.2.0)(react@18.2.0)
+      next: 14.2.4(@babel/core@7.24.5)(@playwright/test@1.47.2)(react-dom@18.2.0)(react@18.2.0)
       oauth: 0.9.15
       openid-client: 5.7.0
       preact: 10.24.0
@@ -6378,7 +6405,7 @@ packages:
       zod:
         optional: true
     dependencies:
-      next: 14.2.4(@babel/core@7.25.2)(@playwright/test@1.47.2)(react-dom@18.2.0)(react@18.2.0)
+      next: 14.2.4(@babel/core@7.24.5)(@playwright/test@1.47.2)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       zod: 3.23.8
@@ -6437,7 +6464,7 @@ packages:
       - babel-plugin-macros
     dev: false
 
-  /next@14.2.4(@babel/core@7.25.2)(@playwright/test@1.47.2)(react-dom@18.2.0)(react@18.2.0):
+  /next@14.2.4(@babel/core@7.24.5)(@playwright/test@1.47.2)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-R8/V7vugY+822rsQGQCjoLhMuC9oFj9SOi4Cl4b2wjDrseD0LRZ10W7R6Czo4w9ZznVSshKjuIomsRjvm9EKJQ==}
     engines: {node: '>=18.17.0'}
     hasBin: true
@@ -6464,7 +6491,7 @@ packages:
       postcss: 8.4.31
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      styled-jsx: 5.1.1(@babel/core@7.25.2)(react@18.2.0)
+      styled-jsx: 5.1.1(@babel/core@7.24.5)(react@18.2.0)
     optionalDependencies:
       '@next/swc-darwin-arm64': 14.2.4
       '@next/swc-darwin-x64': 14.2.4
@@ -7932,24 +7959,6 @@ packages:
         optional: true
     dependencies:
       '@babel/core': 7.24.5
-      client-only: 0.0.1
-      react: 18.2.0
-    dev: false
-
-  /styled-jsx@5.1.1(@babel/core@7.25.2)(react@18.2.0):
-    resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}
-    engines: {node: '>= 12.0.0'}
-    peerDependencies:
-      '@babel/core': '*'
-      babel-plugin-macros: '*'
-      react: '>= 16.8.0 || 17.x.x || ^18.0.0-0'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      babel-plugin-macros:
-        optional: true
-    dependencies:
-      '@babel/core': 7.25.2
       client-only: 0.0.1
       react: 18.2.0
     dev: false

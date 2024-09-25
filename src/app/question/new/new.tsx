@@ -8,8 +8,8 @@ import { useForm } from 'react-hook-form';
 
 import { createNode, createNodeSchema } from '@/actions';
 import { BackButton, Button, Field, Input, resultToast } from '@/components';
-import { useMediaQuery } from '@/hooks';
-import { TagsList } from '@/modules';
+import { useMediaQuery, useWarnIfUnsavedChanges } from '@/hooks';
+import { PageChangeAlert, TagsList } from '@/modules';
 import { Limits } from '@/utils';
 
 import type { Me } from '@/types';
@@ -35,7 +35,7 @@ export default function New({ me, tags, integrations }: Props) {
     register,
     handleSubmit,
     watch,
-    formState: { isSubmitting, errors, isValid },
+    formState: { isSubmitting, errors, isValid, isDirty },
   } = useForm<Schema>({
     resolver: zodResolver(createNodeSchema),
     mode: 'onBlur',
@@ -47,6 +47,8 @@ export default function New({ me, tags, integrations }: Props) {
     },
   });
   const text = watch('text');
+
+  useWarnIfUnsavedChanges(isDirty);
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const updatedData = { ...data, tags: selectedTags };
@@ -120,6 +122,7 @@ export default function New({ me, tags, integrations }: Props) {
           </div>
         </form>
       </div>
+      <PageChangeAlert isDirty={isDirty} />
     </section>
   );
 }

@@ -46,6 +46,7 @@ module.exports = {
         primary: {
           DEFAULT: 'var(--gray-a7)',
           hover: 'var(--gray-a8)',
+          muted: 'var(--gray-6)'
         },
         accent: {
           DEFAULT: 'var(--teal-a7)',
