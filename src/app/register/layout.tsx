@@ -28,7 +28,7 @@ export default function Layout({ children }: Props) {
         <Stepper currentStep={currentStep} steps={steps} />
       )}
       {hasBackground ? (
-        <div className="mx-auto flex w-11/12 flex-col items-center gap-8 rounded-md bg-primary-foreground-alpha p-8 text-primary shadow-sm shadow-tealA-7 hover:shadow-tealA-8 md:w-[500px]">
+        <div className="mx-auto flex w-11/12 flex-col items-center gap-8 rounded-md bg-primary-foreground-alpha p-8 text-primary shadow-sm shadow-accent hover:shadow-accent-hover md:w-[500px]">
           {children}
         </div>
       ) : (

@@ -93,7 +93,7 @@ export default function Question({ node, favorites }: Props) {
 
   return (
     <li
-      className={`relative rounded-md border bg-primary-foreground text-primary shadow-gray-9 transition-all duration-300 hover:shadow-lg ${node.isPinned ? 'border-accent' : 'border-transparent'}`}
+      className={`relative rounded-md border bg-primary-foreground text-primary transition-all duration-300 ${node.isPinned ? 'border-accent' : 'border-primary'}`}
     >
       <details>
         <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-6 py-3">

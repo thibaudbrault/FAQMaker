@@ -42,6 +42,21 @@ module.exports = {
           }
         },
       },
+      boxShadowColor: {
+        primary: {
+          DEFAULT: 'var(--gray-a7)',
+          hover: 'var(--gray-a8)',
+        },
+        accent: {
+          DEFAULT: 'var(--teal-a7)',
+          hover: 'var(--teal-a8)',
+          focus: 'var(--teal-10)',
+        },
+        destructive: {
+          DEFAULT: 'var(--red-a7)',
+          hover: 'var(--red-a8)',
+        }
+      },
       textColor: {
         primary: {
           DEFAULT: 'var(--gray-12)',

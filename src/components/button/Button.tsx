@@ -10,15 +10,15 @@ const button = cva('transition-all duration-300 ease-in-out lowercase', {
   variants: {
     variant: {
       primary:
-        'bg-primary-negative text-primary-negative shadow-sm shadow-transparent disabled:bg-primary-negative-disabled disabled:text-primary disabled:shadow-sm disabled:shadow-grayA-7 disabled:hover:shadow-grayA-8',
+        'bg-primary-negative text-primary-negative shadow-sm shadow-transparent disabled:bg-primary-negative-disabled disabled:text-primary disabled:shadow-sm disabled:shadow-primary disabled:hover:shadow-primary-hover',
       ghost:
-        'bg-primary-foreground text-primary shadow-sm shadow-grayA-7 hover:bg-primary-foreground-hover disabled:shadow-transparent disabled:bg-transparent',
+        'bg-primary-foreground text-primary shadow-sm shadow-primary hover:bg-primary-foreground-hover disabled:shadow-transparent disabled:bg-transparent',
 
       secondary:
-        'bg-transparent text-accent-secondary shadow-sm shadow-tealA-7 hover:shadow-tealA-8',
+        'bg-transparent text-accent-secondary shadow-sm shadow-accent hover:shadow-accent-hover',
 
       destructive:
-        'bg-destructive text-white shadow-sm shadow-transparent hover:bg-destructive-hover disabled:bg-destructive-disabled disabled:text-redA-11 disabled:shadow-sm disabled:shadow-redA-7 disabled:hover:shadow-redA-8 disabled:dark:bg-destructive-disabled-dark',
+        'bg-destructive text-white shadow-sm shadow-transparent hover:bg-destructive-hover disabled:bg-destructive-disabled disabled:text-redA-11 disabled:shadow-sm disabled:shadow-destructive disabled:hover:shadow-destructive-hover disabled:dark:bg-destructive-disabled-dark',
     },
     icon: {
       true: 'flex items-center justify-center gap-1',

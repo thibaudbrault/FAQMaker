@@ -9,7 +9,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const styles =
-  'shadow-sm shadow-grayA-7 focus:shadow-teal-10 bg-primary-foreground w-full rounded-md p-1 outline-none';
+  'shadow-sm shadow-primary focus:shadow-accent-focus bg-primary-foreground w-full rounded-md p-1 outline-none';
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, withIcon = false, icon, ...props }, ref) => {
