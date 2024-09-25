@@ -8,6 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { createAnswer, updateAnswer } from '@/actions';
 import { BackButton, Button, Editor, resultToast } from '@/components';
 import { answerSchema } from '@/lib';
+import { PageChangeAlert } from '@/modules';
 import { Limits } from '@/utils';
 
 import type { createAnswerSchema, updateAnswerSchema } from '@/actions';
@@ -104,6 +105,7 @@ export default function Answer({ node }: Props) {
           </Button>
         </form>
       </div>
+      <PageChangeAlert isDirty={isDirty} />
     </section>
   );
 }

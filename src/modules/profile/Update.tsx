@@ -12,6 +12,8 @@ import { Button, Field, Input, resultToast } from '@/components';
 import { useMediaQuery } from '@/hooks';
 import { Limits } from '@/utils';
 
+import { PageChangeAlert } from '../navigation';
+
 import type { IUserUpdateFields, Me } from '@/types';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
@@ -130,6 +132,7 @@ export const UpdateProfile = ({ me }: Props) => {
           Update
         </Button>
       </form>
+      <PageChangeAlert isDirty={isDirty} />
     </section>
   );
 };

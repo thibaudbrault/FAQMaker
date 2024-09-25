@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { updateNode, updateNodeSchema } from '@/actions';
 import { BackButton, Button, Field, Input, resultToast } from '@/components';
 import { useMediaQuery } from '@/hooks';
-import { TagsList } from '@/modules';
+import { PageChangeAlert, TagsList } from '@/modules';
 import { Limits, arraysAreEqual } from '@/utils';
 
 import type { ExtendedNode, Me } from '@/types';
@@ -108,6 +108,7 @@ export default function Edit({ me, node, tags }: Props) {
           </Button>
         </form>
       </div>
+      <PageChangeAlert isDirty={isDirty} />
     </section>
   );
 }
