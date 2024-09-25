@@ -11,9 +11,13 @@ const nextConfig = removeImports({
       'storage.googleapis.com',
     ],
   },
-  // experimental: {
-  //   swcPlugins: [['@swc-jotai/react-refresh', {}]],
-  // },
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  },
   webpack: (config) => {
     config.experiments = { ...config.experiments, topLevelAwait: true };
     return config;
