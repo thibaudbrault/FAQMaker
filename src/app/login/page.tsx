@@ -1,7 +1,11 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
-import { LoginButton } from '@/components';
+import { signInAction } from '@/actions';
+import googleIcon from '@/assets/google.svg';
+import { Button } from '@/components';
 import { Routes } from '@/utils';
+
 
 import EmailForm from './EmailForm';
 
@@ -31,7 +35,7 @@ const LoginError = ({ error }: ErrorProps) => {
 };
 
 export default function Page({ searchParams }) {
-  const { error, callbackUrl } = searchParams;
+  const { error } = searchParams;
 
   return (
     <div className="flex w-full flex-col gap-4">
@@ -52,7 +56,19 @@ export default function Page({ searchParams }) {
         <span className="text-center text-xl font-semibold">OR</span>
         <hr className="ml-2 w-full" />
       </div>
-      <LoginButton callbackUrl={callbackUrl} />
+      <form action={signInAction}>
+        <Button
+          variant="primary"
+          size="full"
+          icon={true}
+          font="large"
+          weight="bold"
+          type="submit"
+        >
+          <Image src={googleIcon} alt="" width={28} height={28} />
+          Sign In with Google
+        </Button>
+      </form>
       {error && <LoginError error={error} />}
       <p className="text-center text-xs">
         No client account ?{' '}

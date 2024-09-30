@@ -6,8 +6,8 @@ import { useSetAtom } from 'jotai';
 import { AlignJustify, LogOut, Settings } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { signOut } from 'next-auth/react';
 
+import { signOutAction } from '@/actions';
 import {
   Avatar,
   AvatarFallback,
@@ -93,14 +93,15 @@ export const Header = ({ user }: Props) => {
           <li>
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
-                  onClick={() => signOut()}
-                  className="hover:text-primary-muted"
-                  type="button"
-                  aria-label="Log out"
-                >
-                  <LogOut />
-                </button>
+                <form action={signOutAction}>
+                  <button
+                    className="hover:text-primary-muted"
+                    type="submit"
+                    aria-label="Log out"
+                  >
+                    <LogOut />
+                  </button>
+                </form>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Logout</p>
@@ -129,13 +130,11 @@ export const Header = ({ user }: Props) => {
                   Settings
                 </Link>
               )}
-              <button
-                onClick={() => signOut()}
-                className="hover:underline"
-                type="button"
-              >
-                Logout
-              </button>
+              <form action={signOutAction}>
+                <button className="hover:underline" type="submit">
+                  Logout
+                </button>
+              </form>
               <hr className="mx-auto my-2 h-px w-3/4 border-none bg-divider" />
               <Button variant="primary" size="medium" font="large">
                 <Link href={Routes.SITE.QUESTION.NEW}>New Question</Link>
