@@ -47,7 +47,7 @@ export const createUser = authActionClient
       const { company } = tenant;
       const { data: domains } = await resend.domains.list();
       await resend.emails.send({
-        from: `FAQMaker - <noreply@${domains?.data[0].name}>`,
+        from: `FAQMaker - <no-reply@${domains?.data[0].name}>`,
         to: [email],
         subject: `You're invited to FAQMaker`,
         react: NewUserEmailTemplate({

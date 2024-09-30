@@ -54,7 +54,7 @@ export const createTenant = actionClient
       throw new ActionError('There was a problem when creating the user');
     }
     // await resend.emails.send({
-    //   from: `noreply@${domains?.data[0].name}`,
+    //   from: `no-reply@${domains?.data[0].name}`,
     //   to: [companyEmail],
     //   subject: 'Welcome to FAQMaker',
     //   react: RegisterEmailTemplate(),
