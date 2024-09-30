@@ -2,19 +2,21 @@
 
 import { cache } from 'react';
 
-import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 
-import { authOptions } from '@/lib/auth';
+import { auth } from '@/auth';
+import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
 import type { Me } from '@/types';
 import type { Session } from 'next-auth';
 
 export const getMe = cache(async (): Promise<Me | null> => {
-  const session = await getServerSession(authOptions);
-  const id = session?.user?.id;
+  const session = await auth();
+  if (!session) redirect(Routes.SITE.LOGIN);
+  const id = session.user?.id;
   if (!id) {
-    throw new Error('ID not found');
+    throw new Error('User ID not found');
   }
   const me = await prisma.user.findUnique({
     where: { id },
