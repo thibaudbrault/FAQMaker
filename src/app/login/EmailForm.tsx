@@ -24,7 +24,7 @@ export default function EmailForm() {
     formState: { isSubmitting, isDirty, errors, isValid },
   } = useForm<Schema>({
     resolver: zodResolver(userEmailSchema),
-    mode: 'onBlur',
+    mode: 'onChange',
     defaultValues: {
       email: '',
     },
@@ -32,7 +32,7 @@ export default function EmailForm() {
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const { email } = data;
-    await signIn('email', { email });
+    await signIn('resend', { email });
     successToast(`Link sent to ${data.email}`);
   };
 

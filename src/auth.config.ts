@@ -1,8 +1,7 @@
-import EmailProvider from 'next-auth/providers/email';
-import GoogleProvider from 'next-auth/providers/google';
 import { NextAuthConfig } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import ResendProvider from 'next-auth/providers/resend';
 
-import { sendVerificationRequest } from '@/lib';
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
@@ -21,17 +20,9 @@ export const authConfig: NextAuthConfig = {
         };
       },
     }),
-    EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
-      },
-      from: process.env.EMAIL_FROM,
-      sendVerificationRequest,
+    ResendProvider({
+      apiKey: process.env.RESEND_API_KEY,
+      from: 'no-reply@faqmaker.co',
     }),
   ],
   trustHost: true,
