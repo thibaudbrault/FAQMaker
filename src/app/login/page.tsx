@@ -6,7 +6,6 @@ import googleIcon from '@/assets/google.svg';
 import { Button } from '@/components';
 import { Routes } from '@/utils';
 
-
 import EmailForm from './EmailForm';
 
 const loginErrors = {
