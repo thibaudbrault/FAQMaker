@@ -9,6 +9,7 @@
     "docker:down": "docker compose down",
     "build": "next build",
     "start": "next start --port ${PORT-3000}",
+    "email": "email dev --dir src/components/emails --port 3001",
     "test": "pnpm exec playwright test",
     "test:headed": "pnpm exec playwright test --headed",
     "test:ui": "pnpm exec playwright test --ui",
