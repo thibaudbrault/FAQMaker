@@ -12,6 +12,7 @@ export default async function Page({ searchParams }) {
   if (!me) return redirect(Routes.SITE.LOGIN);
   const { tenantId } = me;
   const { id } = searchParams;
+  if (!id) return redirect(Routes.SITE.HOME);
 
   const node = await getNode(tenantId, id);
   const tags = await getTags(tenantId);

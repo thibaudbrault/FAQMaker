@@ -12,6 +12,7 @@ export default async function Page({ params }) {
   if (!me) return redirect(Routes.SITE.LOGIN);
   const { tenantId, id: userId } = me;
   const { id } = params;
+  if (!id) return redirect(Routes.SITE.HOME);
 
   const node = await getNode(tenantId, id);
   const favorite = await getFavorite(userId, node.id);
