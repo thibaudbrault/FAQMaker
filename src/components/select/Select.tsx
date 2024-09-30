@@ -1,4 +1,7 @@
-import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+'use client';
+
+import type { ElementRef, ComponentPropsWithoutRef } from 'react';
+import { forwardRef } from 'react';
 
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { Check, ChevronDown } from 'lucide-react';
@@ -16,14 +19,14 @@ const SelectTrigger = forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      'flex h-10 w-full items-center justify-between rounded-md px-3 py-2 text-sm shadow-sm shadow-grayA-7 placeholder:text-gray-11 focus:shadow-tealA-8',
+      'flex h-10 w-full items-center justify-between rounded-md px-3 py-2 text-sm shadow-sm shadow-primary placeholder:text-primary-muted focus:shadow-accent-focus',
       className,
     )}
     {...props}
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <ChevronDown className="h-4 w-4 opacity-50" />
+      <ChevronDown className="size-4 opacity-50" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ));
@@ -66,14 +69,14 @@ const SelectItem = forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      'relative flex w-full cursor-pointer select-none items-center bg-gray-12 p-2 text-sm font-semibold text-gray-1 outline-none first:rounded-t-md last:rounded-b-md hover:bg-gray-11 dark:bg-gray-12 dark:text-gray-1 dark:hover:bg-gray-11',
+      'relative flex w-full cursor-pointer select-none items-center bg-primary-negative p-2 text-sm font-semibold text-primary-negative outline-none first:rounded-t-md last:rounded-b-md hover:bg-primary-negative-hover dark:bg-primary-negative dark:text-primary-negative dark:hover:bg-primary-negative-hover',
       className,
     )}
     {...props}
   >
-    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+    <span className="absolute left-2 flex size-3.5 items-center justify-center">
       <SelectPrimitive.ItemIndicator>
-        <Check className="h-4 w-4 text-teal-9" />
+        <Check className="size-4 text-accent" />
       </SelectPrimitive.ItemIndicator>
     </span>
 

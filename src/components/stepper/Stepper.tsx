@@ -1,23 +1,28 @@
-import React from 'react';
+import { Fragment } from 'react';
 
 import { BadgeCheck } from 'lucide-react';
 
-import { TSteps } from '@/types';
+import type { TSteps } from '@/types';
 
 type Props = {
-  steps: TSteps[];
   currentStep: number;
 };
 
-export const Stepper = ({ steps, currentStep }: Props) => {
+export const Stepper = ({ currentStep }: Props) => {
+  const steps: TSteps[] = [
+    { id: 1, label: 'Company' },
+    { id: 2, label: 'User' },
+    { id: 3, label: 'Confirm' },
+  ];
+
   return (
-    <aside className="mx-auto flex w-11/12 items-center justify-between font-bold text-gray-12 md:w-[500px]">
+    <aside className="mx-auto flex w-11/12 items-center justify-between font-bold text-primary md:w-[500px]">
       {steps.map((step) => (
-        <>
-          <div key={step.id} className="flex items-center text-gray-12">
+        <Fragment key={step.id}>
+          <div className="flex items-center text-primary">
             {step.id < currentStep ? (
               <p className="flex items-center gap-1">
-                <BadgeCheck className="h-full w-full" aria-hidden="true" />
+                <BadgeCheck className="size-full" aria-hidden="true" />
                 {step.label}
               </p>
             ) : (
@@ -27,7 +32,7 @@ export const Stepper = ({ steps, currentStep }: Props) => {
           <span className={`${step.id === steps.length ? 'hidden' : 'inline'}`}>
             /
           </span>
-        </>
+        </Fragment>
       ))}
     </aside>
   );

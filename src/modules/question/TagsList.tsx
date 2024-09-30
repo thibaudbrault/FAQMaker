@@ -1,22 +1,18 @@
-import { Dispatch, SetStateAction } from 'react';
+'use client';
 
-import { Tag } from '@prisma/client';
+import type { Dispatch, SetStateAction } from 'react';
 
-import { Button, Loader } from '@/components';
+import { Button } from '@/components';
+
+import type { Tag } from '@prisma/client';
 
 type Props = {
-  isPending: boolean;
   tags: Tag[];
   selectedTags: string[];
   setSelectedTags: Dispatch<SetStateAction<string[]>>;
 };
 
-export const TagsList = ({
-  isPending,
-  tags,
-  selectedTags,
-  setSelectedTags,
-}: Props) => {
+export const TagsList = ({ tags, selectedTags, setSelectedTags }: Props) => {
   const handleSelection = (tagId: string) => {
     if (selectedTags.includes(tagId)) {
       setSelectedTags(selectedTags.filter((id) => id !== tagId));
@@ -25,19 +21,18 @@ export const TagsList = ({
     }
   };
 
-  if (isPending) {
-    return <Loader size="items" />;
-  } else if (tags.length > 0) {
+  if (tags.length > 0) {
     return (
       <ul className="flex list-none flex-wrap justify-start gap-4">
         {tags.map((tag) => (
           <li key={tag.id}>
             <Button
-              variant={selectedTags.includes(tag.id) ? 'primary' : 'disabled'}
+              variant={selectedTags.includes(tag.id) ? 'primary' : 'ghost'}
               rounded="base"
               font="small"
               size="small"
               type="button"
+              className="font-normal"
               onClick={() => handleSelection(tag.id)}
             >
               {tag.label}
@@ -46,7 +41,6 @@ export const TagsList = ({
         ))}
       </ul>
     );
-  } else {
-    return <p className="text-center italic">No tags</p>;
   }
+  return <p className="text-center italic">No tags</p>;
 };
