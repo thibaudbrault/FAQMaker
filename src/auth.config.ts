@@ -1,19 +1,16 @@
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import EmailProvider from 'next-auth/providers/email';
 import GoogleProvider from 'next-auth/providers/google';
+import { NextAuthConfig } from 'next-auth';
 
 import { sendVerificationRequest } from '@/lib';
 import { Routes } from '@/utils';
 import prisma from 'lib/prisma';
 
-import type { NextAuthOptions } from 'next-auth';
-
-export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+export const authConfig: NextAuthConfig = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
       allowDangerousEmailAccountLinking: true,
       profile(profile) {
         return {
@@ -37,6 +34,7 @@ export const authOptions: NextAuthOptions = {
       sendVerificationRequest,
     }),
   ],
+  trustHost: true,
   pages: {
     signIn: Routes.SITE.LOGIN,
     error: Routes.SITE.LOGIN,
@@ -81,9 +79,4 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  session: {
-    strategy: `jwt`,
-    maxAge: 60 * 60,
-  },
-  secret: process.env.NEXTAUTH_SECRET,
-};
+} satisfies NextAuthConfig;

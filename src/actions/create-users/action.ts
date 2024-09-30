@@ -1,9 +1,8 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { getServerSession } from 'next-auth';
 
-import { authOptions } from '@/lib/auth';
+import { auth } from '@/auth';
 import prisma from 'lib/prisma';
 
 import { createUsersSchema } from './schema';
@@ -27,7 +26,7 @@ export async function createUsers(usersArray, formData) {
     const data = Object.fromEntries(formData) as CreateUsersData;
     data.usersCount = Number(data.usersCount);
     data.usersArray = usersArray;
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session) {
       return { error: 'Not signed in' };
     }

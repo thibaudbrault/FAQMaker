@@ -1,10 +1,8 @@
-import { getServerSession } from 'next-auth';
 import { createSafeActionClient } from 'next-safe-action';
 import { z } from 'zod';
 
 import { getUserId } from '@/actions/get-me';
-
-import { authOptions } from './auth';
+import { auth } from '@/auth';
 
 export class ActionError extends Error {}
 
@@ -24,7 +22,7 @@ export const actionClient = createSafeActionClient({
 });
 
 export const authActionClient = actionClient.use(async ({ next }) => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session) {
     throw new Error('Not signed in');
   }

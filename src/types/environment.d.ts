@@ -7,8 +7,8 @@ declare global {
 
       NEXTAUTH_URL: string;
       NEXTAUTH_SECRET: string;
-      GOOGLE_CLIENT_ID: string;
-      GOOGLE_CLIENT_SECRET: string;
+      AUTH_GOOGLE_ID: string;
+      AUTH_GOOGLE_SECRET: string;
 
       TEST_EMAIL: string;
       TEST_PASSWORD: string;

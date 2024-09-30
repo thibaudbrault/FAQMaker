@@ -1,9 +1,8 @@
 'use server';
 
 import { Storage } from '@google-cloud/storage';
-import { getServerSession } from 'next-auth';
 
-import { authOptions } from '@/lib/auth';
+import { auth } from '@/auth';
 
 import { upsertLogoSchema } from './schema';
 
@@ -19,7 +18,7 @@ export async function getSignedLogo(formData: FormData) {
       return { error: 'Data not provided' };
     }
     const data = Object.fromEntries(formData) as SignedLogoData;
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (session) {
       const result = upsertLogoSchema.safeParse(data);
       if (result.success === false) {
