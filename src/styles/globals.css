@@ -17,10 +17,6 @@
 @import '@radix-ui/colors/red-dark';
 @import '@radix-ui/colors/red-dark-alpha';
 
-* {
-  @apply transition-colors duration-300 ease-in-out;
-}
-
 td,
 th {
   @apply border border-gray-7 p-1;

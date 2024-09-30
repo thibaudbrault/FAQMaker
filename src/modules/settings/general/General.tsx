@@ -1,19 +1,40 @@
-import { Company } from './Company';
-import { Files } from './Files';
+import { Tenant } from '@prisma/client';
 
-import type { Integrations, Tenant } from '@prisma/client';
+import { Loader } from '@/components';
+
+import { Company } from './Company';
+import { Data } from './Data';
+import { Files } from './Files';
+import { Integrations } from './Integrations';
 
 type Props = {
+  tenantId: string;
   tenant: Tenant;
-  integrations: Integrations | null;
+  isPending: boolean;
 };
 
-export const General = ({ tenant, integrations }: Props) => {
+export const General = ({ tenantId, tenant, isPending }: Props) => {
+  const styles = 'w-full rounded-md bg-gray-3 p-4';
+
+  if (isPending) {
+    return <Loader size="page" />;
+  }
   return (
-    <div className="flex flex-col">
-      <Company tenant={tenant} integrations={integrations} />
-      <hr className="my-4 h-px border-none bg-divider" />
-      <Files tenant={tenant} />
-    </div>
+    <>
+      <section className={styles}>
+        <Company tenant={tenant} />
+      </section>
+      <section className={styles}>
+        <Files tenant={tenant} />
+      </section>
+      {tenant.plan !== 'free' && (
+        <section className={styles}>
+          <Integrations tenantId={tenantId} />
+        </section>
+      )}
+      <section className="w-full">
+        <Data tenantId={tenantId} plan={tenant.plan} />
+      </section>
+    </>
   );
 };

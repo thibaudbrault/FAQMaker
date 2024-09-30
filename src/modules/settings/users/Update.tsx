@@ -1,12 +1,11 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { User } from '@prisma/client';
 import { AtSign, UserIcon } from 'lucide-react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { updateUser, updateUserSchema } from '@/actions';
 import {
   Button,
   Dialog,
@@ -28,18 +27,69 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components';
-import { useMediaQuery } from '@/hooks';
-
-import type { User } from '@prisma/client';
-import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
+import { useMediaQuery, useUpdateUser } from '@/hooks';
+import { updateUserClientSchema } from '@/lib';
 
 type Props = {
   user: User;
   tenantId: string;
 };
 
-type Schema = z.infer<typeof updateUserSchema>;
+type Schema = z.infer<typeof updateUserClientSchema>;
+
+export const UpdateUser = ({ user, tenantId }: Props) => {
+  const isDesktop = useMediaQuery('(min-width: 640px)');
+
+  if (isDesktop) {
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button
+            variant="primary"
+            weight="semibold"
+            size="small"
+            className="lowercase"
+            style={{ fontVariant: 'small-caps' }}
+          >
+            Modify
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Modify user</DialogTitle>
+          </DialogHeader>
+          <Form user={user} tenantId={tenantId} />
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button
+          variant="primary"
+          weight="semibold"
+          size="small"
+          className="lowercase"
+          style={{ fontVariant: 'small-caps' }}
+        >
+          Modify
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <div className="mb-10 mt-5">
+          <DrawerHeader>
+            <DrawerTitle className="font-serif text-2xl">
+              Modify user
+            </DrawerTitle>
+          </DrawerHeader>
+          <Form user={user} tenantId={tenantId} />
+        </div>
+      </DrawerContent>
+    </Drawer>
+  );
+};
 
 const Form = ({ user, tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -50,19 +100,18 @@ const Form = ({ user, tenantId }: Props) => {
     control,
     formState: { isSubmitting, isDirty, isValid, errors },
   } = useForm<Schema>({
-    resolver: zodResolver(updateUserSchema),
+    resolver: zodResolver(updateUserClientSchema),
     mode: 'onBlur',
     defaultValues: {
-      name: user.name ?? '',
+      name: user.name,
       email: user.email,
       role: user.role,
-      tenantId,
-      id: user.id,
     },
   });
+  const { mutate } = useUpdateUser(user.id, tenantId);
 
-  const onSubmit: SubmitHandler<Schema> = async (data) => {
-    await updateUser(data);
+  const onSubmit: SubmitHandler<Schema> = (values) => {
+    mutate(values);
   };
 
   useEffect(() => {
@@ -76,12 +125,12 @@ const Form = ({ user, tenantId }: Props) => {
     >
       <fieldset className="mx-auto flex w-11/12 flex-col gap-2">
         <div className="flex flex-col gap-1">
-          <Field label="Name" value="name" error={errors.name?.message}>
+          <Field label={'Name'} value={'name'} error={errors.name?.message}>
             <Input
               {...register('name')}
               withIcon
-              defaultValue={user.name ?? ''}
-              icon={<UserIcon className="size-5" />}
+              defaultValue={user.name}
+              icon={<UserIcon className="h-5 w-5" />}
               type="name"
               id="name"
               placeholder="Name"
@@ -89,12 +138,12 @@ const Form = ({ user, tenantId }: Props) => {
           </Field>
         </div>
         <div className="flex flex-col gap-1">
-          <Field label="Email" value="email" error={errors.email?.message}>
+          <Field label={'Email'} value={'email'} error={errors.email?.message}>
             <Input
               {...register('email', { required: true })}
               withIcon
               defaultValue={user.email}
-              icon={<AtSign className="size-5" />}
+              icon={<AtSign className="h-5 w-5" />}
               type="email"
               id="email"
               placeholder="Email"
@@ -133,51 +182,15 @@ const Form = ({ user, tenantId }: Props) => {
           </div>
         )}
       </fieldset>
-      <Button variant="primary" disabled={disabled}>
+      <Button
+        variant={disabled ? 'disabled' : 'primary'}
+        weight="semibold"
+        className="lowercase"
+        style={{ fontVariant: 'small-caps' }}
+        disabled={disabled}
+      >
         Update
       </Button>
     </form>
-  );
-};
-
-export const UpdateUser = ({ user, tenantId }: Props) => {
-  const isDesktop = useMediaQuery('(min-width: 640px)');
-
-  if (isDesktop) {
-    return (
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="primary" size="small">
-            Modify
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Modify user</DialogTitle>
-          </DialogHeader>
-          <Form user={user} tenantId={tenantId} />
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
-  return (
-    <Drawer>
-      <DrawerTrigger asChild>
-        <Button variant="primary" size="small">
-          Modify
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <div className="mb-10 mt-5">
-          <DrawerHeader>
-            <DrawerTitle className="font-serif text-2xl">
-              Modify user
-            </DrawerTitle>
-          </DrawerHeader>
-          <Form user={user} tenantId={tenantId} />
-        </div>
-      </DrawerContent>
-    </Drawer>
   );
 };

@@ -1,10 +1,9 @@
-'use client';
+import { Dispatch, MouseEvent, SetStateAction, useState } from 'react';
 
-import type { MouseEvent } from 'react';
-
+import { Tag } from '@prisma/client';
 import { SearchIcon, TagIcon } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useDebouncedCallback } from 'use-debounce';
+import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
 
 import {
   DropdownMenu,
@@ -15,44 +14,53 @@ import {
   Label,
 } from '@/components';
 
-import type { Tag } from '@prisma/client';
-
 type Props = {
   tags: Tag[];
+  setSearchQuery: Dispatch<SetStateAction<string>>;
+  setSearchTag: Dispatch<SetStateAction<string>>;
+  setPage: Dispatch<SetStateAction<number>>;
 };
 
-export const Search = ({ tags }: Props) => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-  const params = new URLSearchParams(searchParams);
-  const currentTag = params.get('tag') || '';
+export const Search = ({
+  tags,
+  setSearchQuery,
+  setSearchTag,
+  setPage,
+}: Props) => {
+  const router = useRouter();
+  const { handleSubmit, register } = useForm();
+  const [tagActive, setTagActive] = useState<string | null>(null);
 
-  const handleSearch = useDebouncedCallback((search) => {
-    params.delete('page');
+  const onSearch = (values) => {
+    const { search } = values;
+    setSearchQuery(search);
+    setPage(0);
     if (search) {
-      params.set('query', search);
+      const encodedSearch = encodeURI(search);
+      router.push(`?search=${encodedSearch}`);
     } else {
-      params.delete('query');
+      router.push('');
     }
-    replace(`${pathname}?${params.toString()}`);
-  }, 300);
+  };
 
   const handleTagSearch = (label: string) => {
-    params.delete('page');
-    params.set('tag', label);
-    replace(`${pathname}?${params.toString()}`);
+    setTagActive(label);
+    setSearchTag(label);
+    setPage(0);
   };
 
   const handleResetTag = () => {
-    params.delete('page');
-    params.delete('tag');
-    replace(`${pathname}?${params.toString()}`);
+    setTagActive(null);
+    setSearchTag(null);
+    setPage(0);
   };
 
   return (
     <section className="mx-auto flex w-11/12 items-end justify-center gap-8 md:w-3/4">
-      <div className="group/search flex w-full flex-col gap-1 [&_svg]:focus-within:text-accent-focus">
+      <form
+        onSubmit={handleSubmit(onSearch)}
+        className="group/search flex w-full flex-col gap-1 [&_svg]:focus-within:text-tealA-8"
+      >
         <Label
           htmlFor="search"
           className="lowercase"
@@ -61,20 +69,19 @@ export const Search = ({ tags }: Props) => {
           Search
         </Label>
         <Input
+          {...register('search')}
           withIcon
           icon={<SearchIcon />}
-          type="search"
+          type="text"
           id="search"
-          placeholder="Question title"
+          placeholder="Search"
           className="py-2"
-          defaultValue={searchParams.get('query')?.toString()}
-          onChange={(e) => handleSearch(e.target.value)}
         />
-      </div>
+      </form>
       {tags.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger
-            className="w-fit rounded-md bg-primary-foreground px-4 py-2 font-bold uppercase text-primary hover:bg-primary-foreground-hover"
+            className="w-fit rounded-md bg-gray-3 px-4 py-2 font-bold uppercase text-gray-12 hover:bg-gray-4"
             style={{ fontVariant: 'small-caps' }}
           >
             <TagIcon />
@@ -83,25 +90,22 @@ export const Search = ({ tags }: Props) => {
             {tags.map((tag) => (
               <DropdownMenuItem
                 className={
-                  currentTag === tag.label
-                    ? 'bg-primary-negative text-primary-negative hover:bg-primary-negative'
-                    : 'bg-primary'
+                  tagActive === tag.label
+                    ? 'bg-gray-12 text-white hover:bg-gray-12 dark:bg-gray-1 dark:hover:bg-gray-1'
+                    : 'bg-gray-1 dark:bg-gray-12'
                 }
                 key={tag.id}
               >
                 <button
-                  className="size-full text-start"
-                  type="button"
+                  className="h-full w-full text-start"
                   onClick={(e: MouseEvent<HTMLButtonElement>) =>
                     handleTagSearch(e.currentTarget.innerHTML)
                   }
                 >
                   {tag.label}
                 </button>
-                {currentTag === tag.label && (
-                  <button onClick={handleResetTag} type="button">
-                    x
-                  </button>
+                {tagActive === tag.label && (
+                  <button onClick={handleResetTag}>x</button>
                 )}
               </DropdownMenuItem>
             ))}

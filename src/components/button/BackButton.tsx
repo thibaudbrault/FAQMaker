@@ -1,17 +1,23 @@
-'use client';
-
 import { MoveLeft } from 'lucide-react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { Button } from './Button';
 
 export const BackButton = () => {
+  const router = useRouter();
   return (
-    <Button variant="primary" icon={true} font="large" size="small" asChild>
-      <Link href="/">
-        <MoveLeft />
-        Go back
-      </Link>
+    <Button
+      variant="primary"
+      weight="semibold"
+      icon="withIcon"
+      font="large"
+      size="small"
+      className="lowercase"
+      style={{ fontVariant: 'small-caps' }}
+      onClick={() => router.back()}
+    >
+      <MoveLeft />
+      Go back
     </Button>
   );
 };

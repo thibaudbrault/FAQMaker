@@ -1,6 +1,4 @@
-import { loadStripe } from '@stripe/stripe-js';
-
-import type { Stripe } from '@stripe/stripe-js';
+import { Stripe, loadStripe } from '@stripe/stripe-js';
 
 let stripePromise: Promise<Stripe | null>;
 export const getStripe = () => {

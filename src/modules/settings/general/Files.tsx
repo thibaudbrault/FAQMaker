@@ -1,67 +1,45 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Tenant } from '@prisma/client';
 import { Upload } from 'lucide-react';
 import Image from 'next/image';
 import Dropzone from 'react-dropzone';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { getSignedLogo, updateLogo, updateLogoSchema } from '@/actions';
-import { Button, resultToast } from '@/components';
-import { filesSchema } from '@/lib/validations';
-
-import type { Tenant } from '@prisma/client';
-import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
+import { Button } from '@/components';
+import { useUpsertFiles } from '@/hooks';
+import { filesClientSchema } from '@/lib';
 
 type Props = {
   tenant: Tenant;
 };
 
-type Schema = z.infer<typeof filesSchema>;
-type UpdateLogoType = z.infer<typeof updateLogoSchema>;
+type Schema = z.infer<typeof filesClientSchema>;
 
 export const Files = ({ tenant }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [previewImage, setPreviewImage] = useState<string>('');
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File>();
 
   const {
     handleSubmit,
     control,
     reset,
-    formState: { isSubmitting, isDirty, isValid },
+    formState: { isSubmitting, isDirty, isValid, errors },
   } = useForm<Schema>({
-    resolver: zodResolver(filesSchema),
+    resolver: zodResolver(filesClientSchema),
     mode: 'onBlur',
     defaultValues: {
-      logo: undefined,
+      logo: null,
     },
   });
 
-  const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const formData = new FormData();
-    const randomId = crypto.randomUUID();
-    const logo = encodeURIComponent(randomId + data.logo.name);
-    formData.append('logo', logo);
-    const { url, fields } = await getSignedLogo(formData);
-    formData.delete('logo');
-    Object.entries({ ...fields, file }).forEach(([key, value]) => {
-      formData.append(key, value as string | Blob);
-    });
-    await fetch(url, { method: 'POST', body: formData });
-    formData.forEach((_value, key) => {
-      formData.delete(key);
-    });
-    const logoUrl = `${url}logos/${logo}`;
-    const logoData: UpdateLogoType = {
-      logoUrl,
-      id: tenant.id,
-    };
-    const result = await updateLogo(logoData);
-    resultToast(result?.serverError, 'Logo updated successfully');
+  const { mutate } = useUpsertFiles(tenant.id);
+
+  const onSubmit: SubmitHandler<Schema> = (values) => {
+    mutate(values);
   };
 
   const handleReset = () => {
@@ -72,22 +50,24 @@ export const Files = ({ tenant }: Props) => {
 
   useEffect(() => {
     setDisabled(isSubmitting || !isDirty || !isValid);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDirty, isSubmitting, isValid]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col items-center gap-4">
       <h2
-        className="text-xl font-semibold lowercase"
+        className="text-center font-serif text-3xl font-semibold lowercase md:text-4xl"
         style={{ fontVariant: 'small-caps' }}
       >
         Logo
       </h2>
       <form
-        className="flex flex-col items-center gap-4"
+        className="mx-auto flex w-11/12 flex-col items-center gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Controller
-          name="logo"
+          name={'logo'}
           control={control}
           render={({ field: { onChange, onBlur } }) => (
             <div className="w-full">
@@ -103,7 +83,7 @@ export const Files = ({ tenant }: Props) => {
               >
                 {({ getRootProps, getInputProps, open, isDragActive }) => (
                   <div
-                    className={`relative flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-t-md border-2 border-b-0 border-dashed border-gray-12 px-4 py-8 ${isDragActive ? 'bg-primary-foreground-alpha' : 'bg-transparent'}`}
+                    className={`relative flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-t-md border-2 border-b-0 border-dashed border-gray-12 px-4 py-8 ${isDragActive ? 'bg-grayA-3' : 'bg-transparent'}`}
                     {...getRootProps()}
                   >
                     <input
@@ -116,14 +96,14 @@ export const Files = ({ tenant }: Props) => {
                     {previewImage ? (
                       <Image
                         src={previewImage}
-                        alt={file?.name ?? 'Logo'}
-                        className="size-36 rounded-md border border-primary object-cover"
+                        alt={file.name}
+                        className="h-36 w-36 rounded-md border border-gray-7 object-cover"
                         width={144}
                         height={144}
                       />
                     ) : (
-                      <div className="flex size-36 items-center justify-center">
-                        <Upload className="size-20" />
+                      <div className="flex h-36 w-36 items-center justify-center">
+                        <Upload className="h-20 w-20" />
                       </div>
                     )}
                     <p className="text-xl font-semibold">
@@ -131,7 +111,7 @@ export const Files = ({ tenant }: Props) => {
                     </p>
                     <button
                       type="button"
-                      className="text-sm text-primary-muted hover:text-primary"
+                      className="text-sm text-gray-11 hover:text-gray-12"
                       onClick={open}
                     >
                       Choose a file or drag and drop
@@ -142,8 +122,9 @@ export const Files = ({ tenant }: Props) => {
               <Button
                 variant="ghost"
                 rounded="bottom"
-                className="w-full border-2 border-t border-dashed border-t-grayA-8 shadow-none"
-                style={{ borderTopStyle: 'solid' }}
+                weight="semibold"
+                className="w-full border-2 border-t border-dashed border-t-grayA-8 lowercase shadow-none"
+                style={{ fontVariant: 'small-caps', borderTopStyle: 'solid' }}
                 onClick={handleReset}
                 type="button"
               >
@@ -152,7 +133,13 @@ export const Files = ({ tenant }: Props) => {
             </div>
           )}
         />
-        <Button variant="primary" disabled={disabled}>
+        <Button
+          variant={disabled ? 'disabled' : 'primary'}
+          weight="semibold"
+          className="lowercase"
+          style={{ fontVariant: 'small-caps' }}
+          disabled={disabled}
+        >
           Update
         </Button>
       </form>

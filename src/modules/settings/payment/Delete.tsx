@@ -1,12 +1,11 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Flame } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { deleteTenant, deleteTenantSchema } from '@/actions';
 import {
   Button,
   Dialog,
@@ -18,18 +17,21 @@ import {
   DialogTrigger,
   Input,
 } from '@/components';
-
-import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
+import { useDeleteTenant } from '@/hooks';
 
 type Props = {
   tenantId: string;
   company: string;
 };
-type Schema = z.infer<typeof deleteTenantSchema>;
 
 export const Delete = ({ tenantId, company }: Props) => {
+  const deleteSchema = z.object({
+    text: z.literal(`DELETE ${company}`),
+  });
+  type Schema = z.infer<typeof deleteSchema>;
+
   const [disabled, setDisabled] = useState<boolean>(true);
+  const router = useRouter();
 
   const {
     register,
@@ -37,17 +39,15 @@ export const Delete = ({ tenantId, company }: Props) => {
     setValue,
     formState: { isSubmitting, isValid },
   } = useForm<Schema>({
-    resolver: zodResolver(deleteTenantSchema),
+    resolver: zodResolver(deleteSchema),
     mode: 'onBlur',
-    defaultValues: {
-      text: '',
-      id: tenantId,
-      company,
-    },
   });
 
-  const onSubmit: SubmitHandler<Schema> = async (data) => {
-    await deleteTenant(data);
+  const { mutate } = useDeleteTenant(tenantId, company, router);
+
+  const onSubmit: SubmitHandler<Schema> = (values) => {
+    // @ts-ignore
+    mutate(values);
   };
 
   useEffect(() => {
@@ -57,7 +57,13 @@ export const Delete = ({ tenantId, company }: Props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="destructive" icon={true}>
+        <Button
+          variant="destructive"
+          weight="semibold"
+          className="lowercase"
+          icon="withIcon"
+          style={{ fontVariant: 'small-caps' }}
+        >
           <Flame />
           Delete account
         </Button>
@@ -71,7 +77,7 @@ export const Delete = ({ tenantId, company }: Props) => {
           account is permanent and will delete all your data forever.
         </p>
 
-        <p className="text-sm text-primary-muted">
+        <p className="text-sm text-gray-11">
           Type <span className="font-semibold">DELETE {company}</span> to
           confirm
         </p>
@@ -81,13 +87,24 @@ export const Delete = ({ tenantId, company }: Props) => {
             <DialogClose asChild>
               <Button
                 variant="ghost"
+                weight="semibold"
+                className="lowercase"
+                style={{ fontVariant: 'small-caps' }}
                 type="button"
+                // @ts-ignore
                 onClick={() => setValue('text', '')}
               >
                 Cancel
               </Button>
             </DialogClose>
-            <Button variant="destructive" type="submit" disabled={disabled}>
+            <Button
+              variant={disabled ? 'disabledDestructive' : 'destructive'}
+              weight="semibold"
+              className="lowercase"
+              style={{ fontVariant: 'small-caps' }}
+              type="submit"
+              disabled={disabled}
+            >
               Delete
             </Button>
           </DialogFooter>

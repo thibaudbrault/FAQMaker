@@ -1,21 +1,23 @@
-import type { InputHTMLAttributes, ReactNode } from 'react';
-import { forwardRef } from 'react';
+import { ReactNode, forwardRef } from 'react';
 
 import { cn } from '@/utils';
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   withIcon?: boolean;
   icon?: ReactNode;
 }
 
 const styles =
-  'shadow-sm shadow-primary focus:shadow-accent-focus bg-primary-foreground w-full rounded-md p-1 outline-none';
+  'shadow-sm shadow-grayA-7 focus:shadow-tealA-8 bg-gray-3 w-full rounded-md p-1 outline-none';
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, withIcon = false, icon, ...props }, ref) => {
     return withIcon ? (
       <div className="relative">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2">{icon}</span>
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 transform">
+          {icon}
+        </span>
         <input
           type={type}
           ref={ref}

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Tag as TagIcon } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { PlusCircle, Tag as TagIcon } from 'lucide-react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { createTag, createTagSchema } from '@/actions';
 import {
   Button,
   Dialog,
@@ -19,44 +19,94 @@ import {
   DrawerTrigger,
   Field,
   Input,
-  resultToast,
 } from '@/components';
-import { useMediaQuery } from '@/hooks';
-
-import type { $Enums } from '@prisma/client';
-import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
+import { useCreateTag, useMediaQuery } from '@/hooks';
+import { createTagClientSchema } from '@/lib';
 
 type Props = {
   tenantId: string;
-  plan: $Enums.Plan;
-  tagsCount: number;
 };
 
-type Schema = z.infer<typeof createTagSchema>;
+type Schema = z.infer<typeof createTagClientSchema>;
 
-const Form = ({ tenantId, plan, tagsCount }: Props) => {
+export const CreateTag = ({ tenantId }: Props) => {
+  const isDesktop = useMediaQuery('(min-width: 640px)');
+
+  if (isDesktop) {
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button
+            variant="primary"
+            icon="withIcon"
+            font="large"
+            size="full"
+            weight="bold"
+            className="lowercase"
+            style={{ fontVariant: 'small-caps' }}
+          >
+            <PlusCircle />
+            New tag
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>New tag</DialogTitle>
+          </DialogHeader>
+          <Form tenantId={tenantId} />
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button
+          variant="primary"
+          icon="withIcon"
+          font="large"
+          size="full"
+          weight="bold"
+          className="lowercase"
+          style={{ fontVariant: 'small-caps' }}
+        >
+          <PlusCircle />
+          New tag
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <div className="mb-10 mt-5">
+          <DrawerHeader>
+            <DrawerTitle>New tag</DrawerTitle>
+          </DrawerHeader>
+          <Form tenantId={tenantId} />
+        </div>
+      </DrawerContent>
+    </Drawer>
+  );
+};
+
+const Form = ({ tenantId }: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true);
 
   const {
     register,
     handleSubmit,
-    watch,
+    reset,
     formState: { errors, isSubmitting, isValid },
   } = useForm<Schema>({
-    resolver: zodResolver(createTagSchema),
+    resolver: zodResolver(createTagClientSchema),
     mode: 'onBlur',
     defaultValues: {
       label: '',
-      tagsCount,
-      plan,
-      tenantId,
     },
   });
 
-  const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const result = await createTag(data);
-    resultToast(result?.serverError, 'Tag created successfully');
+  const { mutate, isError, error } = useCreateTag(tenantId, reset);
+
+  const onSubmit: SubmitHandler<Schema> = (values) => {
+    mutate(values);
   };
 
   useEffect(() => {
@@ -69,13 +119,7 @@ const Form = ({ tenantId, plan, tagsCount }: Props) => {
       className="flex flex-col items-center gap-2"
     >
       <fieldset className="mx-auto flex w-11/12 flex-col gap-1">
-        <Field
-          label="Label"
-          value="label"
-          error={errors.label?.message}
-          curLength={watch('label')?.length}
-          limit={50}
-        >
+        <Field label="Label" value="label" error={errors.label?.message}>
           <Input
             {...register('label')}
             withIcon
@@ -86,71 +130,15 @@ const Form = ({ tenantId, plan, tagsCount }: Props) => {
           />
         </Field>
       </fieldset>
-      <Button variant="primary" disabled={disabled}>
+      <Button
+        variant={disabled ? 'disabled' : 'primary'}
+        weight="semibold"
+        className="lowercase"
+        style={{ fontVariant: 'small-caps' }}
+        disabled={disabled}
+      >
         Add
       </Button>
     </form>
-  );
-};
-
-export const CreateTag = ({ tenantId, plan, tagsCount }: Props) => {
-  const isDesktop = useMediaQuery('(min-width: 640px)');
-  const [disabled, setDisabled] = useState(false);
-
-  useEffect(() => {
-    if (
-      (plan === 'free' && tagsCount >= 3) ||
-      (plan === 'startup' && tagsCount >= 10)
-    ) {
-      setDisabled(true);
-    }
-  }, [tagsCount, plan]);
-
-  if (isDesktop) {
-    return (
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button
-            variant="primary"
-            font="large"
-            size="full"
-            weight="bold"
-            disabled={disabled}
-          >
-            New tag
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>New tag</DialogTitle>
-          </DialogHeader>
-          <Form tenantId={tenantId} plan={plan} tagsCount={tagsCount} />
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
-  return (
-    <Drawer>
-      <DrawerTrigger asChild>
-        <Button
-          variant="primary"
-          font="large"
-          size="full"
-          weight="bold"
-          disabled={disabled}
-        >
-          New tag
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <div className="mb-10 mt-5">
-          <DrawerHeader>
-            <DrawerTitle>New tag</DrawerTitle>
-          </DrawerHeader>
-          <Form tenantId={tenantId} plan={plan} tagsCount={tagsCount} />
-        </div>
-      </DrawerContent>
-    </Drawer>
   );
 };

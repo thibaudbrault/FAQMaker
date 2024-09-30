@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import { HelpCircle } from 'lucide-react';
 
@@ -11,35 +11,26 @@ type Props = {
   value: string;
   error?: string;
   info?: string;
-  limit?: number;
-  curLength?: number;
 };
 
-export const Field = ({
-  children,
-  label,
-  value,
-  error,
-  info,
-  limit,
-  curLength,
-}: Props) => {
+export const Field = ({ children, label, value, error, info }: Props) => {
   return (
     <div
       key={value}
-      className="flex flex-col gap-2 [&_svg]:focus-within:text-accent-focus"
+      className="flex flex-col gap-1 [&_svg]:focus-within:text-tealA-8"
     >
       <div className="flex items-center gap-1">
         <Label
           htmlFor={value}
-          className={`text-sm font-medium capitalize ${error && 'text-destructive'}`}
+          className={`lowercase ${error && 'text-red-9'}`}
+          style={{ fontVariant: 'small-caps' }}
         >
           {label}
         </Label>
         {info && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <HelpCircle className="size-3" />
+              <HelpCircle className="h-3 w-3" />
             </TooltipTrigger>
             <TooltipContent>
               <p>{info}</p>
@@ -48,20 +39,7 @@ export const Field = ({
         )}
       </div>
       {children}
-      <div className="grid grid-cols-2 gap-2">
-        {error && (
-          <small className="col-start-1 justify-self-start text-xs text-destructive">
-            {error}
-          </small>
-        )}
-        {limit && (
-          <small
-            className={`col-start-2 justify-self-end text-xs ${curLength > limit ? 'text-destructive' : 'text-primary-muted'}`}
-          >
-            {curLength} / {limit} characters
-          </small>
-        )}
-      </div>
+      {error && <small className="text-xs text-red-9">{error}</small>}
     </div>
   );
 };

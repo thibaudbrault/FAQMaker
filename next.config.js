@@ -8,15 +8,12 @@ const nextConfig = removeImports({
   images: {
     domains: [
       'lh3.googleusercontent.com',
+      'api.dicebear.com',
       'storage.googleapis.com',
     ],
   },
-  typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    // !! WARN !!
-    ignoreBuildErrors: true,
+  experimental: {
+    swcPlugins: [['@swc-jotai/react-refresh', {}]],
   },
   webpack: (config) => {
     config.experiments = { ...config.experiments, topLevelAwait: true };
@@ -24,21 +21,21 @@ const nextConfig = removeImports({
   },
 });
 
-// const sentryConfig = withSentryConfig(
-//   nextConfig,
-//   {
-//     authToken: process.env.SENTRY_AUTH_TOKEN,
-//     silent: true,
-//     org: 'thibaud-brault',
-//     project: 'faqmaker',
-//   },
-//   {
-//     widenClientFileUpload: true,
-//     transpileClientSDK: true,
-//     tunnelRoute: '/monitoring',
-//     hideSourceMaps: true,
-//     disableLogger: true,
-//   },
-// );
+const sentryConfig = withSentryConfig(
+  nextConfig,
+  {
+    authToken: process.env.SENTRY_AUTH_TOKEN,
+    silent: true,
+    org: 'thibaud-brault',
+    project: 'faqmaker',
+  },
+  {
+    widenClientFileUpload: true,
+    transpileClientSDK: true,
+    tunnelRoute: '/monitoring',
+    hideSourceMaps: true,
+    disableLogger: true,
+  },
+);
 
-module.exports = nextConfig;
+module.exports = sentryConfig;

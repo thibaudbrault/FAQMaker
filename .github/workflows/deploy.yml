@@ -12,9 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        uses: pnpm/action-setup@v3
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
         with:
           version: 8
 
@@ -27,10 +26,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Set up database
-        run: pnpm migrate:deploy
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
       - name: Apply database changes
         run: pnpm build
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}

@@ -1,106 +1,34 @@
-name: Linting and testing
+name: Run Type Check & Linters
 
-on:
-  push:
-    branches:
-      - main
-      - dev
-  pull_request: {}
-
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  DATABASE_URL: postgresql://postgres:postgres@postgres:5432/db
+on: [pull_request]
 
 jobs:
-  lint:
-    name: ESLint
+  run-ci:
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Set up repo
-        uses: ./.github/actions/build
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
 
-      - name: Lint
-        run: pnpm lint
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'pnpm'
 
-  typecheck:
-    name: TypeScript
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: pnpm install
 
-      - name: Set up repo
-        uses: ./.github/actions/build
-
-      - name: Type check
+      - name: Check types
         run: pnpm type
 
-  prettier:
-    name: Prettier
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+      - name: Check linting
+        run: pnpm lint
 
-      - name: Set up repo
-        uses: ./.github/actions/build
-
-      - name: Format code
+      - name: Check prettier
         run: pnpm prettier
-
-  playwright:
-    name: Playwright
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_DB: db
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-
-    container:
-      image: mcr.microsoft.com/playwright:v1.41.0-jammy
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up repo
-        uses: ./.github/actions/build
-
-      - name: Install Playwright
-        run: pnpm install:playwright:deps
-
-      - name: Build application
-        run: pnpm build
-
-      - name: Start application
-        run: pnpm start &
-
-      - name: Push database
-        run: pnpm push
-
-      - name: Run Playwright tests
-        run: pnpm test
-        env:
-          HOME: /root
-          TEST_EMAIL: ${{secrets.TEST_EMAIL}}
-          TEST_PASSWORD: ${{secrets.TEST_PASSWORD}}
-          AUTH_GOOGLE_SECRET: ${{secrets.AUTH_GOOGLE_SECRET}}
-          AUTH_GOOGLE_ID: ${{secrets.AUTH_GOOGLE_ID}}
-          NEXTAUTH_URL: ${{secrets.NEXTAUTH_URL}}
-          NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
-
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30

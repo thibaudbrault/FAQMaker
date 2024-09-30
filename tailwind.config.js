@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './node_modules/@tremor/**/*.{js,ts,jsx,tsx}',
   ],
   darkMode: 'class',
   theme: {
@@ -12,67 +13,6 @@ module.exports = {
       },
       boxShadow: {
         sm: '0 0 0 1px',
-      },
-      borderColor: {
-        primary: 'var(--gray-6)',
-        accent: 'var(--teal-6)'
-      },
-      backgroundColor: {
-        divider: 'var(--gray-6)',
-        primary: {
-          DEFAULT: 'var(--gray-1)',
-          foreground: {
-            DEFAULT: 'var(--gray-3)',
-            hover: 'var(--gray-4)',
-            active: 'var(--gray-4)',
-            alpha: 'var(--gray-a3)'
-          },
-          negative: {
-            DEFAULT: 'var(--gray-12)',
-            hover: 'var(--gray-11)',
-            disabled: 'var(--gray-10)'
-          },
-        },
-        destructive: {
-          DEFAULT: 'var(--red-6)',
-          hover: 'var(--red-5)',
-          disabled: {
-            DEFAULT: '#fff5f5cc',
-            dark: '#2f151780'
-          }
-        },
-      },
-      boxShadowColor: {
-        primary: {
-          DEFAULT: 'var(--gray-a7)',
-          hover: 'var(--gray-a8)',
-          muted: 'var(--gray-6)'
-        },
-        accent: {
-          DEFAULT: 'var(--teal-a7)',
-          hover: 'var(--teal-a8)',
-          focus: 'var(--teal-10)',
-        },
-        destructive: {
-          DEFAULT: 'var(--red-a7)',
-          hover: 'var(--red-a8)',
-        }
-      },
-      textColor: {
-        primary: {
-          DEFAULT: 'var(--gray-12)',
-          muted: 'var(--gray-11)',
-          negative: 'var(--gray-1)'
-        },
-        accent: {
-          DEFAULT: 'var(--teal-9)',
-          focus: 'var(--teal-10)',
-          secondary: 'var(--teal-11)',
-        },
-        destructive: {
-          DEFAULT: 'var(--red-9)',
-          hover: 'var(--red-10)'
-        }
       },
       colors: {
         teal: {

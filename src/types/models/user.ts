@@ -1,15 +1,13 @@
-import type { User } from '@prisma/client';
+import { Tenant, User } from '@prisma/client';
 
-export type Me = User & {
-  tenant: {
-    logo: string;
-    company: string;
-  };
+export type UserWithTenant = User & {
+  tenant: Tenant;
 };
 
 export type RegisterInfo = {
   company: string;
   companyEmail: string;
+  domain?: string | null;
   email: string;
   customerId?: string;
   plan: 'free' | 'startup' | 'enterprise';
