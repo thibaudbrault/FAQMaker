@@ -26,11 +26,11 @@ declare global {
 
       RESEND_API_KEY: string;
 
-      AWS_S3_BUCKET: string
-      AWS_S3_REGION: string
-      AWS_S3_ACCESS_KEY_ID: string
-      AWS_S3_SECRET_ACCESS_KEY: string
-      NEXT_PUBLIC_AWS_CLOUDFRONT_URL: string
+      AWS_S3_BUCKET: string;
+      AWS_S3_REGION: string;
+      AWS_S3_ACCESS_KEY_ID: string;
+      AWS_S3_SECRET_ACCESS_KEY: string;
+      NEXT_PUBLIC_AWS_CLOUDFRONT_URL: string;
       NEXT_PUBLIC_AWS_CLOUDFRONT_URL: string;
     }
   }

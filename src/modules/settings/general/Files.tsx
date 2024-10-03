@@ -44,8 +44,8 @@ export const Files = ({ tenant }: Props) => {
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const formData = new FormData();
     formData.append('logo', data.logo);
-    const url = await submitImage(formData, 'logo')
-    console.log(url)
+    const url = await submitImage(formData, 'logo');
+    console.log(url);
     // resultToast(result, 'Logo updated successfully');
   };
 
