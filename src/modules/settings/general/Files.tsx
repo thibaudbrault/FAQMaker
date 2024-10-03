@@ -8,8 +8,8 @@ import Image from 'next/image';
 import Dropzone from 'react-dropzone';
 import { Controller, useForm } from 'react-hook-form';
 
-import { getSignedLogo, updateLogo, updateLogoSchema } from '@/actions';
-import { Button, resultToast } from '@/components';
+import { submitImage, updateLogoSchema } from '@/actions';
+import { Button } from '@/components';
 import { filesSchema } from '@/lib/validations';
 
 import type { Tenant } from '@prisma/client';
@@ -43,25 +43,10 @@ export const Files = ({ tenant }: Props) => {
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const formData = new FormData();
-    const randomId = crypto.randomUUID();
-    const logo = encodeURIComponent(randomId + data.logo.name);
-    formData.append('logo', logo);
-    const { url, fields } = await getSignedLogo(formData);
-    formData.delete('logo');
-    Object.entries({ ...fields, file }).forEach(([key, value]) => {
-      formData.append(key, value as string | Blob);
-    });
-    await fetch(url, { method: 'POST', body: formData });
-    formData.forEach((_value, key) => {
-      formData.delete(key);
-    });
-    const logoUrl = `${url}logos/${logo}`;
-    const logoData: UpdateLogoType = {
-      logoUrl,
-      id: tenant.id,
-    };
-    const result = await updateLogo(logoData);
-    resultToast(result?.serverError, 'Logo updated successfully');
+    formData.append('logo', data.logo);
+    const url = await submitImage(formData, 'logo')
+    console.log(url)
+    // resultToast(result, 'Logo updated successfully');
   };
 
   const handleReset = () => {
@@ -143,7 +128,7 @@ export const Files = ({ tenant }: Props) => {
                 variant="ghost"
                 rounded="bottom"
                 className="w-full border-2 border-t border-dashed border-t-grayA-8 shadow-none"
-                style={{ borderTopStyle: 'solid' }}
+                style={{ borderTopStyle: 'solid', fontVariant: 'small-caps' }}
                 onClick={handleReset}
                 type="button"
               >
