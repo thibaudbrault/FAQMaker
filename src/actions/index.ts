@@ -42,3 +42,4 @@ export { updateNode, updateNodeSchema } from './update-node';
 export { updateTag, updateTagSchema } from './update-tag';
 export { updateTenant, updateTenantSchema } from './update-tenant';
 export { updateUser, updateUserSchema } from './update-user';
+export { submitImage } from './upload-file';
