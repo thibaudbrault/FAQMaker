@@ -26,7 +26,6 @@ import { Routes, getStripe } from '@/utils';
 
 import type { IPlan } from '@/types';
 
-
 export default function Form() {
   const [state, setState] = useAtom(registerAtom);
   const [api, setApi] = useState<CarouselApi>();

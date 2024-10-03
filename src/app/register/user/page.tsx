@@ -7,7 +7,6 @@ import { RegisterRoutes } from '@/utils';
 
 import Form from './form';
 
-
 export default function Page() {
   const pathname = usePathname();
 
