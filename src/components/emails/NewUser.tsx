@@ -38,7 +38,7 @@ export const NewUserEmailTemplate = ({
           <Container className="mx-auto my-10 max-w-lg rounded-md border border-solid border-neutral-500 p-5">
             <Section className="mt-8">
               <Img
-                src={`${process.env.CLOUDFRONT_URL}/faqmaker.png`}
+                src={`${process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_URL}/common/faqmaker.png`}
                 width="48"
                 height="48"
                 alt="FAQMaker"
