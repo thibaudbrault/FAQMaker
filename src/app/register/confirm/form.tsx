@@ -50,30 +50,21 @@ export default function Form() {
       className="flex w-full flex-col gap-4"
     >
       <fieldset className="flex w-full flex-col gap-4">
-        <div className="flex w-full flex-col gap-1 text-center">
-          <legend
-            className="font-serif text-5xl font-bold lowercase"
-            style={{ fontVariant: 'small-caps' }}
-          >
-            Confirm
-          </legend>
-          <p className="text-sm text-primary-muted">Confirm the information</p>
-        </div>
         <div>
           <p className="mb-2 text-xl font-bold">Company</p>
           <div className="grid grid-cols-4 grid-rows-1 gap-4">
-            <p className="text-sm">Name</p>
+            <small className="text-sm text-primary-muted">Name</small>
             <p className="col-span-3 font-bold">{state.company}</p>
           </div>
           <div className="grid grid-cols-4 grid-rows-1 gap-4">
-            <p className="text-sm">Email</p>
+            <small className="text-sm text-primary-muted">Email</small>
             <p className="col-span-3 font-bold">{state.companyEmail}</p>
           </div>
         </div>
         <div>
           <p className="mb-2 text-xl font-bold">User</p>
           <div className="grid grid-cols-4 grid-rows-1 gap-8">
-            <p className="text-sm">Email</p>
+            <small className="text-sm text-primary-muted">Email</small>
             <p className="col-span-3 font-bold">{state.email}</p>
           </div>
         </div>
