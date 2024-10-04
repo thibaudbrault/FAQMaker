@@ -25,7 +25,6 @@ export { getPaginatedNodes } from './get-nodes';
 export { getNodesCount } from './get-nodes-count';
 export { getSearchNodes } from './get-search-nodes';
 export { getSearchTags } from './get-search-tags';
-export { getSignedLogo } from './get-signed-logo';
 export { getTags } from './get-tags';
 export { getTagsCount } from './get-tags-count';
 export { getTenant } from './get-tenant';
