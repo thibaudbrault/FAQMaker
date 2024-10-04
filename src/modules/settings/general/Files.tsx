@@ -8,8 +8,8 @@ import Image from 'next/image';
 import Dropzone from 'react-dropzone';
 import { Controller, useForm } from 'react-hook-form';
 
-import { submitImage, updateLogoSchema } from '@/actions';
-import { Button } from '@/components';
+import { submitImage, updateLogo, updateLogoSchema } from '@/actions';
+import { Button, resultToast } from '@/components';
 import { filesSchema } from '@/lib/validations';
 
 import type { Tenant } from '@prisma/client';
@@ -21,6 +21,7 @@ type Props = {
 };
 
 type Schema = z.infer<typeof filesSchema>;
+
 type UpdateLogoType = z.infer<typeof updateLogoSchema>;
 
 export const Files = ({ tenant }: Props) => {
@@ -44,9 +45,17 @@ export const Files = ({ tenant }: Props) => {
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const formData = new FormData();
     formData.append('logo', data.logo);
+    formData.append('company', tenant.company);
     const url = await submitImage(formData, 'logo');
-    console.log(url);
-    // resultToast(result, 'Logo updated successfully');
+    if (url === '') {
+      return resultToast('Upload failed', undefined);
+    }
+    const logo: UpdateLogoType = {
+      url,
+      id: tenant.id,
+    };
+    const result = await updateLogo(logo);
+    resultToast(result?.serverError, 'Logo updated successfully');
   };
 
   const handleReset = () => {
