@@ -6,10 +6,16 @@ const nextConfig = removeImports({
   transpilePackages: ['@mdxeditor/editor', 'react-diff-view'],
   swcMinify: true,
   images: {
-    domains: [
-      'lh3.googleusercontent.com',
-      'storage.googleapis.com',
-    ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com'
+      },
+      {
+        protocol: 'https',
+        hostname: '**.cloudfront.net'
+      }
+    ]
   },
   typescript: {
     // !! WARN !!
