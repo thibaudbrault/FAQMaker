@@ -16,7 +16,6 @@ type Props = {
 };
 
 export const UserAnswers = ({ nodes }: Props) => {
-  console.log(nodes);
   return (
     <section className="space-y-4">
       <h2
