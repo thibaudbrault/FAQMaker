@@ -27,8 +27,5 @@ out/
 # Sentry Config File
 .sentryclirc
 
-# Google Cloud Storage key
-**/gcpKeyFile.json
-
 # VSCode
 .vscode

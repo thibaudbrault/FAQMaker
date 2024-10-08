@@ -6,6 +6,7 @@ export const Routes = {
     PROFILE: '/profile',
     ANSWER: '/question/answer',
     QUESTION: {
+      INDEX: '/question',
       NEW: '/question/new',
       EDIT: '/question/edit',
     },
@@ -15,63 +16,33 @@ export const Routes = {
       CONFIRM: '/register/confirm',
       PLAN: '/register/plan',
     },
-    _500: '/500',
   },
   API: {
-    USERS: {
-      INDEX: '/api/users',
-      COUNT: '/api/users/count',
-    },
-    NODES: {
-      INDEX: '/api/nodes',
-      COUNT: '/api/nodes/count',
-    },
-    CHECKOUT: '/api/stripe/checkout',
-    COLORS: '/api/colors',
-    CUSTOMER: '/api/stripe/customer',
     BILLING: '/api/stripe/billing',
-    ANSWERS: '/api/answers',
-    QUESTIONS: '/api/questions',
-    SEARCH: {
-      INDEX: '/api/search',
-      TAGS: '/api/search/tags',
-    },
-    TAGS: '/api/tags',
-    TENANT: {
-      INDEX: '/api/tenant',
-      LOGO: '/api/tenant/logo',
-    },
+    CHECKOUT: '/api/stripe/checkout',
     WEBHOOKS: '/api/stripe/webhooks',
-    STORAGE: {
-      LOGO: '/api/storage/logo',
-    },
-    INTEGRATIONS: {
-      INDEX: '/api/integrations',
-      SLACK: '/api/integrations/slack',
-    },
   },
 } as const;
 
-export const Redirects = {
-  NOT_FOUND: {
-    notFound: true,
+export const RegisterRoutes = [
+  {
+    title: 'Company',
+    number: 1,
+    route: Routes.SITE.REGISTER.INDEX,
   },
-  _500: {
-    redirect: {
-      permanent: false,
-      destination: Routes.SITE._500,
-    },
+  {
+    title: 'User',
+    number: 2,
+    route: Routes.SITE.REGISTER.USER,
   },
-  LOGIN: {
-    redirect: {
-      permanent: false,
-      destination: Routes.SITE.LOGIN,
-    },
+  {
+    title: 'Plan',
+    number: 3,
+    route: Routes.SITE.REGISTER.PLAN,
   },
-  HOME: {
-    redirect: {
-      permanent: false,
-      destination: Routes.SITE.HOME,
-    },
+  {
+    title: 'Confirm',
+    number: 4,
+    route: Routes.SITE.REGISTER.CONFIRM,
   },
-} as const;
+];

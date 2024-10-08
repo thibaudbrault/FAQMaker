@@ -1,12 +1,13 @@
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { $Enums, User } from '@prisma/client';
 import { FileUp } from 'lucide-react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { usePapaParse } from 'react-papaparse';
-import { z } from 'zod';
 
+import { createUsers } from '@/actions';
 import {
   Button,
   Dialog,
@@ -23,30 +24,35 @@ import {
   DrawerTrigger,
   Input,
 } from '@/components';
-import { useCreateUsers, useMediaQuery } from '@/hooks';
-import { csvUploadClientSchema } from '@/lib';
+import { useMediaQuery } from '@/hooks';
+import { csvUploadSchema } from '@/lib/validations';
+
+import type { $Enums, User } from '@prisma/client';
+import type { SubmitHandler } from 'react-hook-form';
+import type { z } from 'zod';
 
 type Props = {
   tenantId: string;
   users: User[];
   plan: $Enums.Plan;
+  usersCount: number;
 };
 
-type Schema = z.infer<typeof csvUploadClientSchema>;
+type Schema = z.infer<typeof csvUploadSchema>;
 
-export const FileInput = ({ tenantId, users, plan }: Props) => {
+export const FileInput = ({ tenantId, users, plan, usersCount }: Props) => {
   const isDesktop = useMediaQuery('(min-width: 640px)');
 
-  const [file, setFile] = useState();
+  const [file, setFile] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string>('');
   const [csvData, setCsvData] = useState([]);
   const [disabled, setDisabled] = useState<boolean>(true);
-  const [newUsers, setNewUsers] = useState<string[]>();
+  const [newUsers, setNewUsers] = useState<string[]>([]);
   const [limit, setLimit] = useState<number>(5 - users.length);
   const fileInput = useRef(null);
   const { readRemoteFile } = usePapaParse();
   const emails = users.map((user) => user.email);
-  const newUsersArray = newUsers
+  const usersArray = newUsers
     ?.filter((user) => !emails.includes(user))
     .splice(0, limit);
   const removedUsersArray = newUsers
@@ -60,7 +66,7 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<Schema>({
-    resolver: zodResolver(csvUploadClientSchema),
+    resolver: zodResolver(csvUploadSchema),
     defaultValues: {
       name: '',
     },
@@ -90,7 +96,7 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
       complete: (results) => {
         let columnIndex: number = 0;
         const newUsersArray = [];
-        results.data.map((data) => {
+        results.data.forEach((data) => {
           columnIndex = Object.keys(data).indexOf(field);
           newUsersArray.push(Object.values(data));
         });
@@ -100,14 +106,15 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
     });
   };
 
-  const { mutate } = useCreateUsers(tenantId, newUsersArray);
-
   const onFileSubmit: SubmitHandler<Schema> = (values) => {
     handleFileSubmit(values.name);
   };
 
-  const onSubmit = () => {
-    mutate();
+  const onSubmit = async () => {
+    const formData = new FormData();
+    formData.append('tenantId', tenantId);
+    formData.append('usersCount', String(usersCount));
+    await createUsers(usersArray, formData);
   };
 
   useEffect(() => {
@@ -124,28 +131,24 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
     <div className="flex flex-col gap-1">
       <form
         onSubmit={handleSubmit(onFileSubmit)}
-        className="grid grid-cols-2 grid-rows-1 md:grid-cols-3"
+        className="grid grid-cols-2 grid-rows-2"
       >
         <Button
-          variant="secondary"
+          variant={`${fileName ? 'primary' : 'ghost'}`}
           size="full"
           font="large"
-          icon="withIcon"
-          weight="semibold"
-          className={`rounded-none rounded-tl-md lowercase md:rounded-l-md ${
-            fileName ? 'bg-teal-9 text-white' : ''
-          }`}
-          style={{ fontVariant: 'small-caps' }}
+          icon={true}
+          className={`rounded-none rounded-tl-md`}
           onClick={handleButtonClick}
           type="button"
         >
           <FileUp />
-          {fileName ? `${fileName}` : 'Use a CSV'}
+          {fileName ? `${fileName.substring(0, 15 - 3) + '...'}` : 'Use a CSV'}
         </Button>
         <input
           type="file"
           id="file"
-          accept=".csv"
+          accept=".csv, .xlsx"
           onChange={handleFileUpload}
           ref={fileInput}
           className="hidden"
@@ -155,18 +158,16 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
           type="text"
           id="column"
           placeholder="Column name"
-          className="rounded-none rounded-tr-md px-1  outline-none md:rounded-none"
+          className="rounded-none rounded-tr-md px-1 outline-none"
         />
         {isDesktop ? (
           <Dialog>
             <DialogTrigger asChild>
               <Button
-                variant={disabled ? 'disabled' : 'primary'}
+                variant="primary"
                 size="full"
                 font="large"
-                weight="semibold"
-                className="col-span-2 rounded-none rounded-b-md lowercase md:col-start-3 md:rounded-l-none md:rounded-r-md"
-                style={{ fontVariant: 'small-caps' }}
+                className="col-span-2 rounded-none rounded-b-md"
                 disabled={disabled}
                 type="submit"
               >
@@ -184,20 +185,20 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                       <p className="pb-2 font-semibold">Already exists</p>
                       <ul className="list-none text-sm italic">
                         {existingUsersArray &&
-                          existingUsersArray.map((user, index) => (
-                            <li key={index}>{user}</li>
+                          existingUsersArray.map((user) => (
+                            <li key={user}>{user}</li>
                           ))}
                       </ul>
                     </div>
                   )}
                   <div className="rounded-md bg-green-600/30 p-2">
-                    {newUsersArray.length > 0 ? (
+                    {usersArray.length > 0 ? (
                       <>
                         <p className="pb-2 font-semibold">New</p>
                         <ul className="flex list-none flex-col gap-1 text-sm italic">
-                          {newUsersArray &&
-                            newUsersArray.map((user, index) => (
-                              <li key={index}>{user}</li>
+                          {usersArray &&
+                            usersArray.map((user) => (
+                              <li key={user}>{user}</li>
                             ))}
                         </ul>
                       </>
@@ -210,23 +211,18 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                       <p className="pb-2 font-semibold">Not added</p>
                       <ul className="flex list-none flex-col gap-1 text-sm italic line-through">
                         {removedUsersArray &&
-                          removedUsersArray.map((user, index) => (
-                            <li key={index}>{user}</li>
+                          removedUsersArray.map((user) => (
+                            <li key={user}>{user}</li>
                           ))}
                       </ul>
                     </div>
                   )}
                   <div className="flex justify-center">
                     <Button
-                      variant={
-                        newUsersArray.length === 0 ? 'disabled' : 'primary'
-                      }
-                      weight="semibold"
-                      style={{ fontVariant: 'small-caps' }}
-                      className="lowercase"
+                      variant="primary"
                       type="button"
                       onClick={onSubmit}
-                      disabled={newUsersArray.length === 0}
+                      disabled={usersArray.length === 0}
                     >
                       Submit
                     </Button>
@@ -247,12 +243,10 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
           <Drawer>
             <DrawerTrigger asChild>
               <Button
-                variant={disabled ? 'disabled' : 'primary'}
+                variant="primary"
                 size="full"
                 font="large"
-                weight="semibold"
-                className="col-span-2 rounded-none rounded-b-md lowercase md:col-start-3 md:rounded-l-none md:rounded-r-md"
-                style={{ fontVariant: 'small-caps' }}
+                className="col-span-2 rounded-none rounded-b-md"
                 disabled={disabled}
                 type="submit"
               >
@@ -272,20 +266,20 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                           <p className="pb-2 font-semibold">Already exists</p>
                           <ul className="list-none text-sm italic">
                             {existingUsersArray &&
-                              existingUsersArray.map((user, index) => (
-                                <li key={index}>{user}</li>
+                              existingUsersArray.map((user) => (
+                                <li key={user}>{user}</li>
                               ))}
                           </ul>
                         </div>
                       )}
                       <div className="rounded-md bg-green-600/30 p-2">
-                        {newUsersArray.length > 0 ? (
+                        {usersArray.length > 0 ? (
                           <>
                             <p className="pb-2 font-semibold">New</p>
                             <ul className="flex list-none flex-col gap-1 text-sm italic">
-                              {newUsersArray &&
-                                newUsersArray.map((user, index) => (
-                                  <li key={index}>{user}</li>
+                              {usersArray &&
+                                usersArray.map((user) => (
+                                  <li key={user}>{user}</li>
                                 ))}
                             </ul>
                           </>
@@ -298,23 +292,20 @@ export const FileInput = ({ tenantId, users, plan }: Props) => {
                           <p className="pb-2 font-semibold">Not added</p>
                           <ul className="flex list-none flex-col gap-1 text-sm italic line-through">
                             {removedUsersArray &&
-                              removedUsersArray.map((user, index) => (
-                                <li key={index}>{user}</li>
+                              removedUsersArray.map((user) => (
+                                <li key={user}>{user}</li>
                               ))}
                           </ul>
                         </div>
                       )}
                       <div className="flex justify-center">
                         <Button
-                          variant={
-                            newUsersArray.length === 0 ? 'disabled' : 'primary'
-                          }
-                          weight="semibold"
+                          variant="primary"
                           style={{ fontVariant: 'small-caps' }}
                           className="lowercase"
                           type="button"
                           onClick={onSubmit}
-                          disabled={newUsersArray.length === 0}
+                          disabled={usersArray.length === 0}
                         >
                           Submit
                         </Button>

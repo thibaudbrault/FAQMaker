@@ -1,4 +1,5 @@
-import { forwardRef, HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
+import { forwardRef } from 'react';
 
 import { cva, type VariantProps } from 'class-variance-authority';
 
@@ -7,15 +8,19 @@ import { cn } from '@/utils';
 const badge = cva('text-xs font-semibold', {
   variants: {
     variant: {
-      primary: ['bg-gray-12 text-gray-1 text-center'],
-      disabled: ['bg-gray-11 text-gray-1 text-center'],
+      primary: ['bg-primary-negative text-center text-primary-negative'],
     },
     rounded: {
       full: ['rounded-full'],
     },
     size: {
-      small: ['px-2 min-w-[40px]'],
+      small: ['min-w-[40px] px-2'],
     },
+  },
+  defaultVariants: {
+    variant: 'primary',
+    rounded: 'full',
+    size: 'small',
   },
 });
 export interface BadgeProps
