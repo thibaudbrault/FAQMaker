@@ -30,11 +30,15 @@ export const userEmailSchema = z.object({
 
 export const filesSchema = z.object({
   logo: z
-    .custom<File>((file) => file instanceof File, 'Please upload a file')
-    .refine((file) => file?.size <= MAX_FILE_SIZE, 'File must be under 5MB')
+    .any()
+    .refine((files) => files?.length == 1, 'Image is required.')
     .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-      'Wrong format',
+      (files) => files?.[0]?.size <= MAX_FILE_SIZE,
+      'Max file size is 5MB',
+    )
+    .refine(
+      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      '.jpg, .jpeg, .png, .webp and .svg files are accepted.',
     ),
 });
 

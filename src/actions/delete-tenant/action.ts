@@ -1,9 +1,13 @@
 'use server';
 
-import { Storage } from '@google-cloud/storage';
+import {
+  DeleteObjectCommand,
+  DeleteObjectCommandInput,
+} from '@aws-sdk/client-s3';
 import { redirect } from 'next/navigation';
 import Stripe from 'stripe';
 
+import { s3Client } from '@/lib';
 import { authActionClient } from '@/lib/safe-actions';
 import { Routes, STRIPE_VERSION } from '@/utils';
 import prisma from 'lib/prisma';
@@ -25,26 +29,20 @@ export const deleteTenant = authActionClient
         logo: true,
       },
     });
-    const { customerId, logo } = tenant;
+    const logo = tenant?.logo;
     if (logo) {
-      const storage = new Storage({
-        projectId: process.env.PROJECT_ID,
-        credentials: {
-          client_email: process.env.CLIENT_EMAIL,
-          private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
-        },
-      });
-      const bucketName = 'faqmaker';
-      const bucket = storage.bucket(bucketName);
-      const fileName = logo.replace(
-        'https://storage.googleapis.com/faqmaker/',
-        '',
-      );
-      bucket.file(fileName).delete();
+      const fileName = logo.substring(logo.lastIndexOf('/') + 1);
+      const params: DeleteObjectCommandInput = {
+        Bucket: process.env.AWS_S3_BUCKET as string,
+        Key: `${company}/${fileName}`,
+      };
+      const command = new DeleteObjectCommand(params);
+      await s3Client.send(command);
     }
     await prisma.tenant.delete({
       where: { id, company },
     });
+    const customerId = tenant?.customerId;
     if (customerId) {
       await stripe.customers.del(customerId);
     }

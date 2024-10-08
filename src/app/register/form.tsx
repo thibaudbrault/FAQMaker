@@ -56,15 +56,6 @@ export default function Form() {
       className="flex w-full flex-col gap-4"
     >
       <fieldset className="flex w-full flex-col gap-4">
-        <div className="mb-4 flex w-full flex-col gap-2 text-center">
-          <legend
-            className="font-serif text-5xl font-bold lowercase"
-            style={{ fontVariant: 'small-caps' }}
-          >
-            Company
-          </legend>
-          <p className="text-sm text-primary-muted">Your company details</p>
-        </div>
         {fields.map((field) => (
           <div key={field.value} className="flex flex-1 flex-col">
             <Field
@@ -85,26 +76,28 @@ export default function Form() {
           </div>
         ))}
       </fieldset>
-      <Button
-        variant="primary"
-        size="full"
-        icon={true}
-        font="large"
-        weight="bold"
-        disabled={!isValid}
-      >
-        Next
-        <MoveRight />
-      </Button>
-      <p className="text-center text-xs">
-        Already have an account ?{' '}
-        <Link
-          className="font-semibold hover:underline"
-          href={Routes.SITE.LOGIN}
+      <div className="flex w-full flex-col items-center justify-between gap-4">
+        <Button
+          variant="primary"
+          size="full"
+          icon={true}
+          font="large"
+          weight="bold"
+          disabled={!isValid}
         >
-          Login
-        </Link>
-      </p>
+          Next
+          <MoveRight />
+        </Button>
+        <small className="text-center text-xs">
+          Already have an account ?{' '}
+          <Link
+            className="font-semibold hover:underline"
+            href={Routes.SITE.LOGIN}
+          >
+            Login
+          </Link>
+        </small>
+      </div>
     </form>
   );
 }

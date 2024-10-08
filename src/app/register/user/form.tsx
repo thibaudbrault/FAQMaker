@@ -39,18 +39,9 @@ export default function Form() {
   return (
     <form
       onSubmit={handleSubmit(saveData)}
-      className="flex w-full flex-col gap-4"
+      className="flex h-full w-full flex-col justify-between gap-4"
     >
       <fieldset className="flex w-full flex-col gap-4">
-        <div className="mb-4 flex w-full flex-col gap-2 text-center">
-          <legend
-            className="font-serif text-5xl font-bold lowercase"
-            style={{ fontVariant: 'small-caps' }}
-          >
-            User
-          </legend>
-          <p className="text-sm text-primary-muted">Your connection mail</p>
-        </div>
         <Field label="Email" value="email" error={errors.email?.message}>
           <Input
             {...register('email')}
@@ -61,41 +52,43 @@ export default function Form() {
           />
         </Field>
       </fieldset>
-      <div className="flex w-full items-center justify-between gap-4">
-        <Button
-          variant="secondary"
-          size="full"
-          icon={true}
-          font="large"
-          weight="bold"
-          type="button"
-          onClick={() => router.push(Routes.SITE.REGISTER.INDEX)}
-        >
-          <MoveLeft />
-          Previous
-        </Button>
-        <Button
-          variant="primary"
-          size="full"
-          icon={true}
-          font="large"
-          weight="bold"
-          disabled={!isValid}
-          type="submit"
-        >
-          Next
-          <MoveRight />
-        </Button>
+      <div className="flex w-full flex-col items-center justify-between gap-4">
+        <div className="flex w-full items-center justify-between gap-4">
+          <Button
+            variant="secondary"
+            size="full"
+            icon={true}
+            font="large"
+            weight="bold"
+            type="button"
+            onClick={() => router.push(Routes.SITE.REGISTER.INDEX)}
+          >
+            <MoveLeft />
+            Previous
+          </Button>
+          <Button
+            variant="primary"
+            size="full"
+            icon={true}
+            font="large"
+            weight="bold"
+            disabled={!isValid}
+            type="submit"
+          >
+            Next
+            <MoveRight />
+          </Button>
+        </div>
+        <small className="text-center text-xs">
+          Already have an account ?{' '}
+          <Link
+            className="font-semibold hover:underline"
+            href={Routes.SITE.LOGIN}
+          >
+            Login
+          </Link>
+        </small>
       </div>
-      <p className="text-center text-xs">
-        Already have an account ?{' '}
-        <Link
-          className="font-semibold hover:underline"
-          href={Routes.SITE.LOGIN}
-        >
-          Login
-        </Link>
-      </p>
     </form>
   );
 }
