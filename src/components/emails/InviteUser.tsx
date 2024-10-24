@@ -21,7 +21,7 @@ interface Props {
   invitedByEmail: string;
 }
 
-export const NewUserEmailTemplate = ({
+export const FaqmakerInviteUserEmail = ({
   company,
   username,
   invitedByUsername,
@@ -38,7 +38,7 @@ export const NewUserEmailTemplate = ({
           <Container className="mx-auto my-10 max-w-lg rounded-md border border-solid border-neutral-500 p-5">
             <Section className="mt-8">
               <Img
-                src={`${process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_URL}/common/faqmaker.png`}
+                src="/faqmaker.png"
                 width="48"
                 height="48"
                 alt="FAQMaker"
@@ -48,7 +48,7 @@ export const NewUserEmailTemplate = ({
             <Heading className="mx-0 p-0 text-center text-2xl font-normal">
               Join <strong>{company}</strong> on <strong>FAQMaker</strong>
             </Heading>
-            <Text>Hello XXX,</Text>
+            <Text>Hi {username},</Text>
             <Text>
               <strong>{invitedByUsername}</strong> (
               <Link
@@ -84,4 +84,11 @@ export const NewUserEmailTemplate = ({
   );
 };
 
-export default NewUserEmailTemplate;
+FaqmakerInviteUserEmail.PreviewProps = {
+  username: 'alanturing',
+  company: 'Enigma',
+  invitedByUsername: 'Alan',
+  invitedByEmail: 'alan.turing@example.com',
+} as Props;
+
+export default FaqmakerInviteUserEmail;
