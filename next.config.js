@@ -4,7 +4,6 @@ const { withSentryConfig } = require('@sentry/nextjs');
 
 const nextConfig = removeImports({
   transpilePackages: ['@mdxeditor/editor', 'react-diff-view'],
-  swcMinify: true,
   images: {
     remotePatterns: [
       {
