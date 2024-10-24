@@ -37,7 +37,7 @@ const DrawerOverlay = forwardRef<
     {...props}
   />
 ));
-DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
+DrawerOverlay.displayName = DrawerPrimitive.Overlay?.displayName;
 
 const DrawerContent = forwardRef<
   ElementRef<typeof DrawerPrimitive.Content>,
@@ -95,7 +95,7 @@ const DrawerTitle = forwardRef<
     {...props}
   />
 ));
-DrawerTitle.displayName = DrawerPrimitive.Title.displayName;
+DrawerTitle.displayName = DrawerPrimitive.Title?.displayName;
 
 export {
   Drawer,

@@ -1,21 +1,22 @@
+@import '@radix-ui/colors/teal.css';
+@import '@radix-ui/colors/teal-alpha.css';
+@import '@radix-ui/colors/teal-dark.css';
+@import '@radix-ui/colors/teal-dark-alpha.css';
+
+@import '@radix-ui/colors/gray.css';
+@import '@radix-ui/colors/gray-alpha.css';
+@import '@radix-ui/colors/gray-dark.css';
+@import '@radix-ui/colors/gray-dark-alpha.css';
+
+@import '@radix-ui/colors/red.css';
+@import '@radix-ui/colors/red-alpha.css';
+@import '@radix-ui/colors/red-dark.css';
+@import '@radix-ui/colors/red-dark-alpha.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import '@radix-ui/colors/teal';
-@import '@radix-ui/colors/teal-alpha';
-@import '@radix-ui/colors/teal-dark';
-@import '@radix-ui/colors/teal-dark-alpha';
-
-@import '@radix-ui/colors/gray';
-@import '@radix-ui/colors/gray-alpha';
-@import '@radix-ui/colors/gray-dark';
-@import '@radix-ui/colors/gray-dark-alpha';
-
-@import '@radix-ui/colors/red';
-@import '@radix-ui/colors/red-alpha';
-@import '@radix-ui/colors/red-dark';
-@import '@radix-ui/colors/red-dark-alpha';
 
 * {
   @apply transition-colors duration-300 ease-in-out;

@@ -6,7 +6,8 @@ import { Routes } from '@/utils';
 
 import Question from './question';
 
-export default async function Page({ params }) {
+export default async function Page(props) {
+  const params = await props.params;
   const me = await getMe();
 
   if (!me) return redirect(Routes.SITE.LOGIN);
