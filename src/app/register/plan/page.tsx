@@ -38,7 +38,7 @@ export default function Page() {
             </Link>
           ))}
         </div>
-        <div className="mx-auto flex w-full flex-col items-center justify-between gap-8">
+        <div className="mx-auto flex w-full flex-col items-center">
           <Form />
         </div>
       </div>
