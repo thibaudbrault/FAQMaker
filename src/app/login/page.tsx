@@ -33,7 +33,8 @@ const LoginError = ({ error }: ErrorProps) => {
   return <div className="text-center text-destructive">{errorMessage}</div>;
 };
 
-export default function Page({ searchParams }) {
+export default async function Page(props) {
+  const searchParams = await props.searchParams;
   const { error } = searchParams;
 
   return (

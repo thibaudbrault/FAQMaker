@@ -4,7 +4,6 @@ const { withSentryConfig } = require('@sentry/nextjs');
 
 const nextConfig = removeImports({
   transpilePackages: ['@mdxeditor/editor', 'react-diff-view'],
-  swcMinify: true,
   images: {
     remotePatterns: [
       {
@@ -23,10 +22,6 @@ const nextConfig = removeImports({
     // your project has type errors.
     // !! WARN !!
     ignoreBuildErrors: true,
-  },
-  webpack: (config) => {
-    config.experiments = { ...config.experiments, topLevelAwait: true };
-    return config;
   },
 });
 

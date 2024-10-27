@@ -6,7 +6,8 @@ import { Routes } from '@/utils';
 
 import Edit from './edit';
 
-export default async function Page({ searchParams }) {
+export default async function Page(props) {
+  const searchParams = await props.searchParams;
   const me = await getMe();
 
   if (!me) return redirect(Routes.SITE.LOGIN);
