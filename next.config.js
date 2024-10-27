@@ -23,10 +23,6 @@ const nextConfig = removeImports({
     // !! WARN !!
     ignoreBuildErrors: true,
   },
-  webpack: (config) => {
-    config.experiments = { ...config.experiments, topLevelAwait: true };
-    return config;
-  },
 });
 
 // const sentryConfig = withSentryConfig(
