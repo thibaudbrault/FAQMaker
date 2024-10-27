@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import { SunIcon, MoonIcon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
@@ -28,6 +30,13 @@ export const ThemeToggle = () => {
       label: 'System',
     },
   ];
+
+  useEffect(() => {
+    const isDarkTheme = globalThis.matchMedia(
+      '(prefers-color-scheme: dark)',
+    ).matches;
+    setTheme(isDarkTheme ? 'dark' : 'light');
+  }, []);
 
   return (
     <DropdownMenu>

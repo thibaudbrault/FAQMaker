@@ -9,7 +9,7 @@ type Props = {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
       <body>
         <Providers>{children}</Providers>
       </body>
