@@ -27,9 +27,10 @@ export default function Page() {
           {RegisterRoutes.map((link) => (
             <Link
               href={link.route}
+              key={link.number}
               className={`flex items-center gap-2 rounded-md px-4 py-2 font-semibold ${pathname === link.route ? 'bg-primary-negative text-primary-negative' : 'hover:bg-primary-foreground-hover'}`}
             >
-              <span className="block flex h-8 w-8 items-center justify-center rounded-full border border-accent">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full border border-accent">
                 {link.number}
               </span>
               {link.title}

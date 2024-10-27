@@ -134,7 +134,10 @@ export default function Form() {
       >
         <CarouselContent>
           {plans.map((plan) => (
-            <CarouselItem className="w-fit overflow-hidden rounded-md text-center text-primary">
+            <CarouselItem
+              className="w-fit overflow-hidden rounded-md text-center text-primary"
+              key={plan.value}
+            >
               <form
                 onSubmit={handleSubmit(() =>
                   saveData(plan.value, plan.lookup_key),
