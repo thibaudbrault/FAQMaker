@@ -14,7 +14,7 @@ model Tenant {
   plan           Plan          @default(free)
   company        String
   logo           String?       @unique
-  customerId     String?       @unique
+  customerId     String       @unique
   isActive       Boolean       @default(false)
   subscriptionId String?
   users          User[]
