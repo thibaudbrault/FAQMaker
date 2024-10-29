@@ -2,7 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { signInAction } from '@/actions';
-import googleIcon from '@/assets/google.svg';
 import { Button } from '@/components';
 import { Routes } from '@/utils';
 
@@ -65,7 +64,7 @@ export default async function Page(props) {
           weight="bold"
           type="submit"
         >
-          <Image src={googleIcon} alt="" width={28} height={28} />
+          <Image src="/google.svg" alt="" width={28} height={28} />
           Sign In with Google
         </Button>
       </form>

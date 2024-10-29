@@ -1,2 +1,2 @@
 export * from './Register';
-export * from './NewUser';
+export * from './InviteUser';
