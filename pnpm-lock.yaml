@@ -66,8 +66,8 @@ importers:
         specifier: ^7.0.1
         version: 7.0.3
       '@stripe/stripe-js':
-        specifier: ^4.1.0
-        version: 4.5.0
+        specifier: ^4.9.0
+        version: 4.9.0
       '@uiw/react-markdown-preview':
         specifier: ^5.0.6
         version: 5.1.3(react-dom@19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021))(react@19.0.0-rc-69d4b800-20241021)(types-react@19.0.0-rc.1)
@@ -144,8 +144,8 @@ importers:
         specifier: ^1.4.0
         version: 1.5.0(react-dom@19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021))(react@19.0.0-rc-69d4b800-20241021)
       stripe:
-        specifier: ^16.1.0
-        version: 16.12.0
+        specifier: ^17.2.1
+        version: 17.2.1
       tailwind-merge:
         specifier: ^2.2.0
         version: 2.5.2
@@ -156,8 +156,8 @@ importers:
         specifier: ^10.0.0
         version: 10.0.3(react@19.0.0-rc-69d4b800-20241021)
       vaul:
-        specifier: ^1.1.0
-        version: 1.1.0(react-dom@19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021))(react@19.0.0-rc-69d4b800-20241021)(types-react@19.0.0-rc.1)
+        specifier: ^1.1.1
+        version: 1.1.1(react-dom@19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021))(react@19.0.0-rc-69d4b800-20241021)(types-react@19.0.0-rc.1)
       zod:
         specifier: ^3.22.4
         version: 3.23.8
@@ -1888,8 +1888,8 @@ packages:
   '@socket.io/component-emitter@3.1.2':
     resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
 
-  '@stripe/stripe-js@4.5.0':
-    resolution: {integrity: sha512-dMOzc58AOlsF20nYM/avzV8RFhO/vgYTY7ajLMH6mjlnZysnOHZxsECQvjEmL8Q/ukPwHkOnxSPW/QGCCnp7XA==}
+  '@stripe/stripe-js@4.9.0':
+    resolution: {integrity: sha512-tMPZQZZXGWyNX7hbgenq+1xEj2oigJ54XddbtSX36VedoKsPBq7dxwRXu4Xd5FdpT3JDyyDtnmvYkaSnH1yHTQ==}
     engines: {node: '>=12.16'}
 
   '@swc-jotai/react-refresh@0.2.0':
@@ -4720,8 +4720,8 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
-  stripe@16.12.0:
-    resolution: {integrity: sha512-H7eFVLDxeTNNSn4JTRfL2//LzCbDrMSZ+2q1c7CanVWgK2qIW5TwS+0V7N9KcKZZNpYh/uCqK0PyZh/2UsaAtQ==}
+  stripe@17.2.1:
+    resolution: {integrity: sha512-Mwb0SitV/UjxTLSUiTlUQ0VDE/gfyQ7OHDGdvDdvKIH4CNNqobPKlzlWhoZHFFU0OA/YsZyBtPULK4JG86BAAg==}
     engines: {node: '>=12.*'}
 
   strnum@1.0.5:
@@ -4996,11 +4996,11 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
-  vaul@1.1.0:
-    resolution: {integrity: sha512-YhO/bikcauk48hzhMhvIvT+U87cuCbNbKk9fF4Ou5UkI9t2KkBMernmdP37pCzF15hrv55fcny1YhexK8h6GVQ==}
+  vaul@1.1.1:
+    resolution: {integrity: sha512-+ejzF6ffQKPcfgS7uOrGn017g39F8SO4yLPXbBhpC7a0H+oPqPna8f1BUfXaz8eU4+pxbQcmjxW+jWBSbxjaFg==}
     peerDependencies:
-      react: ^16.8 || ^17.0 || ^18.0
-      react-dom: ^16.8 || ^17.0 || ^18.0
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0
 
   vfile-location@5.0.3:
     resolution: {integrity: sha512-5yXvWDEgqeiYiBe1lbxYF7UMAIm/IcopxMHrMQDq3nvKcjPKIhZklUKL+AE7J7uApI4kwe2snsK+eI6UTj9EHg==}
@@ -7152,7 +7152,7 @@ snapshots:
 
   '@socket.io/component-emitter@3.1.2': {}
 
-  '@stripe/stripe-js@4.5.0': {}
+  '@stripe/stripe-js@4.9.0': {}
 
   '@swc-jotai/react-refresh@0.2.0': {}
 
@@ -10600,7 +10600,7 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
-  stripe@16.12.0:
+  stripe@17.2.1:
     dependencies:
       '@types/node': 22.5.5
       qs: 6.13.0
@@ -10902,7 +10902,7 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vaul@1.1.0(react-dom@19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021))(react@19.0.0-rc-69d4b800-20241021)(types-react@19.0.0-rc.1):
+  vaul@1.1.1(react-dom@19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021))(react@19.0.0-rc-69d4b800-20241021)(types-react@19.0.0-rc.1):
     dependencies:
       '@radix-ui/react-dialog': 1.1.1(react-dom@19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021))(react@19.0.0-rc-69d4b800-20241021)(types-react@19.0.0-rc.1)
       react: 19.0.0-rc-69d4b800-20241021
