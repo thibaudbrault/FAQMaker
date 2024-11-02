@@ -38,6 +38,7 @@ export const createTenant = actionClient
       data: {
         company,
         email: companyEmail,
+        customerId: '',
       },
     });
     if (!tenant) {
