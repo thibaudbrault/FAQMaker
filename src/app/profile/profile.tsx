@@ -1,12 +1,10 @@
 'use client';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
-import {
-  UpdateProfile,
-  UserAnswers,
-  UserFavorites,
-  UserQuestions,
-} from '@/modules';
+import { UserAnswers } from '@/modules/profile/Answers';
+import { UserFavorites } from '@/modules/profile/Favorites';
+import { UserQuestions } from '@/modules/profile/Questions';
+import { UpdateProfile } from '@/modules/profile/Update';
 
 import type {
   ExtendedFavorites,

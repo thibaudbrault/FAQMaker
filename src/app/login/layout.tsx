@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import { ThemeToggle } from '@/modules';
+import { ThemeToggle } from '@/modules/theme/ThemeToggle';
 
 type Props = {
   children: ReactNode;

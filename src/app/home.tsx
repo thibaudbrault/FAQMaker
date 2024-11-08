@@ -3,7 +3,8 @@
 import { useSearchParams } from 'next/navigation';
 
 import { Pagination } from '@/components';
-import { List, Search } from '@/modules';
+import { List } from '@/modules/home/List';
+import { Search } from '@/modules/search/Search';
 import { OFFSET } from '@/utils/constants';
 
 import type { ExtendedFavorites, ExtendedNode } from '@/types';

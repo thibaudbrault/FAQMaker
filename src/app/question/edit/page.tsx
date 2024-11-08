@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation';
 
 import { getMe, getNode, getTags } from '@/actions';
-import { Footer, Header } from '@/modules';
+import { Footer } from '@/modules/footer/Footer';
+import { Header } from '@/modules/header/Header';
 import { Routes } from '@/utils/routing';
 
 import Edit from './edit';

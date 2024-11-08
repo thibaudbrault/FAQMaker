@@ -9,7 +9,8 @@ import { useForm } from 'react-hook-form';
 import { updateNode, updateNodeSchema } from '@/actions';
 import { BackButton, Button, Field, Input, resultToast } from '@/components';
 import { useMediaQuery } from '@/hooks';
-import { PageChangeAlert, TagsList } from '@/modules';
+import { PageChangeAlert } from '@/modules/navigation/PageChange';
+import { TagsList } from '@/modules/question/TagsList';
 import { arraysAreEqual } from '@/utils/functions';
 import { Limits } from '@/utils/limits';
 
@@ -17,7 +18,6 @@ import type { ExtendedNode, Me } from '@/types';
 import type { Tag } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
-
 
 type Props = {
   me: Me;

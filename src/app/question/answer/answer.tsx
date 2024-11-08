@@ -8,7 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { createAnswer, updateAnswer } from '@/actions';
 import { BackButton, Button, Editor, resultToast } from '@/components';
 import { answerSchema } from '@/lib';
-import { PageChangeAlert } from '@/modules';
+import { PageChangeAlert } from '@/modules/navigation/PageChange';
 import { Limits } from '@/utils/limits';
 
 import type { createAnswerSchema, updateAnswerSchema } from '@/actions';
