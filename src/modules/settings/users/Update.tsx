@@ -28,7 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components';
-import { useMediaQuery } from '@/hooks';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 import type { User } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';

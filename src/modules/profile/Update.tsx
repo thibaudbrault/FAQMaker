@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 
 import { updateUser, updateUserSchema } from '@/actions';
 import { Button, Field, Input, resultToast } from '@/components';
-import { useMediaQuery } from '@/hooks';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { Limits } from '@/utils/limits';
 
 import { PageChangeAlert } from '../navigation';

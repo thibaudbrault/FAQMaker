@@ -24,7 +24,7 @@ import {
   DrawerTrigger,
   Input,
 } from '@/components';
-import { useMediaQuery } from '@/hooks';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { csvUploadSchema } from '@/lib/validations';
 
 import type { $Enums, User } from '@prisma/client';

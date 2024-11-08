@@ -21,7 +21,7 @@ import {
   Input,
   resultToast,
 } from '@/components';
-import { useMediaQuery } from '@/hooks';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 import type { $Enums } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';

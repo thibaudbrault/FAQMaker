@@ -5,7 +5,7 @@ import '@uiw/react-md-editor/markdown-editor.css';
 import dynamic from 'next/dynamic';
 import rehypeSanitize from 'rehype-sanitize';
 
-import { useMediaQuery } from '@/hooks';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 

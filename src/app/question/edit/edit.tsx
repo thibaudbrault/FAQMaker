@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 
 import { updateNode, updateNodeSchema } from '@/actions';
 import { BackButton, Button, Field, Input, resultToast } from '@/components';
-import { useMediaQuery } from '@/hooks';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { PageChangeAlert } from '@/modules/navigation/PageChange';
 import { TagsList } from '@/modules/question/TagsList';
 import { arraysAreEqual } from '@/utils/functions';

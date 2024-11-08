@@ -8,7 +8,8 @@ import { useForm } from 'react-hook-form';
 
 import { createNode, createNodeSchema } from '@/actions';
 import { BackButton, Button, Field, Input, resultToast } from '@/components';
-import { useMediaQuery, useWarnIfUnsavedChanges } from '@/hooks';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useWarnIfUnsavedChanges } from '@/hooks/useWarnIfUnsavedChanges';
 import { PageChangeAlert } from '@/modules/navigation/PageChange';
 import { TagsList } from '@/modules/question/TagsList';
 import { Limits } from '@/utils/limits';

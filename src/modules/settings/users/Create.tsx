@@ -30,7 +30,7 @@ import {
   SelectValue,
   resultToast,
 } from '@/components';
-import { useMediaQuery } from '@/hooks';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { Limits } from '@/utils/limits';
 
 import type { SubmitHandler } from 'react-hook-form';
