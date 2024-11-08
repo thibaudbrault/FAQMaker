@@ -7,7 +7,11 @@ import { HelpCircle, MoveRight } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { createNode, createNodeSchema } from '@/actions';
-import { BackButton, Button, Field, Input, resultToast } from '@/components';
+import { BackButton } from '@/components/button/BackButton';
+import { Button } from '@/components/button/Button';
+import { Field } from '@/components/field/Field';
+import { Input } from '@/components/input/Input';
+import { resultToast } from '@/components/toast/Toast';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useWarnIfUnsavedChanges } from '@/hooks/useWarnIfUnsavedChanges';
 import { PageChangeAlert } from '@/modules/navigation/PageChange';

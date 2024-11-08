@@ -8,7 +8,8 @@ import { Check, Minus, MoveRight, Wallet } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
-import { Button, errorToast, successToast } from '@/components';
+import { Button } from '@/components/button/Button';
+import { errorToast, successToast } from '@/components/toast/Toast';
 import { registerAtom } from '@/store';
 import { Routes } from '@/utils/routing';
 import { getStripe } from '@/utils/stripe';

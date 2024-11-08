@@ -9,7 +9,8 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 import { createTenant, createTenantSchema } from '@/actions';
-import { Button, resultToast } from '@/components';
+import { Button } from '@/components/button/Button';
+import { resultToast } from '@/components/toast/Toast';
 import { registerAtom } from '@/store';
 import { Routes } from '@/utils/routing';
 

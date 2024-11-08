@@ -7,8 +7,8 @@ import { Flame } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { deleteTenant, deleteTenantSchema } from '@/actions';
+import { Button } from '@/components/button/Button';
 import {
-  Button,
   Dialog,
   DialogClose,
   DialogContent,
@@ -16,8 +16,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  Input,
-} from '@/components';
+} from '@/components/dialog/Dialog';
+import { Input } from '@/components/input/Input';
 
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';

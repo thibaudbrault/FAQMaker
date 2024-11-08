@@ -12,20 +12,25 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  Button,
-  Drawer,
-  DrawerContent,
+} from '@/components/avatar/Avatar';
+import { Button } from '@/components/button/Button';
+import {
   DrawerTrigger,
+  DrawerContent,
+  Drawer,
+} from '@/components/drawer/Drawer';
+import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components';
+} from '@/components/tooltip/Tooltip';
 import { userAtom } from '@/store';
 import { Routes } from '@/utils/routing';
 
-import { ThemeToggle } from '../theme';
+import { ThemeToggle } from '../theme/ThemeToggle';
 
 import type { Me } from '@/types';
+
 
 type Props = {
   user: Me;

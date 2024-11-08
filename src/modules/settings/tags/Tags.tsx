@@ -8,17 +8,17 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { deleteTag, updateTag, updateTagSchema } from '@/actions';
+import { Button } from '@/components/button/Button';
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  Field,
-  Input,
-  resultToast,
-} from '@/components';
+} from '@/components/dialog/Dialog';
+import { Field } from '@/components/field/Field';
+import { Input } from '@/components/input/Input';
+import { resultToast } from '@/components/toast/Toast';
 
 import { CreateTag } from './Create';
 

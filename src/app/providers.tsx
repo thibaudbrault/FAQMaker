@@ -7,7 +7,7 @@ import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
 import { Toaster } from 'sonner';
 
-import { TooltipProvider } from '@/components';
+import { TooltipProvider } from '@/components/tooltip/Tooltip';
 
 const merriweather = Merriweather({
   subsets: ['latin'],

@@ -7,6 +7,7 @@ import {
   LinkIcon,
   Bookmark,
   BookmarkCheck,
+  Badge,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -18,18 +19,19 @@ import {
   createFavoriteSchema,
   deleteFavorite,
 } from '@/actions';
+import { BackButton } from '@/components/button/BackButton';
 import {
-  BackButton,
-  Badge,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+} from '@/components/dropdown/Dropdown';
+import { resultToast } from '@/components/toast/Toast';
+import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-  resultToast,
-} from '@/components';
+} from '@/components/tooltip/Tooltip';
 import { dateOptions } from '@/utils/date';
 import { Routes } from '@/utils/routing';
 

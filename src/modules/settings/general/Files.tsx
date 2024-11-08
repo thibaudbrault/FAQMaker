@@ -9,7 +9,8 @@ import { DropzoneOptions, useDropzone } from 'react-dropzone';
 import { useForm } from 'react-hook-form';
 
 import { submitImage, updateLogo, updateLogoSchema } from '@/actions';
-import { Button, resultToast } from '@/components';
+import { Button } from '@/components/button/Button';
+import { resultToast } from '@/components/toast/Toast';
 import { filesSchema } from '@/lib/validations';
 import { MAX_FILE_SIZE } from '@/utils/constants';
 

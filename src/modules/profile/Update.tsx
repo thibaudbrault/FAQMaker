@@ -8,15 +8,19 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 
 import { updateUser, updateUserSchema } from '@/actions';
-import { Button, Field, Input, resultToast } from '@/components';
+import { Button } from '@/components/button/Button';
+import { Field } from '@/components/field/Field';
+import { Input } from '@/components/input/Input';
+import { resultToast } from '@/components/toast/Toast';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { Limits } from '@/utils/limits';
 
-import { PageChangeAlert } from '../navigation';
+import { PageChangeAlert } from '../navigation/PageChange';
 
 import type { IUserUpdateFields, Me } from '@/types';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
+
 
 type Props = {
   me: Me;

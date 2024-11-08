@@ -7,32 +7,37 @@ import { AtSign, UserIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { updateUser, updateUserSchema } from '@/actions';
+import { Button } from '@/components/button/Button';
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+} from '@/components/dialog/Dialog';
+import {
   Drawer,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-  Field,
-  Input,
-  Label,
+} from '@/components/drawer/Drawer';
+import { Field } from '@/components/field/Field';
+import { Input } from '@/components/input/Input';
+import { Label } from '@/components/label/Label';
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components';
+} from '@/components/select/Select';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 import type { User } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
+
 
 type Props = {
   user: User;

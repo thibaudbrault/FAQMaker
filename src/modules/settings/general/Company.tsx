@@ -6,7 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import { updateTenant, updateTenantSchema } from '@/actions';
-import { Button, Field, Input, resultToast } from '@/components';
+import { Button } from '@/components/button/Button';
+import { Field } from '@/components/field/Field';
+import { Input } from '@/components/input/Input';
+import { resultToast } from '@/components/toast/Toast';
 import { PageChangeAlert } from '@/modules/navigation/PageChange';
 import { Limits } from '@/utils/limits';
 

@@ -3,10 +3,13 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Editor from '@uiw/react-md-editor';
 import { Controller, useForm } from 'react-hook-form';
 
 import { createAnswer, updateAnswer } from '@/actions';
-import { BackButton, Button, Editor, resultToast } from '@/components';
+import { BackButton } from '@/components/button/BackButton';
+import { Button } from '@/components/button/Button';
+import { resultToast } from '@/components/toast/Toast';
 import { answerSchema } from '@/lib/validations';
 import { PageChangeAlert } from '@/modules/navigation/PageChange';
 import { Limits } from '@/utils/limits';

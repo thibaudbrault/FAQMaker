@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { signInAction } from '@/actions';
 import googleIcon from '@/assets/google.svg';
-import { Button } from '@/components';
+import { Button } from '@/components/button/Button';
 import { Routes } from '@/utils/routing';
 
 import EmailForm from './EmailForm';

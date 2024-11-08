@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { Resend } from 'resend';
 
-import { NewUserEmailTemplate } from '@/components';
+import { NewUserEmailTemplate } from '@/components/emails/NewUser';
 import { ActionError, authActionClient } from '@/lib/safe-actions';
 import { Routes } from '@/utils/routing';
 import prisma from 'lib/prisma';

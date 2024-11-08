@@ -1,4 +1,9 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/tabs/Tabs';
 import { General } from '@/modules/settings/general/General';
 import { Payment } from '@/modules/settings/payment/Payment';
 import { Tags } from '@/modules/settings/tags/Tags';

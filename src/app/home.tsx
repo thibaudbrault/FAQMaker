@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 
-import { Pagination } from '@/components';
+import { Pagination } from '@/components/pagination/Pagination';
 import { List } from '@/modules/home/List';
 import { Search } from '@/modules/search/Search';
 import { OFFSET } from '@/utils/constants';

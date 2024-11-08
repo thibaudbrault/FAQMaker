@@ -2,7 +2,7 @@
 
 import type { Dispatch, SetStateAction } from 'react';
 
-import { Button } from '@/components';
+import { Button } from '@/components/button/Button';
 
 import type { Tag } from '@prisma/client';
 

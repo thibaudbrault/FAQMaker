@@ -1,6 +1,11 @@
 'use client';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/tabs/Tabs';
 import { UserAnswers } from '@/modules/profile/Answers';
 import { UserFavorites } from '@/modules/profile/Favorites';
 import { UserQuestions } from '@/modules/profile/Questions';

@@ -3,7 +3,8 @@
 import { Banknote } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
-import { Button, errorToast } from '@/components';
+import { Button } from '@/components/button/Button';
+import { errorToast } from '@/components/toast/Toast';
 import { Routes } from '@/utils/routing';
 
 type Props = {
