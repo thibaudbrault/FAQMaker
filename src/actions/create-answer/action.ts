@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 import { authActionClient } from '@/lib/safe-actions';
-import { Routes } from '@/utils';
+import { Routes } from '@/utils/routing';
 import prisma from 'lib/prisma';
 
 import { createAnswerSchema } from './schema';

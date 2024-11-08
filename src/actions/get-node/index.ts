@@ -2,7 +2,8 @@ import { cache } from 'react';
 
 import { redirect } from 'next/navigation';
 
-import { Routes, nodeModel } from '@/utils';
+import { nodeModel } from '@/utils/models';
+import { Routes } from '@/utils/routing';
 import prisma from 'lib/prisma';
 
 import type { ExtendedNode } from '@/types';

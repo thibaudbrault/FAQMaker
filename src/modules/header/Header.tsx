@@ -21,7 +21,7 @@ import {
   TooltipTrigger,
 } from '@/components';
 import { userAtom } from '@/store';
-import { Routes } from '@/utils';
+import { Routes } from '@/utils/routing';
 
 import { ThemeToggle } from '../theme';
 

@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import { submitImage, updateLogo, updateLogoSchema } from '@/actions';
 import { Button, resultToast } from '@/components';
 import { filesSchema } from '@/lib/validations';
-import { MAX_FILE_SIZE } from '@/utils';
+import { MAX_FILE_SIZE } from '@/utils/constants';
 
 import type { Tenant } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';

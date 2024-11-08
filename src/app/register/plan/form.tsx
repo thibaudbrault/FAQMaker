@@ -10,7 +10,8 @@ import { useForm } from 'react-hook-form';
 
 import { Button, errorToast, successToast } from '@/components';
 import { registerAtom } from '@/store';
-import { Routes, getStripe } from '@/utils';
+import { Routes } from '@/utils/routing';
+import { getStripe } from '@/utils/stripe';
 
 import type { IPlan } from '@/types';
 

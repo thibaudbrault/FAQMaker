@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 
-import { Routes, dateOptions } from '@/utils';
+import { dateOptions } from '@/utils/date';
+import { Routes } from '@/utils/routing';
 
 import type { QuestionWithNodeId } from '@/types';
 

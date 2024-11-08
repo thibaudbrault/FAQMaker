@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import { createTenant, createTenantSchema } from '@/actions';
 import { Button, resultToast } from '@/components';
 import { registerAtom } from '@/store';
-import { Routes } from '@/utils';
+import { Routes } from '@/utils/routing';
 
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';

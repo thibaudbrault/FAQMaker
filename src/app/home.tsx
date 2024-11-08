@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 
 import { Pagination } from '@/components';
 import { List, Search } from '@/modules';
-import { OFFSET } from '@/utils';
+import { OFFSET } from '@/utils/constants';
 
 import type { ExtendedFavorites, ExtendedNode } from '@/types';
 import type { Tag } from '@prisma/client';

@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { updateUser, updateUserSchema } from '@/actions';
 import { Button, Field, Input, resultToast } from '@/components';
 import { useMediaQuery } from '@/hooks';
-import { Limits } from '@/utils';
+import { Limits } from '@/utils/limits';
 
 import { PageChangeAlert } from '../navigation';
 

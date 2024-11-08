@@ -9,7 +9,7 @@ import { redirect } from 'next/navigation';
 
 import { s3Client } from '@/lib';
 import { authActionClient } from '@/lib/safe-actions';
-import { Routes } from '@/utils';
+import { Routes } from '@/utils/routing';
 import prisma from 'lib/prisma';
 
 import { updateLogoSchema } from './schema';

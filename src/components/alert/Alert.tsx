@@ -10,7 +10,7 @@ import {
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 import { VariantProps } from 'class-variance-authority';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/cn';
 
 import { buttonVariants } from '../button';
 

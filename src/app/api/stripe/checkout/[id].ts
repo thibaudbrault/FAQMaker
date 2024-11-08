@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 
-import { STRIPE_VERSION } from '@/utils';
+import { STRIPE_VERSION } from '@/utils/constants';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 

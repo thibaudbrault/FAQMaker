@@ -30,7 +30,8 @@ import {
   TooltipTrigger,
   resultToast,
 } from '@/components';
-import { Routes, dateOptions } from '@/utils';
+import { dateOptions } from '@/utils/date';
+import { Routes } from '@/utils/routing';
 
 import type { ExtendedNode } from '@/types';
 import type { Favorite } from '@prisma/client';

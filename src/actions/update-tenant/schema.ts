@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { Limits } from '@/utils';
+import { Limits } from '@/utils/limits';
 
 export const updateTenantSchema = z.object({
   company: z

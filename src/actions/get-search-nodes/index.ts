@@ -1,6 +1,6 @@
 import { cache } from 'react';
 
-import { nodeModel } from '@/utils';
+import { nodeModel } from '@/utils/models';
 import prisma from 'lib/prisma';
 
 import { getSearchSchema } from './schema';

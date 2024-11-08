@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import slugify from 'slugify';
 
 import { ActionError, authActionClient } from '@/lib/safe-actions';
-import { Routes } from '@/utils';
+import { Routes } from '@/utils/routing';
 import prisma from 'lib/prisma';
 
 import { updateNodeSchema } from './schema';

@@ -4,7 +4,7 @@
 import Stripe from 'stripe';
 
 import { ActionError, actionClient } from '@/lib/safe-actions';
-import { STRIPE_VERSION } from '@/utils';
+import { STRIPE_VERSION } from '@/utils/constants';
 import prisma from 'lib/prisma';
 
 import { createTenantSchema } from './schema';

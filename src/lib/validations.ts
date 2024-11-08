@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/utils';
+import { MAX_FILE_SIZE, ACCEPTED_IMAGE_TYPES } from '@/utils/constants';
 
 export const answerSchema = z.object({
   text: z

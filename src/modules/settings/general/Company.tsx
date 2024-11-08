@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { updateTenant, updateTenantSchema } from '@/actions';
 import { Button, Field, Input, resultToast } from '@/components';
 import { PageChangeAlert } from '@/modules';
-import { Limits } from '@/utils';
+import { Limits } from '@/utils/limits';
 
 import type { ITenantUpdateFields } from '@/types';
 import type { Integrations, Tenant } from '@prisma/client';

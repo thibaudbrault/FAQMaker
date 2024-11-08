@@ -3,7 +3,8 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import { dateOptions, Routes } from '@/utils';
+import { dateOptions } from '@/utils/date';
+import { Routes } from '@/utils/routing';
 
 import type { NodeWithQuestionAndAnswer } from '@/types';
 

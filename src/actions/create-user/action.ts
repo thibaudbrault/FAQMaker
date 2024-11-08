@@ -5,7 +5,7 @@ import { Resend } from 'resend';
 
 import { NewUserEmailTemplate } from '@/components';
 import { ActionError, authActionClient } from '@/lib/safe-actions';
-import { Routes } from '@/utils';
+import { Routes } from '@/utils/routing';
 import prisma from 'lib/prisma';
 
 import { createUserSchema } from './schema';

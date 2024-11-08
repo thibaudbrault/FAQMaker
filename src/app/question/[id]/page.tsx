@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { getFavorite, getMe, getNode } from '@/actions';
 import { Footer, Header } from '@/modules';
-import { Routes } from '@/utils';
+import { Routes } from '@/utils/routing';
 
 import Question from './question';
 

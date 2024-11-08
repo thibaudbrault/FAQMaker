@@ -4,7 +4,7 @@ import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { Stripe } from 'stripe';
 
-import { STRIPE_VERSION } from '@/utils';
+import { STRIPE_VERSION } from '@/utils/constants';
 import prisma from 'lib/prisma';
 
 import type { IPlan } from '@/types';

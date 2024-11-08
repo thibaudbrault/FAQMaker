@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 
 import { Button } from '@/components';
-import { Routes } from '@/utils';
+import { Routes } from '@/utils/routing';
 
 export default function Error({
   error,

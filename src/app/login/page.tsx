@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { signInAction } from '@/actions';
 import googleIcon from '@/assets/google.svg';
 import { Button } from '@/components';
-import { Routes } from '@/utils';
+import { Routes } from '@/utils/routing';
 
 import EmailForm from './EmailForm';
 

@@ -10,7 +10,7 @@ import { createNode, createNodeSchema } from '@/actions';
 import { BackButton, Button, Field, Input, resultToast } from '@/components';
 import { useMediaQuery, useWarnIfUnsavedChanges } from '@/hooks';
 import { PageChangeAlert, TagsList } from '@/modules';
-import { Limits } from '@/utils';
+import { Limits } from '@/utils/limits';
 
 import type { Me } from '@/types';
 import type { Integrations, Tag } from '@prisma/client';

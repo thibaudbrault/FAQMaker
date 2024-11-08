@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-import { Limits, PLAN, ROLE } from '@/utils';
+import { PLAN, ROLE } from '@/utils/constants';
+import { Limits } from '@/utils/limits';
 
 export const createUserSchema = z.object({
   email: z

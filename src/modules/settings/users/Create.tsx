@@ -31,7 +31,7 @@ import {
   resultToast,
 } from '@/components';
 import { useMediaQuery } from '@/hooks';
-import { Limits } from '@/utils';
+import { Limits } from '@/utils/limits';
 
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';

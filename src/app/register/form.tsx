@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { createTenantCompanySchema } from '@/actions';
 import { Button, Field, Input } from '@/components';
 import { registerAtom } from '@/store';
-import { Routes } from '@/utils';
+import { Routes } from '@/utils/routing';
 
 import type { ITenantCreateFields } from '@/types';
 import type { SubmitHandler } from 'react-hook-form';
