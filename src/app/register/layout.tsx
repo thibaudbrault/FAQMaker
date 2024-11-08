@@ -12,7 +12,7 @@ export default function Layout({ children }: Props) {
       <div className="absolute right-4 top-4">
         <ThemeToggle />
       </div>
-      <section className="mx-auto flex min-h-[500px] w-full max-w-3xl flex-col rounded-md border border-primary bg-primary p-16">
+      <section className="mx-auto flex min-h-[500px] w-full max-w-3xl flex-col rounded-md border border-primary bg-primary p-8">
         {children}
       </section>
     </main>

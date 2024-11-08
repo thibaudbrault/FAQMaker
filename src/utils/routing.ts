@@ -36,13 +36,8 @@ export const RegisterRoutes = [
     route: Routes.SITE.REGISTER.USER,
   },
   {
-    title: 'Plan',
-    number: 3,
-    route: Routes.SITE.REGISTER.PLAN,
-  },
-  {
     title: 'Confirm',
-    number: 4,
+    number: 3,
     route: Routes.SITE.REGISTER.CONFIRM,
   },
 ];
