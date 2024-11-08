@@ -33,7 +33,6 @@ import type { $Enums, User } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
 
-
 type Props = {
   tenantId: string;
   users: User[];
