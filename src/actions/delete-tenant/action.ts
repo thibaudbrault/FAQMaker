@@ -7,7 +7,7 @@ import {
 import { redirect } from 'next/navigation';
 import Stripe from 'stripe';
 
-import { s3Client } from '@/lib';
+import { s3Client } from '@/lib/aws';
 import { authActionClient } from '@/lib/safe-actions';
 import { STRIPE_VERSION } from '@/utils/constants';
 import { Routes } from '@/utils/routing';

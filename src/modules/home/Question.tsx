@@ -29,7 +29,7 @@ import {
   TooltipTrigger,
   resultToast,
 } from '@/components';
-import { favoriteSchema, pinSchema } from '@/lib';
+import { favoriteSchema, pinSchema } from '@/lib/validations';
 import { userAtom } from '@/store';
 import { dateOptions, timeOptions } from '@/utils/date';
 import { Routes } from '@/utils/routing';

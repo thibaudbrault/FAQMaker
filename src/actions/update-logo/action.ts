@@ -7,7 +7,7 @@ import {
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-import { s3Client } from '@/lib';
+import { s3Client } from '@/lib/aws';
 import { authActionClient } from '@/lib/safe-actions';
 import { Routes } from '@/utils/routing';
 import prisma from 'lib/prisma';

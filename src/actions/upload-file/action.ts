@@ -2,7 +2,7 @@
 
 import { PutObjectCommand, PutObjectCommandInput } from '@aws-sdk/client-s3';
 
-import { s3Client } from '@/lib';
+import { s3Client } from '@/lib/aws';
 
 export async function uploadFile(
   file: File,
