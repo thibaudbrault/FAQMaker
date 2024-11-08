@@ -31,6 +31,7 @@ import {
 } from '@/components/tooltip/Tooltip';
 import { favoriteSchema, pinSchema } from '@/lib/validations';
 import { userAtom } from '@/store';
+import { ExtendedNode, ExtendedFavorites } from '@/types/models/node';
 import { dateOptions, timeOptions } from '@/utils/date';
 import { Routes } from '@/utils/routing';
 
@@ -40,10 +41,8 @@ import type {
   deleteFavoriteSchema,
   deletePinSchema,
 } from '@/actions';
-import type { ExtendedFavorites, ExtendedNode } from '@/types';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
-
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,

@@ -5,9 +5,9 @@ import { useSearchParams } from 'next/navigation';
 import { Pagination } from '@/components/pagination/Pagination';
 import { List } from '@/modules/home/List';
 import { Search } from '@/modules/search/Search';
+import { ExtendedNode, ExtendedFavorites } from '@/types/models/node';
 import { OFFSET } from '@/utils/constants';
 
-import type { ExtendedFavorites, ExtendedNode } from '@/types';
 import type { Tag } from '@prisma/client';
 
 type Props = {

@@ -13,14 +13,14 @@ import { Field } from '@/components/field/Field';
 import { Input } from '@/components/input/Input';
 import { resultToast } from '@/components/toast/Toast';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { IUserUpdateFields } from '@/types/global';
+import { Me } from '@/types/models/user';
 import { Limits } from '@/utils/limits';
 
 import { PageChangeAlert } from '../navigation/PageChange';
 
-import type { IUserUpdateFields, Me } from '@/types';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
-
 
 type Props = {
   me: Me;

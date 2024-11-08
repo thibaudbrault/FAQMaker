@@ -32,10 +32,10 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/tooltip/Tooltip';
+import { ExtendedNode } from '@/types/models/node';
 import { dateOptions } from '@/utils/date';
 import { Routes } from '@/utils/routing';
 
-import type { ExtendedNode } from '@/types';
 import type { Favorite } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';

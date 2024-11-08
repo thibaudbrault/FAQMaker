@@ -12,10 +12,10 @@ import { Button } from '@/components/button/Button';
 import { resultToast } from '@/components/toast/Toast';
 import { answerSchema } from '@/lib/validations';
 import { PageChangeAlert } from '@/modules/navigation/PageChange';
+import { ExtendedNode } from '@/types/models/node';
 import { Limits } from '@/utils/limits';
 
 import type { createAnswerSchema, updateAnswerSchema } from '@/actions';
-import type { ExtendedNode } from '@/types';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
 

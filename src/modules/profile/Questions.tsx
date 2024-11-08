@@ -2,10 +2,9 @@
 
 import Link from 'next/link';
 
+import { QuestionWithNodeId } from '@/types/models/node';
 import { dateOptions } from '@/utils/date';
 import { Routes } from '@/utils/routing';
-
-import type { QuestionWithNodeId } from '@/types';
 
 type Props = {
   questions?: QuestionWithNodeId[];

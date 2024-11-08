@@ -16,9 +16,9 @@ import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useWarnIfUnsavedChanges } from '@/hooks/useWarnIfUnsavedChanges';
 import { PageChangeAlert } from '@/modules/navigation/PageChange';
 import { TagsList } from '@/modules/question/TagsList';
+import { Me } from '@/types/models/user';
 import { Limits } from '@/utils/limits';
 
-import type { Me } from '@/types';
 import type { Integrations, Tag } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';

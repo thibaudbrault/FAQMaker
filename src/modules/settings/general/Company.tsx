@@ -11,9 +11,9 @@ import { Field } from '@/components/field/Field';
 import { Input } from '@/components/input/Input';
 import { resultToast } from '@/components/toast/Toast';
 import { PageChangeAlert } from '@/modules/navigation/PageChange';
+import { ITenantUpdateFields } from '@/types/global';
 import { Limits } from '@/utils/limits';
 
-import type { ITenantUpdateFields } from '@/types';
 import type { Integrations, Tenant } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';

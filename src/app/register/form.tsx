@@ -12,9 +12,9 @@ import { Button } from '@/components/button/Button';
 import { Field } from '@/components/field/Field';
 import { Input } from '@/components/input/Input';
 import { registerAtom } from '@/store';
+import { ITenantCreateFields } from '@/types/global';
 import { Routes } from '@/utils/routing';
 
-import type { ITenantCreateFields } from '@/types';
 import type { SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
 

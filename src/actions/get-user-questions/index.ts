@@ -1,8 +1,7 @@
 import { cache } from 'react';
 
+import { QuestionWithNodeId } from '@/types/models/node';
 import prisma from 'lib/prisma';
-
-import type { QuestionWithNodeId } from '@/types';
 
 export const getUserQuestions = cache(
   async (userId: string): Promise<QuestionWithNodeId[]> => {

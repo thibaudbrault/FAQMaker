@@ -11,10 +11,9 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/button/Button';
 import { errorToast, successToast } from '@/components/toast/Toast';
 import { registerAtom } from '@/store';
+import { IPlan } from '@/types/global';
 import { Routes } from '@/utils/routing';
 import { getStripe } from '@/utils/stripe';
-
-import type { IPlan } from '@/types';
 
 export default function Form() {
   const [state, setState] = useAtom(registerAtom);

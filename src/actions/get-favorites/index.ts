@@ -1,8 +1,7 @@
 import { cache } from 'react';
 
+import { ExtendedFavorites } from '@/types/models/node';
 import prisma from 'lib/prisma';
-
-import type { ExtendedFavorites } from '@/types';
 
 export const getFavorites = cache(
   async (userId: string): Promise<ExtendedFavorites[]> => {

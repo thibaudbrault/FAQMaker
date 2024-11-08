@@ -2,11 +2,10 @@ import { cache } from 'react';
 
 import { redirect } from 'next/navigation';
 
+import { ExtendedNode } from '@/types/models/node';
 import { nodeModel } from '@/utils/models';
 import { Routes } from '@/utils/routing';
 import prisma from 'lib/prisma';
-
-import type { ExtendedNode } from '@/types';
 
 export const getNode = cache(
   async (tenantId, id: string): Promise<ExtendedNode> => {

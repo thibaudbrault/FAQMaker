@@ -10,13 +10,12 @@ import { UserAnswers } from '@/modules/profile/Answers';
 import { UserFavorites } from '@/modules/profile/Favorites';
 import { UserQuestions } from '@/modules/profile/Questions';
 import { UpdateProfile } from '@/modules/profile/Update';
-
-import type {
-  ExtendedFavorites,
-  Me,
-  NodeWithQuestionAndAnswer,
+import {
   QuestionWithNodeId,
-} from '@/types';
+  NodeWithQuestionAndAnswer,
+  ExtendedFavorites,
+} from '@/types/models/node';
+import { Me } from '@/types/models/user';
 
 type Props = {
   me: Me;

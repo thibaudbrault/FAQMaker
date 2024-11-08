@@ -25,12 +25,10 @@ import {
   TooltipTrigger,
 } from '@/components/tooltip/Tooltip';
 import { userAtom } from '@/store';
+import { Me } from '@/types/models/user';
 import { Routes } from '@/utils/routing';
 
 import { ThemeToggle } from '../theme/ThemeToggle';
-
-import type { Me } from '@/types';
-
 
 type Props = {
   user: Me;

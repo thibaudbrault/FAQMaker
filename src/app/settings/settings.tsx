@@ -8,8 +8,8 @@ import { General } from '@/modules/settings/general/General';
 import { Payment } from '@/modules/settings/payment/Payment';
 import { Tags } from '@/modules/settings/tags/Tags';
 import { Users } from '@/modules/settings/users/Users';
+import { Me } from '@/types/models/user';
 
-import type { Me } from '@/types';
 import type { Integrations, Tag, Tenant, User } from '@prisma/client';
 
 type Props = {

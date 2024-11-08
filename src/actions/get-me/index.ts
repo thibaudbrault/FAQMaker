@@ -5,10 +5,10 @@ import { cache } from 'react';
 import { redirect } from 'next/navigation';
 
 import { auth } from '@/auth';
+import { Me } from '@/types/models/user';
 import { Routes } from '@/utils/routing';
 import prisma from 'lib/prisma';
 
-import type { Me } from '@/types';
 import type { Session } from 'next-auth';
 
 export const getMe = cache(async (): Promise<Me | null> => {

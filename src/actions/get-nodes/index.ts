@@ -1,12 +1,11 @@
 import { cache } from 'react';
 
+import { ExtendedNode } from '@/types/models/node';
 import { OFFSET } from '@/utils/constants';
 import { nodeModel } from '@/utils/models';
 import prisma from 'lib/prisma';
 
 import { getNodesSchema } from './schema';
-
-import type { ExtendedNode } from '@/types';
 
 type Props = {
   tenantId: string;

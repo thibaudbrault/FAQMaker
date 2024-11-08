@@ -1,11 +1,10 @@
 import { cache } from 'react';
 
+import { ExtendedNode } from '@/types/models/node';
 import { nodeModel } from '@/utils/models';
 import prisma from 'lib/prisma';
 
 import { getSearchSchema } from './schema';
-
-import type { ExtendedNode } from '@/types';
 
 export const getSearchNodes = cache(
   async (tenantId, query): Promise<ExtendedNode[]> => {
