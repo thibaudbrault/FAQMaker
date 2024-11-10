@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation';
 
-
 import { getFavorites } from '@/actions/get-favorites';
 import { getMe } from '@/actions/get-me';
 import { getPaginatedNodes } from '@/actions/get-nodes';
