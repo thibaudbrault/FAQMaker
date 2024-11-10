@@ -1,0 +1,32 @@
+import { redirect } from 'next/navigation';
+
+import { getFavorite } from '@/actions/get-favorite';
+import { getMe } from '@/actions/get-me';
+import { getNode } from '@/actions/get-node';
+import { Footer } from '@/modules/footer/Footer';
+import { Header } from '@/modules/header/Header';
+import { Routes } from '@/utils/routing';
+
+import Question from './question';
+
+export default async function Page(props) {
+  const params = await props.params;
+  const me = await getMe();
+
+  if (!me) return redirect(Routes.SITE.LOGIN);
+  const { tenantId, id: userId } = me;
+  const { id } = params;
+  if (!id) return redirect(Routes.SITE.HOME);
+
+  const node = await getNode(tenantId, id);
+  const favorite = await getFavorite(userId, node.id);
+  return (
+    <main className="flex h-full min-h-screen flex-col bg-primary">
+      <Header user={me} />
+      <div className="my-12 grow">
+        <Question node={node} favorite={favorite} />
+      </div>
+      <Footer company={me.tenant.company} />
+    </main>
+  );
+}

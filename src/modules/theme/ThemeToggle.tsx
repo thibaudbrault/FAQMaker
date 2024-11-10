@@ -1,13 +1,17 @@
+'use client';
+
+import { useEffect } from 'react';
+
 import { SunIcon, MoonIcon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
+import { Button } from '@/components/button/Button';
 import {
-  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components';
+} from '@/components/dropdown/Dropdown';
 
 export const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();
@@ -27,14 +31,21 @@ export const ThemeToggle = () => {
     },
   ];
 
+  useEffect(() => {
+    const isDarkTheme = globalThis.matchMedia(
+      '(prefers-color-scheme: dark)',
+    ).matches;
+    setTheme(isDarkTheme ? 'dark' : 'light');
+  }, []);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="icon" className="text-gray-12 hover:text-gray-11">
+        <Button size="icon" className="text-primary hover:text-primary-muted">
           {theme === 'light' ? (
-            <SunIcon className="h-6 w-6" />
+            <SunIcon className="size-6" />
           ) : (
-            <MoonIcon className="h-6 w-6" />
+            <MoonIcon className="size-6" />
           )}
           <span className="sr-only">Toggle theme</span>
         </Button>
@@ -45,8 +56,8 @@ export const ThemeToggle = () => {
             key={th.value}
             className={
               theme === th.value
-                ? 'bg-gray-12 text-white hover:bg-gray-12 dark:bg-gray-1 dark:hover:bg-gray-1'
-                : 'bg-gray-1 dark:bg-gray-12'
+                ? 'bg-primary-negative text-primary-negative hover:bg-primary-negative'
+                : 'bg-primary'
             }
             onClick={() => setTheme(th.value)}
           >

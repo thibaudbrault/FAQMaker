@@ -1,8 +1,7 @@
-import { IncomingMessage } from 'http';
+import type { ReactElement } from 'react';
 
-import { ReactElement } from 'react';
-
-import { NextApiRequestCookies } from 'next/dist/server/api-utils';
+import type { IncomingMessage } from 'http';
+import type { NextApiRequestCookies } from 'next/dist/server/api-utils';
 
 export type FallbackType = 'screen' | 'page' | 'item';
 export type QueryParamsType = Partial<{
@@ -18,22 +17,26 @@ interface IFields {
   icon?: ReactElement;
   error?: string;
   info?: string;
+  limit?: number;
 }
 
 export interface IUserCreateFields extends IFields {
   value: 'email';
 }
 
+export interface IUserLoginFields extends IFields {
+  value: 'email' | 'password';
+}
 export interface IUserUpdateFields extends IFields {
   value: 'name' | 'email';
 }
 
 export interface ITenantCreateFields extends IFields {
-  value: 'company' | 'companyEmail' | 'domain';
+  value: 'company' | 'companyEmail';
 }
 
 export interface ITenantUpdateFields extends IFields {
-  value: 'company' | 'email' | 'domain';
+  value: 'company' | 'email';
 }
 
 export interface IIntegrations extends IFields {
