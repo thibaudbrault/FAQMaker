@@ -12,7 +12,7 @@ import { VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/utils/cn';
 
-import { buttonVariants } from '../button';
+import { buttonVariants } from '../button/Button';
 
 const AlertDialog = AlertDialogPrimitive.Root;
 

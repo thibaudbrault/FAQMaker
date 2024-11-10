@@ -1,5 +1,3 @@
-import { useWarnIfUnsavedChanges } from '@/hooks/useWarnIfUnsavedChanges';
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,7 +7,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '../../components/alert/Alert';
+} from '@/components/alert/Alert';
+import { useWarnIfUnsavedChanges } from '@/hooks/useWarnIfUnsavedChanges';
+
 
 type Props = {
   isDirty: boolean;
