@@ -6,8 +6,9 @@ import { MoveRight } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { createTenantCompanySchema } from '@/actions';
+import { createTenantCompanySchema } from '@/actions/create-tenant/schema';
 import { Button } from '@/components/button/Button';
 import { Field } from '@/components/field/Field';
 import { Input } from '@/components/input/Input';
@@ -16,7 +17,6 @@ import { ITenantCreateFields } from '@/types/global';
 import { Routes } from '@/utils/routing';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 type Schema = z.infer<typeof createTenantCompanySchema>;
 

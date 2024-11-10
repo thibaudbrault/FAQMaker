@@ -4,8 +4,10 @@ import { Fragment, useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { updateTenant, updateTenantSchema } from '@/actions';
+import { updateTenant } from '@/actions/update-tenant/action';
+import { updateTenantSchema } from '@/actions/update-tenant/schema';
 import { Button } from '@/components/button/Button';
 import { Field } from '@/components/field/Field';
 import { Input } from '@/components/input/Input';
@@ -16,7 +18,6 @@ import { Limits } from '@/utils/limits';
 
 import type { Integrations, Tenant } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 type Props = {
   tenant: Tenant;

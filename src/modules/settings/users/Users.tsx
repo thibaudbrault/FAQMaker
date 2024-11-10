@@ -1,6 +1,6 @@
 'use client';
 
-import { deleteUser } from '@/actions';
+import { deleteUser } from '@/actions/delete-user/action';
 import {
   Avatar,
   AvatarFallback,

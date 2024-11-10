@@ -6,8 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AtSign, UserIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { updateUser, updateUserSchema } from '@/actions';
+import { updateUser } from '@/actions/update-user/action';
+import { updateUserSchema } from '@/actions/update-user/schema';
 import { Button } from '@/components/button/Button';
 import { Field } from '@/components/field/Field';
 import { Input } from '@/components/input/Input';
@@ -20,7 +22,6 @@ import { Limits } from '@/utils/limits';
 import { PageChangeAlert } from '../navigation/PageChange';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 type Props = {
   me: Me;

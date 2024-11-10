@@ -5,8 +5,12 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Editor from '@uiw/react-md-editor';
 import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { createAnswer, updateAnswer } from '@/actions';
+import { createAnswer } from '@/actions/create-answer/action';
+import { createAnswerSchema } from '@/actions/create-answer/schema';
+import { updateAnswer } from '@/actions/update-answer/action';
+import { updateAnswerSchema } from '@/actions/update-answer/schema';
 import { BackButton } from '@/components/button/BackButton';
 import { Button } from '@/components/button/Button';
 import { resultToast } from '@/components/toast/Toast';
@@ -15,9 +19,7 @@ import { PageChangeAlert } from '@/modules/navigation/PageChange';
 import { ExtendedNode } from '@/types/models/node';
 import { Limits } from '@/utils/limits';
 
-import type { createAnswerSchema, updateAnswerSchema } from '@/actions';
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 type Props = {
   node: ExtendedNode;

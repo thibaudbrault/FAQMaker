@@ -5,8 +5,10 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Flame } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { deleteTenant, deleteTenantSchema } from '@/actions';
+import { deleteTenant } from '@/actions/delete-tenant/action';
+import { deleteTenantSchema } from '@/actions/delete-tenant/schema';
 import { Button } from '@/components/button/Button';
 import {
   Dialog,
@@ -20,7 +22,6 @@ import {
 import { Input } from '@/components/input/Input';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 type Props = {
   tenantId: string;

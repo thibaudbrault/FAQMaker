@@ -15,13 +15,16 @@ import {
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import {
-  createFavorite,
-  createPin,
-  deleteFavorite,
-  deletePin,
-} from '@/actions';
+import { createFavorite } from '@/actions/create-favorite/action';
+import { createFavoriteSchema } from '@/actions/create-favorite/schema';
+import { createPin } from '@/actions/create-pin/action';
+import { createPinSchema } from '@/actions/create-pin/schema';
+import { deleteFavorite } from '@/actions/delete-favorite/action';
+import { deleteFavoriteSchema } from '@/actions/delete-favorite/schema';
+import { deletePin } from '@/actions/delete-pin/action';
+import { deletePinSchema } from '@/actions/delete-pin/schema';
 import { Button } from '@/components/button/Button';
 import { resultToast } from '@/components/toast/Toast';
 import {
@@ -35,14 +38,7 @@ import { ExtendedNode, ExtendedFavorites } from '@/types/models/node';
 import { dateOptions, timeOptions } from '@/utils/date';
 import { Routes } from '@/utils/routing';
 
-import type {
-  createFavoriteSchema,
-  createPinSchema,
-  deleteFavoriteSchema,
-  deletePinSchema,
-} from '@/actions';
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,

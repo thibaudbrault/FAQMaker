@@ -1,14 +1,13 @@
 import { redirect } from 'next/navigation';
 
-import {
-  getIntegration,
-  getMe,
-  getTags,
-  getTagsCount,
-  getTenant,
-  getUsers,
-  getUsersCount,
-} from '@/actions';
+
+import { getIntegration } from '@/actions/get-integration';
+import { getMe } from '@/actions/get-me';
+import { getTags } from '@/actions/get-tags';
+import { getTagsCount } from '@/actions/get-tags-count';
+import { getTenant } from '@/actions/get-tenant';
+import { getUsers } from '@/actions/get-users';
+import { getUsersCount } from '@/actions/get-users-count';
 import { Footer } from '@/modules/footer/Footer';
 import { Header } from '@/modules/header/Header';
 import { Routes } from '@/utils/routing';

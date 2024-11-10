@@ -5,8 +5,10 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { HelpCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { updateNode, updateNodeSchema } from '@/actions';
+import { updateNode } from '@/actions/update-node/action';
+import { updateNodeSchema } from '@/actions/update-node/schema';
 import { BackButton } from '@/components/button/BackButton';
 import { Button } from '@/components/button/Button';
 import { Field } from '@/components/field/Field';
@@ -22,7 +24,6 @@ import { Limits } from '@/utils/limits';
 
 import type { Tag } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 type Props = {
   me: Me;

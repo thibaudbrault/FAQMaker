@@ -7,7 +7,7 @@ import { AlignJustify, LogOut, Settings } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { signOutAction } from '@/actions';
+import { signOutAction } from '@/actions/sign-out';
 import {
   Avatar,
   AvatarFallback,

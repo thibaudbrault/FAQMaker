@@ -1,11 +1,9 @@
 import { redirect } from 'next/navigation';
 
-import {
-  getFavorites,
-  getMe,
-  getUserAnswers,
-  getUserQuestions,
-} from '@/actions';
+import { getFavorites } from '@/actions/get-favorites';
+import { getMe } from '@/actions/get-me';
+import { getUserAnswers } from '@/actions/get-user-answers';
+import { getUserQuestions } from '@/actions/get-user-questions';
 import { Footer } from '@/modules/footer/Footer';
 import { Header } from '@/modules/header/Header';
 import { Routes } from '@/utils/routing';

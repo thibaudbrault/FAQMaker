@@ -3,8 +3,10 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Tag as TagIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { createTag, createTagSchema } from '@/actions';
+import { createTag } from '@/actions/create-tag/action';
+import { createTagSchema } from '@/actions/create-tag/schema';
 import { Button } from '@/components/button/Button';
 import {
   Dialog,
@@ -27,7 +29,6 @@ import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 import type { $Enums } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 type Props = {
   tenantId: string;

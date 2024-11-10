@@ -5,8 +5,10 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AtSign, UserIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { updateUser, updateUserSchema } from '@/actions';
+import { updateUser } from '@/actions/update-user/action';
+import { updateUserSchema } from '@/actions/update-user/schema';
 import { Button } from '@/components/button/Button';
 import {
   Dialog,
@@ -36,7 +38,6 @@ import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 import type { User } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 type Props = {
   user: User;
