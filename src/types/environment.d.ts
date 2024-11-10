@@ -17,9 +17,6 @@ declare global {
       STRIPE_SECRET_KEY: string;
       STRIPE_WEBHOOK_SECRET: string;
 
-      SENTRY_AUTH_TOKEN: string;
-      SENTRY_IGNORE_API_RESOLUTION_ERROR: number;
-
       PROJECT_ID: string;
       CLIENT_EMAIL: string;
       PRIVATE_KEY: string;

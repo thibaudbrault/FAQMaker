@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation';
 
-
 import { getIntegration } from '@/actions/get-integration';
 import { getMe } from '@/actions/get-me';
 import { getTags } from '@/actions/get-tags';
