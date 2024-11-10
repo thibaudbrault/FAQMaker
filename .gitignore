@@ -24,8 +24,5 @@ out/
 /playwright-report/
 /playwright
 
-# Sentry Config File
-.sentryclirc
-
 # VSCode
 .vscode
