@@ -6,12 +6,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AtSign } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { Button, Field, Input, successToast } from '@/components';
+import { Button } from '@/components/button/Button';
+import { Field } from '@/components/field/Field';
+import { Input } from '@/components/input/Input';
+import { successToast } from '@/components/toast/Toast';
 import { userEmailSchema } from '@/lib/validations';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 type Schema = z.infer<typeof userEmailSchema>;
 

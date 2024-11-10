@@ -3,29 +3,32 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Tag as TagIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { createTag, createTagSchema } from '@/actions';
+import { createTag } from '@/actions/create-tag/action';
+import { createTagSchema } from '@/actions/create-tag/schema';
+import { Button } from '@/components/button/Button';
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  Drawer,
+} from '@/components/dialog/Dialog';
+import {
+  DrawerTrigger,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
-  Field,
-  Input,
-  resultToast,
-} from '@/components';
-import { useMediaQuery } from '@/hooks';
+  Drawer,
+} from '@/components/drawer/Drawer';
+import { Field } from '@/components/field/Field';
+import { Input } from '@/components/input/Input';
+import { resultToast } from '@/components/toast/Toast';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 import type { $Enums } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 type Props = {
   tenantId: string;

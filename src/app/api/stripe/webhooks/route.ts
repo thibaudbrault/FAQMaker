@@ -4,10 +4,9 @@ import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { Stripe } from 'stripe';
 
-import { STRIPE_VERSION } from '@/utils';
+import { IPlan } from '@/types/global';
+import { STRIPE_VERSION } from '@/utils/constants';
 import prisma from 'lib/prisma';
-
-import type { IPlan } from '@/types';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: STRIPE_VERSION,

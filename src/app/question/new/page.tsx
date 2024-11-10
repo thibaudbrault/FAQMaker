@@ -1,8 +1,11 @@
 import { redirect } from 'next/navigation';
 
-import { getIntegration, getMe, getTags } from '@/actions';
-import { Footer, Header } from '@/modules';
-import { Routes } from '@/utils';
+import { getIntegration } from '@/actions/get-integration';
+import { getMe } from '@/actions/get-me';
+import { getTags } from '@/actions/get-tags';
+import { Footer } from '@/modules/footer/Footer';
+import { Header } from '@/modules/header/Header';
+import { Routes } from '@/utils/routing';
 
 import New from './new';
 

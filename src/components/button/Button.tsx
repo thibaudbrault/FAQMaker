@@ -4,7 +4,7 @@ import { forwardRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/cn';
 
 export const buttonVariants = cva(
   'transition-all duration-300 ease-in-out lowercase',

@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 
 import { BadgeCheck } from 'lucide-react';
 
-import type { TSteps } from '@/types';
+import { TSteps } from '@/types/global';
 
 type Props = {
   currentStep: number;

@@ -5,17 +5,25 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { HelpCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { updateNode, updateNodeSchema } from '@/actions';
-import { BackButton, Button, Field, Input, resultToast } from '@/components';
-import { useMediaQuery } from '@/hooks';
-import { PageChangeAlert, TagsList } from '@/modules';
-import { Limits, arraysAreEqual } from '@/utils';
+import { updateNode } from '@/actions/update-node/action';
+import { updateNodeSchema } from '@/actions/update-node/schema';
+import { BackButton } from '@/components/button/BackButton';
+import { Button } from '@/components/button/Button';
+import { Field } from '@/components/field/Field';
+import { Input } from '@/components/input/Input';
+import { resultToast } from '@/components/toast/Toast';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { PageChangeAlert } from '@/modules/navigation/PageChange';
+import { TagsList } from '@/modules/question/TagsList';
+import { ExtendedNode } from '@/types/models/node';
+import { Me } from '@/types/models/user';
+import { arraysAreEqual } from '@/utils/functions';
+import { Limits } from '@/utils/limits';
 
-import type { ExtendedNode, Me } from '@/types';
 import type { Tag } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 type Props = {
   me: Me;

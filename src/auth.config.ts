@@ -2,7 +2,7 @@ import { NextAuthConfig } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import ResendProvider from 'next-auth/providers/resend';
 
-import { Routes } from '@/utils';
+import { Routes } from '@/utils/routing';
 import prisma from 'lib/prisma';
 
 export const authConfig: NextAuthConfig = {

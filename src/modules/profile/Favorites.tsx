@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
-import { Routes, dateOptions } from '@/utils';
-
-import type { ExtendedFavorites } from '@/types';
+import { ExtendedFavorites } from '@/types/models/node';
+import { dateOptions } from '@/utils/date';
+import { Routes } from '@/utils/routing';
 
 type Props = {
   favorites?: ExtendedFavorites[];

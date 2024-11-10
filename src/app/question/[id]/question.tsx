@@ -7,35 +7,36 @@ import {
   LinkIcon,
   Bookmark,
   BookmarkCheck,
+  Badge,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
+import { createFavorite } from '@/actions/create-favorite/action';
+import { createFavoriteSchema } from '@/actions/create-favorite/schema';
+import { deleteFavorite } from '@/actions/delete-favorite/action';
+import { BackButton } from '@/components/button/BackButton';
 import {
-  createFavorite,
-  createFavoriteSchema,
-  deleteFavorite,
-} from '@/actions';
-import {
-  BackButton,
-  Badge,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+} from '@/components/dropdown/Dropdown';
+import { resultToast } from '@/components/toast/Toast';
+import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-  resultToast,
-} from '@/components';
-import { Routes, dateOptions } from '@/utils';
+} from '@/components/tooltip/Tooltip';
+import { ExtendedNode } from '@/types/models/node';
+import { dateOptions } from '@/utils/date';
+import { Routes } from '@/utils/routing';
 
-import type { ExtendedNode } from '@/types';
 import type { Favorite } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,

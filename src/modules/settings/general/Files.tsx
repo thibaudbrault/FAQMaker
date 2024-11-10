@@ -7,15 +7,18 @@ import { Upload } from 'lucide-react';
 import Image from 'next/image';
 import { DropzoneOptions, useDropzone } from 'react-dropzone';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { submitImage, updateLogo, updateLogoSchema } from '@/actions';
-import { Button, resultToast } from '@/components';
+import { updateLogo } from '@/actions/update-logo/action';
+import { updateLogoSchema } from '@/actions/update-logo/schema';
+import { submitImage } from '@/actions/upload-file/action';
+import { Button } from '@/components/button/Button';
+import { resultToast } from '@/components/toast/Toast';
 import { filesSchema } from '@/lib/validations';
-import { MAX_FILE_SIZE } from '@/utils';
+import { MAX_FILE_SIZE } from '@/utils/constants';
 
 import type { Tenant } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 type Props = {
   tenant: Tenant;

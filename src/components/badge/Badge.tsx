@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import { cva, type VariantProps } from 'class-variance-authority';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/cn';
 
 const badge = cva('text-xs font-semibold', {
   variants: {

@@ -1,16 +1,16 @@
 import { redirect } from 'next/navigation';
 
-import {
-  getFavorites,
-  getMe,
-  getNodesCount,
-  getPaginatedNodes,
-  getSearchNodes,
-  getSearchTags,
-  getTags,
-} from '@/actions';
-import { Footer, Header } from '@/modules';
-import { Routes } from '@/utils';
+
+import { getFavorites } from '@/actions/get-favorites';
+import { getMe } from '@/actions/get-me';
+import { getPaginatedNodes } from '@/actions/get-nodes';
+import { getNodesCount } from '@/actions/get-nodes-count';
+import { getSearchNodes } from '@/actions/get-search-nodes';
+import { getSearchTags } from '@/actions/get-search-tags';
+import { getTags } from '@/actions/get-tags';
+import { Footer } from '@/modules/footer/Footer';
+import { Header } from '@/modules/header/Header';
+import { Routes } from '@/utils/routing';
 
 import Home from './home';
 

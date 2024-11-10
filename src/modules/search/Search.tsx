@@ -11,9 +11,9 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  Input,
-  Label,
-} from '@/components';
+} from '@/components/dropdown/Dropdown';
+import { Input } from '@/components/input/Input';
+import { Label } from '@/components/label/Label';
 
 import type { Tag } from '@prisma/client';
 

@@ -1,13 +1,13 @@
 'use client';
 
-import { deleteUser } from '@/actions';
+import { deleteUser } from '@/actions/delete-user/action';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  Button,
-  resultToast,
-} from '@/components';
+} from '@/components/avatar/Avatar';
+import { Button } from '@/components/button/Button';
+import { resultToast } from '@/components/toast/Toast';
 
 import { CreateUser } from './Create';
 import { FileInput } from './FileInput';

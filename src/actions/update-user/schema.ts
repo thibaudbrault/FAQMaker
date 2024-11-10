@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-import { Limits, ROLE } from '@/utils';
+import { ROLE } from '@/utils/constants';
+import { Limits } from '@/utils/limits';
 
 export const updateUserSchema = z.object({
   tenantId: z.string().cuid2(),

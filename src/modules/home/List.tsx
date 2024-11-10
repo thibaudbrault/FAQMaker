@@ -1,8 +1,8 @@
 'use client';
 
-import Question from './Question';
+import { ExtendedNode, ExtendedFavorites } from '@/types/models/node';
 
-import type { ExtendedFavorites, ExtendedNode } from '@/types';
+import Question from './Question';
 
 type Props = {
   nodes: ExtendedNode[];

@@ -5,34 +5,39 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AtSign, UserIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { updateUser, updateUserSchema } from '@/actions';
+import { updateUser } from '@/actions/update-user/action';
+import { updateUserSchema } from '@/actions/update-user/schema';
+import { Button } from '@/components/button/Button';
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+} from '@/components/dialog/Dialog';
+import {
   Drawer,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-  Field,
-  Input,
-  Label,
+} from '@/components/drawer/Drawer';
+import { Field } from '@/components/field/Field';
+import { Input } from '@/components/input/Input';
+import { Label } from '@/components/label/Label';
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components';
-import { useMediaQuery } from '@/hooks';
+} from '@/components/select/Select';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 import type { User } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 type Props = {
   user: User;

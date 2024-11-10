@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { PLAN } from '@/utils';
+import { PLAN } from '@/utils/constants';
 
 export const createTagSchema = z.object({
   label: z

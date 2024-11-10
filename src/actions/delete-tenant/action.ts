@@ -7,9 +7,10 @@ import {
 import { redirect } from 'next/navigation';
 import Stripe from 'stripe';
 
-import { s3Client } from '@/lib';
+import { s3Client } from '@/lib/aws';
 import { authActionClient } from '@/lib/safe-actions';
-import { Routes, STRIPE_VERSION } from '@/utils';
+import { STRIPE_VERSION } from '@/utils/constants';
+import { Routes } from '@/utils/routing';
 import prisma from 'lib/prisma';
 
 import { deleteTenantSchema } from './schema';

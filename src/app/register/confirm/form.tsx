@@ -7,14 +7,16 @@ import { useAtom } from 'jotai';
 import { MoveLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { createTenant, createTenantSchema } from '@/actions';
-import { Button, resultToast } from '@/components';
+import { createTenant } from '@/actions/create-tenant/action';
+import { createTenantSchema } from '@/actions/create-tenant/schema';
+import { Button } from '@/components/button/Button';
+import { resultToast } from '@/components/toast/Toast';
 import { registerAtom } from '@/store';
-import { Routes } from '@/utils';
+import { Routes } from '@/utils/routing';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { z } from 'zod';
 
 type Schema = z.infer<typeof createTenantSchema>;
 

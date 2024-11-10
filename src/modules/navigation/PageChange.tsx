@@ -1,4 +1,4 @@
-import { useWarnIfUnsavedChanges } from '@/hooks';
+import { useWarnIfUnsavedChanges } from '@/hooks/useWarnIfUnsavedChanges';
 
 import {
   AlertDialog,

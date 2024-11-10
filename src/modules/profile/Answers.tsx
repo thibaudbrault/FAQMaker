@@ -3,9 +3,9 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import { dateOptions, Routes } from '@/utils';
-
-import type { NodeWithQuestionAndAnswer } from '@/types';
+import { NodeWithQuestionAndAnswer } from '@/types/models/node';
+import { dateOptions } from '@/utils/date';
+import { Routes } from '@/utils/routing';
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,

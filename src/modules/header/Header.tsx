@@ -7,25 +7,28 @@ import { AlignJustify, LogOut, Settings } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { signOutAction } from '@/actions';
+import { signOutAction } from '@/actions/sign-out';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  Button,
-  Drawer,
-  DrawerContent,
+} from '@/components/avatar/Avatar';
+import { Button } from '@/components/button/Button';
+import {
   DrawerTrigger,
+  DrawerContent,
+  Drawer,
+} from '@/components/drawer/Drawer';
+import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components';
+} from '@/components/tooltip/Tooltip';
 import { userAtom } from '@/store';
-import { Routes } from '@/utils';
+import { Me } from '@/types/models/user';
+import { Routes } from '@/utils/routing';
 
-import { ThemeToggle } from '../theme';
-
-import type { Me } from '@/types';
+import { ThemeToggle } from '../theme/ThemeToggle';
 
 type Props = {
   user: Me;

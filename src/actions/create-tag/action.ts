@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 
 import { ActionError, authActionClient } from '@/lib/safe-actions';
-import { Routes } from '@/utils';
+import { Routes } from '@/utils/routing';
 import prisma from 'lib/prisma';
 
 import { createTagSchema } from './schema';

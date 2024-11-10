@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 
 import { usePathname } from 'next/navigation';
 
-import { RegisterRoutes } from '@/utils';
+import { RegisterRoutes } from '@/utils/routing';
 
 type Props = {
   title: string;

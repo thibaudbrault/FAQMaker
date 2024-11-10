@@ -1,19 +1,21 @@
 'use client';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components';
 import {
-  UpdateProfile,
-  UserAnswers,
-  UserFavorites,
-  UserQuestions,
-} from '@/modules';
-
-import type {
-  ExtendedFavorites,
-  Me,
-  NodeWithQuestionAndAnswer,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/tabs/Tabs';
+import { UserAnswers } from '@/modules/profile/Answers';
+import { UserFavorites } from '@/modules/profile/Favorites';
+import { UserQuestions } from '@/modules/profile/Questions';
+import { UpdateProfile } from '@/modules/profile/Update';
+import {
   QuestionWithNodeId,
-} from '@/types';
+  NodeWithQuestionAndAnswer,
+  ExtendedFavorites,
+} from '@/types/models/node';
+import { Me } from '@/types/models/user';
 
 type Props = {
   me: Me;

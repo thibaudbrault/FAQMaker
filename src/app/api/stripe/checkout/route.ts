@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 import { createCheckoutSchema } from '@/lib/validations';
-import { Routes, STRIPE_VERSION } from '@/utils';
+import { STRIPE_VERSION } from '@/utils/constants';
+import { Routes } from '@/utils/routing';
 
 import type { NextRequest } from 'next/server';
 

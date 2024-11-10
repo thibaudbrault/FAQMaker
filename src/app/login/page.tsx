@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { signInAction } from '@/actions';
+import { signInAction } from '@/actions/sign-in';
 import googleIcon from '@/assets/google.svg';
-import { Button } from '@/components';
-import { Routes } from '@/utils';
+import { Button } from '@/components/button/Button';
+import { Routes } from '@/utils/routing';
 
 import EmailForm from './EmailForm';
 
